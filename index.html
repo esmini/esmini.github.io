@@ -1176,7 +1176,7 @@ Then look for <code>generated_road.osgb</code> in the current directory.</p>
 </div>
 <div class="paragraph">
 <p>Then, create a video clip using ffmpeg:<br>
-<code>ffmpeg -f image2 -vf format=yuv420p -framerate 30 -i screen_shot_%5d.tga -c:v libx264 -crf 20 out.mp4</code></p>
+<code>ffmpeg -f image2 -framerate 30 -i screen_shot_%5d.tga -c:v libx264 -vf format=yuv420p -crf 20 out.mp4</code></p>
 </div>
 <div class="paragraph">
 <p>The above ffmpeg command will create a MPEG4 video with reasonable compression (crf 20). To create a lossless, but still compressed, video e.g. for further post processing:</p>
@@ -3674,15 +3674,15 @@ Then:<br>
 <h2 id="_version">12. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.21.1"<br>
-ESMINI_GIT_REV="275600c"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="06f5b37"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-14 08:27:36 +0200
+Last updated 2022-04-14 17:21:52 +0200
 </div>
 </div>
 </body>
