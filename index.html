@@ -581,8 +581,10 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_speed_profile">5.1. Speed profile</a>
 <ul class="sectlevel3">
-<li><a href="#_what_if_current_speed_differ_from_the_first_entry">5.1.1. What if current speed differ from the first entry?</a></li>
-<li><a href="#_what_if_time_is_missing_in_entry">5.1.2. What if time is missing in entry?</a></li>
+<li><a href="#_special_case_single_entry">5.1.1. Special case: Single entry</a></li>
+<li><a href="#_what_if_current_speed_differ_from_the_first_entry">5.1.2. What if current speed differ from the first entry?</a></li>
+<li><a href="#_what_if_time_is_missing_in_entry">5.1.3. What if time is missing in entry?</a></li>
+<li><a href="#_more_info">5.1.4. More info</a></li>
 </ul>
 </li>
 </ul>
@@ -625,33 +627,39 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_odrviewer">9.3. odrviewer</a></li>
 </ul>
 </li>
-<li><a href="#_hello_world_programming_tutorial">10. Hello World programming tutorial</a>
+<li><a href="#_esmini_lib_programming">10. esmini lib programming</a>
 <ul class="sectlevel2">
-<li><a href="#_steps_to_build_esmini_hello_world">10.1. Steps to build esmini "Hello World"</a></li>
-<li><a href="#_examples">10.2. Examples</a>
+<li><a href="#_about_the_lib_itself">10.1. About the lib itself</a></li>
+<li><a href="#_how_to_interact_with_esmini_lib_api">10.2. How to interact with esmini lib API</a></li>
+</ul>
+</li>
+<li><a href="#_hello_world_programming_tutorial">11. Hello World programming tutorial</a>
+<ul class="sectlevel2">
+<li><a href="#_steps_to_build_esmini_hello_world">11.1. Steps to build esmini "Hello World"</a></li>
+<li><a href="#_examples">11.2. Examples</a>
 <ul class="sectlevel3">
-<li><a href="#_hello_world_load_and_play_a_scenario">10.2.1. Hello world - load and play a scenario</a></li>
-<li><a href="#_add_optional_argument_to_load_any_scenario">10.2.2. Add optional argument to load any scenario</a></li>
-<li><a href="#_fetch_state_of_scenario_objects">10.2.3. Fetch state of scenario objects</a></li>
-<li><a href="#_external_control_of_ego">10.2.4. External control of Ego</a></li>
-<li><a href="#_control_controllers">10.2.5. Control controllers</a></li>
-<li><a href="#_ideal_sensors">10.2.6. Ideal sensors</a></li>
-<li><a href="#_driver_model">10.2.7. Driver model</a></li>
-<li><a href="#_osi_groundtruth">10.2.8. OSI groundtruth</a></li>
+<li><a href="#_hello_world_load_and_play_a_scenario">11.2.1. Hello world - load and play a scenario</a></li>
+<li><a href="#_add_optional_argument_to_load_any_scenario">11.2.2. Add optional argument to load any scenario</a></li>
+<li><a href="#_fetch_state_of_scenario_objects">11.2.3. Fetch state of scenario objects</a></li>
+<li><a href="#_external_control_of_ego">11.2.4. External control of Ego</a></li>
+<li><a href="#_control_controllers">11.2.5. Control controllers</a></li>
+<li><a href="#_ideal_sensors">11.2.6. Ideal sensors</a></li>
+<li><a href="#_driver_model">11.2.7. Driver model</a></li>
+<li><a href="#_osi_groundtruth">11.2.8. OSI groundtruth</a></li>
 </ul>
 </li>
-<li><a href="#_python_binding">10.3. Python binding</a>
+<li><a href="#_python_binding">11.3. Python binding</a>
 <ul class="sectlevel3">
-<li><a href="#_get_object_states">10.3.1. Get object states</a></li>
-<li><a href="#_example_use_of_esminirmlib_roadmanager">10.3.2. Example use of esminiRMLib (RoadManager)</a></li>
-<li><a href="#_advanced_use_case_using_callback">10.3.3. Advanced use case using callback</a></li>
+<li><a href="#_get_object_states">11.3.1. Get object states</a></li>
+<li><a href="#_example_use_of_esminirmlib_roadmanager">11.3.2. Example use of esminiRMLib (RoadManager)</a></li>
+<li><a href="#_advanced_use_case_using_callback">11.3.3. Advanced use case using callback</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_run_asam_openscenario_examples">11. Run ASAM OpenSCENARIO examples</a></li>
-<li><a href="#_about_this_document">12. About this document</a></li>
-<li><a href="#_version">13. Version</a></li>
+<li><a href="#_run_asam_openscenario_examples">12. Run ASAM OpenSCENARIO examples</a></li>
+<li><a href="#_about_this_document">13. About this document</a></li>
+<li><a href="#_version">14. Version</a></li>
 </ul>
 </div>
 </div>
@@ -1668,6 +1676,9 @@ id, model_id, obj_type, obj_category, ctrl_type, time, speed, wheel_angle, wheel
 <div class="sect2">
 <h3 id="_speed_profile">5.1. Speed profile</h3>
 <div class="paragraph">
+<p>(introduced in esmini v2.23.0)</p>
+</div>
+<div class="paragraph">
 <p>The OpenSCENARIO <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.1.1_Model_Documentation/modelDocumentation/content/SpeedAction.html">SpeedAction</a> will reach a specified speed in a way described by additional attributes, e.g. shape and duration. To achieve multiple speed target over time you would need to add multiple SpeedAction events to the scenario. Moreover, there is no way to explicitly control the jerk (acceleration/deceleration rates).</p>
 </div>
 <div class="paragraph">
@@ -1747,7 +1758,108 @@ id, model_id, obj_type, obj_category, ctrl_type, time, speed, wheel_angle, wheel
 <p>Let&#8217;s manipulate the scenario in different ways to illustrate some special cases of the speed-profile feature.</p>
 </div>
 <div class="sect3">
-<h4 id="_what_if_current_speed_differ_from_the_first_entry">5.1.1. What if current speed differ from the first entry?</h4>
+<h4 id="_special_case_single_entry">5.1.1. Special case: Single entry</h4>
+<div class="paragraph">
+<p>(Special case implementation introduced in esmini v2.23.1)</p>
+</div>
+<div class="paragraph">
+<p>Compared to SpeedAction, the SpeedProfileAction offers more tools in terms of dynamic constraints. Hence it can be actually be useful also for single entry, i.e. reach a single target speed.</p>
+</div>
+<div class="paragraph">
+<p>The implementation differs for the single entry case. Target speed will be reached if constraints allows for it. If not, the speed will still be reached, but later than specified.</p>
+</div>
+<div class="paragraph">
+<p>There are three sub cases:</p>
+</div>
+<div class="paragraph">
+<p><strong>1. Speed can be reached within time</strong></p>
+</div>
+<div class="paragraph">
+<p>The speed profile will contain three phases: Jerk, constant acceleration, jerk.</p>
+</div>
+<div class="paragraph">
+<p>Example:<br>
+Replace the four entries in speed-profile.xosc with the following ones:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">    <span class="tag">&lt;SpeedProfileEntry</span> <span class="attribute-name">time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">speed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;SpeedProfileEntry</span> <span class="attribute-name">time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">4.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">speed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/speed-profile5.png" alt="speed profile5">
+</div>
+</div>
+<div class="paragraph">
+<p>Initial positive jerk will be applied until necessary acceleration is reached. Keep constant acceleration (linear segment in the speed profile) until negative jerk needs to be applied in order to reach target speed on time and at zero acceleration.</p>
+</div>
+<div class="paragraph">
+<p><strong>2. Speed can&#8217;t be reached in time due to acceleration constraints</strong></p>
+</div>
+<div class="paragraph">
+<p>This speed profile will also contain three phases: Jerk, constant acceleration, jerk.</p>
+</div>
+<div class="paragraph">
+<p>Example:<br>
+Replace the four entries in speed-profile.xosc with the following ones:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">    <span class="tag">&lt;SpeedProfileEntry</span> <span class="attribute-name">time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">speed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;SpeedProfileEntry</span> <span class="attribute-name">time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">speed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/speed-profile6.png" alt="speed profile6">
+</div>
+</div>
+<div class="paragraph">
+<p>Initial positive jerk will be applied until maximum acceleration is reached (or maximum deceleration). Keep constant acceleration (linear segment in the speed profile) until negative jerk needs to be applied in order to reach target speed at zero acceleration. Due to the acceleration limitation there will be a delay as well. The log file will include something like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>SpeedProfile: Constraining acceleration from 5.86 to 5.00
+SpeedProfile: Extend 0.46 s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>3. Speed can&#8217;t be reached in time due to jerk constraints</strong></p>
+</div>
+<div class="paragraph">
+<p>This speed profile will contain only two jerk phases.</p>
+</div>
+<div class="paragraph">
+<p>Example:<br>
+Keep entries from last case, but change jerk settings as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">  maxAccelerationRate=&quot;3.0&quot;
+  maxDecelerationRate=&quot;2.0&quot;</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/speed-profile7.png" alt="speed profile7">
+</div>
+</div>
+<div class="paragraph">
+<p>In this case the jerk settings are too weak to reach target speed in time. Not enough acceleration can be achieved in the given time window.</p>
+</div>
+<div class="paragraph">
+<p>Positive jerk will be applied until negative jerk has to be applied in order to reach target speed at zero acceleration. Hence there is no room for a phase of constant acceleration. Due to the jerk limitation there will be a delay. The log file will include something like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>SpeedProfile: Can't reach target speed 10.00 on target time 3.00s with given jerk constraints, extend to 4.08s</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_what_if_current_speed_differ_from_the_first_entry">5.1.2. What if current speed differ from the first entry?</h4>
 <div class="paragraph">
 <p>Replace the four entries with the following ones:</p>
 </div>
@@ -1770,7 +1882,7 @@ id, model_id, obj_type, obj_category, ctrl_type, time, speed, wheel_angle, wheel
 </div>
 </div>
 <div class="sect3">
-<h4 id="_what_if_time_is_missing_in_entry">5.1.2. What if time is missing in entry?</h4>
+<h4 id="_what_if_time_is_missing_in_entry">5.1.3. What if time is missing in entry?</h4>
 <div class="paragraph">
 <p>Replace any entries with the following ones:</p>
 </div>
@@ -1785,7 +1897,7 @@ id, model_id, obj_type, obj_category, ctrl_type, time, speed, wheel_angle, wheel
 </div>
 </div>
 <div class="paragraph">
-<p>Specified max acceleration will be applied until target speed is reached. Note: In the non linear case, the function will fail if the specified acceleration can&#8217;t be reached with given jerk constraints (maxAcceleration and maxDeceleration). Try to lower the maxAcceleration/deceleration in this case.</p>
+<p>Specified max acceleration will be applied until target speed is reached. Note: In the non-linear case and with multiple entries, the function will fail if the specified acceleration can&#8217;t be reached with given jerk constraints (maxAcceleration and maxDeceleration). Try to lower the maxAcceleration/deceleration in this case.</p>
 </div>
 <div class="paragraph">
 <p>You can also combine entries with and without time constraint, like in following example:</p>
@@ -1803,6 +1915,12 @@ id, model_id, obj_type, obj_category, ctrl_type, time, speed, wheel_angle, wheel
 </div>
 <div class="paragraph">
 <p>Car will accelerate until speed 10 m/s is reached, then spend 3 seconds to reach 15 m/s.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_more_info">5.1.4. More info</h4>
+<div class="paragraph">
+<p>To get more understanding of the implementation, see a few slides <a href="https://drive.google.com/file/d/1DmjVHftcsbU71Ce_GASZ6IArcPA6teNF/view?usp=sharing">here</a>.</p>
 </div>
 </div>
 </div>
@@ -2786,7 +2904,431 @@ Mouse control
 </div>
 </div>
 <div class="sect1">
-<h2 id="_hello_world_programming_tutorial">10. Hello World programming tutorial</h2>
+<h2 id="_esmini_lib_programming">10. esmini lib programming</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_about_the_lib_itself">10.1. About the lib itself</h3>
+<div class="paragraph">
+<p>The main idea with esmini lib is to provide a limited, simplifed but useful API to the complex world of esmini, OpenSCENARIO and traffic simulation. By making use of only standard C types it has been possible to wrap and use the library in numerous environments, like for example MATLAB, Simulink and Unity (C#).</p>
+</div>
+<div class="paragraph">
+<p>esmini lib is a, so called, shared library which is linked dynamically with a custom application. This means that it&#8217;s not linked statically with the application, instead it&#8217;s loaded whenever the application is launched. An obvious advantage with shared libraries is that they can be shared between multiple applications, reducing size and potentially simplify maintenance.</p>
+</div>
+<div class="paragraph">
+<p>An additional important advantage with dynamic linking is that the library can be updated without need to recompile the custom application making use of the library (however it can&#8217;t be updated during runtime, only in between launches). An obvious requirement is that the API is compatible when replacing a library with a different version, since the API is established at link-time. On the other side of the "same coin", a disadvantage with dynamic linking is that you need to have the shared library present at run-time.</p>
+</div>
+<div class="paragraph">
+<p>Although esmini lib is a shared library itself, it includes everything needed in terms of 3rd party functionality. It&#8217;s actally linking all dependencies statically. Think about it as a single container including everything needed, e.g. support for 3D graphics, XML, expressions, and SUMO traffic simulation. There are two advantages with this approach: 1. Getting rid of dependency to hundreds of 3rd party shared libraries and 2. The linker makes sure to only include relevant functions which reduce the size by extreme (compared to bundle individual and complete shared libraries).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_interact_with_esmini_lib_api">10.2. How to interact with esmini lib API</h3>
+<div class="paragraph">
+<p>Below is a typical interaction between a custom application (e.g. vehicle simulator) and esmini (providing simulation of the environment, like road and traffic).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 7.1428%;">
+<col style="width: 35.7142%;">
+<col style="width: 7.1428%;">
+<col style="width: 35.7145%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Frame</th>
+<th class="tableblock halign-left valign-top">app time</th>
+<th class="tableblock halign-left valign-top">app events</th>
+<th class="tableblock halign-left valign-top">esmini time</th>
+<th class="tableblock halign-left valign-top">esmini events</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0 (t=0.0)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Init esmini("scenario.xosc") &#8658;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Step(dt=0.0)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>check conditions</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>update actions</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>step default controller (establish initial positions and speed)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>save to dat, send OSI</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Draw()</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get Ego state (initial position, speed&#8230;&#8203;) &#8658;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&#8656; Return Ego initial state</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 (t=0.0&#8594;0.1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update Ego(dt=0.1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Do internal stuff, like vehicle dynamics</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Report Ego state(state) &#8658;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Register state of Ego, protect it from default controller (but do not apply state yet)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Step esmini(dt=0.1) &#8658;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Step(dt=0.1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>check conditions</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>update actions</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>step default controller (move entities, except Ego)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>update simulation time</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>apply states from external entities (Ego)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>save to dat, send OSI</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Draw()</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2 (t=0.1&#8594;0.2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Update Ego(dt=0.1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Do internal stuff, like vehicle dynamics</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Report Ego state(state) &#8658;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Register state of Ego, protect it from default controller (but do not apply state yet)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Step esmini(dt=0.1) &#8658;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Step(dt=0.1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>check conditions</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>update actions</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>step default controller (move entities, except Ego)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>update simulation time</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>apply states from external entities (Ego)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>save to dat, send OSI</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Draw()</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">and so on&#8230;&#8203;</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hello_world_programming_tutorial">11. Hello World programming tutorial</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>But, of course, if you already have checked out the esmini project from GitHub and compiled it you&#8217;re basically set. Just copy the runtime shared library to the Hello-World_coding_example folder. Exact filename depends on the platform as follows:</p>
@@ -2820,7 +3362,7 @@ Mouse control
 </table>
 </div>
 <div class="sect2">
-<h3 id="_steps_to_build_esmini_hello_world">10.1. Steps to build esmini "Hello World"</h3>
+<h3 id="_steps_to_build_esmini_hello_world">11.1. Steps to build esmini "Hello World"</h3>
 <div class="paragraph">
 <p>Do following steps to build a minimal esmini-player application</p>
 </div>
@@ -2864,9 +3406,9 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect2">
-<h3 id="_examples">10.2. Examples</h3>
+<h3 id="_examples">11.2. Examples</h3>
 <div class="sect3">
-<h4 id="_hello_world_load_and_play_a_scenario">10.2.1. Hello world - load and play a scenario</h4>
+<h4 id="_hello_world_load_and_play_a_scenario">11.2.1. Hello world - load and play a scenario</h4>
 <div class="listingblock">
 <div class="title">Example 1. <a href="https://github.com/esmini/esmini/tree/master/Hello-World_coding-example/main.cpp">Hello-World_coding-example/main.cpp</a></div>
 <div class="content">
@@ -2890,7 +3432,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_add_optional_argument_to_load_any_scenario">10.2.2. Add optional argument to load any scenario</h4>
+<h4 id="_add_optional_argument_to_load_any_scenario">11.2.2. Add optional argument to load any scenario</h4>
 <div class="listingblock">
 <div class="title">Example 2. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/hw2_arguments.cpp">EnvironmentSimulator/code-examples/hello_world/hw2_arguments.cpp</a></div>
 <div class="content">
@@ -2929,7 +3471,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_state_of_scenario_objects">10.2.3. Fetch state of scenario objects</h4>
+<h4 id="_fetch_state_of_scenario_objects">11.2.3. Fetch state of scenario objects</h4>
 <div class="listingblock">
 <div class="title">Example 3. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp">EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp</a></div>
 <div class="content">
@@ -2959,7 +3501,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_external_control_of_ego">10.2.4. External control of Ego</h4>
+<h4 id="_external_control_of_ego">11.2.4. External control of Ego</h4>
 <div class="paragraph">
 <p>A silly example showing how you can just take control over vehicle state via the API. The Ego car will move one meter along the Y-axis for each frame while rotating&#8230;&#8203;</p>
 </div>
@@ -3014,7 +3556,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_control_controllers">10.2.5. Control controllers</h4>
+<h4 id="_control_controllers">11.2.5. Control controllers</h4>
 <div class="paragraph">
 <p>Try to run cut-in_interactive.xosc, as below.</p>
 </div>
@@ -3062,7 +3604,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ideal_sensors">10.2.6. Ideal sensors</h4>
+<h4 id="_ideal_sensors">11.2.6. Ideal sensors</h4>
 <div class="listingblock">
 <div class="title">Example 7. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw7_ideal_sensors.cpp">EnvironmentSimulator/code-examples/hello_world/hw7_ideal_sensors.cpp</a></div>
 <div class="content">
@@ -3075,8 +3617,8 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 {
         SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
-        SE_AddObjectSensor(<span class="integer">0</span>, <span class="float">2</span><span class="float">.0</span>, <span class="float">1</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.5</span>, <span class="float">1</span><span class="float">.57</span>, <span class="float">1</span><span class="float">.0</span>, <span class="integer">5</span><span class="float">0</span><span class="float">.0</span>, <span class="float">1</span><span class="float">.57</span>, MAX_HITS);
-        SE_AddObjectSensor(<span class="integer">0</span>, -<span class="float">1</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.5</span>, <span class="float">3</span><span class="float">.14</span>, <span class="float">0</span><span class="float">.5</span>, <span class="integer">2</span><span class="float">0</span><span class="float">.0</span>, <span class="float">1</span><span class="float">.57</span>, MAX_HITS);
+        SE_AddObjectSensor(<span class="integer">0</span>, <span class="float">2</span><span class="float">.0f</span>, <span class="float">1</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.5f</span>, <span class="float">1</span><span class="float">.57f</span>, <span class="float">1</span><span class="float">.0f</span>, <span class="integer">5</span><span class="float">0</span><span class="float">.0f</span>, <span class="float">1</span><span class="float">.57f</span>, MAX_HITS);
+        SE_AddObjectSensor(<span class="integer">0</span>, -<span class="float">1</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.5f</span>, <span class="float">3</span><span class="float">.14f</span>, <span class="float">0</span><span class="float">.5f</span>, <span class="integer">2</span><span class="float">0</span><span class="float">.0f</span>, <span class="float">1</span><span class="float">.57f</span>, MAX_HITS);
 
         <span class="comment">// Turn on visualization of object sensors, toggle key 'r'</span>
         SE_ViewerShowFeature(<span class="integer">1</span>, <span class="predefined-constant">true</span>);
@@ -3111,7 +3653,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_driver_model">10.2.7. Driver model</h4>
+<h4 id="_driver_model">11.2.7. Driver model</h4>
 <div class="paragraph">
 <p>Using a simple vehicle model this example demonstrates how a driver model can interact with the scenario, once again using the <code>ExternalController</code>.</p>
 </div>
@@ -3275,6 +3817,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
                 <span class="comment">// Initialize the vehicle model, fetch initial state from the scenario</span>
                 SE_GetObjectState(<span class="integer">0</span>, &amp;objectState);
                 vehicleHandle = SE_SimpleVehicleCreate(objectState.x, objectState.y, objectState.h, <span class="float">4</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.0</span>);
+                SE_SimpleVehicleSteeringRate(vehicleHandle, <span class="float">6</span><span class="float">.0f</span>);
 
                 <span class="comment">// show some road features, including road sensor</span>
                 SE_ViewerShowFeature(<span class="integer">4</span> + <span class="integer">8</span>, <span class="predefined-constant">true</span>);  <span class="comment">// NODE_MASK_TRAIL_DOTS (1 &lt;&lt; 2) &amp; NODE_MASK_ODR_FEATURES (1 &lt;&lt; 3),</span>
@@ -3382,7 +3925,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_osi_groundtruth">10.2.8. OSI groundtruth</h4>
+<h4 id="_osi_groundtruth">11.2.8. OSI groundtruth</h4>
 <div class="paragraph">
 <p>To access OSI data we first need to complement the build script (CMakeLists.txt) with OSI include and library info. For example:</p>
 </div>
@@ -3499,7 +4042,7 @@ target_link_libraries(${TARGET} esminiLib libprotobuf open_simulation_interface_
 </div>
 </div>
 <div class="sect2">
-<h3 id="_python_binding">10.3. Python binding</h3>
+<h3 id="_python_binding">11.3. Python binding</h3>
 <div class="paragraph">
 <p>A Python wrapper for esmini can easily be created using "ctypes" (thanks David Kaplan for the tip!). Run the following script in a folder where the ScenarioEngineDLL library is present:</p>
 </div>
@@ -3560,7 +4103,7 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
 </div>
 </div>
 <div class="sect3">
-<h4 id="_get_object_states">10.3.1. Get object states</h4>
+<h4 id="_get_object_states">11.3.1. Get object states</h4>
 <div class="paragraph">
 <p>Extend previous example to retrieve the state of all scenario objects</p>
 </div>
@@ -3625,7 +4168,7 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_use_of_esminirmlib_roadmanager">10.3.2. Example use of esminiRMLib (RoadManager)</h4>
+<h4 id="_example_use_of_esminirmlib_roadmanager">11.3.2. Example use of esminiRMLib (RoadManager)</h4>
 <div class="paragraph">
 <p>Just make sure the esminiRMLib is present in the same folder as the script:</p>
 </div>
@@ -3692,7 +4235,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advanced_use_case_using_callback">10.3.3. Advanced use case using callback</h4>
+<h4 id="_advanced_use_case_using_callback">11.3.3. Advanced use case using callback</h4>
 <div class="paragraph">
 <p>Controllers and callbacks can also be utilized via Python. Following code drafts how to grab state of the first scenario object and then, in a callback, manipulate it and report back. If used in combination with ExternalController in mode=additive the scenario action are applied first. On the contrary, if used with mode=override, the scenario actions will not be applied giving exclusive control to the external callback function.</p>
 </div>
@@ -3762,7 +4305,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 </div>
 </div>
 <div class="sect1">
-<h2 id="_run_asam_openscenario_examples">11. Run ASAM OpenSCENARIO examples</h2>
+<h2 id="_run_asam_openscenario_examples">12. Run ASAM OpenSCENARIO examples</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>With some limitations (see details <a href="https://github.com/esmini/esmini/blob/master/osc_coverage.txt">here</a>) esmini can play the example scenarios provided with the ASAM OpenSCENARIO v1.1 release bundle.</p>
@@ -3789,7 +4332,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 </div>
 </div>
 <div class="sect1">
-<h2 id="_about_this_document">12. About this document</h2>
+<h2 id="_about_this_document">13. About this document</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The <a href="https://github.com/esmini/esmini/blob/user_guide/docs/user_guide.adoc">source</a> of this document is written in the <a href="https://asciidoc-py.github.io/index.html">asciidoc</a> format. The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted to avoid "human errors".</p>
@@ -3827,18 +4370,18 @@ Then:<br>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_version">13. Version</h2>
+<h2 id="_version">14. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.23.0"<br>
-ESMINI_GIT_REV="fa4e643"</p>
+<p>ESMINI_GIT_TAG="v2.23.1"<br>
+ESMINI_GIT_REV="2910723"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-04-29 15:59:32 +0200
+Last updated 2022-05-13 09:36:39 +0200
 </div>
 </div>
 </body>
