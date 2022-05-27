@@ -584,7 +584,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_special_case_single_entry">5.1.1. Special case: Single entry</a></li>
 <li><a href="#_what_if_current_speed_differ_from_the_first_entry">5.1.2. What if current speed differ from the first entry?</a></li>
 <li><a href="#_what_if_time_is_missing_in_entry">5.1.3. What if time is missing in entry?</a></li>
-<li><a href="#_more_info">5.1.4. More info</a></li>
+<li><a href="#_initial_acceleration_taken_into_account">5.1.4. Initial acceleration taken into account</a></li>
+<li><a href="#_more_info">5.1.5. More info</a></li>
 </ul>
 </li>
 </ul>
@@ -1682,7 +1683,7 @@ id, model_id, obj_type, obj_category, ctrl_type, time, speed, wheel_angle, wheel
 <p>The OpenSCENARIO <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.1.1_Model_Documentation/modelDocumentation/content/SpeedAction.html">SpeedAction</a> will reach a specified speed in a way described by additional attributes, e.g. shape and duration. To achieve multiple speed target over time you would need to add multiple SpeedAction events to the scenario. Moreover, there is no way to explicitly control the jerk (acceleration/deceleration rates).</p>
 </div>
 <div class="paragraph">
-<p>However with the SpeedProfileAction (OpenSCENARIO extension) you can specify a series of speed targets over time, in one action. Optionally you can also specify dynamic constraints for jerk (gradually changing acceleration and deceleration), acceleration and speed.</p>
+<p>However with the SpeedProfileAction (introduced in OpenSCENARIO v1.2) you can specify a series of speed targets over time, in one action. Optionally you can also specify dynamic constraints for jerk (gradually changing acceleration and deceleration), acceleration and speed.</p>
 </div>
 <div class="paragraph">
 <p>If you run the example scenario <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/speed-profile.xosc">speed-profile.xosc</a> as follows:</p>
@@ -1918,7 +1919,55 @@ Keep entries from last case, but change jerk settings as follows:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_more_info">5.1.4. More info</h4>
+<h4 id="_initial_acceleration_taken_into_account">5.1.4. Initial acceleration taken into account</h4>
+<div class="paragraph">
+<p>(from release v2.23.2)</p>
+</div>
+<div class="paragraph">
+<p>What if the acceleration is not zero when the SpeedProfileAction is started, for example interrupting an ongoing SpeedAction in Follow mode?</p>
+</div>
+<div class="paragraph">
+<p>To maintain a continuous acceleration profile the action will use current acceleration as initial value. The standard states that the acceleration is expected to be zero at start and end of the action. The esmini interpretation is that the CHANGE is zero at start while the ACTUAL value is zero at end (since the action can only control acceleration while being active, not before).</p>
+</div>
+<div class="paragraph">
+<p>Example:
+Once again starting from <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/speed-profile.xosc">speed-profile.xosc</a>, instead of setting an instant initial speed make it ramp up from 0 to 5 m/s over a duration of 4 seconds by tweaking the initial speed actions, for both entities, as below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">    <span class="tag">&lt;SpeedActionDynamics</span> <span class="attribute-name">dynamicsShape</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">linear</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">dynamicsDimension</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">time</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;SpeedActionTarget&gt;</span>
+        <span class="tag">&lt;AbsoluteTargetSpeed</span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">4.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;/SpeedActionTarget&gt;</span></code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/speed-profile8.png" alt="speed profile8">
+</div>
+</div>
+<div class="paragraph">
+<p>The initial speed action will apply constant acceleration until time = 2.0 seconds, when the SpeedProfileAction is triggered. While the linear profile will jump to 0 m/s (as specified in first entry) the follow mode profile will just apply necessary jerk to reach target acceleration with respect to following entries.</p>
+</div>
+<div class="paragraph">
+<p>Initial acceleration is also respected for the special case of a single entry, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">    <span class="tag">&lt;SpeedProfileEntry</span> <span class="attribute-name">time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">speed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>the result becomes:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/speed-profile9.png" alt="speed profile9">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_more_info">5.1.5. More info</h4>
 <div class="paragraph">
 <p>To get more understanding of the implementation, see a few slides <a href="https://drive.google.com/file/d/1DmjVHftcsbU71Ce_GASZ6IArcPA6teNF/view?usp=sharing">here</a>.</p>
 </div>
@@ -3423,6 +3472,8 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
                 SE_Step();
         }
 
+        SE_Close();
+
         <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
@@ -3453,6 +3504,8 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
         {
                 SE_Step();
         }
+
+        SE_Close();
 
         <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
@@ -3494,6 +3547,8 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
                         printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, state.timestamp, j, SE_GetId(j), state.x, state.y);
                 }
         }
+
+        SE_Close();
 
         <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
@@ -3541,6 +3596,8 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
                 SE_Step();
         }
 
+        SE_Close();
+
         <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
@@ -3574,6 +3631,8 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
                 SE_Step();
         }
 
+        SE_Close();
+
         <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
@@ -3597,6 +3656,8 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
         {
                 SE_Step();
         }
+
+        SE_Close();
 
         <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
@@ -3643,6 +3704,8 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
                         }
                 }
         }
+
+        SE_Close();
 
         <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
@@ -4035,6 +4098,9 @@ target_link_libraries(${TARGET} esminiLib libprotobuf open_simulation_interface_
                 }
 <span class="preprocessor">#endif</span>
         }
+
+        SE_Close();
+
         <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
@@ -4373,15 +4439,15 @@ Then:<br>
 <h2 id="_version">14. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="22d51f5"</p>
+<p>ESMINI_GIT_TAG="v2.23.2"<br>
+ESMINI_GIT_REV="60d3f01"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-16 11:45:51 +0200
+Last updated 2022-05-25 09:47:55 +0200
 </div>
 </div>
 </body>
