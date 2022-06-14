@@ -556,6 +556,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel3">
 <li><a href="#_save_screenshots">4.2.1. Save screenshots</a></li>
 <li><a href="#_create_video_clip_of_a_scenario">4.2.2. Create video clip of a scenario</a></li>
+<li><a href="#_off_screen_rendering">4.2.3. Off-screen rendering</a></li>
+<li><a href="#_software_rendering_no_gfx_hw">4.2.4. Software rendering (no gfx hw)</a></li>
 </ul>
 </li>
 <li><a href="#_logging">4.3. Logging</a>
@@ -632,6 +634,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_about_the_lib_itself">10.1. About the lib itself</a></li>
 <li><a href="#_how_to_interact_with_esmini_lib_api">10.2. How to interact with esmini lib API</a></li>
+<li><a href="#_functionality">10.3. Functionality</a>
+<ul class="sectlevel3">
+<li><a href="#_save_or_grab_images">10.3.1. Save or grab images</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_hello_world_programming_tutorial">11. Hello World programming tutorial</a>
@@ -1166,7 +1173,7 @@ Then look for <code>generated_road.osgb</code> in the current directory.</p>
 <p>esmini can save screenshots in uncompressed <a href="https://en.wikipedia.org/wiki/Truevision_TGA">TGA</a> format. These images can be converted into other image formats or even video clips in a post process.</p>
 </div>
 <div class="paragraph">
-<p>esminiLib also supports grabbing screenshots via API, also from a pure off-screen rendering setup (requireing neither monitor nor graphics hardware). See <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/image-capture">image-capture</a> code example.</p>
+<p>esminiLib also supports grabbing screenshots via API, also from a pure off-screen rendering setup (requiring neither monitor nor graphics hardware). See <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/image-capture">image-capture</a> code example.</p>
 </div>
 <div class="paragraph">
 <p>Here follows a few examples using launch arguments and runtime key commands.</p>
@@ -1208,6 +1215,74 @@ Then look for <code>generated_road.osgb</code> in the current directory.</p>
 </div>
 <div class="paragraph">
 <p>Some details regarding H.264 encoding can be found <a href="https://trac.ffmpeg.org/wiki/Encode/H.264">here</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_off_screen_rendering">4.2.3. Off-screen rendering</h4>
+<div class="paragraph">
+<p>Whenever esmini is launched with the <code>--window &lt;x-pos&gt; &lt;y-pos&gt; &lt;width&gt; &lt;height&gt;</code> argument a viewer will be created with specified window. The <code>--headless</code> flag controls whether any window will be "on screen" or only off-screen. Of course, <code>--headless</code> in combination with no window (no --window argument) will skip rendering altogether, which is a very performance-saving mode to use when possible.</p>
+</div>
+<div class="paragraph">
+<p>Example:<br>
+<code>./bin/esmini.exe --window 60 60 4000 2000 --headless --capture_screen --osc .\resources\xosc\cut-in.xosc</code><br>
+will render images into a virtual frame buffer of size 4k x 2k pixels and then store to file. Note: The size of the virtual frame buffer is not limited by size of any connected display.</p>
+</div>
+<div class="paragraph">
+<p>To run esmini completely without rendering, just omit the --window argument:<br>
+<code>./bin/esmini.exe --osc .\resources\xosc\cut-in.xosc</code> --fixed_timestep 0.01 --record sim.dat<br>
+will run the specified scenario quickly and store a .dat file for later analysis or viewing (with replayer).</p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> If --fixed_timestep is omitted esmini will adapt timesteps to actual frametime, so a 30 seconds scenario will take 30 seconds - i.e. no performance gain.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_software_rendering_no_gfx_hw">4.2.4. Software rendering (no gfx hw)</h4>
+<div class="paragraph">
+<p>By default any available 3D graphics hardware will be utilized. As fallback esmini (via OSG) will utilize <a href="https://www.mesa3d.org">Mesa3D</a> which is a software implementation of the OpenGL graphics stack including parts normally hosted in the graphics hardware system. The Mesa3D approach is useful when running on cloud/cluster machines lacking graphics hardware, perhaps even lacking a window system (like slimmed and headless Ubuntu without X11 support).</p>
+</div>
+<div class="paragraph">
+<p><strong>Mesa3D on Linux</strong><br>
+Mesa3D is normally installed with Linux distributions. Check OpenGL support with the following command:<br>
+<code>glxinfo -B</code></p>
+</div>
+<div class="paragraph">
+<p>If the command is not available, then Mesa3D utility package is probably missing. Install as:<br>
+<code>sudo apt install mesa-utils</code></p>
+</div>
+<div class="paragraph">
+<p>To run headless with a virtual frame buffer:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Activate <a href="https://en.wikipedia.org/wiki/Xvfb">xvfb</a>:<br>
+<code>Xvfb :99 -screen 0 1920x1080x24+32 &amp; export DISPLAY=:99</code><br></p>
+</li>
+<li>
+<p>Then run esmini as usual</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For troubleshooting, the following command might give information about the graphics system:<br>
+<code>lspci -vnn | grep VGA -A 12</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Mesa3D on Windows</strong><br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Grab the Mesa3D binary from <a href="https://downloads.fdossena.com/geth.php?r=mesa64-latest">here</a>.</p>
+</li>
+<li>
+<p>Unpack and place opengl32.dll in the same folder as esmini executable.</p>
+</li>
+<li>
+<p>Then run esmini as usual</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -2538,22 +2613,22 @@ Options:
       Continuous screen capture. Warning: Many jpeg files will be created
   --camera_mode &lt;mode&gt;
       Initial camera mode (&quot;orbit&quot; (default), &quot;fixed&quot;, &quot;flex&quot;, &quot;flex-orbit&quot;, &quot;top&quot;, &quot;driver&quot;, &quot;custom&quot;) (swith with key 'k')
+  --csv_logger &lt;csv_filename&gt;
+      Log data for each vehicle in ASCII csv format
+  --collision
+      Enable global collision detection, potentially reducing performance
   --custom_camera &lt;position&gt;
       Additional custom fixed camera position &lt;x,y,z,h,p&gt; (multiple occurrences supported)
   --custom_fixed_camera &lt;position and optional orientation&gt;
       Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
   --custom_fixed_top_camera &lt;position and rotation&gt;
       Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
-  --csv_logger &lt;csv_filename&gt;
-      Log data for each vehicle in ASCII csv format
-  --collision
-      Enable global collision detection, potentially reducing performance
   --disable_controllers
       Disable controllers
   --disable_log
       Prevent logfile from being created
   --disable_off_screen
-      Disable off-screen rendering, potentially gaining performance
+      Disable esmini off-screen rendering, revert to OSG viewer default handling
   --disable_stdout
       Prevent messages to stdout
   --enforce_generate_model
@@ -2573,7 +2648,7 @@ Options:
   --hide_trajectories
       Hide trajectories from start (toggle with key 'n')
   --info_text &lt;mode&gt;
-      Show info text HUD (&quot;on&quot; (default), &quot;off&quot;)
+      Show on-screen info text (toggle key 'i') mode 0=None 1=current (default) 2=per_object 3=both
   --logfile_path &lt;path&gt;
       logfile path/filename, e.g. &quot;../esmini.log&quot; (default: log.txt)
   --osc_str &lt;string&gt;
@@ -2639,7 +2714,7 @@ https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.
     p:             Toggle show / hide environment 3D model
     r:             Toggle show / hide sensor view frustums
     R:             Toggle route waypoint visualization
-    i:             Toggle info text showing time and speed
+    i:             Toggle on-screen info text modes
     j:             Toggle show trails after vehicles(4 modes: none / dots / lines / both)
     n:             Toggle show active trajectories
     , (comma):     Switch entity view : Model only / Bounding box / Model + Bounding box / None
@@ -2715,9 +2790,11 @@ Options:
   --dir &lt;path&gt;
       Directory containing replays to overlay, pair with &quot;file&quot; argument, where &quot;file&quot; is .dat filename match substring
   --disable_off_screen
-      Disable off-screen rendering, potentially gaining performance
+      Disable esmini off-screen rendering, revert to OSG viewer default handling
   --hide_trajectories
       Hide trajectories from start (toggle with key 'n')
+  --info_text &lt;mode&gt;
+      Show on-screen info text (toggle key 'i') mode 0=None 1=current (default) 2=per_object 3=both
   --no_ghost
       Remove ghost entities
   --no_ghost_model
@@ -2752,19 +2829,20 @@ Additional OSG graphics options:
 
 Key shortcuts
 
-    H (shift h): This help text
-    TAB:         Move camera to next vehicle
-    Shift - TAB: Move camera to previoius vehicle
-    Space:       Toggle pause / play
-    g:           Toggle show / hide ghost models
-    o:           Toggle show / hide OpenDRIVE road feature lines
-    u:           Toggle show / hide OSI road lines
-    y:           Toggle show / hide OSI road points
-    p:           Toggle show / hide environment 3D model
-    i:           Toggle info text showing time and speed
-    n:           Toggle show active trajectories
-    , (comma):   Switch entity view : Model only / Bounding box / Model + Bounding box / None
-    ESC:         quit
+    H (shift + h): This help text
+    TAB:           Move camera to next vehicle
+    Shift + TAB:   Move camera to previoius vehicle
+    Delete:        Same as above (Shift + TAB)
+    Space:         Toggle pause / play
+    g:             Toggle show / hide ghost models
+    o:             Toggle show / hide OpenDRIVE road feature lines
+    u:             Toggle show / hide OSI road lines
+    y:             Toggle show / hide OSI road points
+    p:             Toggle show / hide environment 3D model
+    i:             Toggle on-screen info text modes
+    n:             Toggle show active trajectories
+    , (comma):     Switch entity view : Model only / Bounding box / Model + Bounding box / None
+    ESC:           quit
 
     Arrow keys
         Left:          Pause and move to previous frame(+Shift to skip 10 frames)
@@ -2840,7 +2918,7 @@ Options:
   --disable_log
       Prevent logfile from being created
   --disable_off_screen
-      Disable off-screen rendering, potentially gaining performance
+      Disable esmini off-screen rendering, revert to OSG viewer default handling
   --disable_stdout
       Prevent messages to stdout
   --fixed_timestep &lt;timestep&gt;
@@ -3373,6 +3451,76 @@ Mouse control
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect2">
+<h3 id="_functionality">10.3. Functionality</h3>
+<div class="paragraph">
+<p>No systematic documentation available. See header files <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/esminiLib.hpp">esminiLib.hpp</a> and <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiRMLib/esminiRMLib.hpp">esminiRMLib.hpp</a> for API details.</p>
+</div>
+<div class="paragraph">
+<p>The following section covers some specific use cases of the library.</p>
+</div>
+<div class="sect3">
+<h4 id="_save_or_grab_images">10.3.1. Save or grab images</h4>
+<div class="paragraph">
+<p>Screenshots can be controlled via the API:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="predefined-type">int</span> SE_SaveImagesToFile(<span class="predefined-type">int</span> nrOfFrames);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>nrOfFrames: -1 &#8658; continuously, 0 &#8658; stop, &gt; 0 &#8658; number of frames, e.g. 1=next frame only, 2=next two frames</p>
+</div>
+<div class="paragraph">
+<p>Images will be stored in current folder with name <code>screen_shot_*.tga</code> (* = counter) for post processing.</p>
+</div>
+<div class="paragraph">
+<p>Images can also be saved to memory for instant processing. Control the feature with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="predefined-type">int</span> SE_SaveImagesToRAM(<span class="predefined-type">bool</span> state);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>state: true &#8658; capture images, false &#8658; don&#8217;t capture (default, might improve performance on some systems)</p>
+</div>
+<div class="paragraph">
+<p>Grab image with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="predefined-type">int</span> SE_FetchImage(SE_Image *image);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>image is a reference to a SE_Image struct which will contain the image meta and image data</p>
+</div>
+<div class="paragraph">
+<p>See <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/image-capture">image-capture</a> code example.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Note:</strong> In order to grab a rendered frame image, it must have been saved to RAM during the post rendering phase. First frame will be saved to RAM by default. The SE_SaveImagesToRAM() function must be used to enable the feature for frames &gt; 0.</p>
+</div>
+<div class="paragraph">
+<p>The reason for not enable always by default is performance savings. On some system the operation to read back rendered pixels from graphics frame buffer to application RAM memory is not neglectable (depending on whether color coding or byte order transformation is needed). So a compromize is to have the feature enabled for the first init frame, and then activate by user when needed.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, to disable esmini image handling altogether and revert to OSG default handling, make the following call before SE_Init():</p>
+</div>
+<div class="paragraph">
+<p><code>SE_SetOffScreenRendering(false);</code></p>
+</div>
+<div class="paragraph">
+<p>Note that disabling the this will permanently disable the callback mechanism for the complete esmini session (overriding any SE_SaveImagesToRAM() call).</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -4439,15 +4587,15 @@ Then:<br>
 <h2 id="_version">14. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.23.2"<br>
-ESMINI_GIT_REV="60d3f01"</p>
+<p>ESMINI_GIT_TAG="v2.23.3"<br>
+ESMINI_GIT_REV="45a5492"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-25 09:47:55 +0200
+Last updated 2022-06-01 17:05:42 +0200
 </div>
 </div>
 </body>
