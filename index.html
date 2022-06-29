@@ -2077,6 +2077,38 @@ Once again starting from <a href="https://github.com/esmini/esmini/blob/master/r
 <code>osgconv in.fbx out.osgb -o -90-1,0,0 --use-world-frame</code> as above but pivot point world origin<br></p>
 </div>
 <div class="paragraph">
+<p>A useful environment variable is <code>OSG_OPTIMIZER</code> which affects the structure and content of the scene graph. For example, if the osgb file includes cloned sub trees, like motorway railings, these might not be populated in the fbx file. To solve that set:</p>
+</div>
+<div class="paragraph">
+<p><code>OSG_OPTIMIZER = FLATTEN_STATIC_TRANSFORMS_DUPLICATING_SHARED_SUBGRAPHS</code></p>
+</div>
+<div class="paragraph">
+<p>Exact syntax depends on your environment. Examples:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<strong>bash</strong>
+</td>
+<td class="hdlist2">
+<p><code>export OSG_OPTIMIZER=FLATTEN_STATIC_TRANSFORMS_DUPLICATING_SHARED_SUBGRAPHS</code></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>powershell</strong>
+</td>
+<td class="hdlist2">
+<p><code>$env:OSG_OPTIMIZER = "FLATTEN_STATIC_TRANSFORMS_DUPLICATING_SHARED_SUBGRAPHS"</code></p>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then run the <code>osgconv</code> command (in the same terminal where you defined the environment variable).</p>
+</div>
+<div class="paragraph">
 <p>osg native format is <code>osgb</code> which stands for OpenSceneGraph binary format. It&#8217;s a stable and compact (quick to load) format, which also can embed textures and animations. Thanks to the osgconv tool, esmini can get away with only supporting the .osgb format and still indirectly support many other 3D formats.</p>
 </div>
 <div class="sect2">
@@ -4587,15 +4619,15 @@ Then:<br>
 <h2 id="_version">14. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.23.3"<br>
-ESMINI_GIT_REV="45a5492"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="8114080"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-01 17:05:42 +0200
+Last updated 2022-06-29 15:39:46 +0200
 </div>
 </div>
 </body>
