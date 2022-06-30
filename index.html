@@ -587,7 +587,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_what_if_current_speed_differ_from_the_first_entry">5.1.2. What if current speed differ from the first entry?</a></li>
 <li><a href="#_what_if_time_is_missing_in_entry">5.1.3. What if time is missing in entry?</a></li>
 <li><a href="#_initial_acceleration_taken_into_account">5.1.4. Initial acceleration taken into account</a></li>
-<li><a href="#_more_info">5.1.5. More info</a></li>
+<li><a href="#_sharp_brake_to_stop_profile">5.1.5. Sharp brake-to-stop profile</a></li>
+<li><a href="#_more_info">5.1.6. More info</a></li>
 </ul>
 </li>
 </ul>
@@ -2042,7 +2043,40 @@ Once again starting from <a href="https://github.com/esmini/esmini/blob/master/r
 </div>
 </div>
 <div class="sect3">
-<h4 id="_more_info">5.1.5. More info</h4>
+<h4 id="_sharp_brake_to_stop_profile">5.1.5. Sharp brake-to-stop profile</h4>
+<div class="paragraph">
+<p>To skip jerk phase, e.g. as in emergency brake with an abrupt stop, just set AccelerationRate to a large number.</p>
+</div>
+<div class="paragraph">
+<p>Example:
+Once again starting from <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/speed-profile.xosc">speed-profile.xosc</a>, change speed in the Init speed actions to 10.0 and replace the speed profile actions as below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">    <span class="tag">&lt;SpeedProfileAction</span> <span class="attribute-name">followingMode</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">follow</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;DynamicConstraints</span>
+            <span class="attribute-name">maxAcceleration</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">5.0</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">maxDeceleration</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">10.0</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">maxAccelerationRate</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">1E10</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">maxDecelerationRate</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">3.0</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">maxSpeed</span> = <span class="string"><span class="delimiter">&quot;</span><span class="content">50</span><span class="delimiter">&quot;</span></span>
+        <span class="tag">/&gt;</span>
+        <span class="tag">&lt;SpeedProfileEntry</span> <span class="attribute-name">time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">speed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+        <span class="tag">&lt;SpeedProfileEntry</span> <span class="attribute-name">time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">4.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">speed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;/SpeedProfileAction&gt;</span></code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/speed-profile10.png" alt="speed profile10">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: A drawback is that the setting will affect any acceleration phase in the complete profile. In other words, a limitation is that entries can&#8217;t have individual settings. In the example above it&#8217;s not problem since the first jerk phase is a deceleration while the second is an acceleration. If different rate values of same type are needed, it can be achieved by defining multiple SpeedProfile actions in a sequence, with individual performance settings.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_more_info">5.1.6. More info</h4>
 <div class="paragraph">
 <p>To get more understanding of the implementation, see a few slides <a href="https://drive.google.com/file/d/1DmjVHftcsbU71Ce_GASZ6IArcPA6teNF/view?usp=sharing">here</a>.</p>
 </div>
@@ -4620,14 +4654,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="8114080"</p>
+ESMINI_GIT_REV="94c5570"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-29 15:39:46 +0200
+Last updated 2022-06-30 15:16:34 +0200
 </div>
 </div>
 </body>
