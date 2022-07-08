@@ -2192,7 +2192,10 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <div class="sect3">
 <h4 id="_example">5.2.4. Example</h4>
 <div class="paragraph">
-<p>The OpenDRIVE file <a href="https://github.com/esmini/esmini/blob/master/resources/xodr/straight_500m_signs.xodr">straight_500m_signs.xodr</a> includes a bunch of speed signs, some Swedish and some German ones. It shows how the signs are specified in terms of the country code, type, subtype and value attributes. It also shows how to specify the 3D model using the <code>name</code> attribute.</p>
+<p>The OpenDRIVE file <a href="https://github.com/esmini/esmini/blob/master/resources/xodr/straight_500m_signs.xodr">straight_500m_signs.xodr</a> includes a bunch of speed signs, some Swedish and some German ones. It shows how the signs are specified in terms of the country code, type, subtype and value attributes.</p>
+</div>
+<div class="paragraph">
+<p>It also shows how to specify the 3D model using the <code>name</code> attribute: If filename composed by country, type, subtype and value is not found, the <code>name</code> attribute + ".osgb" will be used for a second and final attempt.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -4779,15 +4782,15 @@ Then:<br>
 <h2 id="_version">14. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.25.0"<br>
-ESMINI_GIT_REV="080ac28"</p>
+<p>ESMINI_GIT_TAG="v2.25.1"<br>
+ESMINI_GIT_REV="debf78f"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-08 14:36:56 +0200
+Last updated 2022-07-08 17:11:27 +0200
 </div>
 </div>
 </body>
