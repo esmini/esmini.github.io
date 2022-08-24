@@ -567,7 +567,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_csv_logger">4.3.3. CSV logger</a></li>
 </ul>
 </li>
-<li><a href="#_replay_scenario">4.4. Replay scenario</a></li>
+<li><a href="#_replay_scenario">4.4. Replay scenario</a>
+<ul class="sectlevel3">
+<li><a href="#_multiple_scenarios_in_parallel">4.4.1. Multiple scenarios in parallel</a></li>
+<li><a href="#_save_merged_dat_files">4.4.2. Save merged .dat files</a></li>
+</ul>
+</li>
 <li><a href="#_view_road_network">4.5. View road network</a>
 <ul class="sectlevel3">
 <li><a href="#_visualize_opendrive_geometry">4.5.1. Visualize OpenDRIVE geometry</a></li>
@@ -601,82 +606,102 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 </ul>
 </li>
-<li><a href="#_openscenegraph_and_3d_models">6. OpenSceneGraph and 3D models</a>
+<li><a href="#_controllers">6. Controllers</a>
 <ul class="sectlevel2">
-<li><a href="#_get_osgconv">6.1. Get osgconv</a></li>
-<li><a href="#_convert_osgb_models_for_use_in_unity">6.2. Convert osgb models for use in Unity</a></li>
-<li><a href="#_import_into_unity">6.3. Import into Unity</a></li>
-</ul>
-</li>
-<li><a href="#_support_qa">7. Support / Q&amp;A</a>
-<ul class="sectlevel2">
-<li><a href="#_resources_not_found">7.1. Resources not found</a></li>
-<li><a href="#_mac_issues_and_limitations">7.2. Mac issues and limitations</a></li>
-<li><a href="#_issues_at_esmini_github_page">7.3. Issues at esmini GitHub page</a></li>
-</ul>
-</li>
-<li><a href="#_build_guide">8. Build guide</a>
-<ul class="sectlevel2">
-<li><a href="#_build_configurations">8.1. Build configurations</a></li>
-<li><a href="#_external_dependencies">8.2. External dependencies</a></li>
-<li><a href="#_additional_platform_dependencies">8.3. Additional platform dependencies</a></li>
-<li><a href="#_dynamic_protobuf_linking">8.4. Dynamic protobuf linking</a></li>
-<li><a href="#_slim_esmini_customize_configration">8.5. Slim esmini - customize configration</a></li>
-<li><a href="#_msys2_mingw_w64_support">8.6. MSYS2 / MinGW-w64 support</a></li>
-<li><a href="#_build_esmini_project">8.7. Build esmini project</a></li>
-<li><a href="#_centos_7_linux">8.8. CentOS 7 (Linux)</a></li>
-</ul>
-</li>
-<li><a href="#_command_reference">9. Command reference</a>
-<ul class="sectlevel2">
-<li><a href="#_esmini">9.1. esmini</a>
+<li><a href="#_controller_concept">6.1. Controller concept</a></li>
+<li><a href="#_background_and_motivation">6.2. Background and motivation</a></li>
+<li><a href="#_brief_on_implementation">6.3. Brief on implementation</a></li>
+<li><a href="#_how_it_works_for_the_user">6.4. How it works for the user</a></li>
+<li><a href="#_esmini_embedded_controllers">6.5. esmini embedded controllers</a>
 <ul class="sectlevel3">
-<li><a href="#_launch_commands">9.1.1. Launch commands</a></li>
-<li><a href="#_runtime_key_shortcut_commands">9.1.2. Runtime key shortcut commands</a></li>
+<li><a href="#_defaultcontroller">6.5.1. DefaultController</a></li>
+<li><a href="#_interactivecontroller">6.5.2. InteractiveController</a></li>
+<li><a href="#_followghost">6.5.3. FollowGhost</a></li>
+<li><a href="#_externalcontroller">6.5.4. ExternalController</a></li>
+<li><a href="#_sumocontroller">6.5.5. SumoController</a></li>
+<li><a href="#_alks_r157sm">6.5.6. ALKS_R157SM</a></li>
 </ul>
 </li>
-<li><a href="#_replayer">9.2. replayer</a></li>
-<li><a href="#_odrviewer">9.3. odrviewer</a></li>
 </ul>
 </li>
-<li><a href="#_esmini_lib_programming">10. esmini lib programming</a>
+<li><a href="#_openscenegraph_and_3d_models">7. OpenSceneGraph and 3D models</a>
 <ul class="sectlevel2">
-<li><a href="#_about_the_lib_itself">10.1. About the lib itself</a></li>
-<li><a href="#_how_to_interact_with_esmini_lib_api">10.2. How to interact with esmini lib API</a></li>
-<li><a href="#_functionality">10.3. Functionality</a>
-<ul class="sectlevel3">
-<li><a href="#_save_or_grab_images">10.3.1. Save or grab images</a></li>
+<li><a href="#_get_osgconv">7.1. Get osgconv</a></li>
+<li><a href="#_convert_osgb_models_for_use_in_unity">7.2. Convert osgb models for use in Unity</a></li>
+<li><a href="#_import_into_unity">7.3. Import into Unity</a></li>
+<li><a href="#_colors_textures_and_wheel_rotations">7.4. Colors, textures and wheel rotations</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#_hello_world_programming_tutorial">11. Hello World programming tutorial</a>
+<li><a href="#_support_qa">8. Support / Q&amp;A</a>
 <ul class="sectlevel2">
-<li><a href="#_steps_to_build_esmini_hello_world">11.1. Steps to build esmini "Hello World"</a></li>
-<li><a href="#_examples">11.2. Examples</a>
+<li><a href="#_resources_not_found">8.1. Resources not found</a></li>
+<li><a href="#_mac_issues_and_limitations">8.2. Mac issues and limitations</a></li>
+<li><a href="#_issues_at_esmini_github_page">8.3. Issues at esmini GitHub page</a></li>
+</ul>
+</li>
+<li><a href="#_build_guide">9. Build guide</a>
+<ul class="sectlevel2">
+<li><a href="#_build_configurations">9.1. Build configurations</a></li>
+<li><a href="#_external_dependencies">9.2. External dependencies</a></li>
+<li><a href="#_additional_platform_dependencies">9.3. Additional platform dependencies</a></li>
+<li><a href="#_dynamic_protobuf_linking">9.4. Dynamic protobuf linking</a></li>
+<li><a href="#_slim_esmini_customize_configration">9.5. Slim esmini - customize configration</a></li>
+<li><a href="#_msys2_mingw_w64_support">9.6. MSYS2 / MinGW-w64 support</a></li>
+<li><a href="#_build_esmini_project">9.7. Build esmini project</a></li>
+<li><a href="#_centos_7_linux">9.8. CentOS 7 (Linux)</a></li>
+</ul>
+</li>
+<li><a href="#_command_reference">10. Command reference</a>
+<ul class="sectlevel2">
+<li><a href="#_esmini">10.1. esmini</a>
 <ul class="sectlevel3">
-<li><a href="#_hello_world_load_and_play_a_scenario">11.2.1. Hello world - load and play a scenario</a></li>
-<li><a href="#_add_optional_argument_to_load_any_scenario">11.2.2. Add optional argument to load any scenario</a></li>
-<li><a href="#_fetch_state_of_scenario_objects">11.2.3. Fetch state of scenario objects</a></li>
-<li><a href="#_external_control_of_ego">11.2.4. External control of Ego</a></li>
-<li><a href="#_control_controllers">11.2.5. Control controllers</a></li>
-<li><a href="#_ideal_sensors">11.2.6. Ideal sensors</a></li>
-<li><a href="#_driver_model">11.2.7. Driver model</a></li>
-<li><a href="#_osi_groundtruth">11.2.8. OSI groundtruth</a></li>
+<li><a href="#_launch_commands">10.1.1. Launch commands</a></li>
+<li><a href="#_runtime_key_shortcut_commands">10.1.2. Runtime key shortcut commands</a></li>
 </ul>
 </li>
-<li><a href="#_python_binding">11.3. Python binding</a>
+<li><a href="#_replayer">10.2. replayer</a></li>
+<li><a href="#_odrviewer">10.3. odrviewer</a></li>
+<li><a href="#_plot_dat_py">10.4. plot_dat.py</a></li>
+</ul>
+</li>
+<li><a href="#_esmini_lib_programming">11. esmini lib programming</a>
+<ul class="sectlevel2">
+<li><a href="#_about_the_lib_itself">11.1. About the lib itself</a></li>
+<li><a href="#_how_to_interact_with_esmini_lib_api">11.2. How to interact with esmini lib API</a></li>
+<li><a href="#_functionality">11.3. Functionality</a>
 <ul class="sectlevel3">
-<li><a href="#_get_object_states">11.3.1. Get object states</a></li>
-<li><a href="#_example_use_of_esminirmlib_roadmanager">11.3.2. Example use of esminiRMLib (RoadManager)</a></li>
-<li><a href="#_advanced_use_case_using_callback">11.3.3. Advanced use case using callback</a></li>
+<li><a href="#_save_or_grab_images">11.3.1. Save or grab images</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_run_asam_openscenario_examples">12. Run ASAM OpenSCENARIO examples</a></li>
-<li><a href="#_about_this_document">13. About this document</a></li>
-<li><a href="#_version">14. Version</a></li>
+<li><a href="#_hello_world_programming_tutorial">12. Hello World programming tutorial</a>
+<ul class="sectlevel2">
+<li><a href="#_steps_to_build_esmini_hello_world">12.1. Steps to build esmini "Hello World"</a></li>
+<li><a href="#_examples">12.2. Examples</a>
+<ul class="sectlevel3">
+<li><a href="#_hello_world_load_and_play_a_scenario">12.2.1. Hello world - load and play a scenario</a></li>
+<li><a href="#_add_optional_argument_to_load_any_scenario">12.2.2. Add optional argument to load any scenario</a></li>
+<li><a href="#_fetch_state_of_scenario_objects">12.2.3. Fetch state of scenario objects</a></li>
+<li><a href="#_external_control_of_ego">12.2.4. External control of Ego</a></li>
+<li><a href="#_control_controllers">12.2.5. Control controllers</a></li>
+<li><a href="#_ideal_sensors">12.2.6. Ideal sensors</a></li>
+<li><a href="#_driver_model">12.2.7. Driver model</a></li>
+<li><a href="#_osi_groundtruth">12.2.8. OSI groundtruth</a></li>
+</ul>
+</li>
+<li><a href="#_python_binding">12.3. Python binding</a>
+<ul class="sectlevel3">
+<li><a href="#_get_object_states">12.3.1. Get object states</a></li>
+<li><a href="#_example_use_of_esminirmlib_roadmanager">12.3.2. Example use of esminiRMLib (RoadManager)</a></li>
+<li><a href="#_advanced_use_case_using_callback">12.3.3. Advanced use case using callback</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_run_asam_openscenario_examples">13. Run ASAM OpenSCENARIO examples</a></li>
+<li><a href="#_about_this_document">14. About this document</a></li>
+<li><a href="#_version">15. Version</a></li>
 </ul>
 </div>
 </div>
@@ -1545,11 +1570,18 @@ Your browser does not support the video tag.
 <p><strong>Note:</strong> The --disable_controllers flag is just specified to disable the interactive controller that normally is activated in that specific scenario. For more information about controllers, see <a href="https://github.com/esmini/esmini/blob/master/docs/Controllers.md">Controllers in esmini</a>.</p>
 </div>
 <div class="paragraph">
+<p>Combine esmini and replayer in a one-liner command:
+<code>./bin/esmini --headless --fixed_timestep 0.05 --record sim.dat --osc ./resources/xosc/cut-in.xosc;./bin/replayer --window 60 60 800 400 --res_path ./resources --file sim.dat</code></p>
+</div>
+<div class="sect3">
+<h4 id="_multiple_scenarios_in_parallel">4.4.1. Multiple scenarios in parallel</h4>
+<div class="paragraph">
 <p>Next example, play multiple variants of a scenario in parallel:<br>
 <code>./bin/replayer --window 60 60 800 400 --file sim --res_path ./resources --capture_screen --dir tmp</code></p>
 </div>
 <div class="paragraph">
-<p>The <code>--dir</code> argument points to a folder containing sim1.dat, sim2.dat and sim3.dat.</p>
+<p>The <code>--dir</code> argument points to a folder containing sim1.dat, sim2.dat and sim3.dat.<br>
+The <code>--capture_screen</code> argument will save each frame as an image file on disk.</p>
 </div>
 <div class="videoblock">
 <div class="title">Video clip demonstrating parallel scenarios in replayer</div>
@@ -1559,9 +1591,16 @@ Your browser does not support the video tag.
 </video>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_save_merged_dat_files">4.4.2. Save merged .dat files</h4>
 <div class="paragraph">
-<p>Combine esmini and replayer in a one-liner command:
-<code>./bin/esmini --headless --fixed_timestep 0.05 --record sim.dat --osc ./resources/xosc/cut-in.xosc;./bin/replayer --window 60 60 800 400 --res_path ./resources --file sim.dat</code></p>
+<p>Merged data from multiple .dat files can be saved into one single .dat file, e.g. for plotting:<br>
+<code>./bin/replayer --file sim_ --dir . --save_merged sim_merged.dat</code></p>
+</div>
+<div class="paragraph">
+<p>replayer will look in current folder (".") for any .dat file starting with "sim_", i.e. "sim_*.dat". The files will be merged and saved as sim_merged.dat.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1710,6 +1749,28 @@ id, model_id, obj_type, obj_category, ctrl_type, time, speed, wheel_angle, wheel
 <div class="imageblock">
 <div class="content">
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/plot_dat_x_y_eq_axis.png" alt="plot dat x y eq axis">
+</div>
+</div>
+<div class="paragraph">
+<p>Plot merged .dat files (created as described in <a href="#_save_merged_dat_files">Save merged .dat files</a>)<br></p>
+</div>
+<div class="paragraph">
+<p><code>./scripts/plot_dat.py --param speed sim_merged.dat</code></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/plot_merged_dat_files.png" alt="plot merged dat files">
+</div>
+</div>
+<div class="paragraph">
+<p>Entity IDs will get an offset multiplier of 100, corresponding to the order of which the dat files were read by replayer. The mapping between ID range and dat file is printed to the console by replayer when the merged dat file is created, as the following example of four input files:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Scenarios corresponding to IDs (0:99): sim_fsm.dat
+Scenarios corresponding to IDs (100:199): sim_ref.dat
+Scenarios corresponding to IDs (200:299): sim_reg.dat
+Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 </div>
 </div>
 </div>
@@ -2214,8 +2275,561 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_openscenegraph_and_3d_models">6. OpenSceneGraph and 3D models</h2>
+<h2 id="_controllers">6. Controllers</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_controller_concept">6.1. Controller concept</h3>
+<div class="paragraph">
+<p>OpenSCENARIO provides the controller concept as a way to outsource control the motion and appearance of scenario entities. For the OpenSCENARIO description of the controller concept, see <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4908&amp;token=ae9d9b44ab9257e817072a653b5d5e98ee0babf8#_controllers">OpenSCENARIO User Guide</a>.</p>
+</div>
+<div class="paragraph">
+<p>Controllers can be assigned to object of type Vehicle or Pedestrian. Once assigned, controllers are activated for a given domain (e.g longitudinal, lateral, Lighting, Animation) using the ActivateControllerAction. It&#8217;s also possible to activate immediately as part of the AssignControllerAction.</p>
+</div>
+<div class="paragraph">
+<p>While the ActivateControllerAction is executing, the Controller assigned to that object will manage specified domain(s). Controllers may be internal (part of the simulator) or external (defined in another file).</p>
+</div>
+<div class="paragraph">
+<p>Intended use cases for Controllers include:<br>
+- Specifying that a vehicle is controlled by the system under test.
+- Defining smart actor behavior, where a controller takes intelligent decisions in response to the road network or other actors. Hence, controllers can be used, for example, to make agents in a scenario behave in a human-like way.
+- Assigning a vehicle to direct human control.</p>
+</div>
+<div class="paragraph">
+<p>The Controller element contains Properties, which can be used to specify controller behavior either directly or by a file reference.</p>
+</div>
+<div class="paragraph">
+<p>Although OpenSCENARIO from v1.2 supports assignment of multiple controllers to an object, esmini is currently only supporting one controller to be assigned (and hence activated) to an object at the time.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_background_and_motivation">6.2. Background and motivation</h3>
+<div class="paragraph">
+<p>esmini version &lt; 2.0 totally lacked support for controllers. Instead some similar functionality were implemented as part of different example-applications. For example, EgoSimulator provided interactive control of one vehicle. There was also an "external" mode which allowed for an external vehicle simulator to report current position for the typical Ego (VUT/SUT&#8230;&#8203;) vehicle.</p>
+</div>
+<div class="paragraph">
+<p>First, this approach made the example code of simple applications complex. Secondly, it limited the use cases of esmini since functionality was tightly embedded in the applications.</p>
+</div>
+<div class="paragraph">
+<p>Controllers provides a much more flexible way of adding functionality to esmini, in a way harmonizing with the standard (OpenSCENARIO 1.X). A side effect of this "outsourcing" of functionality is that the former demo applications could be reduced to a minimum both in number and size.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_brief_on_implementation">6.3. Brief on implementation</h3>
+<div class="paragraph">
+<p>Controllers was introduced in esmini v2.0. Briefly it works as follows:</p>
+</div>
+<div class="paragraph">
+<p>There is a collection of embedded controllers coming with esmini. Each controller inherit from the base class Controller (Controller.h/cpp). In order for esmini to be aware of the existence of a controller it has to be registered. This is done through the ScenarioReader method <a href="https://github.com/esmini/esmini/blob/3d1abcd6b3e3855707dc424f7c25477bbf136078/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/ScenarioReader.hpp#L132"><code>RegisterController</code></a>. It will put the controller into a collection to have available when the scenario is being parsed. So all controllers need to be registered prior to loading the scenario.</p>
+</div>
+<div class="paragraph">
+<p>A controller is registered with the following information:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Its static name which is used as identifier.</p>
+</li>
+<li>
+<p>A pointer to a function instantiating the controller.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This architecture makes it possible for an external module to create a controller and registering it without modifying any of esmini modules. In that way it is a semi-plugin concept, you can say.</p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: Even though ScenarioReader have a helper function for registering all the embedded controllers the RegisterController can be called from any module directly, at any time prior to scenario initialization.</p>
+</div>
+<div class="paragraph">
+<p>esmini catalog framework supports controllers as well, so controllers can be defined in catalogs as presets, just like vehicles and routes for example.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_it_works_for_the_user">6.4. How it works for the user</h3>
+<div class="paragraph">
+<p>Controllers are completely handled in the OpenSCENARIO file. With one exception: esmini provides the --disable-controllers option which totally ignore any controllers, just performing the scenario with DefaultControllers, which can be handy when previewing and debugging scenarios.</p>
+</div>
+<div class="paragraph">
+<p>In terms of OpenSCENARIO a controller is assigned to an entity (object) in any of two ways:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>As part of the Entities section and ScenarioObject definition, using the ObjectController element.</p>
+</li>
+<li>
+<p>The AssignControllerAction which can be triggered as any action at any time during the simulation.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Once assigned the controller must finally be activated using the ActivateControllerAction which can be triggered at any time. It provides an attribute to specify which domain(s) to control: Lateral, Longitudinal or both.</p>
+</div>
+<div class="paragraph">
+<p>Example 1: Implicit assignment of controller using the <code>ObjectController</code> element:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Entities&gt;</span>
+   <span class="tag">&lt;ScenarioObject</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Ego</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+     <span class="tag">&lt;CatalogReference</span> <span class="attribute-name">catalogName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">VehicleCatalog</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">entryName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">$HostVehicle</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+      <span class="tag">&lt;ObjectController&gt;</span>
+          <span class="tag">&lt;Controller</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">MyController</span><span class="delimiter">&quot;</span></span> <span class="tag">&gt;</span>
+             <span class="tag">&lt;Properties&gt;</span>
+                 <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">esminiController</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">InteractiveController</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                 <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">speedFactor</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1.5</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+             <span class="tag">&lt;/Properties&gt;</span>
+          <span class="tag">&lt;/Controller&gt;</span>
+      <span class="tag">&lt;/ObjectController&gt;</span>
+   <span class="tag">&lt;/ScenarioObject&gt;</span>
+<span class="tag">&lt;/Entities&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example 2: As above, but using catalog reference:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Entities&gt;</span>
+   <span class="tag">&lt;ScenarioObject</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Ego</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+     <span class="tag">&lt;CatalogReference</span> <span class="attribute-name">catalogName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">VehicleCatalog</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">entryName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">$HostVehicle</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+        <span class="tag">&lt;ObjectController&gt;</span>
+            <span class="tag">&lt;CatalogReference</span> <span class="attribute-name">catalogName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ControllerCatalog</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">entryName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">interactiveDriver</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+        <span class="tag">&lt;/ObjectController&gt;</span>
+   <span class="tag">&lt;/ScenarioObject&gt;</span>
+<span class="tag">&lt;/Entities&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example 3: Activate controller in the <code>Init</code> section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Init&gt;</span>
+   <span class="tag">&lt;Actions&gt;</span>
+      <span class="tag">&lt;Private</span> <span class="attribute-name">entityRef</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Ego</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+         <span class="tag">&lt;PrivateAction&gt;</span>
+            <span class="tag">&lt;TeleportAction&gt;</span>
+               <span class="tag">&lt;Position&gt;</span>
+                  <span class="tag">&lt;LanePosition</span> <span class="attribute-name">roadId</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">laneId</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">-3</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">offset</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">s</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">$EgoStartS</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+               <span class="tag">&lt;/Position&gt;</span>
+            <span class="tag">&lt;/TeleportAction&gt;</span>
+         <span class="tag">&lt;/PrivateAction&gt;</span>
+         <span class="tag">&lt;PrivateAction&gt;</span>
+              <span class="tag">&lt;ActivateControllerAction</span> <span class="attribute-name">longitudinal</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">lateral</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+         <span class="tag">&lt;/PrivateAction&gt;</span>
+      <span class="tag">&lt;/Private&gt;</span>
+   <span class="tag">&lt;/Actions&gt;</span>
+<span class="tag">&lt;/Init&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example 4: Assign and activate the controller in the <code>Storyboard</code> section:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Event</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">InteractiveEvent</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">maximumExecutionCount</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">priority</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">overwrite</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+   <span class="tag">&lt;Action</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">AssignControllerAction</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+     <span class="tag">&lt;PrivateAction&gt;</span>
+          <span class="tag">&lt;ControllerAction&gt;</span>
+              <span class="tag">&lt;AssignControllerAction&gt;</span>
+                  <span class="tag">&lt;CatalogReference</span> <span class="attribute-name">catalogName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ControllerCatalog</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">entryName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">interactiveDriver</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+              <span class="tag">&lt;/AssignControllerAction&gt;</span>
+          <span class="tag">&lt;/ControllerAction&gt;</span>
+      <span class="tag">&lt;/PrivateAction&gt;</span>
+   <span class="tag">&lt;/Action&gt;</span>
+   <span class="tag">&lt;Action</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ActivateControllerAction</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+      <span class="tag">&lt;PrivateAction&gt;</span>
+          <span class="tag">&lt;ControllerAction&gt;</span>
+              <span class="tag">&lt;ActivateControllerAction</span> <span class="attribute-name">longitudinal</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">lateral</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+          <span class="tag">&lt;/ControllerAction&gt;</span>
+      <span class="tag">&lt;/PrivateAction&gt;</span>
+   <span class="tag">&lt;/Action&gt;</span>
+   <span class="tag">&lt;StartTrigger&gt;</span>
+      <span class="tag">&lt;ConditionGroup&gt;</span>
+         <span class="tag">&lt;Condition</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">delay</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">conditionEdge</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">none</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+            <span class="tag">&lt;ByValueCondition&gt;</span>
+               <span class="tag">&lt;SimulationTimeCondition</span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">20</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">rule</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">greaterThan</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+            <span class="tag">&lt;/ByValueCondition&gt;</span>
+         <span class="tag">&lt;/Condition&gt;</span>
+      <span class="tag">&lt;/ConditionGroup&gt;</span>
+   <span class="tag">&lt;/StartTrigger&gt;</span>
+<span class="tag">&lt;/Event&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To disable any controller simply apply ActivateControllerAction on no domain, like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;ActivateControllerAction</span> <span class="attribute-name">longitudinal</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">lateral</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That should work in all OpenSCENARIO supporting tools. In esmini you can also assign <code>DefaultController</code> which will disconnect any assigned controller.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_esmini_embedded_controllers">6.5. esmini embedded controllers</h3>
+<div class="paragraph">
+<p>Below is a listing of some of the available controllers in esmini. Note that only DefaultController is related to the OpenSCENARIO standard. The other ones are esmini-specific and will not work in other tools (so far there is no standard plugin-architecture for controllers to enable moving between tools). For updated and complete definition of controllers and their parameters, see <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/Catalogs/Controllers/ControllerCatalog.xosc">ControllerCatalog.xosc</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="_defaultcontroller">6.5.1. DefaultController</h4>
+<div class="paragraph">
+<p>Performs actions exactly as specified in the OpenSCENARIO file. Assigned to entities by default. Can be assigned at any point to "unassign" any currently assigned controller.<br></p>
+</div>
+<table class="tableblock frame-none grid-none fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Domain</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n/a (will always take over both Lateral and Longitudinal domains)<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Properties</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n/a (any scenario not explicitly assigning and activating another controller)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_interactivecontroller">6.5.2. InteractiveController</h4>
+<div class="paragraph">
+<p>A simple vehicle model controlled by the user via keyboard (arrow keys).<br></p>
+</div>
+<table class="tableblock frame-none grid-none fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Domain</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">longitudinal and/or lateral (independent)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Properties</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<code>steeringRate</code>
+</td>
+<td class="hdlist2">
+<p>steering sensitivity</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>speedFactor</code>
+</td>
+<td class="hdlist2">
+<p>scale speed performance (1.0 is default)</p>
+</td>
+</tr>
+</table>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/esmini/esmini/blob/master/resources/xosc/cut-in_interactive.xosc">cut-in_interactive.xosc</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_followghost">6.5.3. FollowGhost</h4>
+<div class="paragraph">
+<p>A simple driver model. A ghost-twin performing the events a few seconds ahead. The entity will then do its best to mimic the motion and speed of the ghost by follow the trajectory. The primary purpose of this controller is to provide an example, but it can be useful to smoothen out the sometimes synthetic feel of pure default controller.<br></p>
+</div>
+<table class="tableblock frame-none grid-none fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Domain</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">longitudinal and lateral (in combination only).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Properties</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<code>headstartTime</code>
+</td>
+<td class="hdlist2">
+<p>seconds</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>followMode</code>
+</td>
+<td class="hdlist2">
+<p><code>time</code> (time offset), <code>position</code> (distance offset)</p>
+</td>
+</tr>
+</table>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/esmini/esmini/blob/master/resources/xosc/follow_ghost.xosc">follow_ghost.xosc</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_externalcontroller">6.5.4. ExternalController</h4>
+<div class="paragraph">
+<p>The entity will not be moved by the scenario. Instead its state (position, rotation &#8230;&#8203;) is expected to be reported from external simulator via API, e.g. SE_ReportObjectPos. Ghost trajectory can optionally be created for an external driver model to use as reference.<br></p>
+</div>
+<table class="tableblock frame-none grid-none fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Domain</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">longitudinal and/or lateral (independent).<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Properties</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<code>useGhost</code>
+</td>
+<td class="hdlist2">
+<p>launch a ghost fore-runner, e.g. to provide input for any driver model (<code>true</code>/<code>false</code>)</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>headstartTime</code>
+</td>
+<td class="hdlist2">
+<p>(for the ghost)</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>mode</code>
+</td>
+<td class="hdlist2">
+<p><code>override</code> disable default controller (default), <code>additive</code>: apply default controller before handing over to this controller</p>
+</td>
+</tr>
+</table>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/test-driver">test-driver code example</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_sumocontroller">6.5.5. SumoController</h4>
+<div class="paragraph">
+<p>A way of integrating SUMO controlled vehicles in a scenario. OpenSCENARIO vehicles are reported to SUMO, and SUMO vehicles are reported back to esmini. A reference to a SUMO config file is provided as input to the controller. See cut-in_sumo.xosc for an example.</p>
+</div>
+<table class="tableblock frame-none grid-none fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Domain</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">longitudinal and lateral (in combination only).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Properties</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<code>file</code>
+</td>
+<td class="hdlist2">
+<p>Path to the SUMO configuration file<br></p>
+</td>
+</tr>
+</table>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/esmini/esmini/blob/master/resources/xosc/cut-in_sumo.xosc">cut-in_sumo.xosc</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_alks_r157sm">6.5.6. ALKS_R157SM</h4>
+<div class="paragraph">
+<p>Based and inspired by <a href="https://github.com/ec-jrc/JRC-FSM">Regulation 157 Safety Models</a>. Includes four safety models relating to the (<a href="https://unece.org/transport/documents/2021/03/standards/un-regulation-no-157-automated-lane-keeping-systems-alks">UNECE ALKS regulation #157</a>). The controller includes preliminary and experimental implementation of four models:<br></p>
+</div>
+<div class="paragraph">
+<p><strong>Implemented models:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Regulation</code> Characteristics of expected system performance as stated in the <a href="https://unece.org/sites/default/files/2021-03/R157e.pdf">UNECE Reg 157 Paragraph 5.2.5.2</a>.<br></p>
+</li>
+<li>
+<p><code>ReferenceDriver</code> Reference model of a "typical" human driver as specified in <a href="https://unece.org/sites/default/files/2021-03/R157e.pdf">UNECE Reg 157 Annex 4 - Appendix 3</a>.<br></p>
+</li>
+<li>
+<p><code>FSM</code> <em>Fuzzy Safety Model</em> proposed and described in <a href="https://www.sciencedirect.com/science/article/pii/S0001457520316146">Mattas, Konstantinos, et al. "Fuzzy Surrogate Safety Metrics for real-time assessment of rear-end collision risk. A study based on empirical observations." Accident Analysis &amp; Prevention 148 (2020): 105794</a>.<br></p>
+</li>
+<li>
+<p><code>RSS</code> <em>Responsibility-Sensitive Safety</em> performance model proposed and described in <a href="https://arxiv.org/pdf/1708.06374.pdf">Shalev-Shwartz, Shai, Shaked Shammah, and Amnon Shashua. "On a formal model of safe and scalable self-driving cars." arXiv preprint arXiv:1708.06374 (2017)</a>.<br></p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-none grid-none fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Domain</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">longitudinal and lateral (in combination only). <strong>Note</strong>: No advanced steering, just maintaining current lane offset.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Properties</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<code>logLevel</code>
+</td>
+<td class="hdlist2">
+<p>0: No logging, 1: Brief logging of state changes, 2: Verbose logging of some internal variables</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>model</code>
+</td>
+<td class="hdlist2">
+<p><code>Regulation</code>, <code>ReferenceDriver</code>, <code>FSM</code>, <code>RSS</code> as described above.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>cruise</code>
+</td>
+<td class="hdlist2">
+<p>Activate longitudinal ACC (comfort adaptive speed control) (<code>true</code>/<code>false</code>)</p>
+</td>
+</tr>
+</table>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Examples</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/esmini/esmini/blob/master/resources/xosc/alks_r157_cut_in_quick_brake.xosc">alks_r157_cut_in_quick_brake.xosc</a><br>
+<a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/xosc/alks_r157_quick_stop_test.xosc">alks_r157_quick_stop_test.xosc</a><br>
+<a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/xosc/alks_r157_test.xosc">alks_r157_test.xosc</a><br></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect4">
+<h5 id="_example_usage">Example usage</h5>
+<div class="paragraph">
+<p>Run example alks_r157_cut_in_quick_brake.xosc:<br>
+<code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/alks_r157_cut_in_quick_brake.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>Change model:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open <code>resources/xosc/alks_r157_cut_in_quick_brake.xosc</code> in a text editor</p>
+</li>
+<li>
+<p>In the ALKS_R157SM_Controller, change<br>
+<code>&lt;Property name="model" value="Regulation"/&gt;</code> to<br>
+<code>&lt;Property name="model" value="ReferenceDriver"/&gt;</code></p>
+</li>
+<li>
+<p>Save and run again:<br>
+<code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/alks_r157_cut_in_quick_brake.xosc</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can hardly see any difference. Let&#8217;s run the two variants again and record for post analysis.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set model to "ReferenceDriver" (by edit the file as described above)</p>
+</li>
+<li>
+<p>Run:<br>
+<code>./bin/esmini --headless --fixed_timestep 0.02 --osc ./resources/xosc/alks_r157_cut_in_quick_brake.xosc --record sim-ref.dat</code></p>
+</li>
+<li>
+<p>Set model to "Regulation"</p>
+</li>
+<li>
+<p>Run:<br>
+<code>./bin/esmini --headless --fixed_timestep 0.02 --osc ./resources/xosc/alks_r157_cut_in_quick_brake.xosc --record sim-reg.dat</code></p>
+</li>
+<li>
+<p>View scenarios in parallel:<br>
+<code>./bin/replayer --window 60 60 800 400 --res_path ./resources --dir . --file sim- --view_mode boundingbox</code></p>
+</li>
+<li>
+<p>Create a merged .dat file and plot it:<br>
+<code>./bin/replayer --file sim- --dir . --save_merged sim_merged.dat</code><br>
+<code>./scripts/plot_dat.py --param speed sim_merged.dat</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Something like this should show:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/plot_merged_alks_ex.png" alt="plot merged alks ex">
+</div>
+</div>
+<div class="paragraph">
+<p>Of course you can run also FSM and RSS models in similar way and merge all four .dat files. For more information about <code>replayer</code>, see "Plot merged .dat files" example in <a href="#_plot_scenario_data">Plot scenario data</a> section.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_openscenegraph_and_3d_models">7. OpenSceneGraph and 3D models</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>esmini make use of OpenSceneGraph (OSG) for visualization of the scenario. The OpenSCENARIO files can optionally refer to existing 3D models of the static environment (scene graph) and dynamic objects (entities). If the scene graph reference is missing, esmini will try to generate a basic model based on the OpenDRIVE road network description. Currently esmini only supports OSG native .osgb 3D file format. However, there are ways to convert 3D models as described next.</p>
+</div>
 <div class="paragraph">
 <p><a href="http://www.openscenegraph.org/">OpenSceneGraph</a> (osg) includes readers and writers for quite a few 3D file formats. It comes with a demo application, <a href="http://www.openscenegraph.org/index.php/documentation/user-guides/55-osgconv">osgconv</a>, a command line tool that simply takes one file as input and outputs the same content in a different format.</p>
 </div>
@@ -2275,7 +2889,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>osg native format is <code>osgb</code> which stands for OpenSceneGraph binary format. It&#8217;s a stable and compact (quick to load) format, which also can embed textures and animations. Thanks to the osgconv tool, esmini can get away with only supporting the .osgb format and still indirectly support many other 3D formats.</p>
 </div>
 <div class="sect2">
-<h3 id="_get_osgconv">6.1. Get osgconv</h3>
+<h3 id="_get_osgconv">7.1. Get osgconv</h3>
 <div class="paragraph">
 <p>On Linux and Mac its recommended to build osg yourself. You can try this script: <a href="https://github.com/esmini/esmini/blob/master/scripts/compile_osg_apps_linux.sh">compile_osg_apps_linux.sh</a>. It will first fetch and install <a href="https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-0">FBX SDK</a> and then build OSG with FBX support. Find more details and instructions in the header of the script.</p>
 </div>
@@ -2293,7 +2907,7 @@ But note that it does not consider FBX support.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_convert_osgb_models_for_use_in_unity">6.2. Convert osgb models for use in Unity</h3>
+<h3 id="_convert_osgb_models_for_use_in_unity">7.2. Convert osgb models for use in Unity</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -2313,7 +2927,7 @@ Potentially it also needs to be oriented according to Unity coordinate system. I
 </div>
 </div>
 <div class="sect2">
-<h3 id="_import_into_unity">6.3. Import into Unity</h3>
+<h3 id="_import_into_unity">7.3. Import into Unity</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -2342,13 +2956,24 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 <p>That should basically be it.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_colors_textures_and_wheel_rotations">7.4. Colors, textures and wheel rotations</h3>
+<div class="paragraph">
+<p>See <a href="https://github.com/esmini/esmini/issues/63#issuecomment-742273326">issue 63</a> for brief info.</p>
+</div>
+<div class="paragraph">
+<p>And these two scripts operating on textures and material respectively, can potentially provide some inspiration:<br>
+- <a href="https://github.com/esmini/esmini/blob/master/scripts/bake_signs.sh">bake_signs.sh</a><br>
+- <a href="https://github.com/esmini/esmini/blob/master/scripts/fix_dae_materials.py">fix_dae_materials.py</a></p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_support_qa">7. Support / Q&amp;A</h2>
+<h2 id="_support_qa">8. Support / Q&amp;A</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_resources_not_found">7.1. Resources not found</h3>
+<h3 id="_resources_not_found">8.1. Resources not found</h3>
 <div class="paragraph">
 <p>There are no fixed structure where scenario resources, e.g. vehicle 3D model or controller catalog, needs to be stored. Instead, additional search paths can be added by launch argument <code>--path &lt;path&gt;</code>. For example:<br></p>
 </div>
@@ -2360,7 +2985,7 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mac_issues_and_limitations">7.2. Mac issues and limitations</h3>
+<h3 id="_mac_issues_and_limitations">8.2. Mac issues and limitations</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2379,7 +3004,7 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 </div>
 </div>
 <div class="sect2">
-<h3 id="_issues_at_esmini_github_page">7.3. Issues at esmini GitHub page</h3>
+<h3 id="_issues_at_esmini_github_page">8.3. Issues at esmini GitHub page</h3>
 <div class="paragraph">
 <p>The <a href="https://github.com/esmini/esmini/issues">Issues tab at esmini GitHub page</a> is a valuable source of questions and answers. To search in all issues, make sure to set filter: <code>is:issue</code>.</p>
 </div>
@@ -2387,10 +3012,10 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 </div>
 </div>
 <div class="sect1">
-<h2 id="_build_guide">8. Build guide</h2>
+<h2 id="_build_guide">9. Build guide</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_build_configurations">8.1. Build configurations</h3>
+<h3 id="_build_configurations">9.1. Build configurations</h3>
 <div class="paragraph">
 <p><a href="https://cmake.org/">CMake</a> tool is used to create standard make configurations. A few example "create&#8230;&#8203;" batch scripts are supplied as examples how to generate desired build setup.</p>
 </div>
@@ -2477,7 +3102,7 @@ cmake -G "Visual Studio 16 2019" -T v140 -A Win32 ..
 </div>
 </div>
 <div class="sect2">
-<h3 id="_external_dependencies">8.2. External dependencies</h3>
+<h3 id="_external_dependencies">9.2. External dependencies</h3>
 <div class="paragraph">
 <p>esmini is designed to link all dependencies statically. Main reason is to have a all-inclusive library for easy integration either as a shared library/DLL (e.g. plugin in Unity, or S-function in Simulink) or statically linked into a native application.</p>
 </div>
@@ -2522,7 +3147,7 @@ to<br>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_additional_platform_dependencies">8.3. Additional platform dependencies</h3>
+<h3 id="_additional_platform_dependencies">9.3. Additional platform dependencies</h3>
 <div class="paragraph">
 <p>Linux Ubuntu 18.04</p>
 </div>
@@ -2539,7 +3164,7 @@ to<br>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dynamic_protobuf_linking">8.4. Dynamic protobuf linking</h3>
+<h3 id="_dynamic_protobuf_linking">9.4. Dynamic protobuf linking</h3>
 <div class="paragraph">
 <p>When linking esmini with software already dependent on Google protobuf there might be need for dynamic linking of shared protobuf library. This can be achieved by defining cmake symbol DYN_PROTOBUF as following example:</p>
 </div>
@@ -2574,7 +3199,7 @@ The dynamic versions of protobuf were added Aug 31 2021. So you might need to up
 </div>
 </div>
 <div class="sect2">
-<h3 id="_slim_esmini_customize_configration">8.5. Slim esmini - customize configration</h3>
+<h3 id="_slim_esmini_customize_configration">9.5. Slim esmini - customize configration</h3>
 <div class="paragraph">
 <p>The external dependencies OSG, OSI and SUMO are optional. Also the unit test suite is optional, in effect making the dependecy to googletest framework optional as well. All these options are simply controlled by the following cmake options:</p>
 </div>
@@ -2611,7 +3236,7 @@ Disabling an external dependency will disable corresponding functionality. So, f
 </div>
 </div>
 <div class="sect2">
-<h3 id="_msys2_mingw_w64_support">8.6. MSYS2 / MinGW-w64 support</h3>
+<h3 id="_msys2_mingw_w64_support">9.6. MSYS2 / MinGW-w64 support</h3>
 <div class="paragraph">
 <p>esmini slim can be compiled and executed in the MSYS2 environment. Try following steps:</p>
 </div>
@@ -2667,7 +3292,7 @@ cmake --build . --config Release --target install</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build_esmini_project">8.7. Build esmini project</h3>
+<h3 id="_build_esmini_project">9.7. Build esmini project</h3>
 <div class="paragraph">
 <p>First generate build configuration (see above)</p>
 </div>
@@ -2738,7 +3363,7 @@ make -j4 install</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_centos_7_linux">8.8. CentOS 7 (Linux)</h3>
+<h3 id="_centos_7_linux">9.8. CentOS 7 (Linux)</h3>
 <div class="paragraph">
 <p>CentOS 7 has some limitations, e.g. old versions of C/C++ compiler toolkits and runtimes. So it&#8217;s not possible to link with provided 3rd party binary libraries targeting Ubuntu 18++.
 However, by disabling some featuers in esmini, e.g. OSI and SUMO, it can still be used for previewing scenarios.</p>
@@ -2788,12 +3413,12 @@ cd ..
 </div>
 </div>
 <div class="sect1">
-<h2 id="_command_reference">9. Command reference</h2>
+<h2 id="_command_reference">10. Command reference</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_esmini">9.1. esmini</h3>
+<h3 id="_esmini">10.1. esmini</h3>
 <div class="sect3">
-<h4 id="_launch_commands">9.1.1. Launch commands</h4>
+<h4 id="_launch_commands">10.1.1. Launch commands</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>Usage: esmini [options]
@@ -2892,7 +3517,7 @@ https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_runtime_key_shortcut_commands">9.1.2. Runtime key shortcut commands</h4>
+<h4 id="_runtime_key_shortcut_commands">10.1.2. Runtime key shortcut commands</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>Key shortcuts
@@ -2963,13 +3588,13 @@ Mouse control
 </div>
 </div>
 <div class="sect2">
-<h3 id="_replayer">9.2. replayer</h3>
+<h3 id="_replayer">10.2. replayer</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>Usage:  [options]
 Options:
   --file &lt;filename&gt;
-      Simulation recording data file
+      Simulation recording data file (.dat)
   --camera_mode &lt;mode&gt;
       Initial camera mode (&quot;orbit&quot; (default), &quot;fixed&quot;, &quot;flex&quot;, &quot;flex-orbit&quot;, &quot;top&quot;, &quot;driver&quot;) (toggle during simulation by press 'k')
   --capture_screen
@@ -2990,8 +3615,6 @@ Options:
       Hide trajectories from start (toggle with key 'n')
   --info_text &lt;mode&gt;
       Show on-screen info text (toggle key 'i') mode 0=None 1=current (default) 2=per_object 3=both
-  --save_merged &lt;filename&gt;
-      Save merged data into one dat file, instead of viewing
   --no_ghost
       Remove ghost entities
   --no_ghost_model
@@ -3008,6 +3631,8 @@ Options:
       Path to resources root folder - relative or absolut
   --road_features
       Show OpenDRIVE road features
+  --save_merged &lt;filename&gt;
+      Save merged data into one dat file, instead of viewing
   --start_time &lt;ms&gt;
       Start playing at timestamp
   --stop_time &lt;ms&gt;
@@ -3097,7 +3722,7 @@ Recommended usage:
 </div>
 </div>
 <div class="sect2">
-<h3 id="_odrviewer">9.3. odrviewer</h3>
+<h3 id="_odrviewer">10.3. odrviewer</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>Usage: odrviewer [options]
@@ -3225,13 +3850,35 @@ Mouse control
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_plot_dat_py">10.4. plot_dat.py</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>usage: plot_dat.py [-h] [--x_axis X_AXIS] [--equal_axis_aspect] [--derive] [--dots] (--list_params | --param PARAM) &lt;filename&gt;
+
+positional arguments:
+  filename             dat filename
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --x_axis X_AXIS      x-axis parameter
+  --equal_axis_aspect  lock aspect ratio = 1:1
+  --derive             derive values wrt x, i.e. dy/dx
+  --dots               add dots
+  --list_params        list available parameters in given file
+  --param PARAM        parameter to plot (can be specified multiple times)
+
+Note: In addition to &lt;filename&gt; one of the arguments --list_params and --param &lt;PARAM&gt; is required</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_esmini_lib_programming">10. esmini lib programming</h2>
+<h2 id="_esmini_lib_programming">11. esmini lib programming</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_about_the_lib_itself">10.1. About the lib itself</h3>
+<h3 id="_about_the_lib_itself">11.1. About the lib itself</h3>
 <div class="paragraph">
 <p>The main idea with esmini lib is to provide a limited, simplifed but useful API to the complex world of esmini, OpenSCENARIO and traffic simulation. By making use of only standard C types it has been possible to wrap and use the library in numerous environments, like for example MATLAB, Simulink and Unity (C#).</p>
 </div>
@@ -3246,7 +3893,7 @@ Mouse control
 </div>
 </div>
 <div class="sect2">
-<h3 id="_how_to_interact_with_esmini_lib_api">10.2. How to interact with esmini lib API</h3>
+<h3 id="_how_to_interact_with_esmini_lib_api">11.2. How to interact with esmini lib API</h3>
 <div class="paragraph">
 <p>Below is a typical interaction between a custom application (e.g. vehicle simulator) and esmini (providing simulation of the environment, like road and traffic).</p>
 </div>
@@ -3650,7 +4297,7 @@ Mouse control
 </table>
 </div>
 <div class="sect2">
-<h3 id="_functionality">10.3. Functionality</h3>
+<h3 id="_functionality">11.3. Functionality</h3>
 <div class="paragraph">
 <p>No systematic documentation available. See header files <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/esminiLib.hpp">esminiLib.hpp</a> and <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiRMLib/esminiRMLib.hpp">esminiRMLib.hpp</a> for API details.</p>
 </div>
@@ -3658,7 +4305,7 @@ Mouse control
 <p>The following section covers some specific use cases of the library.</p>
 </div>
 <div class="sect3">
-<h4 id="_save_or_grab_images">10.3.1. Save or grab images</h4>
+<h4 id="_save_or_grab_images">11.3.1. Save or grab images</h4>
 <div class="paragraph">
 <p>Screenshots can be controlled via the API:</p>
 </div>
@@ -3722,7 +4369,7 @@ Mouse control
 </div>
 </div>
 <div class="sect1">
-<h2 id="_hello_world_programming_tutorial">11. Hello World programming tutorial</h2>
+<h2 id="_hello_world_programming_tutorial">12. Hello World programming tutorial</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>But, of course, if you already have checked out the esmini project from GitHub and compiled it you&#8217;re basically set. Just copy the runtime shared library to the Hello-World_coding_example folder. Exact filename depends on the platform as follows:</p>
@@ -3756,7 +4403,7 @@ Mouse control
 </table>
 </div>
 <div class="sect2">
-<h3 id="_steps_to_build_esmini_hello_world">11.1. Steps to build esmini "Hello World"</h3>
+<h3 id="_steps_to_build_esmini_hello_world">12.1. Steps to build esmini "Hello World"</h3>
 <div class="paragraph">
 <p>Do following steps to build a minimal esmini-player application</p>
 </div>
@@ -3800,9 +4447,9 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect2">
-<h3 id="_examples">11.2. Examples</h3>
+<h3 id="_examples">12.2. Examples</h3>
 <div class="sect3">
-<h4 id="_hello_world_load_and_play_a_scenario">11.2.1. Hello world - load and play a scenario</h4>
+<h4 id="_hello_world_load_and_play_a_scenario">12.2.1. Hello world - load and play a scenario</h4>
 <div class="listingblock">
 <div class="title">Example 1. <a href="https://github.com/esmini/esmini/tree/master/Hello-World_coding-example/main.cpp">Hello-World_coding-example/main.cpp</a></div>
 <div class="content">
@@ -3828,7 +4475,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_add_optional_argument_to_load_any_scenario">11.2.2. Add optional argument to load any scenario</h4>
+<h4 id="_add_optional_argument_to_load_any_scenario">12.2.2. Add optional argument to load any scenario</h4>
 <div class="listingblock">
 <div class="title">Example 2. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/hw2_arguments.cpp">EnvironmentSimulator/code-examples/hello_world/hw2_arguments.cpp</a></div>
 <div class="content">
@@ -3869,7 +4516,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_state_of_scenario_objects">11.2.3. Fetch state of scenario objects</h4>
+<h4 id="_fetch_state_of_scenario_objects">12.2.3. Fetch state of scenario objects</h4>
 <div class="listingblock">
 <div class="title">Example 3. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp">EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp</a></div>
 <div class="content">
@@ -3901,7 +4548,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_external_control_of_ego">11.2.4. External control of Ego</h4>
+<h4 id="_external_control_of_ego">12.2.4. External control of Ego</h4>
 <div class="paragraph">
 <p>A silly example showing how you can just take control over vehicle state via the API. The Ego car will move one meter along the Y-axis for each frame while rotating&#8230;&#8203;</p>
 </div>
@@ -3958,7 +4605,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_control_controllers">11.2.5. Control controllers</h4>
+<h4 id="_control_controllers">12.2.5. Control controllers</h4>
 <div class="paragraph">
 <p>Try to run cut-in_interactive.xosc, as below.</p>
 </div>
@@ -4010,7 +4657,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ideal_sensors">11.2.6. Ideal sensors</h4>
+<h4 id="_ideal_sensors">12.2.6. Ideal sensors</h4>
 <div class="listingblock">
 <div class="title">Example 7. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw7_ideal_sensors.cpp">EnvironmentSimulator/code-examples/hello_world/hw7_ideal_sensors.cpp</a></div>
 <div class="content">
@@ -4061,7 +4708,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_driver_model">11.2.7. Driver model</h4>
+<h4 id="_driver_model">12.2.7. Driver model</h4>
 <div class="paragraph">
 <p>Using a simple vehicle model this example demonstrates how a driver model can interact with the scenario, once again using the <code>ExternalController</code>.</p>
 </div>
@@ -4336,7 +4983,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 </div>
 </div>
 <div class="sect3">
-<h4 id="_osi_groundtruth">11.2.8. OSI groundtruth</h4>
+<h4 id="_osi_groundtruth">12.2.8. OSI groundtruth</h4>
 <div class="paragraph">
 <p>To access OSI data we first need to complement the build script (CMakeLists.txt) with OSI include and library info. For example:</p>
 </div>
@@ -4471,7 +5118,7 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 </div>
 </div>
 <div class="sect2">
-<h3 id="_python_binding">11.3. Python binding</h3>
+<h3 id="_python_binding">12.3. Python binding</h3>
 <div class="paragraph">
 <p>A Python wrapper for esmini can easily be created using "ctypes" (thanks David Kaplan for the tip!). Run the following script in a folder where the ScenarioEngineDLL library is present:</p>
 </div>
@@ -4532,7 +5179,7 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
 </div>
 </div>
 <div class="sect3">
-<h4 id="_get_object_states">11.3.1. Get object states</h4>
+<h4 id="_get_object_states">12.3.1. Get object states</h4>
 <div class="paragraph">
 <p>Extend previous example to retrieve the state of all scenario objects</p>
 </div>
@@ -4597,7 +5244,7 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_use_of_esminirmlib_roadmanager">11.3.2. Example use of esminiRMLib (RoadManager)</h4>
+<h4 id="_example_use_of_esminirmlib_roadmanager">12.3.2. Example use of esminiRMLib (RoadManager)</h4>
 <div class="paragraph">
 <p>Just make sure the esminiRMLib is present in the same folder as the script:</p>
 </div>
@@ -4664,7 +5311,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 </div>
 </div>
 <div class="sect3">
-<h4 id="_advanced_use_case_using_callback">11.3.3. Advanced use case using callback</h4>
+<h4 id="_advanced_use_case_using_callback">12.3.3. Advanced use case using callback</h4>
 <div class="paragraph">
 <p>Controllers and callbacks can also be utilized via Python. Following code drafts how to grab state of the first scenario object and then, in a callback, manipulate it and report back. If used in combination with ExternalController in mode=additive the scenario action are applied first. On the contrary, if used with mode=override, the scenario actions will not be applied giving exclusive control to the external callback function.</p>
 </div>
@@ -4734,7 +5381,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 </div>
 </div>
 <div class="sect1">
-<h2 id="_run_asam_openscenario_examples">12. Run ASAM OpenSCENARIO examples</h2>
+<h2 id="_run_asam_openscenario_examples">13. Run ASAM OpenSCENARIO examples</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>With some limitations (see details <a href="https://github.com/esmini/esmini/blob/master/osc_coverage.txt">here</a>) esmini can play the example scenarios provided with the ASAM OpenSCENARIO v1.1 release bundle.</p>
@@ -4761,7 +5408,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 </div>
 </div>
 <div class="sect1">
-<h2 id="_about_this_document">13. About this document</h2>
+<h2 id="_about_this_document">14. About this document</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The <a href="https://github.com/esmini/esmini/blob/user_guide/docs/user_guide.adoc">source</a> of this document is written in the <a href="https://asciidoc-py.github.io/index.html">asciidoc</a> format. The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted to avoid "human errors".</p>
@@ -4799,18 +5446,18 @@ Then:<br>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_version">14. Version</h2>
+<h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="c198053"</p>
+<p>ESMINI_GIT_TAG="v2.26.0"<br>
+ESMINI_GIT_REV="b14f4ff"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-18 18:32:42 +0200
+Last updated 2022-08-24 14:17:16 +0200
 </div>
 </div>
 </body>
