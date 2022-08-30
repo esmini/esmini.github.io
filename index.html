@@ -620,6 +620,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_externalcontroller">6.5.4. ExternalController</a></li>
 <li><a href="#_sumocontroller">6.5.5. SumoController</a></li>
 <li><a href="#_alks_r157sm">6.5.6. ALKS_R157SM</a></li>
+<li><a href="#_followroute">6.5.7. FollowRoute</a></li>
 </ul>
 </li>
 </ul>
@@ -1006,7 +1007,7 @@ and code example <a href="https://github.com/esmini/esmini/tree/master/Environme
 <div class="content">
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/cut-in_trail_and_bb.png" alt="cut in trail and bb">
 </div>
-<div class="title">Figure 1. Trail and bounding box in combination</div>
+<div class="title">Trail and bounding box in combination</div>
 </div>
 </div>
 <div class="sect3">
@@ -2244,7 +2245,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <div class="content">
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/speed_sign_blender.png" alt="speed sign blender">
 </div>
-<div class="title">Figure 2. Speed sign in Blender</div>
+<div class="title">Speed sign in Blender</div>
 </div>
 <div class="paragraph">
 <p>A <a href="https://github.com/esmini/esmini/blob/master/scripts/bake_signs.sh">script</a> is available as a starting point for automating the two last steps in the process above.</p>
@@ -2262,13 +2263,13 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <div class="content">
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/speed_sign1.png" alt="speed sign1">
 </div>
-<div class="title">Figure 3. Swedish speed sign</div>
+<div class="title">Swedish speed sign</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/speed_sign2.png" alt="speed sign2">
 </div>
-<div class="title">Figure 4. German speed sign</div>
+<div class="title">German speed sign</div>
 </div>
 </div>
 </div>
@@ -2820,6 +2821,78 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>Of course you can run also FSM and RSS models in similar way and merge all four .dat files. For more information about <code>replayer</code>, see "Plot merged .dat files" example in <a href="#_plot_scenario_data">Plot scenario data</a> section.</p>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_followroute">6.5.7. FollowRoute</h4>
+<div class="paragraph">
+<p>Implementation of the Lane Independent Routing Model (LIRM) developed as part of the master thesis project <a href="https://hdl.handle.net/20.500.12380/305133">Olsson, Daniel; Rylander, Eric: "A Framework for Verification and
+Validation of Simulation Models in esmini"</a>.</p>
+</div>
+<div class="paragraph">
+<p>From the <a href="https://odr.chalmers.se/bitstream/20.500.12380/305133/1/CSE%2022-59%20Olsson%20Rylander.pdf">report</a>: "LIRM has solved the issue with lane dependent routing that esmini had, by implementing a new controller that extends the behavior of the pathfinding and route following to incorporate lane changes."</p>
+</div>
+<div class="paragraph">
+<p>This controller enhance the capabilities for an entity to find a path through the road network according to a specified <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/Route.html">route</a> (basically a set of waypoints). The main advantage, compared to the route handler of the default controller, is that lane changes will be injected by the path finding algorithm in search for optimal path. The model will also take route strategy (Shortest, Fastest or Least Intersections) into consideration, which the default controller does not yet support.</p>
+</div>
+<div class="paragraph">
+<p>A good example is found in <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/xosc/follow_route_with_lane_change.xosc">follow_route_with_lane_change.xosc</a>. The vehicle start out in left-most lane and needs to make three lane changes in order to exit the highway.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/follow_route_highway_exit.png" alt="follow route highway exit">
+</div>
+<div class="title">Route waypoints and resulting trajectory in yellow</div>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./EnvironmentSimulator/Unittest/xosc/follow_route_with_lane_change.xosc --trail_mode 1</code></p>
+</div>
+<table class="tableblock frame-none grid-none fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Domain</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">longitudinal and/or lateral (independent).+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Properties</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<code>minDistForCollision</code>
+</td>
+<td class="hdlist2">
+<p>affects when a lane change will happen</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>laneChangeTime</code>
+</td>
+<td class="hdlist2">
+<p>duration of lane changes</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>testMode</code>
+</td>
+<td class="hdlist2">
+<p>stop at reached destination - mainly for test purpose (<code>true</code>/<code>false</code> (default))</p>
+</td>
+</tr>
+</table>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong>:</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/xosc/follow_route_with_lane_change.xosc">follow_route_with_lane_change.xosc</a></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -5449,15 +5522,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.26.0"<br>
-ESMINI_GIT_REV="b14f4ff"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="0d9fcc2"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-24 14:17:16 +0200
+Last updated 2022-08-30 12:50:31 +0200
 </div>
 </div>
 </body>
