@@ -771,7 +771,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <p>The demo package contains only a subset of esmini tools and content (e.g. scenario examples, scripts and models).</p>
 </div>
 <div class="paragraph">
-<p>To get the complete content, first download or clone the project from GitHub: <a href="https://github.com/esmini/esmini" class="bare">https://github.com/esmini/esmini</a>.</p>
+<p>To get the complete content, first download or clone the project from GitHub: <a href="https://github.com/esmini/esmini" class="bare">https://github.com/esmini/esmini</a>. E.g:<br>
+<code>git clone https://github.com/esmini/esmini.git</code></p>
 </div>
 <div class="paragraph">
 <p>Then either build yourself, see step 2 in next chapter <a href="#_build_esmini_quick_guide">Build esmini - quick guide</a>, or:</p>
@@ -795,6 +796,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </div>
 <div class="paragraph">
 <p>Make sure you have a C++ compiler and <a href="https://cmake.org/">CMake</a> installed.</p>
+</div>
+<div class="paragraph">
+<p>On Windows <a href="https://visualstudio.microsoft.com/">Visual Studio</a> is recommended (Community/free version is good enough for building esmini). Make sure to check the "Desktop development with C++" package for installation, no more is needed.</p>
 </div>
 <div class="paragraph">
 <p>On Linux, e.g. Ubunti, some additional system tools and libraries are needed. Run the following command:</p>
@@ -1809,10 +1813,23 @@ Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 <p><code>./scripts/osi2csv.py ground_truth.osi</code></p>
 </div>
 <div class="paragraph">
-<p>will create ground_truth.csv.</p>
+<p>will create ground_truth.csv.<br>
+(if file type association is not setup, try: <code>python ./scripts/osi2csv.py ground_truth.osi</code>)</p>
 </div>
 <div class="paragraph">
-<p>(if file type association is not setup, try: <code>python ./scripts/osi2csv.py ground_truth.osi</code>)</p>
+<p>However the .csv file created with osi2csv will not contain all OSI information. To get a readable text file including the complete content of a OSI trace file you can make use of this Python script from the OSI project:<br></p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/OpenSimulationInterface/open-simulation-interface/blob/master/format/osi2read.py" class="bare">https://github.com/OpenSimulationInterface/open-simulation-interface/blob/master/format/osi2read.py</a><br></p>
+</div>
+<div class="paragraph">
+<p>Use as following example:</p>
+</div>
+<div class="paragraph">
+<p><code>../open-simulation-interface/format/osi2read.py --data ./ground_truth.osi --output ground_truth --type GroundTruth</code></p>
+</div>
+<div class="paragraph">
+<p>it should create <code>ground_truth.txth</code> which is readable in a text editor.</p>
 </div>
 </div>
 </div>
@@ -2854,7 +2871,7 @@ Validation of Simulation Models in esmini"</a>.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Domain</strong>:</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">longitudinal and/or lateral (independent).+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">longitudinal and/or lateral (independent).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Properties</strong>:</p></td>
@@ -5523,14 +5540,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="0d9fcc2"</p>
+ESMINI_GIT_REV="37c10a6"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-30 12:50:31 +0200
+Last updated 2022-08-30 15:47:31 +0200
 </div>
 </div>
 </body>
