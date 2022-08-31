@@ -2703,9 +2703,6 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <div class="paragraph">
 <p>Based and inspired by <a href="https://github.com/ec-jrc/JRC-FSM">Regulation 157 Safety Models</a>. Includes four safety models relating to the (<a href="https://unece.org/transport/documents/2021/03/standards/un-regulation-no-157-automated-lane-keeping-systems-alks">UNECE ALKS regulation #157</a>). The controller includes preliminary and experimental implementation of four models:<br></p>
 </div>
-<div class="paragraph">
-<p><strong>Implemented models:</strong></p>
-</div>
 <div class="ulist">
 <ul>
 <li>
@@ -2715,10 +2712,10 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p><code>ReferenceDriver</code> Reference model of a "typical" human driver as specified in <a href="https://unece.org/sites/default/files/2021-03/R157e.pdf">UNECE Reg 157 Annex 4 - Appendix 3</a>.<br></p>
 </li>
 <li>
-<p><code>FSM</code> <em>Fuzzy Safety Model</em> proposed and described in <a href="https://www.sciencedirect.com/science/article/pii/S0001457520316146">Mattas, Konstantinos, et al. "Fuzzy Surrogate Safety Metrics for real-time assessment of rear-end collision risk. A study based on empirical observations." Accident Analysis &amp; Prevention 148 (2020): 105794</a>.<br></p>
+<p><code>RSS</code> <em>Responsibility-Sensitive Safety</em> performance model proposed and described in <a href="https://arxiv.org/pdf/1708.06374.pdf">Shalev-Shwartz, Shai, Shaked Shammah, and Amnon Shashua. "On a formal model of safe and scalable self-driving cars." arXiv preprint arXiv:1708.06374 (2017)</a>.<br></p>
 </li>
 <li>
-<p><code>RSS</code> <em>Responsibility-Sensitive Safety</em> performance model proposed and described in <a href="https://arxiv.org/pdf/1708.06374.pdf">Shalev-Shwartz, Shai, Shaked Shammah, and Amnon Shashua. "On a formal model of safe and scalable self-driving cars." arXiv preprint arXiv:1708.06374 (2017)</a>.<br></p>
+<p><code>FSM</code> <em>Fuzzy Safety Model</em> proposed and described in <a href="https://www.sciencedirect.com/science/article/pii/S0001457520316146">Mattas, Konstantinos, et al. "Fuzzy Surrogate Safety Metrics for real-time assessment of rear-end collision risk. A study based on empirical observations." Accident Analysis &amp; Prevention 148 (2020): 105794</a>.<br></p>
 </li>
 </ul>
 </div>
@@ -2741,7 +2738,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <code>logLevel</code>
 </td>
 <td class="hdlist2">
-<p>0: No logging, 1: Brief logging of state changes, 2: Verbose logging of some internal variables</p>
+<p>0: No logging, 1: Brief logging of state changes (default), 2: Verbose logging of some internal variables</p>
 </td>
 </tr>
 <tr>
@@ -2749,7 +2746,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <code>model</code>
 </td>
 <td class="hdlist2">
-<p><code>Regulation</code>, <code>ReferenceDriver</code>, <code>FSM</code>, <code>RSS</code> as described above.</p>
+<p><code>Regulation</code>, <code>ReferenceDriver</code>, <code>RSS</code>, <code>FSM</code> as described above.</p>
 </td>
 </tr>
 <tr>
@@ -5540,14 +5537,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="37c10a6"</p>
+ESMINI_GIT_REV="4948268"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-30 15:47:31 +0200
+Last updated 2022-08-31 18:14:58 +0200
 </div>
 </div>
 </body>
