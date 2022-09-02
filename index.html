@@ -637,7 +637,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#_resources_not_found">8.1. Resources not found</a></li>
 <li><a href="#_mac_issues_and_limitations">8.2. Mac issues and limitations</a></li>
-<li><a href="#_issues_at_esmini_github_page">8.3. Issues at esmini GitHub page</a></li>
+<li><a href="#_openstreetmap_osm_roads_in_esmini">8.3. OpenStreetMap (OSM) roads in esmini</a></li>
+<li><a href="#_issues_at_esmini_github_page">8.4. Issues at esmini GitHub page</a></li>
 </ul>
 </li>
 <li><a href="#_build_guide">9. Build guide</a>
@@ -3091,7 +3092,28 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 </div>
 </div>
 <div class="sect2">
-<h3 id="_issues_at_esmini_github_page">8.3. Issues at esmini GitHub page</h3>
+<h3 id="_openstreetmap_osm_roads_in_esmini">8.3. OpenStreetMap (OSM) roads in esmini</h3>
+<div class="paragraph">
+<p>SUMO comes with a great tool, <a href="https://sumo.dlr.de/docs/netconvert.html">netconvert</a>, that can convert road networks from and to various formats.</p>
+</div>
+<div class="paragraph">
+<p>Prerequisite: Download and install SUMO from <a href="https://sumo.dlr.de/docs/Downloads.php">here</a>.</p>
+</div>
+<div class="paragraph">
+<p>Example: Convert an OSM map to OpenDRIVE for use in esmini:</p>
+</div>
+<div class="paragraph">
+<p><code>netconvert --osm-files city.osm --opendrive-output city.xodr --no-turnarounds</code></p>
+</div>
+<div class="paragraph">
+<p>Preview in odrviewer:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/odrviewer --window 60 60 800 400 --odr city.xodr</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_issues_at_esmini_github_page">8.4. Issues at esmini GitHub page</h3>
 <div class="paragraph">
 <p>The <a href="https://github.com/esmini/esmini/issues">Issues tab at esmini GitHub page</a> is a valuable source of questions and answers. To search in all issues, make sure to set filter: <code>is:issue</code>.</p>
 </div>
@@ -5537,14 +5559,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="4948268"</p>
+ESMINI_GIT_REV="525b076"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-31 18:14:58 +0200
+Last updated 2022-09-02 17:18:57 +0200
 </div>
 </div>
 </body>
