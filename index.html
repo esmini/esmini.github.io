@@ -5354,26 +5354,33 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 </div>
 <div class="sect3">
 <h4 id="_example_use_of_esminirmlib_roadmanager">12.3.2. Example use of esminiRMLib (RoadManager)</h4>
-<div class="paragraph">
-<p>Just make sure the esminiRMLib is present in the same folder as the script:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Make sure the esminiRMLib is present in the same folder as the script</p>
+</li>
+<li>
+<p>In the code, check filepath to the OpenDRIVE file to load (current search path should work when script is copied to and run from the esmini/Hello-World_coding-example folder)</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="title">Example 12. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py">EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
-<span class="keyword">from</span> <span class="include">sys</span> <span class="keyword">import</span> <span class="include">platform</span>
+<span class="keyword">import</span> <span class="include">sys</span>
 
-<span class="keyword">if</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+<span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
     rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./libesminiRMLib.so</span><span class="delimiter">&quot;</span></span>)
-<span class="keyword">elif</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
     rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./libesminiRMLib.dylib</span><span class="delimiter">&quot;</span></span>)
-<span class="keyword">elif</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
     rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./esminiRMLib.dll</span><span class="delimiter">&quot;</span></span>)
 <span class="keyword">else</span>:
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(platform))
-    quit()
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(sys.platform))
+    sys.exit(-<span class="integer">1</span>)
 
-<span class="comment"># Definition of RM_PositionData struct</span>
+<span class="comment"># Definition of RM_PositionData struct - should match esminiRMLib::RM_PositionData struct</span>
 <span class="keyword">class</span> <span class="class">RM_PositionData</span>(ct.Structure):
     _fields_ = [
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, ct.c_float),
@@ -5384,6 +5391,7 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">r</span><span class="delimiter">&quot;</span></span>, ct.c_float),
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">h_relative</span><span class="delimiter">&quot;</span></span>, ct.c_float),
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">road_id</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">junction_id</span><span class="delimiter">&quot;</span></span>, ct.c_int),  <span class="comment"># -1 if not in a junction</span>
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">lane_id</span><span class="delimiter">&quot;</span></span>, ct.c_int),
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">lane_offset</span><span class="delimiter">&quot;</span></span>, ct.c_float),
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">s</span><span class="delimiter">&quot;</span></span>, ct.c_float),
@@ -5394,8 +5402,11 @@ rm.RM_SetWorldPosition.argtypes = [ct.c_int, ct.c_float, ct.c_float, ct.c_float,
 rm.RM_SetLanePosition.argtypes = [ct.c_int, ct.c_int, ct.c_int, ct.c_float, ct.c_float]
 
 
-<span class="comment"># Initialize emsini RoadManger with given OpenDRIVE file</span>
-rm.RM_Init(<span class="binary"><span class="modifier">b</span><span class="delimiter">'</span><span class="content">../resources/xodr/straight_500m.xodr</span><span class="delimiter">'</span></span>)
+<span class="comment"># Initialize esmini RoadManger with given OpenDRIVE file</span>
+odr = <span class="string"><span class="delimiter">'</span><span class="content">../resources/xodr/straight_500m.xodr</span><span class="delimiter">'</span></span>
+<span class="keyword">if</span> rm.RM_Init(odr.encode()) == -<span class="integer">1</span>:   <span class="comment"># encode() converts string to pure byte array</span>
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Failed to load OpenDRIVE file </span><span class="delimiter">&quot;</span></span>, )
+    sys.exit(-<span class="integer">1</span>)
 
 rm_pos = rm.RM_CreatePosition()  <span class="comment"># create a position object, returns a handle</span>
 rm_pos_data = RM_PositionData()  <span class="comment"># object that will be passed and filled in with position info</span>
@@ -5559,14 +5570,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="525b076"</p>
+ESMINI_GIT_REV="71311c7"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-09-02 17:18:57 +0200
+Last updated 2022-09-04 08:38:38 +0200
 </div>
 </div>
 </body>
