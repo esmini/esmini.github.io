@@ -638,7 +638,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_resources_not_found">8.1. Resources not found</a></li>
 <li><a href="#_mac_issues_and_limitations">8.2. Mac issues and limitations</a></li>
 <li><a href="#_openstreetmap_osm_roads_in_esmini">8.3. OpenStreetMap (OSM) roads in esmini</a></li>
-<li><a href="#_issues_at_esmini_github_page">8.4. Issues at esmini GitHub page</a></li>
+<li><a href="#_update_3d_model_pack">8.4. Update 3D model pack</a></li>
+<li><a href="#_issues_at_esmini_github_page">8.5. Issues at esmini GitHub page</a></li>
 </ul>
 </li>
 <li><a href="#_build_guide">9. Build guide</a>
@@ -2506,11 +2507,11 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Domain</strong>:</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">n/a (will always take over both Lateral and Longitudinal domains)<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n/a (will always take over both Lateral and Longitudinal domains)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Properties</strong>:</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">None<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Example</strong>:</p></td>
@@ -3113,7 +3114,33 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 </div>
 </div>
 <div class="sect2">
-<h3 id="_issues_at_esmini_github_page">8.4. Issues at esmini GitHub page</h3>
+<h3 id="_update_3d_model_pack">8.4. Update 3D model pack</h3>
+<div class="paragraph">
+<p>Do either:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>remove any <code>resources/models</code> folder</p>
+</li>
+<li>
+<p>from <code>./build</code> folder, run <code>cmake ..</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>get the package from <a href="https://dl.dropboxusercontent.com/s/5gk8bvgzqiaaoco/models.7z?dl=1">here</a> and unpack files into <code>./resources/models</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_issues_at_esmini_github_page">8.5. Issues at esmini GitHub page</h3>
 <div class="paragraph">
 <p>The <a href="https://github.com/esmini/esmini/issues">Issues tab at esmini GitHub page</a> is a valuable source of questions and answers. To search in all issues, make sure to set filter: <code>is:issue</code>.</p>
 </div>
@@ -5569,15 +5596,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="71311c7"</p>
+<p>ESMINI_GIT_TAG="v2.26.2"<br>
+ESMINI_GIT_REV="394f118"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-09-04 08:38:38 +0200
+Last updated 2022-09-05 09:38:17 +0200
 </div>
 </div>
 </body>
