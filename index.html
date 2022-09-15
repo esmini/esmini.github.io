@@ -2360,7 +2360,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>%</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">modulo/remainder, see <a href="https://cplusplus.com/reference/cmath/fmod/">C++ fmod</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">modulo/remainder, see <a href="https://cplusplus.com/reference/cmath/fmod/">C++ fmod</a> (might deviate from IEEE 754)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -2434,7 +2434,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>round</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">see <a href="https://cplusplus.com/reference/cmath/round/">C++ round</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see <a href="https://cplusplus.com/reference/cmath/round/">C++ round</a> (might deviate from IEEE 754)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -5135,7 +5135,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 
         <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
         {
-                SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">0</span><span class="float">.0f</span>, <span class="float">8</span><span class="float">.0f</span>, (<span class="predefined-type">float</span>)i, <span class="float">0</span><span class="float">.0f</span>, <span class="predefined-type">float</span>(<span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i), <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>, <span class="integer">1</span><span class="float">5</span><span class="float">.0f</span>);
+                SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">0</span><span class="float">.0f</span>, <span class="float">8</span><span class="float">.0f</span>, (<span class="predefined-type">float</span>)i, <span class="float">0</span><span class="float">.0f</span>, <span class="predefined-type">float</span>(<span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i), <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>);
                 SE_Step();
         }
 
@@ -5478,10 +5478,17 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
                         SE_SimpleVehicleGetState(vehicleHandle, &amp;vehicleState);
 
                         <span class="comment">// Report updated vehicle position and heading. z, pitch and roll will be aligned to the road</span>
-                        SE_ReportObjectPosXYH(<span class="integer">0</span>, <span class="integer">0</span>, vehicleState.x, vehicleState.y, vehicleState.h, vehicleState.speed);
+                        SE_ReportObjectPosXYH(<span class="integer">0</span>, <span class="integer">0</span>, vehicleState.x, vehicleState.y, vehicleState.h);
 
-                        <span class="comment">// Also report wheel status (revolution and steering angles)</span>
+                        <span class="comment">// The following values are not necessary to report.</span>
+                        <span class="comment">// If not reported, esmini will calculate based on motion over time</span>
+                        <span class="comment">// but for accuracy it's recommendeded to report if available.</span>
+
+                        <span class="comment">// wheel status (revolution and steering angles)</span>
                         SE_ReportObjectWheelStatus(<span class="integer">0</span>, vehicleState.wheel_rotation, vehicleState.wheel_angle);
+
+                        <span class="comment">// speed (along vehicle longitudinal (x) axis)</span>
+                        SE_ReportObjectSpeed(<span class="integer">0</span>, vehicleState.speed);
 
                         <span class="comment">// Finally, update scenario using same time step as for vehicle model</span>
                         SE_StepDT(dt);
@@ -6011,15 +6018,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="4148c78"</p>
+<p>ESMINI_GIT_TAG="v2.26.4"<br>
+ESMINI_GIT_REV="6a54528"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-09-13 10:08:02 +0200
+Last updated 2022-09-15 15:42:32 +0200
 </div>
 </div>
 </body>
