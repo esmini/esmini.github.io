@@ -5087,7 +5087,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
                         SE_ScenarioObjectState state;
 
                         SE_GetObjectState(SE_GetId(j), &amp;state);
-                        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, state.timestamp, j, SE_GetId(j), state.x, state.y);
+                        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] %.2f %.2f </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, state.timestamp, j, SE_GetId(j), state.x, state.y, state.wheel_angle, state.wheel_rot);
                 }
         }
 
@@ -5785,6 +5785,8 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">height</span><span class="delimiter">&quot;</span></span>, ctypes.c_float),
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">objectType</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
         (<span class="string"><span class="delimiter">&quot;</span><span class="content">objectCategory</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">wheelAngle</span><span class="delimiter">&quot;</span></span>, ctypes.c_float),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">wheelRot</span><span class="delimiter">&quot;</span></span>, ctypes.c_float),
     ]
 
 se.SE_Init(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>)
@@ -5794,9 +5796,9 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">500</span>):
     <span class="keyword">for</span> j <span class="keyword">in</span> <span class="predefined">range</span>(se.SE_GetNumberOfObjects()):
         se.SE_GetObjectState(se.SE_GetId(j), ctypes.byref(obj_state))
-        print(<span class="string"><span class="delimiter">'</span><span class="content">Frame {} Time {:.2f} ObjId {} roadId {} laneId {} laneOffset {:.2f} s {:.2f} x {:.2f} y {:.2f} heading {:.2f} speed {:.2f}</span><span class="delimiter">'</span></span>.format(
+        print(<span class="string"><span class="delimiter">'</span><span class="content">Frame {} Time {:.2f} ObjId {} roadId {} laneId {} laneOffset {:.2f} s {:.2f} x {:.2f} y {:.2f} heading {:.2f} speed {:.2f} wheelAngle {:.2f} wheelRot {:.2f}</span><span class="delimiter">'</span></span>.format(
             i, obj_state.timestamp, obj_state.id, obj_state.roadId, obj_state.laneId, obj_state.laneOffset, 
-            obj_state.s, obj_state.x, obj_state.y, obj_state.h, obj_state.speed * <span class="float">3.6</span>))
+            obj_state.s, obj_state.x, obj_state.y, obj_state.h, obj_state.speed * <span class="float">3.6</span>, obj_state.wheelAngle, obj_state.wheelRot))
     se.SE_Step()</code></pre>
 </div>
 </div>
@@ -6018,15 +6020,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.26.4"<br>
-ESMINI_GIT_REV="6a54528"</p>
+<p>ESMINI_GIT_TAG="v2.26.5"<br>
+ESMINI_GIT_REV="07f3132"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-09-15 15:42:32 +0200
+Last updated 2022-09-21 17:25:04 +0200
 </div>
 </div>
 </body>
