@@ -805,7 +805,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <p>On Windows <a href="https://visualstudio.microsoft.com/">Visual Studio</a> is recommended (Community/free version is good enough for building esmini). Make sure to check the "Desktop development with C++" package for installation, no more is needed.</p>
 </div>
 <div class="paragraph">
-<p>On Linux, e.g. Ubunti, some additional system tools and libraries are needed. Run the following command:</p>
+<p>On Linux, e.g. Ubuntu, some additional system tools and libraries are needed. Run the following command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1368,6 +1368,10 @@ Mesa3D is normally installed with Linux distributions. Check OpenGL support with
 <code>./bin/dat2csv sim.dat</code><br>
 or<br>
 <code>python ./scripts/dat2csv.py sim.dat</code></p>
+</div>
+<div class="paragraph">
+<p>Only a subset of the .dat file information is extracted. To extract some more info, e.g. road coordinates, run:
+<code>./scripts/dat2csv --extended sim.dat</code><br></p>
 </div>
 </div>
 <div class="sect3">
@@ -3490,10 +3494,16 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 </div>
 <div class="sect2">
 <h3 id="_mac_issues_and_limitations">8.2. Mac issues and limitations</h3>
+<div class="paragraph">
+<p>From esmini version 2.26.6 mac executables are universal binaries which means they work on both Intel and Apple Silicon based Macs. Following are some known issues and work arounds:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Window can&#8217;t be located in the upper part of the screen. If window won&#8217;t open, try to adjust the y value (second entry) of the window argument. 60 pixels usually works fine, e.g: <code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc</code></p>
+<p>Window can&#8217;t be located in the upper part of the screen (some systems). If window won&#8217;t open, try to adjust the y value (second entry) of the window argument. 60 pixels usually works fine, e.g: <code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc</code></p>
+</li>
+<li>
+<p>Issue has been reported that when multiple screens are connected esmini just shows a blanc window. Currently the only solution is to unplug the additional montitors or unplug Mac from dock station.</p>
 </li>
 <li>
 <p>Graphics can not run in separate thread. Hence the <code>--thread</code> launch flag will have no effect.</p>
@@ -3502,7 +3512,18 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 <p>On Mac the zip-package might be put in quarantine, to release it: <code>xattr -d com.apple.quarantine file.zip</code> or even better: <code>xattr -c file.zip</code></p>
 </li>
 <li>
-<p>If you get the "damaged file" message: Please open a terminal in the folder where the esmini-demo was extracted, and run the following command: <code>xattr -c -r esmini-demo</code></p>
+<p>esmini executables are not signed with a <a href="https://developer.apple.com/developer-id">developer ID</a> - since we simply don&#8217;t have one. If you got the package directly from <a href="https://github.com/esmini/esmini/releases">esmini release page on GitHub</a> it is safe to unpack and run.
+In order to execute the files you need to do one of following from a terminal in the folder the demo package was extracted:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Remove quarantine flags: <code>xattr -c -r esmini-demo/bin</code>, or</p>
+</li>
+<li>
+<p>Sign executables for use on local machine: <code>codesign -f -s - esmini-demo/bin/*</code></p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -3708,7 +3729,7 @@ to<br>
 </div>
 </div>
 <div class="paragraph">
-<p>Also, g version &gt;= 5 is needed for c14 code support.</p>
+<p>Also, g++ version &gt;= 5 is needed for c++14 code support.</p>
 </div>
 <div class="paragraph">
 <p>Windows and Mac: Install the <a href="https://cmake.org/">cmake</a> application</p>
@@ -6020,15 +6041,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.26.5"<br>
-ESMINI_GIT_REV="07f3132"</p>
+<p>ESMINI_GIT_TAG="v2.26.6"<br>
+ESMINI_GIT_REV="ba77a8d"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-09-21 17:25:04 +0200
+Last updated 2022-10-07 17:12:13 +0200
 </div>
 </div>
 </body>
