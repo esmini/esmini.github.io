@@ -3774,31 +3774,52 @@ In order to execute the files you need to do one of following from a terminal in
 <div class="content">
 <pre>mkdir build
 cd build
-cmake -G "Visual Studio 16 2019" ..
+cmake .. -G "Visual Studio 16 2019"
 cmake --build . --config Release --target install</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This will first generate Visual Studio solution and then compile esmini using MSVC toolset v142 (default with Visual Studio 2019). Default architecture is x64.</p>
+<p>This will first generate Visual Studio solution and then compile esmini using MSVC toolset v142 (default with Visual Studio 2019). Default architecture should be x64.</p>
 </div>
 <div class="paragraph">
 <p>If you want to compile with MSVC 2017 toolset just add directive to the generator as follows:</p>
 </div>
 <div class="paragraph">
 <p><code>
-cmake -G "Visual Studio 16 2019" -T v141 ..
+cmake .. -G "Visual Studio 16 2019" -T v141
 </code></p>
 </div>
 <div class="paragraph">
 <p>A complete list of supported toolsets are available <a href="https://cmake.org/cmake/help/v3.17/variable/MSVC_TOOLSET_VERSION.html">here</a>.</p>
 </div>
 <div class="paragraph">
-<p>If you want to specify architecture you simply add -A x64 or -A Win32. So for example, if you want to compile with MSVC 2015 toolset and for win32 use the following generator command:</p>
+<p>Provided 3rd party lib binaries are only provided for Windows x64 architecture. To make sure you build for x64 add <code>-A x64</code>, For example:</p>
+</div>
+<div class="paragraph">
+<p><code>
+cmake .. -G "Visual Studio 16 2019" -T v141 -A x64
+</code></p>
+</div>
+<div class="paragraph">
+<p>If you want to compile with MSVC 2015 (v140) toolset and for win32 use the following generator command:</p>
 </div>
 <div class="paragraph">
 <p><code>
 cmake -G "Visual Studio 16 2019" -T v140 -A Win32 ..
 </code></p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Note:</strong></p>
+</div>
+<div class="paragraph">
+<p>Provided 3rd party libs only available for x64 builds. If you need to build full esmini for Win32 (32bit), you need to compile the 3rd party libraries yourself. Perhaps the "scripts/generate_*_libs.sh" scripts can be a starting point for such an endeavor.</p>
+</div>
+<div class="paragraph">
+<p>Another possibility for Win32 is to build a slim esmini with a minimum of dependencies. See <a href="#_slim_esmini_customize_configration">Slim esmini - customize configration</a>.</p>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>Of course, building with a specific toolset requires it to be installed. Use <a href="https://docs.microsoft.com/en-us/visualstudio/install/install-visual-studio?view=vs-2019">Visual Studio Installer</a>. Steps:</p>
@@ -3818,7 +3839,7 @@ cmake -G "Visual Studio 16 2019" -T v140 -A Win32 ..
 <p>scroll down to "Compilers, build tools, and runtimes"</p>
 </li>
 <li>
-<p>check the MSVC versions you need, e.g. "MSVC v140 - VS 2015 C build tools (v14.00)" and "MSVC v141 - VS 2017 C x64/x86 build tools (v14.16)"</p>
+<p>check the MSVC versions you need, e.g. "MSVC v140 - VS 2015 C++ build tools (v14.00)" and "MSVC v141 - VS 2017 C++ x64/x86 build tools (v14.16)"</p>
 </li>
 </ul>
 </div>
@@ -3907,7 +3928,7 @@ to<br>
 <p>When linking esmini with software already dependent on Google protobuf there might be need for dynamic linking of shared protobuf library. This can be achieved by defining cmake symbol DYN_PROTOBUF as following example:</p>
 </div>
 <div class="paragraph">
-<p><code>cmake -D DYN_PROTOBUF=True ..</code></p>
+<p><code>cmake .. -D DYN_PROTOBUF=True</code></p>
 </div>
 <div class="paragraph">
 <p>Then build as usual. It will link with protobuf shared library instead of linking with a static library.</p>
@@ -3959,11 +3980,11 @@ The dynamic versions of protobuf were added Aug 31 2021. So you might need to up
 </div>
 <div class="paragraph">
 <p>So, for example, to cut dependency to OSG and SUMO, run: <br>
-<code>cmake -D USE_OSG=False -D USE_SUMO=False ..</code></p>
+<code>cmake .. -D USE_OSG=False -D USE_SUMO=False</code></p>
 </div>
 <div class="paragraph">
 <p>To disable OSG, SUMO, OSI and googletest, run: <br>
-<code>cmake -D USE_OSG=False -D USE_SUMO=False -D USE_OSI=False -D USE_GTEST=False ..</code></p>
+<code>cmake .. -D USE_OSG=False -D USE_SUMO=False -D USE_OSI=False -D USE_GTEST=False</code></p>
 </div>
 <div class="paragraph">
 <p>All options are enabled/True as default.</p>
@@ -4181,8 +4202,8 @@ Options:
       Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
   --custom_fixed_top_camera &lt;position and rotation&gt;
       Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
-  --custom_light &lt;position and intensity (intensity range 0..1)&gt;
-      Additional custom light source &lt;x,y,z,intensity&gt; (multiple occurrences supported)
+  --custom_light &lt;position and intensity&gt;
+      Additional custom light source &lt;x,y,z,intensity&gt; intensity range 0..1 (multiple occurrences supported)
   --disable_controllers
       Disable controllers
   --disable_log
@@ -4250,6 +4271,7 @@ Additional OSG graphics options:
   --window &lt;x y w h&gt;                         Set the position x, y and size w, h of the viewer window. -1 -1 -1 -1 for fullscreen.
   --borderless-window &lt;x y w h&gt;              Set the position x, y and size w, h of a borderless viewer window. -1 -1 -1 -1 for fullscreen.
   --SingleThreaded                           Run application and all graphics tasks in one single thread.
+  --lodScale &lt;LOD scalefactor&gt;               Adjust Level Of Detail 1=default &gt;1 decrease fidelity &lt;1 increase fidelity
 
 For a complete list of OSG options and environment variables, see here:
 https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.txt</code></pre>
@@ -4518,6 +4540,7 @@ Additional OSG graphics options:
   --window &lt;x y w h&gt;                         Set the position x, y and size w, h of the viewer window. -1 -1 -1 -1 for fullscreen.
   --borderless-window &lt;x y w h&gt;              Set the position x, y and size w, h of a borderless viewer window. -1 -1 -1 -1 for fullscreen.
   --SingleThreaded                           Run application and all graphics tasks in one single thread.
+  --lodScale &lt;LOD scalefactor&gt;               Adjust Level Of Detail 1=default &gt;1 decrease fidelity &lt;1 increase fidelity
 
 For a complete list of OSG options and environment variables, see here:
 https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.txt
@@ -6251,15 +6274,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.26.9"<br>
-ESMINI_GIT_REV="137245f"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="5106708"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-11-09 12:32:33 +0100
+Last updated 2022-11-10 18:07:29 +0100
 </div>
 </div>
 </body>
