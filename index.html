@@ -556,6 +556,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_speed_profile">5.1. Speed profile</a></li>
 <li><a href="#_road_signs">5.2. Road signs</a></li>
 <li><a href="#_expressions">5.3. Expressions</a></li>
+<li><a href="#_parameter_distributions">5.4. Parameter distributions</a></li>
 </ul>
 </li>
 <li><a href="#_controllers">6. Controllers</a>
@@ -2454,6 +2455,91 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>See <a href="https://github.com/esmini/esmini/blob/c9dc63c45be0dc479c22b78be74d047fc4449e7c/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/simple_expr.c#L101">simple_expr.c</a> for complete and updated list.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_parameter_distributions">5.4. Parameter distributions</h3>
+<div class="paragraph">
+<p>Parameter values and distributions can be specified in a separate <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4908&amp;token=ae9d9b44ab9257e817072a653b5d5e98ee0babf8#_parameter_value_distribution_file">Parameter value distribution file</a>. This is a convenient way of running multiple variations, or parameter value permutations, of a single scenario.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s an example: <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/cut-in_parameter_set.xosc">cut-in_parameter_set.xosc</a>.</p>
+</div>
+<div class="paragraph">
+<p>To run all permutations with esmini:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>How to abort:</p>
+</div>
+<div class="paragraph">
+<p><code>"ESC"</code> (in window) will terminate current run<br>
+<code>"Ctrl-C"</code> (in terminal) will terminate all runs</p>
+</div>
+<div class="paragraph">
+<p>The log files are now named according to:
+<code>log_&lt;permutation&gt;_of_&lt;total#permutations&gt;.txt</code></p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="paragraph">
+<p><code>log_1_of_6.txt</code> relates to the 1:th run of 6, permutation index 0<br>
+<code>log_4_of_6.txt</code> relates to the 4:th run of 6, permutation index 3</p>
+</div>
+<div class="paragraph">
+<p>Of course this will apply also to custom log filenames. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --logfile_path my_scenario.txt</code></p>
+</div>
+<div class="paragraph">
+<p>will result in <code>my_scenario_1_of_6.txt</code>&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>Also any recording (.dat), osi and csv files will be named in similar way. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --record sim.dat --osi_file gt.osi --csv_logger data_log.csv</code></p>
+</div>
+<div class="paragraph">
+<p>will result in complete sets of files:<br>
+<code>log_1_of_6.txt</code> &#8230;&#8203;<br>
+<code>sim_1_of_6.dat</code> &#8230;&#8203;<br>
+<code>gt_1_of_6.osi</code> &#8230;&#8203;<br>
+<code>data_log_1_of_6.csv</code> &#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>To run a specific permutation only, specify index like this:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --param_permutation 2</code></p>
+</div>
+<div class="paragraph">
+<p>will run 3:rd permutation (of 6 available in this case)</p>
+</div>
+<div class="paragraph">
+<p>Save the resulting OpenSCENARIO file with populated parameter values:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --save_xosc</code></p>
+</div>
+<div class="paragraph">
+<p>will give <code>cut-in_1_of_6.xosc</code>&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>To view all results in parallel, make use of replayer like this:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --headless --fixed_timestep 0.05 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --record sim.dat ; ./bin/replayer.exe --window 60 60 800 400 --res_path ./resources/ --file sim_ --dir .</code></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/param_dist0.jpg" alt="param dist0">
+</div>
+<div class="title">View all permutations in parallel</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -4244,6 +4330,10 @@ Options:
       Show OSI road pointss (toggle during simulation by press 'y')
   --osi_receiver_ip &lt;IP address&gt;
       IP address where to send OSI UDP packages
+  --param_dist &lt;filename&gt;
+      Run variations of the scenario according to specified parameter distribution file
+  --param_permutation &lt;index (0 .. NumberOfPermutations-1)&gt;
+      Run specific permutation of parameter distribution
   --path &lt;path&gt;
       Search path prefix for assets, e.g. OpenDRIVE files (multiple occurrences supported)
   --record &lt;filename&gt;
@@ -4252,6 +4342,8 @@ Options:
       Show OpenDRIVE road features (&quot;on&quot;, &quot;off&quot;  (default)) (toggle during simulation by press 'o')
   --save_generated_model
       Save generated 3D model (n/a when a scenegraph is loaded)
+  --save_xosc
+      Save OpenSCENARIO file with any populated parameter values (from distribution)
   --seed &lt;number&gt;
       Specify seed number for random generator
   --sensors
@@ -6274,15 +6366,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="5106708"</p>
+<p>ESMINI_GIT_TAG="v2.27.0"<br>
+ESMINI_GIT_REV="0dc799c"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-11-10 18:07:29 +0100
+Last updated 2022-11-18 08:44:43 +0100
 </div>
 </div>
 </body>
