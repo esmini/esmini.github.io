@@ -2539,6 +2539,70 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 <div class="title">View all permutations in parallel</div>
 </div>
+<div class="sect3">
+<h4 id="_parallel_execution">5.4.1. Parallel execution</h4>
+<div class="paragraph">
+<p>Making use of Python threading pool framework we can utilize any multiple CPU kernels and run scenario variants in parallel. This is handled by the script <a href="https://github.com/esmini/esmini/blob/master/scripts/run_distribution.py">scripts/run_distribution.py</a>.</p>
+</div>
+<div class="paragraph">
+<p>Usage: <code>run_distribution.py &lt;esmini args&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Make sure to add at least the following esmini arguments:<br>
+<code>--osc &lt;scenario file&gt;</code><br>
+<code>--param_dist &lt;parameter distribution file&gt;</code><br>
+<code>--fixed_timestep &lt;timestep&gt;</code><br>
+<code>--headless</code></p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><code>python ./scripts/run_distribution.py --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --fixed_timestep 0.05 --headless</code></p>
+</div>
+<div class="paragraph">
+<p>Of course, the --headless (and --fixed_timestep) is not required. It is possible to run with viewer as well:</p>
+</div>
+<div class="paragraph">
+<p><code>python ./scripts/run_distribution.py --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --window 60 60 800 400</code></p>
+</div>
+<div class="paragraph">
+<p>but the windows will open on top of each other at the same location on the screen, so you need to manually move them apart to see the parallel runs. Anyway, this use case is probably not relevant so the recommendation is to run headless with fixed time step.</p>
+</div>
+<div class="paragraph">
+<p>Putting it all together, execute the scenario permutations in parallel and then view the result in replayer:</p>
+</div>
+<div class="paragraph">
+<p><code>python ./scripts/run_distribution.py --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --fixed_timestep 0.05 --headless --record sim.dat ; ./bin/replayer.exe --window 60 60 800 400 --res_path ./resources/ --file sim_ --dir .</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_finding_out_number_of_permutations">5.4.2. Finding out number of permutations</h4>
+<div class="paragraph">
+<p>To find out the number of permutations of a specific scenario and parameter distribution, use the <code>--return_nr_permutations</code> launch argument. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --return_nr_permutations</code></p>
+</div>
+<div class="paragraph">
+<p>Output:
+<code>Nr permutations: 6</code></p>
+</div>
+<div class="paragraph">
+<p>For scripters: esmini will also return the number of permutations as exit code, for simple use in scripts.
+After executing the above the exit code can be inspected/verified from shell as well:</p>
+</div>
+<div class="paragraph">
+<p>PowerShell:<br>
+<code>echo $LastExitCode</code> <br>
+<code>6</code></p>
+</div>
+<div class="paragraph">
+<p>bash:<br>
+<code>echo $?</code><br>
+<code>6</code></p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -4340,6 +4404,8 @@ Options:
       Record position data into a file for later replay
   --road_features &lt;mode&gt;
       Show OpenDRIVE road features (&quot;on&quot;, &quot;off&quot;  (default)) (toggle during simulation by press 'o')
+  --return_nr_permutations
+      Return number of permutations without executing the scenario (-1 = error)
   --save_generated_model
       Save generated 3D model (n/a when a scenegraph is loaded)
   --save_xosc
@@ -6366,15 +6432,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.27.0"<br>
-ESMINI_GIT_REV="0dc799c"</p>
+<p>ESMINI_GIT_TAG="v2.27.2"<br>
+ESMINI_GIT_REV="b9798b9"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-11-18 08:44:43 +0100
+Last updated 2022-11-25 09:48:34 +0100
 </div>
 </div>
 </body>
