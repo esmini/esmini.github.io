@@ -557,6 +557,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_road_signs">5.2. Road signs</a></li>
 <li><a href="#_expressions">5.3. Expressions</a></li>
 <li><a href="#_parameter_distributions">5.4. Parameter distributions</a></li>
+<li><a href="#_trajectories">5.5. Trajectories</a></li>
 </ul>
 </li>
 <li><a href="#_controllers">6. Controllers</a>
@@ -828,7 +829,7 @@ Example:<br>
 <p>Simple 2D plot of scenario data<br>
 Prerequisites: Python + <a href="https://matplotlib.org/">matplotlib</a><br>
 Example:<br>
-<code>./bin/esmini --headless --osc ./resources/xosc/acc-test.xosc --record sim.dat</code> (will create the .dat file)<br>
+<code>./bin/esmini --headless --osc ./resources/xosc/acc-test.xosc --fixed_timestep 0.05 --record sim.dat</code> (will create the .dat file)<br>
 <code>./scripts/plot_dat.py sim.dat --param speed</code></p>
 <div class="imageblock">
 <div class="content">
@@ -860,6 +861,19 @@ will create ground_truth.csv</p>
 <div class="paragraph">
 <p>See <a href="#_save_osi_data">Save OSI data</a> how to create OSI groundtruth trace (<code>.osi</code> file) from esmini.</p>
 </div>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>plot_csv</strong>
+</td>
+<td class="hdlist2">
+<p>Simple 2D plot of scenario data, similar to plot_dat<br>
+Prerequisites: Python + <a href="https://matplotlib.org/">matplotlib</a><br>
+Example:<br>
+<code>./bin/esmini --headless --osc ./resources/xosc/acc-test.xosc --fixed_timestep 0.05 --osi_file sim.osi</code> (will create an osi trace file)<br>
+<code>./scripts/osi2csv.py sim.osi</code> (convert to .csv)<br>
+<code>./scripts/plot_csv.py sim.csv --param ax</code> will plot the x component of acceleration vector.</p>
 </td>
 </tr>
 </table>
@@ -2602,6 +2616,57 @@ After executing the above the exit code can be inspected/verified from shell as 
 <code>echo $?</code><br>
 <code>6</code></p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_trajectories">5.5. Trajectories</h3>
+<div class="paragraph">
+<p>Using OpenSCENARIO <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/FollowTrajectoryAction.html">FollowTrajectoryAction</a> you can define various types of trajectories for entities to follow.</p>
+</div>
+<div class="paragraph">
+<p>esmini supports all three (as of OpenSCENARIO 1.2) <a href="file:///C:/eknabe1/GIT/openscenario/additional_content/Model/modelDocumentation/content/Shape.html">shapes</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>polyline</p>
+</li>
+<li>
+<p>clothoid</p>
+</li>
+<li>
+<p>nurbs</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here follows a few design choices for the polyline type that affect the behavior.</p>
+</div>
+<div class="paragraph">
+<p>When FollowMode is <code>follow</code> esmini will:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Calculate heading based on direction of the line segments. However corners are interpolated in order to look better and avoid discontinuities.</p>
+</li>
+<li>
+<p>Calculate speed based on current speed (when action is triggered) and then with constant acceleration per segment reach destination vertex on time (or earlier if distance is to short vs time). This approach results in a continuous speed profile.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>When FollowMode is <code>position</code> esmini will:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For world coordinates, apply whatever heading is specified in the vertices (note that 0.0 is default). Lane and road coordinates will align to road direction as default.</p>
+</li>
+<li>
+<p>For each segment, calculate constant speed needed to reach next vertex on time. This approach results in a discontinuous speed profile.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -6432,15 +6497,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.27.2"<br>
-ESMINI_GIT_REV="b9798b9"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="2428611"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-11-25 09:48:34 +0100
+Last updated 2022-11-28 13:10:36 +0100
 </div>
 </div>
 </body>
