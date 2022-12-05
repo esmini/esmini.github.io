@@ -5539,7 +5539,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 <p>A silly example showing how you can just take control over vehicle state via the API. The Ego car will move one meter along the Y-axis for each frame while rotating&#8230;&#8203;</p>
 </div>
 <div class="paragraph">
-<p>First step is to modify the cut-in_interactive.xosc scenario. Make a copy named "cut-in_external.xosc". In that file, replace <code>interactiveDriver</code> controller with <code>externalController</code> by changing the line:</p>
+<p>First step is to modify the cut-in_interactive.xosc scenario. Make a copy named "cut-in_external_example.xosc". In that file, replace <code>interactiveDriver</code> controller with <code>externalController</code> by changing the line:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -5564,7 +5564,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
-        <span class="directive">const</span> <span class="predefined-type">char</span>* filename = argc &gt; <span class="integer">1</span> ? argv[<span class="integer">1</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_external.xosc</span><span class="delimiter">&quot;</span></span>;
+        <span class="directive">const</span> <span class="predefined-type">char</span>* filename = argc &gt; <span class="integer">1</span> ? argv[<span class="integer">1</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_external_example.xosc</span><span class="delimiter">&quot;</span></span>;
 
         SE_Init(filename, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
@@ -5584,7 +5584,7 @@ On Linux you might need to define LD_LIBRARY PATH first, like this: <code>export
 <p>Exercise: Change heading with i, e.g:</p>
 </div>
 <div class="paragraph">
-<p><code>SE_ReportObjectPos(0, 0.0f, 8.0f, (float)i, 0.0f, 1.57f + 0.01f*i, 0.0f, 0.0f, 15.0f);</code></p>
+<p><code>SE_ReportObjectPos(0, 0.0f, 8.0f, (float)i, 0.0f, 1.57f + 0.01f*i, 0.0f, 0.0f);</code></p>
 </div>
 <div class="paragraph">
 <p>Yes, it looks crazy! But it demonstrates how an application totally can take control of a vehicle.</p>
@@ -6498,14 +6498,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="2428611"</p>
+ESMINI_GIT_REV="c727df9"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-11-28 13:10:36 +0100
+Last updated 2022-12-05 12:23:52 +0100
 </div>
 </div>
 </body>
