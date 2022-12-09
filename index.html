@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.17">
+<meta name="generator" content="Asciidoctor 2.0.16">
 <title>esmini user guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -193,8 +193,7 @@ body.toc2.toc-right{padding-left:0;padding-right:20em}}
 #content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
 details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
 details{margin-left:1.25rem}
-details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
-details>summary::-webkit-details-marker{display:none}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;-webkit-tap-highlight-color:transparent}
 details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
 details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
 details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
@@ -236,8 +235,9 @@ pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
 table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
 table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
 table.linenotable td.code{padding-left:.75em}
-table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
-pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+table.linenotable td.linenos{border-right:1px solid;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
 .quoteblock{margin:0 1em 1.25em 1.5em;display:table}
 .quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
 .quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
@@ -274,7 +274,7 @@ table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-c
 table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
 table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
 table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
-table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
 th.halign-left,td.halign-left{text-align:left}
 th.halign-right,td.halign-right{text-align:right}
 th.halign-center,td.halign-center{text-align:center}
@@ -290,11 +290,10 @@ ol{margin-left:1.75em}
 ul li ol{margin-left:1.5em}
 dl dd{margin-left:1.125em}
 dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
-li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
 ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
 ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
 ul.unstyled,ol.unstyled{margin-left:0}
-li>p:empty:only-child::before{content:"";display:inline-block}
 ul.checklist>li>p:first-child{margin-left:-1em}
 ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
 ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
@@ -337,6 +336,8 @@ sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
 #footnotes .footnote:last-of-type{margin-bottom:0}
 #content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
 div.unbreakable{page-break-inside:avoid}
 .big{font-size:larger}
 .small{font-size:smaller}
@@ -436,18 +437,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 <style>
-/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
 pre.CodeRay{background:#f7f7f8}
-.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay .line-numbers{border-right:1px solid currentColor;opacity:.35;padding:0 .5em 0 0}
 .CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
 .CodeRay .line-numbers strong{color:#000}
 table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
 table.CodeRay td{vertical-align:top;line-height:inherit}
 table.CodeRay td.line-numbers{text-align:right}
 table.CodeRay td.code{padding:0 0 0 .75em}
-.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
 .CodeRay .annotation{color:#007}
-.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-name{color:#000080}
 .CodeRay .attribute-value{color:#700}
 .CodeRay .binary{color:#509}
 .CodeRay .comment{color:#998;font-style:italic}
@@ -456,7 +457,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 .CodeRay .char .delimiter{color:#039}
 .CodeRay .class{color:#458;font-weight:bold}
 .CodeRay .complex{color:#a08}
-.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
 .CodeRay .color{color:#099}
 .CodeRay .class-variable{color:#369}
 .CodeRay .decorator{color:#b0b}
@@ -471,7 +472,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 .CodeRay .exception{color:inherit}
 .CodeRay .filename{color:#099}
 .CodeRay .function{color:#900;font-weight:bold}
-.CodeRay .global-variable{color:teal}
+.CodeRay .global-variable{color:#008080}
 .CodeRay .hex{color:#058}
 .CodeRay .integer,.CodeRay .float{color:#099}
 .CodeRay .include{color:#555}
@@ -482,7 +483,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 .CodeRay .inline-delimiter{color:#d14}
 .CodeRay .important{color:#555;font-weight:bold}
 .CodeRay .interpreted{color:#b2b}
-.CodeRay .instance-variable{color:teal}
+.CodeRay .instance-variable{color:#008080}
 .CodeRay .label{color:#970}
 .CodeRay .local-variable{color:#963}
 .CodeRay .octal{color:#40e}
@@ -492,7 +493,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 .CodeRay .directive{font-weight:bold}
 .CodeRay .type{font-weight:bold}
 .CodeRay .predefined-type{color:inherit}
-.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
 .CodeRay .key{color:#808}
 .CodeRay .key .delimiter{color:#606}
 .CodeRay .key .char{color:#80f}
@@ -512,7 +513,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 .CodeRay .symbol{color:#990073}
 .CodeRay .symbol .content{color:#a60}
 .CodeRay .symbol .delimiter{color:#630}
-.CodeRay .tag{color:teal}
+.CodeRay .tag{color:#008080}
 .CodeRay .tag-special{color:#d70}
 .CodeRay .variable{color:#036}
 .CodeRay .insert{background:#afa}
@@ -590,11 +591,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_build_configurations">9.1. Build configurations</a></li>
 <li><a href="#_external_dependencies">9.2. External dependencies</a></li>
 <li><a href="#_additional_platform_dependencies">9.3. Additional platform dependencies</a></li>
-<li><a href="#_dynamic_protobuf_linking">9.4. Dynamic protobuf linking</a></li>
-<li><a href="#_slim_esmini_customize_configration">9.5. Slim esmini - customize configration</a></li>
-<li><a href="#_msys2_mingw_w64_support">9.6. MSYS2 / MinGW-w64 support</a></li>
-<li><a href="#_build_esmini_project">9.7. Build esmini project</a></li>
-<li><a href="#_centos_7_linux">9.8. CentOS 7 (Linux)</a></li>
+<li><a href="#_run_with_linux_and_visual_studio_code">9.4. Run with Linux and visual studio code</a></li>
+<li><a href="#_debug_with_linux_and_visual_studio_code">9.5. Debug with Linux and visual studio code</a></li>
+<li><a href="#_dynamic_protobuf_linking">9.6. Dynamic protobuf linking</a></li>
+<li><a href="#_slim_esmini_customize_configration">9.7. Slim esmini - customize configration</a></li>
+<li><a href="#_msys2_mingw_w64_support">9.8. MSYS2 / MinGW-w64 support</a></li>
+<li><a href="#_build_esmini_project">9.9. Build esmini project</a></li>
+<li><a href="#_centos_7_linux">9.10. CentOS 7 (Linux)</a></li>
 </ul>
 </li>
 <li><a href="#_command_reference">10. Command reference</a>
@@ -724,7 +727,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>sudo apt install build-essential git pkg-config libgl1-mesa-dev libpthread-stubs0-dev libjpeg-dev libxml2-dev libpng-dev libtiff5-dev libgdal-dev libpoppler-dev libdcmtk-dev libgstreamer1.0-dev libgtk2.0-dev libcairo2-dev libpoppler-glib-dev libxrandr-dev libxinerama-dev curl cmake</code></pre>
+<pre class="CodeRay highlight"><code>sudo apt install build-essential gdb ninja-build git pkg-config libgl1-mesa-dev libpthread-stubs0-dev libjpeg-dev libxml2-dev libpng-dev libtiff5-dev libgdal-dev libpoppler-dev libdcmtk-dev libgstreamer1.0-dev libgtk2.0-dev libcairo2-dev libpoppler-glib-dev libxrandr-dev libxinerama-dev curl cmake</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4127,7 +4130,7 @@ to<br>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>sudo apt install build-essential git pkg-config libgl1-mesa-dev libpthread-stubs0-dev libjpeg-dev libxml2-dev libpng-dev libtiff5-dev libgdal-dev libpoppler-dev libdcmtk-dev libgstreamer1.0-dev libgtk2.0-dev libcairo2-dev libpoppler-glib-dev libxrandr-dev libxinerama-dev curl cmake</code></pre>
+<pre class="CodeRay highlight"><code>sudo apt install build-essential gdp ninja-build git pkg-config libgl1-mesa-dev libpthread-stubs0-dev libjpeg-dev libxml2-dev libpng-dev libtiff5-dev libgdal-dev libpoppler-dev libdcmtk-dev libgstreamer1.0-dev libgtk2.0-dev libcairo2-dev libpoppler-glib-dev libxrandr-dev libxinerama-dev curl cmake</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4138,7 +4141,79 @@ to<br>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dynamic_protobuf_linking">9.4. Dynamic protobuf linking</h3>
+<h3 id="_run_with_linux_and_visual_studio_code">9.4. Run with Linux and visual studio code</h3>
+<div class="paragraph">
+<p>When want to run from the visual studio code below steps might help with setup configuration.</p>
+</div>
+<div class="paragraph">
+<p><code>1. Open the Command Palette (Ctrl+Shift+P) and run CMake: Select a Kit. Select the compiler you want to use. For example GCC 11.3.0</code></p>
+</div>
+<div class="paragraph">
+<p><code>2. open the Command Palette (Ctrl+Shift+P) run the CMake: Select Variant command. Select Debug</code></p>
+</div>
+<div class="paragraph">
+<p><code>3. open the Command Palette (Ctrl+Shift+P) run the CMake:Set Build Target. Select install</code></p>
+</div>
+<div class="paragraph">
+<p><code>4. Open the Command Palette (Ctrl+Shift+P) and run the CMake: Build command, or select the Build button from the Status bar.</code></p>
+</div>
+<div class="paragraph">
+<p>Now launch.json file to be configured</p>
+</div>
+<div class="paragraph">
+<p><code>Open the run and debug window (Ctrl+Shift+P)</code></p>
+</div>
+<div class="paragraph">
+<p><code>Select Create new lanuch.json file</code></p>
+</div>
+<div class="paragraph">
+<p><code>Select add configuration</code></p>
+</div>
+<div class="paragraph">
+<p><code>Change Program argument as "${workspaceFolder}/build/EnvironmentSimulator/Applications/esmini/esmini"</code></p>
+</div>
+<div class="paragraph">
+<p><code>Change args argument as ["--window", "60", "60", "800", "400", "--osc", "../resources/xosc/cut-in.xosc"]</code></p>
+</div>
+<div class="paragraph">
+<p><code>Press RUN-&#8594;run without debug button</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_debug_with_linux_and_visual_studio_code">9.5. Debug with Linux and visual studio code</h3>
+<div class="paragraph">
+<p>Open launch.json file already created.</p>
+</div>
+<div class="paragraph">
+<p><code>Select add configuration</code></p>
+</div>
+<div class="paragraph">
+<p><code>Change Program argument as "${workspaceFolder}/build/EnvironmentSimulator/Applications/esmini-dyn/esmini-dyn"</code></p>
+</div>
+<div class="paragraph">
+<p><code>Rename name as some meaningfull eg "name": "(gdb) Launch esmini/debug"</code></p>
+</div>
+<div class="paragraph">
+<p><code>args argument as []</code></p>
+</div>
+<div class="paragraph">
+<p><code>Open the Command Palette (Ctrl+Shift+P) and run the CMake: Build command, or select the Build button from the Status bar.</code></p>
+</div>
+<div class="paragraph">
+<p><code>Copy the content from the Hello-World_coding-example/main.cpp to build/EnvironmentSimulator/Applications/esmini-dyn/main.cpp</code></p>
+</div>
+<div class="paragraph">
+<p><code>Open the run and debug window (Ctrl+Shift+P) and select newly created configuration</code></p>
+</div>
+<div class="paragraph">
+<p><code>Press RUN-&#8594;start debuging button</code></p>
+</div>
+<div class="paragraph">
+<p>Refer <a href="https://code.visualstudio.com/docs/cpp/CMake-linux">Here</a> for more information</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dynamic_protobuf_linking">9.6. Dynamic protobuf linking</h3>
 <div class="paragraph">
 <p>When linking esmini with software already dependent on Google protobuf there might be need for dynamic linking of shared protobuf library. This can be achieved by defining cmake symbol DYN_PROTOBUF as following example:</p>
 </div>
@@ -4173,7 +4248,7 @@ The dynamic versions of protobuf were added Aug 31 2021. So you might need to up
 </div>
 </div>
 <div class="sect2">
-<h3 id="_slim_esmini_customize_configration">9.5. Slim esmini - customize configration</h3>
+<h3 id="_slim_esmini_customize_configration">9.7. Slim esmini - customize configration</h3>
 <div class="paragraph">
 <p>The external dependencies OSG, OSI and SUMO are optional. Also the unit test suite is optional, in effect making the dependecy to googletest framework optional as well. All these options are simply controlled by the following cmake options:</p>
 </div>
@@ -4210,7 +4285,7 @@ Disabling an external dependency will disable corresponding functionality. So, f
 </div>
 </div>
 <div class="sect2">
-<h3 id="_msys2_mingw_w64_support">9.6. MSYS2 / MinGW-w64 support</h3>
+<h3 id="_msys2_mingw_w64_support">9.8. MSYS2 / MinGW-w64 support</h3>
 <div class="paragraph">
 <p>esmini slim can be compiled and executed in the MSYS2 environment. Try following steps:</p>
 </div>
@@ -4266,7 +4341,7 @@ cmake --build . --config Release --target install</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build_esmini_project">9.7. Build esmini project</h3>
+<h3 id="_build_esmini_project">9.9. Build esmini project</h3>
 <div class="paragraph">
 <p>First generate build configuration (see above)</p>
 </div>
@@ -4337,7 +4412,7 @@ make -j4 install</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_centos_7_linux">9.8. CentOS 7 (Linux)</h3>
+<h3 id="_centos_7_linux">9.10. CentOS 7 (Linux)</h3>
 <div class="paragraph">
 <p>CentOS 7 has some limitations, e.g. old versions of C/C++ compiler toolkits and runtimes. So it&#8217;s not possible to link with provided 3rd party binary libraries targeting Ubuntu 18++.
 However, by disabling some featuers in esmini, e.g. OSI and SUMO, it can still be used for previewing scenarios.</p>
@@ -6498,14 +6573,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="c727df9"</p>
+ESMINI_GIT_REV="84dc223+"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-12-05 12:23:52 +0100
+Last updated 2022-12-09 09:51:28 +0100
 </div>
 </div>
 </body>
