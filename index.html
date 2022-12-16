@@ -617,10 +617,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_hello_world_programming_tutorial">12. Hello World programming tutorial</a>
 <ul class="sectlevel2">
 <li><a href="#preparations">12.1. Preparations</a></li>
-<li><a href="#_steps_to_build_esmini_hello_world">12.2. Steps to build esmini "Hello World"</a></li>
-<li><a href="#_steps_to_debug_esmini_hello_world_with_visual_studio_code">12.3. Steps to debug esmini "Hello World" with visual studio code</a></li>
-<li><a href="#_examples">12.4. Examples</a></li>
-<li><a href="#_python_binding">12.5. Python binding</a></li>
+<li><a href="#_how_to_build_run_and_debug_hello_world">12.2. How to build, run and debug "Hello World"</a></li>
+<li><a href="#_examples">12.3. Examples</a></li>
+<li><a href="#_python_binding">12.4. Python binding</a></li>
 </ul>
 </li>
 <li><a href="#_run_asam_openscenario_examples">13. Run ASAM OpenSCENARIO examples</a></li>
@@ -3311,6 +3310,9 @@ If lookahead distance is too large, the steering target angle becomes irrelevant
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Further properties see <code>ALKS_R157SM_Controller</code> in <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/Catalogs/Controllers/ControllerCatalog.xosc">Controllers/ControllerCatalog.xosc</a>.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -5445,7 +5447,7 @@ Note: In addition to &lt;filename&gt; one of the arguments --list_params and --p
 <p>But, of course, if you already have checked out the esmini project from GitHub and compiled it you should already be set.</p>
 </div>
 <div class="paragraph">
-<p>Just make sure that the shared library is available in the <code>bin</code> folder, which should be available directly under esmini root. Exact filename depends on the platform as follows:</p>
+<p>Just make sure that the shared library is available in the <code>bin</code> or <code>lib</code> folder, which should be available directly under esmini root. Exact filename depends on the platform as follows:</p>
 </div>
 <div class="hdlist">
 <table>
@@ -5477,96 +5479,232 @@ Note: In addition to &lt;filename&gt; one of the arguments --list_params and --p
 </div>
 </div>
 <div class="sect2">
-<h3 id="_steps_to_build_esmini_hello_world">12.2. Steps to build esmini "Hello World"</h3>
+<h3 id="_how_to_build_run_and_debug_hello_world">12.2. How to build, run and debug "Hello World"</h3>
+<div class="sect3">
+<h4 id="_windowsvisual_studio">12.2.1. Windows/Visual Studio</h4>
+<div class="sect4">
+<h5 id="_first_step_create_the_solution_file">First step: Create the solution file</h5>
 <div class="paragraph">
-<p>Do following steps to build a minimal esmini-player application</p>
+<p>Run from <code>Hello-World_coding-example</code> root folder:<br>
+<code>mkdir build</code><br>
+<code>cd build</code><br>
+<code>cmake ..</code> (will generate solution for multiple variants, including Release and Debug)</p>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_build_and_run_the_application_from_command_line">Build and run the application from command line</h5>
+<div class="sect5">
+<h6 id="_build">Build</h6>
+<div class="paragraph">
+<p><code>cmake --build . --config Release</code> (release variant), or<br>
+<code>cmake --build . --config Debug</code> (debug variant)<br></p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_run">Run</h6>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Navigate to the folder Hello-World_coding-example.</p>
+<p>open a command shell and put yourself in <code>Hello-World_coding-example/build</code> folder</p>
 </li>
 <li>
-<p>From a command prompt run the following commands to create build scripts and build the provided code example:</p>
+<p>add shared library location to the environment path variable, e.g:<br>
+CMD: <code>set path=../../bin;%path%</code><br>
+PowerShell: <code>$env:path+=";../../bin"</code><br>
+bash: <code>PATH=$PATH:../../bin</code><br></p>
+</li>
+<li>
+<p>Launch application<br>
+ CMD:<br>
+<code>.\Debug\esmini-player.exe</code> or<br>
+<code>.\Release\esmini-player.exe</code> (depending on variant)<br>
+PowerShell or bash:<br>
+<code>./Debug/esmini-player.exe</code> or<br>
+<code>./Release/esmini-player.exe</code></p>
 </li>
 </ol>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>	mkdir build
-	cd build
-	cmake ..
-	cmake --build . --config Release</pre>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_build_run_and_debug_the_application_from_visual_studio">Build, run and debug the application from Visual Studio</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open <code>esmini-player.sln</code> in Visual Studio</p>
+</li>
+<li>
+<p>Build as usual (Ctrl-F7 or <code>Build</code> &#8594; <code>Build Solution</code>)</p>
+</li>
+<li>
+<p>Set as startup project</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Right click on esmini-player in Solution Explorer</p>
+</li>
+<li>
+<p>Click on <code>Set as Startup Project</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tell the system where to find the shared library</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Right click on esmini-player in Solution Explorer</p>
+</li>
+<li>
+<p>Click on <code>Properties</code></p>
+</li>
+<li>
+<p>Select Configuration &#8594; <code>All Configurations</code></p>
+</li>
+<li>
+<p>In <code>Configuration Properties</code> &#8594; <code>Debugging</code> &#8594; <code>Environment</code> write:
+<code>path=$(ProjectDir)/../../bin</code><br>
+or any other folder containing the esmini library</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Run</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Ctrl-F5</code> to run without debug</p>
+</li>
+<li>
+<p><code>F5</code> to debug</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_linux">12.2.2. Linux</h4>
+<div class="sect4">
+<h5 id="_first_step_create_the_makefile">First step: Create the Makefile</h5>
 <div class="paragraph">
-<p>If all works as expected there should be an executable "esmini-player" in the Hello-World_coding-example/build folder. Try to run it from that directory.</p>
+<p>Run from <code>Hello-World_coding-example</code> root folder:<br>
+  <code>mkdir build</code><br>
+  <code>cd build</code><br>
+then:<br>
+  <code>cmake .. -DCMAKE_BUILD_TYPE=Release</code> for Release variant, or<br>
+  <code>cmake .. -DCMAKE_BUILD_TYPE=Debug</code> for Debug variant<br></p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre>./build/esmini-player</pre>
+</div>
+<div class="sect4">
+<h5 id="_build_and_run_from_command_line">Build and run from command line</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build<br>
+<code>cmake --build .</code> or just<br>
+<code>make</code><br></p>
+</li>
+<li>
+<p>Tell system where to look for esmini shared library (maybe not necessary)<br>
+<code>export LD_LIBRARY_PATH=../../bin</code></p>
+</li>
+<li>
+<p>Launch application<br>
+<code>./esmini-player</code></p>
+</li>
+</ol>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_build_run_and_debug_from_visual_studio_code">Build, run and debug from Visual Studio Code</h5>
 <div class="paragraph">
-<p>On Linux you might need to define LD_LIBRARY PATH first, <code>export LD_LIBRARY_PATH=../bin</code></p>
+<p>Prerequisites: Install the following VS Code extensions:</p>
 </div>
-<div class="paragraph">
-<p>If you have any IDE installed, e.g. Visual Studio (Win) or Xcode (Mac), cmake might have produced project files for it, e.g. "build/esmini-player.sln".</p>
+<div class="ulist">
+<ul>
+<li>
+<p>C/C++</p>
+</li>
+<li>
+<p>CMake Tools</p>
+</li>
+</ul>
 </div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p><strong>Note:</strong> On Windows there are two library files: esminiLib.lib and esminiLib.dll. The .lib file (basically only table of contents of the library) is used for compile time linking while the .dll (actual code) for runtime dynamic linking. On other platforms there is only one library file, .so (Shared Object) in Linux and .dylib (Dynamic Library) on Mac, which is used for both compile time and runtime linking.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_steps_to_debug_esmini_hello_world_with_visual_studio_code">12.3. Steps to debug esmini "Hello World" with visual studio code</h3>
-<div class="paragraph">
-<p>Do the following steps to debug esmini. This is alternative method, you can completely skip <a href="#_steps_to_build_esmini_hello_world">Steps to build esmini "Hello World"</a> part if you wish to
-debug with visual studio code. Make sure bin folder generated in root folder by following <a href="#_getting_started">Getting started</a> or <a href="#_run_esmini">Run esmini</a></p>
-</div>
+<div class="sect5">
+<h6 id="_build_2">Build</h6>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p>Open visual studio as Hello-World_coding-example as root folder</p>
 </li>
 <li>
-<p>If not already installed, goto extensions and install cmake tools.</p>
+<p>Open the Command Palette (Ctrl+Shift+P) and run <code>CMake: Select a Kit</code>. Select the compiler you want to use. For example GCC 11.3.0</p>
 </li>
 <li>
-<p>Open the Command Palette (Ctrl+Shift+P) and run CMake: Select a Kit. Select the compiler you want to use. For example GCC 11.3.0</p>
+<p>Open the Command Palette (Ctrl+Shift+P) run the <code>CMake: Select Variant</code> command. Select Debug.</p>
 </li>
 <li>
-<p>Open the Command Palette (Ctrl+Shift+P) run the CMake: Select Variant command. Select Debug.</p>
+<p>Open the Command Palette (Ctrl+Shift+P) run the <code>CMake:Set Build Target</code>. Select esmini-player.</p>
 </li>
 <li>
-<p>Open the Command Palette (Ctrl+Shift+P) run the CMake:Set Build Target. Select esmini-player.</p>
-</li>
-<li>
-<p>Open the Command Palette (Ctrl+Shift+P) and run the CMake: Build command, or select the build button from the Status bar.</p>
+<p>Open the Command Palette (Ctrl+Shift+P) and run the <code>CMake: Build</code> command, or select the build button from the Status bar.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Open main.cpp file in the Hello-World_coding-example folder and introduce break points.</p>
+<p>Open main.cpp file in the Hello-World_coding-example folder and optionally introduce break points.</p>
 </div>
+</div>
+<div class="sect5">
+<h6 id="_run_2">Run</h6>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the Command Palette (Ctrl+Shift+P) and run the CMake: debug command or use debug button from the Status bar.</p>
+<p>Open the Command Palette (Ctrl+Shift+P) and run the <code>CMake: Run Without Debugging</code> command, or</p>
+</li>
+<li>
+<p>Use play button in the status bar, or</p>
+</li>
+<li>
+<p>Shift-F5</p>
 </li>
 </ol>
 </div>
+</div>
+<div class="sect5">
+<h6 id="_debug">Debug</h6>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) and run the <code>CMake: Debug</code> command, or</p>
+</li>
+<li>
+<p>Use debug button in the status bar, or</p>
+</li>
+<li>
+<p>Ctrl-F5</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_next_step">12.2.3. Next step</h4>
 <div class="paragraph">
-<p>Here follows a few code examples to try out, e.g. by modifying main.cpp:</p>
+<p>Now that you can build and run Hello World, it&#8217;s time to explore some functionality of esmini. Next section presents a few code examples to try out, e.g. by modifying main.cpp.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_examples">12.4. Examples</h3>
+<h3 id="_examples">12.3. Examples</h3>
 <div class="sect3">
-<h4 id="_hello_world_load_and_play_a_scenario">12.4.1. Hello world - load and play a scenario</h4>
+<h4 id="_hello_world_load_and_play_a_scenario">12.3.1. Hello world - load and play a scenario</h4>
 <div class="listingblock">
 <div class="title">Example 1. <a href="https://github.com/esmini/esmini/tree/master/Hello-World_coding-example/main.cpp">Hello-World_coding-example/main.cpp</a></div>
 <div class="content">
@@ -5574,7 +5712,7 @@ debug with visual studio code. Make sure bin folder generated in root folder by 
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
-        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/lane_change.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
         <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
         {
@@ -5592,7 +5730,7 @@ debug with visual studio code. Make sure bin folder generated in root folder by 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_add_optional_argument_to_load_any_scenario">12.4.2. Add optional argument to load any scenario</h4>
+<h4 id="_add_optional_argument_to_load_any_scenario">12.3.2. Add optional argument to load any scenario</h4>
 <div class="listingblock">
 <div class="title">Example 2. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/hw2_arguments.cpp">EnvironmentSimulator/code-examples/hello_world/hw2_arguments.cpp</a></div>
 <div class="content">
@@ -5633,7 +5771,7 @@ debug with visual studio code. Make sure bin folder generated in root folder by 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_fetch_state_of_scenario_objects">12.4.3. Fetch state of scenario objects</h4>
+<h4 id="_fetch_state_of_scenario_objects">12.3.3. Fetch state of scenario objects</h4>
 <div class="listingblock">
 <div class="title">Example 3. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp">EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp</a></div>
 <div class="content">
@@ -5665,7 +5803,7 @@ debug with visual studio code. Make sure bin folder generated in root folder by 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_external_control_of_ego">12.4.4. External control of Ego</h4>
+<h4 id="_external_control_of_ego">12.3.4. External control of Ego</h4>
 <div class="paragraph">
 <p>A silly example showing how you can just take control over vehicle state via the API. The Ego car will move one meter along the Y-axis for each frame while rotating&#8230;&#8203;</p>
 </div>
@@ -5722,7 +5860,7 @@ debug with visual studio code. Make sure bin folder generated in root folder by 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_control_controllers">12.4.5. Control controllers</h4>
+<h4 id="_control_controllers">12.3.5. Control controllers</h4>
 <div class="paragraph">
 <p>Try to run cut-in_interactive.xosc, as below.</p>
 </div>
@@ -5774,7 +5912,7 @@ debug with visual studio code. Make sure bin folder generated in root folder by 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ideal_sensors">12.4.6. Ideal sensors</h4>
+<h4 id="_ideal_sensors">12.3.6. Ideal sensors</h4>
 <div class="listingblock">
 <div class="title">Example 7. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw7_ideal_sensors.cpp">EnvironmentSimulator/code-examples/hello_world/hw7_ideal_sensors.cpp</a></div>
 <div class="content">
@@ -5825,7 +5963,7 @@ debug with visual studio code. Make sure bin folder generated in root folder by 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_driver_model">12.4.7. Driver model</h4>
+<h4 id="_driver_model">12.3.7. Driver model</h4>
 <div class="paragraph">
 <p>Using a simple vehicle model this example demonstrates how a driver model can interact with the scenario, once again using the <code>ExternalController</code>.</p>
 </div>
@@ -6107,7 +6245,7 @@ debug with visual studio code. Make sure bin folder generated in root folder by 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_osi_groundtruth">12.4.8. OSI groundtruth</h4>
+<h4 id="_osi_groundtruth">12.3.8. OSI groundtruth</h4>
 <div class="paragraph">
 <p>To access OSI data we first need to complement the build script (CMakeLists.txt) with OSI include and library info. For example:</p>
 </div>
@@ -6118,7 +6256,7 @@ debug with visual studio code. Make sure bin folder generated in root folder by 
 <div class="content">
 <pre>include_directories(. ../include ../EnvironmentSimulator/Libraries/esminiLib ../externals/OSI/v10/include)
 
-link_directories(. ../lib ../bin ../externals/OSI/v10/lib)
+link_directories(. ../bin ../externals/OSI/v10/lib)
 
 target_link_libraries(${TARGET} esminiLib libprotobuf open_simulation_interface_pic)</pre>
 </div>
@@ -6130,7 +6268,7 @@ target_link_libraries(${TARGET} esminiLib libprotobuf open_simulation_interface_
 <div class="content">
 <pre>include_directories(. ../include ../EnvironmentSimulator/Libraries/esminiLib ../externals/OSI/linux/include)
 
-link_directories(. ../lib ../bin ../externals/OSI/linux/lib)
+link_directories(. ../bin ../externals/OSI/linux/lib)
 
 target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic)</pre>
 </div>
@@ -6242,7 +6380,7 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 </div>
 </div>
 <div class="sect2">
-<h3 id="_python_binding">12.5. Python binding</h3>
+<h3 id="_python_binding">12.4. Python binding</h3>
 <div class="paragraph">
 <p>A Python wrapper for esmini can easily be created using "ctypes" (thanks David Kaplan for the tip!). Run the following script in a folder where the ScenarioEngineDLL library is present:</p>
 </div>
@@ -6303,7 +6441,7 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
 </div>
 </div>
 <div class="sect3">
-<h4 id="_get_object_states">12.5.1. Get object states</h4>
+<h4 id="_get_object_states">12.4.1. Get object states</h4>
 <div class="paragraph">
 <p>Extend previous example to retrieve the state of all scenario objects</p>
 </div>
@@ -6370,7 +6508,7 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_use_of_esminirmlib_roadmanager">12.5.2. Example use of esminiRMLib (RoadManager)</h4>
+<h4 id="_example_use_of_esminirmlib_roadmanager">12.4.2. Example use of esminiRMLib (RoadManager)</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -6448,7 +6586,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 </div>
 </div>
 <div class="sect3">
-<h4 id="_storyboard_element_state_callback">12.5.3. Storyboard element state callback</h4>
+<h4 id="_storyboard_element_state_callback">12.4.3. Storyboard element state callback</h4>
 <div class="paragraph">
 <p>The following code shows how to get notification of storyboard events using StoryBoardElementStateChangeCallback.</p>
 </div>
@@ -6494,7 +6632,7 @@ se.SE_RegisterStoryBoardElementStateChangeCallback(callback_func)</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_object_state_callback">12.5.4. Object state callback</h4>
+<h4 id="_object_state_callback">12.4.4. Object state callback</h4>
 <div class="paragraph">
 <p><mark>Advanced</mark></p>
 </div>
@@ -6628,15 +6766,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="3b20862"</p>
+<p>ESMINI_GIT_TAG="v2.27.3"<br>
+ESMINI_GIT_REV="bfc5138"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-12-12 16:49:02 +0100
+Last updated 2022-12-16 16:48:45 +0100
 </div>
 </div>
 </body>
