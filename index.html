@@ -6385,13 +6385,25 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 <div class="sect2">
 <h3 id="_python_binding">12.4. Python binding</h3>
 <div class="paragraph">
-<p>A Python wrapper for esmini can easily be created using "ctypes" (thanks David Kaplan for the tip!). Run the following script in a folder where the ScenarioEngineDLL library is present:</p>
+<p>A Python wrapper for esmini can easily be created using "ctypes" (thanks David Kaplan for the tip!). This section presents a few examples to get you started.</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Make sure the esminiLib is present in <code>esmini/bin</code> folder</p>
+</li>
+<li>
+<p>Run the script examples from the <code>esmini/Hello-World_coding-example</code> folder</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_minimalistic_esmini_python_player">12.4.1. Minimalistic esmini Python player</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="Python"><span class="keyword">import</span> <span class="include">ctypes</span>
 
-se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
 se.SE_Init(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">2</span>)
 
 <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span> (<span class="integer">500</span>):
@@ -6443,8 +6455,9 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
     se.SE_Step()</code></pre>
 </div>
 </div>
+</div>
 <div class="sect3">
-<h4 id="_get_object_states">12.4.1. Get object states</h4>
+<h4 id="_get_object_states">12.4.2. Get object states</h4>
 <div class="paragraph">
 <p>Extend previous example to retrieve the state of all scenario objects</p>
 </div>
@@ -6455,11 +6468,11 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
 <span class="keyword">from</span> <span class="include">sys</span> <span class="keyword">import</span> <span class="include">platform</span>
 
 <span class="keyword">if</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
-    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
+    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
 <span class="keyword">elif</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
-    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
+    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
 <span class="keyword">elif</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
-    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
 <span class="keyword">else</span>:
     print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(platform))
     quit()
@@ -6499,23 +6512,23 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
 se.SE_Init(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>)
 
 obj_state = SEScenarioObjectState()  <span class="comment"># object that will be passed and filled in with object state info</span>
- 
+
 <span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">500</span>):
     <span class="keyword">for</span> j <span class="keyword">in</span> <span class="predefined">range</span>(se.SE_GetNumberOfObjects()):
         se.SE_GetObjectState(se.SE_GetId(j), ctypes.byref(obj_state))
         print(<span class="string"><span class="delimiter">'</span><span class="content">Frame {} Time {:.2f} ObjId {} roadId {} laneId {} laneOffset {:.2f} s {:.2f} x {:.2f} y {:.2f} heading {:.2f} speed {:.2f} wheelAngle {:.2f} wheelRot {:.2f}</span><span class="delimiter">'</span></span>.format(
-            i, obj_state.timestamp, obj_state.id, obj_state.roadId, obj_state.laneId, obj_state.laneOffset, 
+            i, obj_state.timestamp, obj_state.id, obj_state.roadId, obj_state.laneId, obj_state.laneOffset,
             obj_state.s, obj_state.x, obj_state.y, obj_state.h, obj_state.speed * <span class="float">3.6</span>, obj_state.wheelAngle, obj_state.wheelRot))
     se.SE_Step()</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_use_of_esminirmlib_roadmanager">12.4.2. Example use of esminiRMLib (RoadManager)</h4>
+<h4 id="_example_use_of_esminirmlib_roadmanager">12.4.3. Example use of esminiRMLib (RoadManager)</h4>
 <div class="ulist">
 <ul>
 <li>
-<p>Make sure the esminiRMLib is present in the same folder as the script</p>
+<p>Make sure the esminiRMLib is present in <code>esmini/bin</code> folder</p>
 </li>
 <li>
 <p>In the code, check filepath to the OpenDRIVE file to load (current search path should work when script is copied to and run from the esmini/Hello-World_coding-example folder)</p>
@@ -6529,11 +6542,11 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 <span class="keyword">import</span> <span class="include">sys</span>
 
 <span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
-    rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./libesminiRMLib.so</span><span class="delimiter">&quot;</span></span>)
+    rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiRMLib.so</span><span class="delimiter">&quot;</span></span>)
 <span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
-    rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./libesminiRMLib.dylib</span><span class="delimiter">&quot;</span></span>)
+    rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiRMLib.dylib</span><span class="delimiter">&quot;</span></span>)
 <span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
-    rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">./esminiRMLib.dll</span><span class="delimiter">&quot;</span></span>)
+    rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/esminiRMLib.dll</span><span class="delimiter">&quot;</span></span>)
 <span class="keyword">else</span>:
     print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(sys.platform))
     sys.exit(-<span class="integer">1</span>)
@@ -6589,7 +6602,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 </div>
 </div>
 <div class="sect3">
-<h4 id="_storyboard_element_state_callback">12.4.3. Storyboard element state callback</h4>
+<h4 id="_storyboard_element_state_callback">12.4.4. Storyboard element state callback</h4>
 <div class="paragraph">
 <p>The following code shows how to get notification of storyboard events using StoryBoardElementStateChangeCallback.</p>
 </div>
@@ -6635,7 +6648,92 @@ se.SE_RegisterStoryBoardElementStateChangeCallback(callback_func)</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_object_state_callback">12.4.4. Object state callback</h4>
+<h4 id="_osi_groundtruth_2">12.4.5. OSI groundtruth</h4>
+<div class="paragraph">
+<p>OSI groundtruth can also be retrieved and processed via Python. The following code shows one way of doing it. This example also shows how the simulation can be encapsulated in a class.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 14. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py">EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py</a> (complete code)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">os</span>
+<span class="keyword">import</span> <span class="include">sys</span>
+<span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
+
+<span class="comment"># Add scripts root directory to module search path in order to find osi3</span>
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), <span class="string"><span class="delimiter">'</span><span class="content">../../../</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">scripts</span><span class="delimiter">'</span></span>)))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), <span class="string"><span class="delimiter">'</span><span class="content">..</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">scripts</span><span class="delimiter">'</span></span>)))  <span class="comment"># if script moved to Hello World folder</span>
+
+<span class="keyword">from</span> <span class="include">osi3.osi_groundtruth_pb2</span> <span class="keyword">import</span> <span class="include">GroundTruth</span>
+
+<span class="comment"># Import esmini lib</span>
+<span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">else</span>:
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(platform))
+    quit()
+
+
+<span class="comment"># Specify argument and return types of some esmini functions</span>
+se.SE_GetOSIGroundTruth.restype = ct.c_void_p
+se.SE_GetOSIGroundTruth.argtypes = [ct.c_void_p]
+se.SE_StepDT.argtypes = [ct.c_float]
+
+<span class="keyword">class</span> <span class="class">Sim</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="predefined-constant">self</span>, scenario):
+        <span class="predefined-constant">self</span>.msg = GroundTruth()  <span class="comment"># OSI groundtruth message</span>
+        <span class="predefined-constant">self</span>.msg_size = ct.c_int()
+        <span class="keyword">if</span> se.SE_Init(scenario, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>:
+            print(<span class="string"><span class="delimiter">'</span><span class="content">Failed to open </span><span class="delimiter">'</span></span>, scenario)
+            <span class="predefined">exit</span>(-<span class="integer">1</span>)
+
+        <span class="predefined-constant">self</span>.GetAndPrintOSIInfo()  <span class="comment"># Initial state</span>
+
+    <span class="comment"># Retrieve OSI message and print some info</span>
+    <span class="keyword">def</span> <span class="function">GetAndPrintOSIInfo</span>(<span class="predefined-constant">self</span>):
+        se.SE_UpdateOSIGroundTruth()
+
+        msg_string = se.SE_GetOSIGroundTruth(ct.byref(<span class="predefined-constant">self</span>.msg_size))
+        <span class="predefined-constant">self</span>.msg.ParseFromString(ct.string_at(msg_string, <span class="predefined-constant">self</span>.msg_size))
+
+        <span class="comment"># Print some info</span>
+        print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Timestamp: {:.2f}</span><span class="delimiter">&quot;</span></span>.format(<span class="predefined-constant">self</span>.msg.timestamp.seconds + <span class="float">1e-9</span> * <span class="predefined-constant">self</span>.msg.timestamp.nanos))
+        <span class="keyword">for</span> j, o <span class="keyword">in</span> <span class="predefined">enumerate</span>(<span class="predefined-constant">self</span>.msg.moving_object):
+            print(<span class="string"><span class="delimiter">'</span><span class="content">   Object[{}] id {}</span><span class="delimiter">'</span></span>.format(j, o.id.value))
+            print(<span class="string"><span class="delimiter">'</span><span class="content">      pos.x {:.2f} pos.y {:.2f} rot.h {:.2f}</span><span class="delimiter">'</span></span>.format(\
+                o.base.position.x,\
+                o.base.position.y,\
+                o.base.orientation.yaw))
+            print(<span class="string"><span class="delimiter">'</span><span class="content">      vel.x {:.2f} vel.y {:.2f} rot_rate.h {:.2f}</span><span class="delimiter">'</span></span>.format(\
+                o.base.velocity.x,\
+                o.base.velocity.y,\
+                o.base.orientation_rate.yaw))
+            print(<span class="string"><span class="delimiter">'</span><span class="content">      acc.x {:.2f} acc.y {:.2f} rot_acc.h {:.2f}</span><span class="delimiter">'</span></span>.format(\
+                o.base.acceleration.x,\
+                o.base.acceleration.y,\
+                o.base.orientation_acceleration.yaw))
+
+
+    <span class="keyword">def</span> <span class="function">Run</span>(<span class="predefined-constant">self</span>):
+        <span class="keyword">while</span> se.SE_GetQuitFlag() != <span class="integer">1</span>:
+            se.SE_StepDT(<span class="float">0.05</span>)
+            <span class="predefined-constant">self</span>.GetAndPrintOSIInfo()  <span class="comment"># Updated state</span>
+
+        se.SE_Close()
+
+<span class="keyword">if</span> __name__ == <span class="string"><span class="delimiter">'</span><span class="content">__main__</span><span class="delimiter">'</span></span>:
+    <span class="comment"># Execute when the module is not initialized from an import statement.</span>
+
+    sim = Sim(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>)
+    sim.Run()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_object_state_callback">12.4.6. Object state callback</h4>
 <div class="paragraph">
 <p><mark>Advanced</mark></p>
 </div>
@@ -6643,7 +6741,7 @@ se.SE_RegisterStoryBoardElementStateChangeCallback(callback_func)</code></pre>
 <p>Controllers and callbacks can also be utilized via Python. Following code drafts how to grab state of the first scenario object and then, in a callback, manipulate it and report back. If used in combination with ExternalController in mode=additive the scenario action are applied first. On the contrary, if used with mode=override, the scenario actions will not be applied giving exclusive control to the external callback function.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 14. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/object_callback.py">EnvironmentSimulator/code-examples/hello_world/object_callback.py</a> (complete code)</div>
+<div class="title">Example 15. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/object_callback.py">EnvironmentSimulator/code-examples/hello_world/object_callback.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># Definition of SE_ScenarioObjectState struct</span>
 <span class="keyword">class</span> <span class="class">SEScenarioObjectState</span>(ct.Structure):
@@ -6769,15 +6867,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.27.4"<br>
-ESMINI_GIT_REV="93f4613"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="77e30b8"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-12-16 16:48:45 +0100
+Last updated 2022-12-22 14:36:11 +0100
 </div>
 </div>
 </body>
