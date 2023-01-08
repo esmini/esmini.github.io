@@ -5966,7 +5966,77 @@ then:<br>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_driver_model">12.3.7. Driver model</h4>
+<h4 id="_collision_detection">12.3.7. Collision detection</h4>
+<div class="paragraph">
+<p>There are two approaches to collision detection that fit different use cases:</p>
+</div>
+<div class="sect4">
+<h5 id="_1_by_scenario">1. By scenario</h5>
+<div class="paragraph">
+<p>Making use of the OpenSCENARIO <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/CollisionCondition.html">CollisionCondition</a> a collision can be detected and act upon. This can be useful for example if a scenario or test case should end in case of Ego vehicle gets involved in a collision.</p>
+</div>
+<div class="paragraph">
+<p>See example <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc">EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc</a>. To run it from command line:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>Control the Ego car with keyboard arrow keys. Press "up" to accelerate, and "left" or "right" to steer. See output in console when colliding with the two other cars.</p>
+</div>
+<div class="paragraph">
+<p>The interactive controller can be disabled. Then the Ego car will get the speed from the scenario. Run:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc --disable_controllers</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> In this example the action is empty, i.e. the event is triggered on collision but nothing really happens, other than logging the trigger result. In a real use case there could be an actual action, e.g. immediate stop by setting speed to zero in a single step. Another usage is to use the condition in a scenario stop trigger, e.g. to quit the test case as soon as collision happens.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_2_by_api">2. By API</h5>
+<div class="paragraph">
+<p>In addition, or as alternative, to detect collisions via OpenSCENARIO condition esmini can check for collisions between any objects regardless of the scenario. This is a feature that must be enabled (<code>SE_CollisionDetection(true)</code>) since it&#8217;s off by default to avoid unnecessary performance penalties.</p>
+</div>
+<div class="paragraph">
+<p>See code example:</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 8. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw8_collision_detection.cpp">EnvironmentSimulator/code-examples/hello_world/hw8_collision_detection.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;stdio.h&quot;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+{
+        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+        SE_CollisionDetection(<span class="predefined-constant">true</span>);
+
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
+        {
+                SE_Step();
+
+                <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; SE_GetNumberOfObjects(); j++)
+                {
+                        <span class="keyword">for</span> (<span class="predefined-type">int</span> k = <span class="integer">0</span>; k &lt; SE_GetObjectNumberOfCollisions(j); k++)
+                        {
+                                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Collision[%d]: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, SE_GetObjectCollision(j, k));
+                        }
+                }
+        }
+
+        <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> It uses the same scenario file as the above (<a href="#_1_by_scenario">1. By scenario</a>) but the complete "CollisionManeuver" could be removed since no CollisionCondition is needed for API based collision detection. Actually, if maneuver is present the console will show log info from both the condition and the API driven collision detections.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_driver_model">12.3.8. Driver model</h4>
 <div class="paragraph">
 <p>Using a simple vehicle model this example demonstrates how a driver model can interact with the scenario, once again using the <code>ExternalController</code>.</p>
 </div>
@@ -6081,7 +6151,7 @@ then:<br>
 <p>Now, study the code and perhaps play around mainpulating some values.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 8. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/test-driver/test-driver.cpp">EnvironmentSimulator/code-examples/test-driver/test-driver.cpp</a></div>
+<div class="title">Example 9. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/test-driver/test-driver.cpp">EnvironmentSimulator/code-examples/test-driver/test-driver.cpp</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;stdio.h&quot;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;math.h&quot;</span>
@@ -6248,7 +6318,7 @@ then:<br>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_osi_groundtruth">12.3.8. OSI groundtruth</h4>
+<h4 id="_osi_groundtruth">12.3.9. OSI groundtruth</h4>
 <div class="paragraph">
 <p>To access OSI data we first need to complement the build script (CMakeLists.txt) with OSI include and library info. For example:</p>
 </div>
@@ -6296,7 +6366,7 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 <p>The following code will update, fetch and print some OSI data each frame.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 9. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp">EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp</a></div>
+<div class="title">Example 10. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp">EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
 
@@ -6430,7 +6500,7 @@ se.SE_Init(<span class="binary"><span class="modifier">b</span><span class="deli
 </ul>
 </div>
 <div class="listingblock">
-<div class="title">Example 10. <a href="https://github.com/esmini/esmini/tree/master/Hello-World_coding-example/esmini-player.py">Hello-World_coding-example/esmini-player.py</a></div>
+<div class="title">Example 11. <a href="https://github.com/esmini/esmini/tree/master/Hello-World_coding-example/esmini-player.py">Hello-World_coding-example/esmini-player.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span>
 <span class="keyword">import</span> <span class="include">sys</span>
@@ -6462,7 +6532,7 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
 <p>Extend previous example to retrieve the state of all scenario objects</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 11. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/get_states.py">EnvironmentSimulator/code-examples/hello_world/get_states.py</a></div>
+<div class="title">Example 12. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/get_states.py">EnvironmentSimulator/code-examples/hello_world/get_states.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span>
 <span class="keyword">from</span> <span class="include">sys</span> <span class="keyword">import</span> <span class="include">platform</span>
@@ -6536,7 +6606,7 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 </ul>
 </div>
 <div class="listingblock">
-<div class="title">Example 12. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py">EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py</a></div>
+<div class="title">Example 13. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py">EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
 <span class="keyword">import</span> <span class="include">sys</span>
@@ -6607,7 +6677,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 <p>The following code shows how to get notification of storyboard events using StoryBoardElementStateChangeCallback.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 13. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py">EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py</a> (complete code)</div>
+<div class="title">Example 14. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py">EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># Storyboard element types (see OSCTypeDefs/OSCAction.hpp)</span>
 sbe_type = {
@@ -6653,7 +6723,7 @@ se.SE_RegisterStoryBoardElementStateChangeCallback(callback_func)</code></pre>
 <p>OSI groundtruth can also be retrieved and processed via Python. The following code shows one way of doing it. This example also shows how the simulation can be encapsulated in a class.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 14. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py">EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py</a> (complete code)</div>
+<div class="title">Example 15. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py">EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="docstring"><span class="delimiter">'''</span><span class="content">
 </span><span class="content">   Python dependencies:</span><span class="content">
@@ -6749,7 +6819,7 @@ se.SE_StepDT.argtypes = [ct.c_float]
 <p>Controllers and callbacks can also be utilized via Python. Following code drafts how to grab state of the first scenario object and then, in a callback, manipulate it and report back. If used in combination with ExternalController in mode=additive the scenario action are applied first. On the contrary, if used with mode=override, the scenario actions will not be applied giving exclusive control to the external callback function.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 15. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/object_callback.py">EnvironmentSimulator/code-examples/hello_world/object_callback.py</a> (complete code)</div>
+<div class="title">Example 16. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/object_callback.py">EnvironmentSimulator/code-examples/hello_world/object_callback.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># Definition of SE_ScenarioObjectState struct</span>
 <span class="keyword">class</span> <span class="class">SEScenarioObjectState</span>(ct.Structure):
@@ -6876,14 +6946,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="6ba17a6"</p>
+ESMINI_GIT_REV="c7d6057"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-12-22 14:36:11 +0100
+Last updated 2023-01-08 12:15:31 +0100
 </div>
 </div>
 </body>
