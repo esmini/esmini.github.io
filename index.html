@@ -5819,39 +5819,37 @@ then:<br>
 <p>A silly example showing how you can just take control over vehicle state via the API. The Ego car will move one meter along the Y-axis for each frame while rotating&#8230;&#8203;</p>
 </div>
 <div class="paragraph">
-<p>First step is to modify the cut-in_interactive.xosc scenario. Make a copy named "cut-in_external_example.xosc". In that file, replace <code>interactiveDriver</code> controller with <code>externalController</code> by changing the line:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>&lt;CatalogReference catalogName="ControllerCatalog" entryName="interactiveDriver" /&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>to:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>&lt;CatalogReference catalogName="ControllerCatalog" entryName="externalController" /&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
 <p>Now we will also introduce the quit_flag, which lets you quit by pressing 'Esc' key.</p>
+</div>
+<div class="paragraph">
+<p>In addition we&#8217;ll try out the alignment feature. By default objects will be aligned to road surface. This behavior can be controlled with alignment settings. In below example, the Ego vehicle will be aligned to road surface except during iterations 100-200 where it will obey the reported Z coordinate and move accordingly to elevation/Z = 10 meter.</p>
 </div>
 <div class="listingblock">
 <div class="title">Example 4. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw4_external_ego_control.cpp">EnvironmentSimulator/code-examples/hello_world/hw4_external_ego_control.cpp</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdio.h&gt;</span>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
-        <span class="directive">const</span> <span class="predefined-type">char</span>* filename = argc &gt; <span class="integer">1</span> ? argv[<span class="integer">1</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_external_example.xosc</span><span class="delimiter">&quot;</span></span>;
+        <span class="directive">const</span> <span class="predefined-type">char</span>* filename = argc &gt; <span class="integer">1</span> ? argv[<span class="integer">1</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_external.xosc</span><span class="delimiter">&quot;</span></span>;
 
         SE_Init(filename, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
         <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
         {
-                SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">0</span><span class="float">.0f</span>, <span class="float">8</span><span class="float">.0f</span>, (<span class="predefined-type">float</span>)i, <span class="float">0</span><span class="float">.0f</span>, <span class="predefined-type">float</span>(<span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i), <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>);
+                SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">0</span><span class="float">.0f</span>, <span class="float">8</span><span class="float">.0f</span>, (<span class="predefined-type">float</span>)i, <span class="integer">1</span><span class="float">0</span><span class="float">.0f</span>, <span class="predefined-type">float</span>(<span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i), <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>);
                 SE_Step();
+
+                <span class="keyword">if</span> (i == <span class="integer">100</span>)
+                {
+                        SE_SetAlignModeZ(SE_GetId(<span class="integer">0</span>), <span class="integer">0</span>);  <span class="comment">// release vertical alignment to road surface</span>
+                }
+
+                <span class="keyword">if</span> (i == <span class="integer">200</span>)
+                {
+                        SE_SetAlignModeZ(SE_GetId(<span class="integer">0</span>), <span class="integer">2</span>);  <span class="comment">// enforce vertical alignment to road surface</span>
+                }
         }
 
         SE_Close();
@@ -6953,8 +6951,8 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.27.5"<br>
-ESMINI_GIT_REV="ceb22ec"</p>
+<p>ESMINI_GIT_TAG="v2.28.0"<br>
+ESMINI_GIT_REV="3dd8dfd"</p>
 </div>
 </div>
 </div>
