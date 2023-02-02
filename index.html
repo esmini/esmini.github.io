@@ -587,16 +587,17 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_build_guide">9. Build guide</a>
 <ul class="sectlevel2">
-<li><a href="#_build_configurations">9.1. Build configurations</a></li>
-<li><a href="#_external_dependencies">9.2. External dependencies</a></li>
-<li><a href="#_additional_platform_dependencies">9.3. Additional platform dependencies</a></li>
-<li><a href="#_run_with_linux_and_visual_studio_code">9.4. Run with Linux and visual studio code</a></li>
-<li><a href="#_debug_with_linux_and_visual_studio_code">9.5. Debug with Linux and visual studio code</a></li>
-<li><a href="#_dynamic_protobuf_linking">9.6. Dynamic protobuf linking</a></li>
-<li><a href="#_slim_esmini_customize_configration">9.7. Slim esmini - customize configration</a></li>
-<li><a href="#_msys2_mingw_w64_support">9.8. MSYS2 / MinGW-w64 support</a></li>
-<li><a href="#_build_esmini_project">9.9. Build esmini project</a></li>
-<li><a href="#_centos_7_linux">9.10. CentOS 7 (Linux)</a></li>
+<li><a href="#_build_configurations_in_visual_studio_and_visual_studio_code">9.1. Build configurations in Visual Studio and Visual Studio Code</a></li>
+<li><a href="#_build_configurations_from_command_line">9.2. Build configurations from command line</a></li>
+<li><a href="#_external_dependencies">9.3. External dependencies</a></li>
+<li><a href="#_additional_platform_dependencies">9.4. Additional platform dependencies</a></li>
+<li><a href="#_run_with_linux_and_visual_studio_code">9.5. Run with Linux and visual studio code</a></li>
+<li><a href="#_debug_with_linux_and_visual_studio_code">9.6. Debug with Linux and visual studio code</a></li>
+<li><a href="#_dynamic_protobuf_linking">9.7. Dynamic protobuf linking</a></li>
+<li><a href="#_slim_esmini_customize_configration">9.8. Slim esmini - customize configration</a></li>
+<li><a href="#_msys2_mingw_w64_support">9.9. MSYS2 / MinGW-w64 support</a></li>
+<li><a href="#_build_esmini_project">9.10. Build esmini project</a></li>
+<li><a href="#_centos_7_linux">9.11. CentOS 7 (Linux)</a></li>
 </ul>
 </li>
 <li><a href="#_command_reference">10. Command reference</a>
@@ -3982,9 +3983,15 @@ In order to execute the files you need to do one of following from a terminal in
 <h2 id="_build_guide">9. Build guide</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_build_configurations">9.1. Build configurations</h3>
+<h3 id="_build_configurations_in_visual_studio_and_visual_studio_code">9.1. Build configurations in Visual Studio and Visual Studio Code</h3>
 <div class="paragraph">
-<p><a href="https://cmake.org/">CMake</a> tool is used to create standard make configurations. A few example "create&#8230;&#8203;" batch scripts are supplied as examples how to generate desired build setup.</p>
+<p>From esmini version 2.29.0 a set of cmake presets are provided. These can be utilized from Visual Studio Code and Visual Studio (from 2019 version 16.10 onwards, see more info <a href="https://learn.microsoft.com/en-us/cpp/build/cmake-presets-vs?view=msvc-170">here</a>) with the CMake Tools extension.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_configurations_from_command_line">9.2. Build configurations from command line</h3>
+<div class="paragraph">
+<p><a href="https://cmake.org/">CMake</a> tool is used to create standard make configurations. A few example "create&#8230;&#8203;" batch scripts are supplied (in <code>scripts</code> folder) as examples how to generate desired build setup from command line.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4090,7 +4097,7 @@ cmake -G "Visual Studio 16 2019" -T v140 -A Win32 ..
 </div>
 </div>
 <div class="sect2">
-<h3 id="_external_dependencies">9.2. External dependencies</h3>
+<h3 id="_external_dependencies">9.3. External dependencies</h3>
 <div class="paragraph">
 <p>esmini is designed to link all dependencies statically. Main reason is to have a all-inclusive library for easy integration either as a shared library/DLL (e.g. plugin in Unity, or S-function in Simulink) or statically linked into a native application.</p>
 </div>
@@ -4135,7 +4142,7 @@ to<br>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_additional_platform_dependencies">9.3. Additional platform dependencies</h3>
+<h3 id="_additional_platform_dependencies">9.4. Additional platform dependencies</h3>
 <div class="paragraph">
 <p>Linux Ubuntu 18.04</p>
 </div>
@@ -4152,7 +4159,7 @@ to<br>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_run_with_linux_and_visual_studio_code">9.4. Run with Linux and visual studio code</h3>
+<h3 id="_run_with_linux_and_visual_studio_code">9.5. Run with Linux and visual studio code</h3>
 <div class="paragraph">
 <p>When want to run from the visual studio code below steps might help with setup configuration.</p>
 </div>
@@ -4191,7 +4198,7 @@ to<br>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_debug_with_linux_and_visual_studio_code">9.5. Debug with Linux and visual studio code</h3>
+<h3 id="_debug_with_linux_and_visual_studio_code">9.6. Debug with Linux and visual studio code</h3>
 <div class="paragraph">
 <p>Open launch.json file already created.</p>
 </div>
@@ -4224,7 +4231,7 @@ to<br>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dynamic_protobuf_linking">9.6. Dynamic protobuf linking</h3>
+<h3 id="_dynamic_protobuf_linking">9.7. Dynamic protobuf linking</h3>
 <div class="paragraph">
 <p>When linking esmini with software already dependent on Google protobuf there might be need for dynamic linking of shared protobuf library. This can be achieved by defining cmake symbol DYN_PROTOBUF as following example:</p>
 </div>
@@ -4259,7 +4266,7 @@ The dynamic versions of protobuf were added Aug 31 2021. So you might need to up
 </div>
 </div>
 <div class="sect2">
-<h3 id="_slim_esmini_customize_configration">9.7. Slim esmini - customize configration</h3>
+<h3 id="_slim_esmini_customize_configration">9.8. Slim esmini - customize configration</h3>
 <div class="paragraph">
 <p>The external dependencies OSG, OSI and SUMO are optional. Also the unit test suite is optional, in effect making the dependecy to googletest framework optional as well. All these options are simply controlled by the following cmake options:</p>
 </div>
@@ -4296,7 +4303,7 @@ Disabling an external dependency will disable corresponding functionality. So, f
 </div>
 </div>
 <div class="sect2">
-<h3 id="_msys2_mingw_w64_support">9.8. MSYS2 / MinGW-w64 support</h3>
+<h3 id="_msys2_mingw_w64_support">9.9. MSYS2 / MinGW-w64 support</h3>
 <div class="paragraph">
 <p>esmini slim can be compiled and executed in the MSYS2 environment. Try following steps:</p>
 </div>
@@ -4352,7 +4359,7 @@ cmake --build . --config Release --target install</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build_esmini_project">9.9. Build esmini project</h3>
+<h3 id="_build_esmini_project">9.10. Build esmini project</h3>
 <div class="paragraph">
 <p>First generate build configuration (see above)</p>
 </div>
@@ -4423,7 +4430,7 @@ make -j4 install</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_centos_7_linux">9.10. CentOS 7 (Linux)</h3>
+<h3 id="_centos_7_linux">9.11. CentOS 7 (Linux)</h3>
 <div class="paragraph">
 <p>CentOS 7 has some limitations, e.g. old versions of C/C++ compiler toolkits and runtimes. So it&#8217;s not possible to link with provided 3rd party binary libraries targeting Ubuntu 18++.
 However, by disabling some featuers in esmini, e.g. OSI and SUMO, it can still be used for previewing scenarios.</p>
@@ -5751,7 +5758,7 @@ then:<br>
 {
         <span class="keyword">if</span> (argc &gt; <span class="integer">1</span>)
         {
-                SE_InitWithArgs(argc, (<span class="directive">const</span> <span class="predefined-type">char</span>**)argv);
+                SE_InitWithArgs(argc, <span class="keyword">const_cast</span>&lt;<span class="directive">const</span> <span class="predefined-type">char</span>**&gt;(argv));
         }
         <span class="keyword">else</span>
         {
@@ -5791,6 +5798,9 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
+        (<span class="directive">void</span>)argc;
+        (<span class="directive">void</span>)argv;
+
         SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
         <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
@@ -5802,7 +5812,8 @@ then:<br>
                         SE_ScenarioObjectState state;
 
                         SE_GetObjectState(SE_GetId(j), &amp;state);
-                        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] %.2f %.2f </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, state.timestamp, j, SE_GetId(j), state.x, state.y, state.wheel_angle, state.wheel_rot);
+                        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] %.2f %.2f </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.timestamp), j, SE_GetId(j),
+                                <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.x), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.y), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.wheel_angle), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.wheel_rot));
                 }
         }
 
@@ -5838,7 +5849,8 @@ then:<br>
 
         <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
         {
-                SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">0</span><span class="float">.0f</span>, <span class="float">8</span><span class="float">.0f</span>, (<span class="predefined-type">float</span>)i, <span class="integer">1</span><span class="float">0</span><span class="float">.0f</span>, <span class="predefined-type">float</span>(<span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i), <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>);
+                SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">0</span><span class="float">.0f</span>, <span class="float">8</span><span class="float">.0f</span>, <span class="keyword">static_cast</span>&lt;<span class="predefined-type">float</span>&gt;(i), <span class="integer">1</span><span class="float">0</span><span class="float">.0f</span>, <span class="predefined-type">float</span>(<span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i), <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>);
+
                 SE_Step();
 
                 <span class="keyword">if</span> (i == <span class="integer">100</span>)
@@ -5880,6 +5892,9 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
+        (<span class="directive">void</span>)argc;
+        (<span class="directive">void</span>)argv;
+
         SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_interactive.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
         <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
@@ -5904,7 +5919,7 @@ then:<br>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
 
-<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span>, <span class="predefined-type">char</span>**)
 {
         SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_interactive.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
@@ -5930,7 +5945,7 @@ then:<br>
 
 <span class="preprocessor">#define</span> MAX_HITS <span class="integer">10</span>
 
-<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span>, <span class="predefined-type">char</span>**)
 {
         SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
@@ -5956,7 +5971,8 @@ then:<br>
                                 SE_ScenarioObjectState state;
 
                                 SE_GetObjectState(objList[k], &amp;state);
-                                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">object[%d] pos: (%.2f, %.2f) heading: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, objList[k], state.x, state.y, state.h);
+                                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">object[%d] pos: (%.2f, %.2f) heading: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, objList[k],
+                                        <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.x), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.y), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.h));
                         }
                 }
         }
@@ -6014,7 +6030,7 @@ then:<br>
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;stdio.h&quot;</span>
 
-<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+<span class="predefined-type">int</span> main(<span class="directive">void</span>)
 {
         SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
         SE_CollisionDetection(<span class="predefined-constant">true</span>);
@@ -6168,7 +6184,7 @@ then:<br>
 
 <span class="directive">void</span> paramDeclCB(<span class="directive">void</span>* user_arg)
 {
-        <span class="predefined-type">bool</span> ghostMode = *((<span class="predefined-type">bool</span>*)user_arg);
+        <span class="predefined-type">bool</span> ghostMode = *(<span class="keyword">static_cast</span>&lt;<span class="predefined-type">bool</span>*&gt;(user_arg));
 
         SE_LogMessage((std::<span class="predefined-type">string</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Running with ghostMode = </span><span class="delimiter">&quot;</span></span>).append(ghostMode == <span class="predefined-constant">true</span> ? <span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>)).c_str());
         SE_SetParameterBool(<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span>, ghostMode);
@@ -6176,6 +6192,10 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
+
+        (<span class="directive">void</span>)argc;
+        (<span class="directive">void</span>)argv;
+
         <span class="directive">const</span> <span class="predefined-type">double</span> defaultTargetSpeed = <span class="integer">5</span><span class="float">0</span><span class="float">.0</span>;
         <span class="directive">const</span> <span class="predefined-type">double</span> curveWeight = <span class="integer">3</span><span class="float">0</span><span class="float">.0</span>;
         <span class="directive">const</span> <span class="predefined-type">double</span> throttleWeight = <span class="float">0</span><span class="float">.1</span>;
@@ -6183,7 +6203,7 @@ then:<br>
         <span class="predefined-type">bool</span> ghostMode[<span class="integer">3</span>] = { <span class="predefined-constant">false</span>, <span class="predefined-constant">true</span>, <span class="predefined-constant">true</span> };
 
         <span class="directive">void</span>* vehicleHandle = <span class="integer">0</span>;
-        SE_SimpleVehicleState vehicleState = { <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span> };
+        SE_SimpleVehicleState vehicleState = { <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>};
         SE_ScenarioObjectState objectState;
         SE_RoadInfo roadInfo;
 
@@ -6242,14 +6262,14 @@ then:<br>
                                 SE_GetRoadInfoAtDistance(<span class="integer">0</span>, <span class="integer">5</span> + <span class="float">0</span><span class="float">.75f</span> * vehicleState.speed, &amp;roadInfo, <span class="integer">0</span>, <span class="predefined-constant">true</span>);
 
                                 <span class="comment">// Slow down when curve ahead - CURVE_WEIGHT is the tuning parameter</span>
-                                targetSpeed = defaultTargetSpeed / (<span class="integer">1</span> + curveWeight * fabs(roadInfo.angle));
+                                targetSpeed = defaultTargetSpeed / (<span class="integer">1</span> + curveWeight * <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(fabs(roadInfo.angle)));
                         }
 
                         <span class="comment">// Steer towards where the point</span>
                         <span class="predefined-type">double</span> steerAngle = roadInfo.angle;
 
                         <span class="comment">// Accelerate or decelerate towards target speed - THROTTLE_WEIGHT tunes magnitude</span>
-                        <span class="predefined-type">double</span> throttle = throttleWeight * (targetSpeed - vehicleState.speed);
+                        <span class="predefined-type">double</span> throttle = throttleWeight * (targetSpeed - <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(vehicleState.speed));
 
                         <span class="comment">// Step vehicle model with driver input, but wait until time &gt; 0</span>
                         <span class="keyword">if</span> (SE_GetSimulationTime() &gt; <span class="integer">0</span> &amp;&amp; !SE_GetPauseFlag())
@@ -6383,9 +6403,12 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
+        (<span class="directive">void</span>)argc;
+        (<span class="directive">void</span>)argv;
+
         SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_simple.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
-        osi3::GroundTruth* gt;
+        <span class="directive">const</span> osi3::GroundTruth* gt;
 
         <span class="comment">// Initial update of complete Ground Truth, including static things</span>
         SE_UpdateOSIGroundTruth();
@@ -6399,11 +6422,11 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
                 SE_UpdateOSIGroundTruth();
 
                 <span class="comment">// Fetch OSI struct</span>
-                gt = (osi3::GroundTruth*)SE_GetOSIGroundTruthRaw();
+                gt = <span class="keyword">reinterpret_cast</span>&lt;<span class="directive">const</span> osi3::GroundTruth*&gt;(SE_GetOSIGroundTruthRaw());
 
                 <span class="comment">// Print timestamp</span>
-                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Frame %d timestamp: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, i, gt-&gt;mutable_timestamp()-&gt;seconds() +
-                        <span class="float">1</span>E-<span class="integer">9</span> * gt-&gt;mutable_timestamp()-&gt;nanos());
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Frame %d timestamp: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, i, <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().seconds()) +
+                        <span class="float">1</span>E-<span class="integer">9</span> * <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().nanos()));
 
                 <span class="comment">// Lane boundaries</span>
                 printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">lane boundaries: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;lane_boundary_size());
@@ -6429,22 +6452,22 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 
 <span class="preprocessor">#if</span> <span class="integer">1</span>  <span class="comment">// change to 1 in order to print some moving object state info</span>
                 <span class="comment">// Print object id, position, orientation and velocity</span>
-                <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; gt-&gt;mutable_moving_object()-&gt;size(); j++)
+                <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; gt-&gt;moving_object().size(); j++)
                 {
                         printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">  obj id %u pos (%.2f, %.2f, %.2f) orientation (%.2f, %.2f, %.2f) vel (%.2f, %.2f, %.2f) acc (%.2f, %.2f, %.2f)</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
-                                <span class="keyword">static_cast</span>&lt;<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span>&gt;(gt-&gt;mutable_moving_object(j)-&gt;mutable_id()-&gt;value()),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_position()-&gt;x(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_position()-&gt;y(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_position()-&gt;z(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_orientation()-&gt;yaw(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_orientation()-&gt;pitch(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_orientation()-&gt;roll(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_velocity()-&gt;x(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_velocity()-&gt;y(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_velocity()-&gt;z(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_acceleration()-&gt;x(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_acceleration()-&gt;y(),
-                                gt-&gt;mutable_moving_object(j)-&gt;mutable_base()-&gt;mutable_acceleration()-&gt;z()
+                                <span class="keyword">static_cast</span>&lt;<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span>&gt;(gt-&gt;moving_object(j).id().value()),
+                                gt-&gt;moving_object(j).base().position().x(),
+                                gt-&gt;moving_object(j).base().position().y(),
+                                gt-&gt;moving_object(j).base().position().z(),
+                                gt-&gt;moving_object(j).base().orientation().yaw(),
+                                gt-&gt;moving_object(j).base().orientation().pitch(),
+                                gt-&gt;moving_object(j).base().orientation().roll(),
+                                gt-&gt;moving_object(j).base().velocity().x(),
+                                gt-&gt;moving_object(j).base().velocity().y(),
+                                gt-&gt;moving_object(j).base().velocity().z(),
+                                gt-&gt;moving_object(j).base().acceleration().x(),
+                                gt-&gt;moving_object(j).base().acceleration().y(),
+                                gt-&gt;moving_object(j).base().acceleration().z()
                         );
                 }
 <span class="preprocessor">#endif</span>
@@ -6951,15 +6974,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.28.0"<br>
-ESMINI_GIT_REV="3dd8dfd"</p>
+<p>ESMINI_GIT_TAG="v2.29.0"<br>
+ESMINI_GIT_REV="79255e3"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-01-23 07:51:38 +0100
+Last updated 2023-02-02 18:01:44 +0100
 </div>
 </div>
 </body>
