@@ -2974,6 +2974,15 @@ After executing the above the exit code can be inspected/verified from shell as 
 </ol>
 </div>
 <div class="paragraph">
+<p>Ideally, two points are used: One closer for target speed and one more distant for steering target.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/ghost_targets.jpg" alt="ghost targets">
+</div>
+<div class="title">Different lookahead for speed and steering control</div>
+</div>
+<div class="paragraph">
 <p>Tuning parameters:</p>
 </div>
 <div class="olist arabic">
@@ -3159,6 +3168,38 @@ If lookahead distance is too large, the steering target angle becomes irrelevant
 <p><code>time</code> (time offset), <code>position</code> (distance offset)</p>
 </td>
 </tr>
+<tr>
+<td class="hdlist1">
+<code>lookaheadSpeed</code>
+</td>
+<td class="hdlist2">
+<p>Pick target speed from position at this look-ahead time (<code>time</code> mode) or distance (<code>position</code> mode)</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>minLookaheadSpeed</code>
+</td>
+<td class="hdlist2">
+<p>Minimum speed target look-ahead time (<code>time</code> mode) or distance (<code>position</code> mode)</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>lookaheadSteering</code>
+</td>
+<td class="hdlist2">
+<p>Pick target steering point from position at this look-ahead time (<code>time</code> mode) or distance (<code>position</code> mode)</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<code>minLookaheadSteering</code>
+</td>
+<td class="hdlist2">
+<p>Minimum steering target look-ahead time (<code>time</code> mode) or distance (<code>position</code> mode)</p>
+</td>
+</tr>
 </table>
 </div></div></td>
 </tr>
@@ -3168,6 +3209,12 @@ If lookahead distance is too large, the steering target angle becomes irrelevant
 </tr>
 </tbody>
 </table>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/ghost_targets.jpg" alt="ghost targets">
+</div>
+<div class="title">Illustration of separate look-ahead for speed and steering control</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_externalcontroller">6.6.4. ExternalController</h4>
@@ -6974,15 +7021,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.29.0"<br>
-ESMINI_GIT_REV="79255e3"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="3ee8ecc"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-02-02 18:01:44 +0100
+Last updated 2023-02-18 12:10:08 +0100
 </div>
 </div>
 </body>
