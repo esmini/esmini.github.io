@@ -5837,6 +5837,12 @@ then:<br>
 </div>
 <div class="sect3">
 <h4 id="_fetch_state_of_scenario_objects">12.3.3. Fetch state of scenario objects</h4>
+<div class="paragraph">
+<p>This example shows how to retrieve the state of scenario objects.</p>
+</div>
+<div class="paragraph">
+<p>We also check the return code from the initialization and react on any error.</p>
+</div>
 <div class="listingblock">
 <div class="title">Example 3. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp">EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp</a></div>
 <div class="content">
@@ -5848,7 +5854,11 @@ then:<br>
         (<span class="directive">void</span>)argc;
         (<span class="directive">void</span>)argv;
 
-        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+        <span class="keyword">if</span> (SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+        {
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Failed to initialize scenario</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+                <span class="keyword">return</span> -<span class="integer">1</span>;
+        }
 
         <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
         {
@@ -7022,14 +7032,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="3ee8ecc"</p>
+ESMINI_GIT_REV="d1254da"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-02-18 12:10:08 +0100
+Last updated 2023-02-22 17:42:24 +0100
 </div>
 </div>
 </body>
