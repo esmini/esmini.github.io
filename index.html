@@ -568,6 +568,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_how_it_works_for_the_user">6.4. How it works for the user</a></li>
 <li><a href="#_the_ghost_concept">6.5. The ghost concept</a></li>
 <li><a href="#_esmini_embedded_controllers">6.6. esmini embedded controllers</a></li>
+<li><a href="#_how_to_add_a_new_controller">6.7. How to add a new controller</a></li>
 </ul>
 </li>
 <li><a href="#_openscenegraph_and_3d_models">7. OpenSceneGraph and 3D models</a>
@@ -2916,25 +2917,25 @@ After executing the above the exit code can be inspected/verified from shell as 
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml">typedef struct
 {
-    float global_pos_x;  // target position, in global coordinate system
-    float global_pos_y;  // target position, in global coordinate system
-    float global_pos_z;  // target position, in global coordinate system
-    float local_pos_x;   // target position, relative vehicle (pivot position object) coordinate system
-    float local_pos_y;   // target position, relative vehicle (pivot position object) coordinate system
-    float local_pos_z;   // target position, relative vehicle (pivot position object) coordinate system
-    float angle;         // heading angle to target from and relative vehicle (pivot position object) coordinate system
-    float road_heading;  // road heading at steering target point
-    float road_pitch;    // road pitch (inclination) at steering target point
-    float road_roll;     // road roll (camber) at target point
-    float trail_heading; // trail heading (only when used for trail lookups, else equals road_heading)
-    float curvature;     // road curvature at steering target point
-    float speed_limit;   // speed limit given by OpenDRIVE type entry
-    int roadId;          // target position, road ID
-    int junctionId;      // target position, junction ID (-1 if not in a junction)
-    int laneId;          // target position, lane ID
-    float laneOffset;    // target position, lane offset (lateral distance from lane center)
-    float s;             // target position, s (longitudinal distance along reference line)
-    float t;             // target position, t (lateral distance from reference line)
+    float global_pos_x;   // target position, in global coordinate system
+    float global_pos_y;   // target position, in global coordinate system
+    float global_pos_z;   // target position, in global coordinate system
+    float local_pos_x;    // target position, relative vehicle (pivot position object) coordinate system
+    float local_pos_y;    // target position, relative vehicle (pivot position object) coordinate system
+    float local_pos_z;    // target position, relative vehicle (pivot position object) coordinate system
+    float angle;          // heading angle to target from and relative vehicle (pivot position object) coordinate system
+    float road_heading;   // road heading at steering target point
+    float road_pitch;     // road pitch (inclination) at steering target point
+    float road_roll;      // road roll (camber) at target point
+    float trail_heading;  // trail heading (only when used for trail lookups, else equals road_heading)
+    float curvature;      // road curvature at steering target point
+    float speed_limit;    // speed limit given by OpenDRIVE type entry
+    int   roadId;         // target position, road ID
+    int   junctionId;     // target position, junction ID (-1 if not in a junction)
+    int   laneId;         // target position, lane ID
+    float laneOffset;     // target position, lane offset (lateral distance from lane center)
+    float s;              // target position, s (longitudinal distance along reference line)
+    float t;              // target position, t (lateral distance from reference line)
 } SE_RoadInfo;</code></pre>
 </div>
 </div>
@@ -3648,6 +3649,34 @@ Parameters:
 <iframe width="854" height="480" src="https://www.youtube.com/embed/IuwuGE3BzKw?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=IuwuGE3BzKw" frameborder="0" allowfullscreen></iframe>
 </div>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_add_a_new_controller">6.7. How to add a new controller</h3>
+<div class="paragraph">
+<p>Below are the steps to add new controller in esmini:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a sepreate controller module in the controller folder. Suggestion is to copy one of the existing and use as a starting point.</p>
+</li>
+<li>
+<p>Register the controller in the LoadControllers() fuction in EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/ScenarioReader.cpp</p>
+</li>
+<li>
+<p>Create Instantiate method in the new controller. The name shall be unique eg InstantiateControllerLooming</p>
+</li>
+<li>
+<p>In the new controller, Type name shall be unique eg, CONTROLLER_LOOMING_TYPE_NAME</p>
+</li>
+<li>
+<p>Add controller type and it shall be unique in EnvironmentSimulator/Modules/Controllers/Controller.hpp</p>
+</li>
+<li>
+<p>Make sure GetTypeStatic() and GetTypeNameStatic() and methods returns the unique type and type name values</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -5803,23 +5832,23 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
-        <span class="keyword">if</span> (argc &gt; <span class="integer">1</span>)
-        {
-                SE_InitWithArgs(argc, <span class="keyword">const_cast</span>&lt;<span class="directive">const</span> <span class="predefined-type">char</span>**&gt;(argv));
-        }
-        <span class="keyword">else</span>
-        {
-                SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
-        }
+    <span class="keyword">if</span> (argc &gt; <span class="integer">1</span>)
+    {
+        SE_InitWithArgs(argc, <span class="keyword">const_cast</span>&lt;<span class="directive">const</span> <span class="predefined-type">char</span>**&gt;(argv));
+    }
+    <span class="keyword">else</span>
+    {
+        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    }
 
-        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
-        {
-                SE_Step();
-        }
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
+    {
+        SE_Step();
+    }
 
-        SE_Close();
+    SE_Close();
 
-        <span class="keyword">return</span> <span class="integer">0</span>;
+    <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
 </div>
@@ -5851,32 +5880,38 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
-        (<span class="directive">void</span>)argc;
-        (<span class="directive">void</span>)argv;
+    (<span class="directive">void</span>)argc;
+    (<span class="directive">void</span>)argv;
 
-        <span class="keyword">if</span> (SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+    <span class="keyword">if</span> (SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+    {
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Failed to initialize scenario</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+        <span class="keyword">return</span> -<span class="integer">1</span>;
+    }
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
+    {
+        SE_Step();
+
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; SE_GetNumberOfObjects(); j++)
         {
-                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Failed to initialize scenario</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-                <span class="keyword">return</span> -<span class="integer">1</span>;
+            SE_ScenarioObjectState state;
+
+            SE_GetObjectState(SE_GetId(j), &amp;state);
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] %.2f %.2f </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.timestamp),
+                   j,
+                   SE_GetId(j),
+                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.x),
+                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.y),
+                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.wheel_angle),
+                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.wheel_rot));
         }
+    }
 
-        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
-        {
-                SE_Step();
+    SE_Close();
 
-                <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; SE_GetNumberOfObjects(); j++)
-                {
-                        SE_ScenarioObjectState state;
-
-                        SE_GetObjectState(SE_GetId(j), &amp;state);
-                        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] %.2f %.2f </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.timestamp), j, SE_GetId(j),
-                                <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.x), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.y), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.wheel_angle), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.wheel_rot));
-                }
-        }
-
-        SE_Close();
-
-        <span class="keyword">return</span> <span class="integer">0</span>;
+    <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
 </div>
@@ -5900,30 +5935,30 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
-        <span class="directive">const</span> <span class="predefined-type">char</span>* filename = argc &gt; <span class="integer">1</span> ? argv[<span class="integer">1</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_external.xosc</span><span class="delimiter">&quot;</span></span>;
+    <span class="directive">const</span> <span class="predefined-type">char</span>* filename = argc &gt; <span class="integer">1</span> ? argv[<span class="integer">1</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_external.xosc</span><span class="delimiter">&quot;</span></span>;
 
-        SE_Init(filename, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    SE_Init(filename, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
-        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
+    {
+        SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">0</span><span class="float">.0f</span>, <span class="float">8</span><span class="float">.0f</span>, <span class="keyword">static_cast</span>&lt;<span class="predefined-type">float</span>&gt;(i), <span class="integer">1</span><span class="float">0</span><span class="float">.0f</span>, <span class="predefined-type">float</span>(<span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i), <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>);
+
+        SE_Step();
+
+        <span class="keyword">if</span> (i == <span class="integer">100</span>)
         {
-                SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">0</span><span class="float">.0f</span>, <span class="float">8</span><span class="float">.0f</span>, <span class="keyword">static_cast</span>&lt;<span class="predefined-type">float</span>&gt;(i), <span class="integer">1</span><span class="float">0</span><span class="float">.0f</span>, <span class="predefined-type">float</span>(<span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i), <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>);
-
-                SE_Step();
-
-                <span class="keyword">if</span> (i == <span class="integer">100</span>)
-                {
-                        SE_SetAlignModeZ(SE_GetId(<span class="integer">0</span>), <span class="integer">0</span>);  <span class="comment">// release vertical alignment to road surface</span>
-                }
-
-                <span class="keyword">if</span> (i == <span class="integer">200</span>)
-                {
-                        SE_SetAlignModeZ(SE_GetId(<span class="integer">0</span>), <span class="integer">2</span>);  <span class="comment">// enforce vertical alignment to road surface</span>
-                }
+            SE_SetAlignModeZ(SE_GetId(<span class="integer">0</span>), <span class="integer">0</span>);  <span class="comment">// release vertical alignment to road surface</span>
         }
 
-        SE_Close();
+        <span class="keyword">if</span> (i == <span class="integer">200</span>)
+        {
+            SE_SetAlignModeZ(SE_GetId(<span class="integer">0</span>), <span class="integer">2</span>);  <span class="comment">// enforce vertical alignment to road surface</span>
+        }
+    }
 
-        <span class="keyword">return</span> <span class="integer">0</span>;
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
 </div>
@@ -5949,19 +5984,19 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
-        (<span class="directive">void</span>)argc;
-        (<span class="directive">void</span>)argv;
+    (<span class="directive">void</span>)argc;
+    (<span class="directive">void</span>)argv;
 
-        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_interactive.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_interactive.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
-        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
-        {
-                SE_Step();
-        }
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
+    {
+        SE_Step();
+    }
 
-        SE_Close();
+    SE_Close();
 
-        <span class="keyword">return</span> <span class="integer">0</span>;
+    <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
 </div>
@@ -5978,16 +6013,16 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span>, <span class="predefined-type">char</span>**)
 {
-        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_interactive.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_interactive.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
-        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
-        {
-                SE_Step();
-        }
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
+    {
+        SE_Step();
+    }
 
-        SE_Close();
+    SE_Close();
 
-        <span class="keyword">return</span> <span class="integer">0</span>;
+    <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
 </div>
@@ -6004,39 +6039,42 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span>, <span class="predefined-type">char</span>**)
 {
-        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
-        SE_AddObjectSensor(<span class="integer">0</span>, <span class="float">2</span><span class="float">.0f</span>, <span class="float">1</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.5f</span>, <span class="float">1</span><span class="float">.57f</span>, <span class="float">1</span><span class="float">.0f</span>, <span class="integer">5</span><span class="float">0</span><span class="float">.0f</span>, <span class="float">1</span><span class="float">.57f</span>, MAX_HITS);
-        SE_AddObjectSensor(<span class="integer">0</span>, -<span class="float">1</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.5f</span>, <span class="float">3</span><span class="float">.14f</span>, <span class="float">0</span><span class="float">.5f</span>, <span class="integer">2</span><span class="float">0</span><span class="float">.0f</span>, <span class="float">1</span><span class="float">.57f</span>, MAX_HITS);
+    SE_AddObjectSensor(<span class="integer">0</span>, <span class="float">2</span><span class="float">.0f</span>, <span class="float">1</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.5f</span>, <span class="float">1</span><span class="float">.57f</span>, <span class="float">1</span><span class="float">.0f</span>, <span class="integer">5</span><span class="float">0</span><span class="float">.0f</span>, <span class="float">1</span><span class="float">.57f</span>, MAX_HITS);
+    SE_AddObjectSensor(<span class="integer">0</span>, -<span class="float">1</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.5f</span>, <span class="float">3</span><span class="float">.14f</span>, <span class="float">0</span><span class="float">.5f</span>, <span class="integer">2</span><span class="float">0</span><span class="float">.0f</span>, <span class="float">1</span><span class="float">.57f</span>, MAX_HITS);
 
-        <span class="comment">// Turn on visualization of object sensors, toggle key 'r'</span>
-        SE_ViewerShowFeature(<span class="integer">1</span>, <span class="predefined-constant">true</span>);
+    <span class="comment">// Turn on visualization of object sensors, toggle key 'r'</span>
+    SE_ViewerShowFeature(<span class="integer">1</span>, <span class="predefined-constant">true</span>);
 
-        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; !(SE_GetQuitFlag() == <span class="integer">1</span>); i++)
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; !(SE_GetQuitFlag() == <span class="integer">1</span>); i++)
+    {
+        SE_Step();
+
+        <span class="predefined-type">int</span> objList[MAX_HITS];
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; <span class="integer">2</span>; j++)  <span class="comment">// iterate over added sensors</span>
         {
-                SE_Step();
+            <span class="predefined-type">int</span> nHits = SE_FetchSensorObjectList(j, objList);
+            <span class="keyword">for</span> (<span class="predefined-type">int</span> k = <span class="integer">0</span>; k &lt; nHits; k++)
+            {
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sensor[%d] detected obj: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, objList[k]);
 
-                <span class="predefined-type">int</span> objList[MAX_HITS];
-                <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; <span class="integer">2</span>; j++)  <span class="comment">// iterate over added sensors</span>
-                {
-                        <span class="predefined-type">int</span> nHits = SE_FetchSensorObjectList(j, objList);
-                        <span class="keyword">for</span> (<span class="predefined-type">int</span> k = <span class="integer">0</span>; k &lt; nHits; k++)
-                        {
-                                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sensor[%d] detected obj: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, objList[k]);
+                <span class="comment">// Get some info of that detected object</span>
+                SE_ScenarioObjectState state;
 
-                                <span class="comment">// Get some info of that detected object</span>
-                                SE_ScenarioObjectState state;
-
-                                SE_GetObjectState(objList[k], &amp;state);
-                                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">object[%d] pos: (%.2f, %.2f) heading: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, objList[k],
-                                        <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.x), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.y), <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.h));
-                        }
-                }
+                SE_GetObjectState(objList[k], &amp;state);
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">object[%d] pos: (%.2f, %.2f) heading: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                       objList[k],
+                       <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.x),
+                       <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.y),
+                       <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.h));
+            }
         }
+    }
 
-        SE_Close();
+    SE_Close();
 
-        <span class="keyword">return</span> <span class="integer">0</span>;
+    <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
 </div>
@@ -6089,23 +6127,23 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="directive">void</span>)
 {
-        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
-        SE_CollisionDetection(<span class="predefined-constant">true</span>);
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    SE_CollisionDetection(<span class="predefined-constant">true</span>);
 
-        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
+    {
+        SE_Step();
+
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; SE_GetNumberOfObjects(); j++)
         {
-                SE_Step();
-
-                <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; SE_GetNumberOfObjects(); j++)
-                {
-                        <span class="keyword">for</span> (<span class="predefined-type">int</span> k = <span class="integer">0</span>; k &lt; SE_GetObjectNumberOfCollisions(j); k++)
-                        {
-                                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Collision[%d]: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, SE_GetObjectCollision(j, k));
-                        }
-                }
+            <span class="keyword">for</span> (<span class="predefined-type">int</span> k = <span class="integer">0</span>; k &lt; SE_GetObjectNumberOfCollisions(j); k++)
+            {
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Collision[%d]: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, SE_GetObjectCollision(j, k));
+            }
         }
+    }
 
-        <span class="keyword">return</span> <span class="integer">0</span>;
+    <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
 </div>
@@ -6237,125 +6275,122 @@ then:<br>
 <span class="preprocessor">#include</span> <span class="include">&lt;string&gt;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
 
-
-
 <span class="directive">void</span> paramDeclCB(<span class="directive">void</span>* user_arg)
 {
-        <span class="predefined-type">bool</span> ghostMode = *(<span class="keyword">static_cast</span>&lt;<span class="predefined-type">bool</span>*&gt;(user_arg));
+    <span class="predefined-type">bool</span> ghostMode = *(<span class="keyword">static_cast</span>&lt;<span class="predefined-type">bool</span>*&gt;(user_arg));
 
-        SE_LogMessage((std::<span class="predefined-type">string</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Running with ghostMode = </span><span class="delimiter">&quot;</span></span>).append(ghostMode == <span class="predefined-constant">true</span> ? <span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>)).c_str());
-        SE_SetParameterBool(<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span>, ghostMode);
+    SE_LogMessage((std::<span class="predefined-type">string</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Running with ghostMode = </span><span class="delimiter">&quot;</span></span>).append(ghostMode == <span class="predefined-constant">true</span> ? <span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>)).c_str());
+    SE_SetParameterBool(<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span>, ghostMode);
 }
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
+    (<span class="directive">void</span>)argc;
+    (<span class="directive">void</span>)argv;
 
-        (<span class="directive">void</span>)argc;
-        (<span class="directive">void</span>)argv;
+    <span class="directive">const</span> <span class="predefined-type">double</span> defaultTargetSpeed = <span class="integer">5</span><span class="float">0</span><span class="float">.0</span>;
+    <span class="directive">const</span> <span class="predefined-type">double</span> curveWeight        = <span class="integer">3</span><span class="float">0</span><span class="float">.0</span>;
+    <span class="directive">const</span> <span class="predefined-type">double</span> throttleWeight     = <span class="float">0</span><span class="float">.1</span>;
+    <span class="directive">const</span> <span class="predefined-type">float</span>  duration           = <span class="integer">3</span><span class="float">5</span><span class="float">.0f</span>;
+    <span class="predefined-type">bool</span>         ghostMode[<span class="integer">3</span>]       = {<span class="predefined-constant">false</span>, <span class="predefined-constant">true</span>, <span class="predefined-constant">true</span>};
 
-        <span class="directive">const</span> <span class="predefined-type">double</span> defaultTargetSpeed = <span class="integer">5</span><span class="float">0</span><span class="float">.0</span>;
-        <span class="directive">const</span> <span class="predefined-type">double</span> curveWeight = <span class="integer">3</span><span class="float">0</span><span class="float">.0</span>;
-        <span class="directive">const</span> <span class="predefined-type">double</span> throttleWeight = <span class="float">0</span><span class="float">.1</span>;
-        <span class="directive">const</span> <span class="predefined-type">float</span> duration = <span class="integer">3</span><span class="float">5</span><span class="float">.0f</span>;
-        <span class="predefined-type">bool</span> ghostMode[<span class="integer">3</span>] = { <span class="predefined-constant">false</span>, <span class="predefined-constant">true</span>, <span class="predefined-constant">true</span> };
+    <span class="directive">void</span>*                  vehicleHandle = <span class="integer">0</span>;
+    SE_SimpleVehicleState  vehicleState  = {<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>};
+    SE_ScenarioObjectState objectState;
+    SE_RoadInfo            roadInfo;
 
-        <span class="directive">void</span>* vehicleHandle = <span class="integer">0</span>;
-        SE_SimpleVehicleState vehicleState = { <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>};
-        SE_ScenarioObjectState objectState;
-        SE_RoadInfo roadInfo;
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">3</span>; i++)
+    {
+        <span class="predefined-type">float</span> dt = <span class="float">0</span><span class="float">.0f</span>;
 
-        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">3</span>; i++)
+        SE_RegisterParameterDeclarationCallback(paramDeclCB, &amp;ghostMode[i]);
+
+        <span class="keyword">if</span> (SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../EnvironmentSimulator/code-examples/test-driver/test-driver.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
         {
-                <span class="predefined-type">float</span> dt = <span class="float">0</span><span class="float">.0f</span>;
-
-                SE_RegisterParameterDeclarationCallback(paramDeclCB, &amp;ghostMode[i]);
-
-                <span class="keyword">if</span> (SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../EnvironmentSimulator/code-examples/test-driver/test-driver.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
-                {
-                        SE_LogMessage(<span class="string"><span class="delimiter">&quot;</span><span class="content">Failed to initialize the scenario, quit</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-                        <span class="keyword">return</span> -<span class="integer">1</span>;
-                }
-
-                <span class="comment">// Lock object to the original lane</span>
-                <span class="comment">// If setting to false, the object road position will snap to closest lane</span>
-                SE_SetLockOnLane(<span class="integer">0</span>, <span class="predefined-constant">true</span>);
-
-                <span class="comment">// Initialize the vehicle model, fetch initial state from the scenario</span>
-                SE_GetObjectState(<span class="integer">0</span>, &amp;objectState);
-                vehicleHandle = SE_SimpleVehicleCreate(objectState.x, objectState.y, objectState.h, <span class="float">4</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.0</span>);
-                SE_SimpleVehicleSteeringRate(vehicleHandle, <span class="float">6</span><span class="float">.0f</span>);
-
-                <span class="comment">// show some road features, including road sensor</span>
-                SE_ViewerShowFeature(<span class="integer">4</span> + <span class="integer">8</span>, <span class="predefined-constant">true</span>);  <span class="comment">// NODE_MASK_TRAIL_DOTS (1 &lt;&lt; 2) &amp; NODE_MASK_ODR_FEATURES (1 &lt;&lt; 3),</span>
-
-                <span class="comment">// Run for specified duration or until 'Esc' button is pressed</span>
-                <span class="keyword">while</span> (SE_GetSimulationTime() &lt; duration &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>)
-                {
-                        <span class="comment">// Get simulation delta time since last call (first will be minimum timestep)</span>
-                        dt = SE_GetSimTimeStep();
-
-                        <span class="comment">// Get road information at a point some speed dependent distance ahead</span>
-                        <span class="predefined-type">double</span> targetSpeed;
-                        <span class="keyword">if</span> (ghostMode[i] == <span class="predefined-constant">true</span>)
-                        {
-                                <span class="comment">// ghost version</span>
-                                <span class="predefined-type">float</span> ghost_speed = <span class="float">0</span><span class="float">.0f</span>;
-
-                                <span class="keyword">if</span> (i % <span class="integer">2</span> == <span class="integer">0</span>)  <span class="comment">// alternate between time based and position based look ahead modes</span>
-                                {
-                                        <span class="comment">// Time based look ahead</span>
-                                        SE_GetRoadInfoGhostTrailTime(<span class="integer">0</span>, SE_GetSimulationTime() + <span class="float">0</span><span class="float">.25f</span>, &amp;roadInfo, &amp;ghost_speed);
-                                }
-                                <span class="keyword">else</span>
-                                {
-                                        <span class="comment">// Position based Time based look ahead</span>
-                                        SE_GetRoadInfoAlongGhostTrail(<span class="integer">0</span>, <span class="integer">5</span> + <span class="float">0</span><span class="float">.75f</span> * vehicleState.speed, &amp;roadInfo, &amp;ghost_speed);
-                                }
-                                targetSpeed = ghost_speed;
-                        }
-                        <span class="keyword">else</span>
-                        {
-                                <span class="comment">// Look ahead along the road, to establish target info for the driver model</span>
-                                SE_GetRoadInfoAtDistance(<span class="integer">0</span>, <span class="integer">5</span> + <span class="float">0</span><span class="float">.75f</span> * vehicleState.speed, &amp;roadInfo, <span class="integer">0</span>, <span class="predefined-constant">true</span>);
-
-                                <span class="comment">// Slow down when curve ahead - CURVE_WEIGHT is the tuning parameter</span>
-                                targetSpeed = defaultTargetSpeed / (<span class="integer">1</span> + curveWeight * <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(fabs(roadInfo.angle)));
-                        }
-
-                        <span class="comment">// Steer towards where the point</span>
-                        <span class="predefined-type">double</span> steerAngle = roadInfo.angle;
-
-                        <span class="comment">// Accelerate or decelerate towards target speed - THROTTLE_WEIGHT tunes magnitude</span>
-                        <span class="predefined-type">double</span> throttle = throttleWeight * (targetSpeed - <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(vehicleState.speed));
-
-                        <span class="comment">// Step vehicle model with driver input, but wait until time &gt; 0</span>
-                        <span class="keyword">if</span> (SE_GetSimulationTime() &gt; <span class="integer">0</span> &amp;&amp; !SE_GetPauseFlag())
-                        {
-                                SE_SimpleVehicleControlAnalog(vehicleHandle, dt, throttle, steerAngle);
-                        }
-
-                        <span class="comment">// Fetch updated state and report to scenario engine</span>
-                        SE_SimpleVehicleGetState(vehicleHandle, &amp;vehicleState);
-
-                        <span class="comment">// Report updated vehicle position and heading. z, pitch and roll will be aligned to the road</span>
-                        SE_ReportObjectPosXYH(<span class="integer">0</span>, <span class="integer">0</span>, vehicleState.x, vehicleState.y, vehicleState.h);
-
-                        <span class="comment">// The following values are not necessary to report.</span>
-                        <span class="comment">// If not reported, esmini will calculate based on motion over time</span>
-                        <span class="comment">// but for accuracy it's recommendeded to report if available.</span>
-
-                        <span class="comment">// wheel status (revolution and steering angles)</span>
-                        SE_ReportObjectWheelStatus(<span class="integer">0</span>, vehicleState.wheel_rotation, vehicleState.wheel_angle);
-
-                        <span class="comment">// speed (along vehicle longitudinal (x) axis)</span>
-                        SE_ReportObjectSpeed(<span class="integer">0</span>, vehicleState.speed);
-
-                        <span class="comment">// Finally, update scenario using same time step as for vehicle model</span>
-                        SE_StepDT(dt);
-                }
-                SE_Close();
+            SE_LogMessage(<span class="string"><span class="delimiter">&quot;</span><span class="content">Failed to initialize the scenario, quit</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            <span class="keyword">return</span> -<span class="integer">1</span>;
         }
-        <span class="keyword">return</span> <span class="integer">0</span>;
+
+        <span class="comment">// Lock object to the original lane</span>
+        <span class="comment">// If setting to false, the object road position will snap to closest lane</span>
+        SE_SetLockOnLane(<span class="integer">0</span>, <span class="predefined-constant">true</span>);
+
+        <span class="comment">// Initialize the vehicle model, fetch initial state from the scenario</span>
+        SE_GetObjectState(<span class="integer">0</span>, &amp;objectState);
+        vehicleHandle = SE_SimpleVehicleCreate(objectState.x, objectState.y, objectState.h, <span class="float">4</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.0</span>);
+        SE_SimpleVehicleSteeringRate(vehicleHandle, <span class="float">6</span><span class="float">.0f</span>);
+
+        <span class="comment">// show some road features, including road sensor</span>
+        SE_ViewerShowFeature(<span class="integer">4</span> + <span class="integer">8</span>, <span class="predefined-constant">true</span>);  <span class="comment">// NODE_MASK_TRAIL_DOTS (1 &lt;&lt; 2) &amp; NODE_MASK_ODR_FEATURES (1 &lt;&lt; 3),</span>
+
+        <span class="comment">// Run for specified duration or until 'Esc' button is pressed</span>
+        <span class="keyword">while</span> (SE_GetSimulationTime() &lt; duration &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>)
+        {
+            <span class="comment">// Get simulation delta time since last call (first will be minimum timestep)</span>
+            dt = SE_GetSimTimeStep();
+
+            <span class="comment">// Get road information at a point some speed dependent distance ahead</span>
+            <span class="predefined-type">double</span> targetSpeed;
+            <span class="keyword">if</span> (ghostMode[i] == <span class="predefined-constant">true</span>)
+            {
+                <span class="comment">// ghost version</span>
+                <span class="predefined-type">float</span> ghost_speed = <span class="float">0</span><span class="float">.0f</span>;
+
+                <span class="keyword">if</span> (i % <span class="integer">2</span> == <span class="integer">0</span>)  <span class="comment">// alternate between time based and position based look ahead modes</span>
+                {
+                    <span class="comment">// Time based look ahead</span>
+                    SE_GetRoadInfoGhostTrailTime(<span class="integer">0</span>, SE_GetSimulationTime() + <span class="float">0</span><span class="float">.25f</span>, &amp;roadInfo, &amp;ghost_speed);
+                }
+                <span class="keyword">else</span>
+                {
+                    <span class="comment">// Position based Time based look ahead</span>
+                    SE_GetRoadInfoAlongGhostTrail(<span class="integer">0</span>, <span class="integer">5</span> + <span class="float">0</span><span class="float">.75f</span> * vehicleState.speed, &amp;roadInfo, &amp;ghost_speed);
+                }
+                targetSpeed = ghost_speed;
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="comment">// Look ahead along the road, to establish target info for the driver model</span>
+                SE_GetRoadInfoAtDistance(<span class="integer">0</span>, <span class="integer">5</span> + <span class="float">0</span><span class="float">.75f</span> * vehicleState.speed, &amp;roadInfo, <span class="integer">0</span>, <span class="predefined-constant">true</span>);
+
+                <span class="comment">// Slow down when curve ahead - CURVE_WEIGHT is the tuning parameter</span>
+                targetSpeed = defaultTargetSpeed / (<span class="integer">1</span> + curveWeight * <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(fabs(roadInfo.angle)));
+            }
+
+            <span class="comment">// Steer towards where the point</span>
+            <span class="predefined-type">double</span> steerAngle = roadInfo.angle;
+
+            <span class="comment">// Accelerate or decelerate towards target speed - THROTTLE_WEIGHT tunes magnitude</span>
+            <span class="predefined-type">double</span> throttle = throttleWeight * (targetSpeed - <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(vehicleState.speed));
+
+            <span class="comment">// Step vehicle model with driver input, but wait until time &gt; 0</span>
+            <span class="keyword">if</span> (SE_GetSimulationTime() &gt; <span class="integer">0</span> &amp;&amp; !SE_GetPauseFlag())
+            {
+                SE_SimpleVehicleControlAnalog(vehicleHandle, dt, throttle, steerAngle);
+            }
+
+            <span class="comment">// Fetch updated state and report to scenario engine</span>
+            SE_SimpleVehicleGetState(vehicleHandle, &amp;vehicleState);
+
+            <span class="comment">// Report updated vehicle position and heading. z, pitch and roll will be aligned to the road</span>
+            SE_ReportObjectPosXYH(<span class="integer">0</span>, <span class="integer">0</span>, vehicleState.x, vehicleState.y, vehicleState.h);
+
+            <span class="comment">// The following values are not necessary to report.</span>
+            <span class="comment">// If not reported, esmini will calculate based on motion over time</span>
+            <span class="comment">// but for accuracy it's recommendeded to report if available.</span>
+
+            <span class="comment">// wheel status (revolution and steering angles)</span>
+            SE_ReportObjectWheelStatus(<span class="integer">0</span>, vehicleState.wheel_rotation, vehicleState.wheel_angle);
+
+            <span class="comment">// speed (along vehicle longitudinal (x) axis)</span>
+            SE_ReportObjectSpeed(<span class="integer">0</span>, vehicleState.speed);
+
+            <span class="comment">// Finally, update scenario using same time step as for vehicle model</span>
+            SE_StepDT(dt);
+        }
+        SE_Close();
+    }
+    <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
 </div>
@@ -6410,9 +6445,9 @@ then:<br>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>include_directories(. ../include ../EnvironmentSimulator/Libraries/esminiLib ../externals/OSI/v10/include)
+<pre>include_directories(. ../include ../EnvironmentSimulator/Libraries/esminiLib ../externals/osi/v10/include)
 
-link_directories(. ../bin ../externals/OSI/v10/lib)
+link_directories(. ../bin ../externals/osi/v10/lib)
 
 target_link_libraries(${TARGET} esminiLib libprotobuf open_simulation_interface_pic)</pre>
 </div>
@@ -6422,9 +6457,9 @@ target_link_libraries(${TARGET} esminiLib libprotobuf open_simulation_interface_
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>include_directories(. ../include ../EnvironmentSimulator/Libraries/esminiLib ../externals/OSI/linux/include)
+<pre>include_directories(. ../include ../EnvironmentSimulator/Libraries/esminiLib ../externals/osi/linux/include)
 
-link_directories(. ../bin ../externals/OSI/linux/lib)
+link_directories(. ../bin ../externals/osi/linux/lib)
 
 target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic)</pre>
 </div>
@@ -6460,36 +6495,35 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
-        (<span class="directive">void</span>)argc;
-        (<span class="directive">void</span>)argv;
+    (<span class="directive">void</span>)argc;
+    (<span class="directive">void</span>)argv;
 
-        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_simple.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_simple.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
-        <span class="directive">const</span> osi3::GroundTruth* gt;
+    <span class="directive">const</span> osi3::GroundTruth* gt;
 
-        <span class="comment">// Initial update of complete Ground Truth, including static things</span>
+    <span class="comment">// Initial update of complete Ground Truth, including static things</span>
+    SE_UpdateOSIGroundTruth();
+    <span class="comment">// You could now retrieve the initial state of all objects before stepping the scenario</span>
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">1500</span>; i++)
+    {
+        SE_StepDT(<span class="float">0</span><span class="float">.01f</span>);
+
+        <span class="comment">// Further updates will only affect dynamic OSI stuff</span>
         SE_UpdateOSIGroundTruth();
-        <span class="comment">// You could now retrieve the initial state of all objects before stepping the scenario</span>
 
-        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">1500</span>; i++)
+        <span class="comment">// Fetch OSI struct</span>
+        gt = <span class="keyword">reinterpret_cast</span>&lt;<span class="directive">const</span> osi3::GroundTruth*&gt;(SE_GetOSIGroundTruthRaw());
+
+        <span class="comment">// Print timestamp</span>
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Frame %d timestamp: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, i, <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().seconds()) + <span class="float">1</span>E-<span class="integer">9</span> * <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().nanos()));
+
+        <span class="comment">// Lane boundaries</span>
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">lane boundaries: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;lane_boundary_size());
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; gt-&gt;lane_boundary_size(); j++)
         {
-                SE_StepDT(<span class="float">0</span><span class="float">.01f</span>);
-
-                <span class="comment">// Further updates will only affect dynamic OSI stuff</span>
-                SE_UpdateOSIGroundTruth();
-
-                <span class="comment">// Fetch OSI struct</span>
-                gt = <span class="keyword">reinterpret_cast</span>&lt;<span class="directive">const</span> osi3::GroundTruth*&gt;(SE_GetOSIGroundTruthRaw());
-
-                <span class="comment">// Print timestamp</span>
-                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Frame %d timestamp: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, i, <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().seconds()) +
-                        <span class="float">1</span>E-<span class="integer">9</span> * <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().nanos()));
-
-                <span class="comment">// Lane boundaries</span>
-                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">lane boundaries: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;lane_boundary_size());
-                <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; gt-&gt;lane_boundary_size(); j++)
-                {
-                        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">  lane boundary %d, nr of boundary points: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, gt-&gt;lane_boundary(j).boundary_line_size());
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">  lane boundary %d, nr of boundary points: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, gt-&gt;lane_boundary(j).boundary_line_size());
 
 <span class="comment">#if 0  // change to 1 in order to print all boundary points
                         for (int k = 0; k &lt; gt-&gt;lane_boundary(j).boundary_line_size(); k++)
@@ -6499,40 +6533,39 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
                                         gt-&gt;lane_boundary(j).boundary_line(k).position().y());
                         }
 #endif</span>
-                }
-
-                <span class="comment">// Road markings, e.g. zebra lines</span>
-                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">road markings: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;road_marking_size());
-
-                <span class="comment">// Moving objects</span>
-                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">moving objects: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;moving_object_size());
-
-<span class="preprocessor">#if</span> <span class="integer">1</span>  <span class="comment">// change to 1 in order to print some moving object state info</span>
-                <span class="comment">// Print object id, position, orientation and velocity</span>
-                <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; gt-&gt;moving_object().size(); j++)
-                {
-                        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">  obj id %u pos (%.2f, %.2f, %.2f) orientation (%.2f, %.2f, %.2f) vel (%.2f, %.2f, %.2f) acc (%.2f, %.2f, %.2f)</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
-                                <span class="keyword">static_cast</span>&lt;<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span>&gt;(gt-&gt;moving_object(j).id().value()),
-                                gt-&gt;moving_object(j).base().position().x(),
-                                gt-&gt;moving_object(j).base().position().y(),
-                                gt-&gt;moving_object(j).base().position().z(),
-                                gt-&gt;moving_object(j).base().orientation().yaw(),
-                                gt-&gt;moving_object(j).base().orientation().pitch(),
-                                gt-&gt;moving_object(j).base().orientation().roll(),
-                                gt-&gt;moving_object(j).base().velocity().x(),
-                                gt-&gt;moving_object(j).base().velocity().y(),
-                                gt-&gt;moving_object(j).base().velocity().z(),
-                                gt-&gt;moving_object(j).base().acceleration().x(),
-                                gt-&gt;moving_object(j).base().acceleration().y(),
-                                gt-&gt;moving_object(j).base().acceleration().z()
-                        );
-                }
-<span class="preprocessor">#endif</span>
         }
 
-        SE_Close();
+        <span class="comment">// Road markings, e.g. zebra lines</span>
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">road markings: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;road_marking_size());
 
-        <span class="keyword">return</span> <span class="integer">0</span>;
+        <span class="comment">// Moving objects</span>
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">moving objects: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;moving_object_size());
+
+<span class="preprocessor">#if</span> <span class="integer">1</span>  <span class="comment">// change to 1 in order to print some moving object state info</span>
+       <span class="comment">// Print object id, position, orientation and velocity</span>
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; gt-&gt;moving_object().size(); j++)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">  obj id %u pos (%.2f, %.2f, %.2f) orientation (%.2f, %.2f, %.2f) vel (%.2f, %.2f, %.2f) acc (%.2f, %.2f, %.2f)</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span>&gt;(gt-&gt;moving_object(j).id().value()),
+                   gt-&gt;moving_object(j).base().position().x(),
+                   gt-&gt;moving_object(j).base().position().y(),
+                   gt-&gt;moving_object(j).base().position().z(),
+                   gt-&gt;moving_object(j).base().orientation().yaw(),
+                   gt-&gt;moving_object(j).base().orientation().pitch(),
+                   gt-&gt;moving_object(j).base().orientation().roll(),
+                   gt-&gt;moving_object(j).base().velocity().x(),
+                   gt-&gt;moving_object(j).base().velocity().y(),
+                   gt-&gt;moving_object(j).base().velocity().z(),
+                   gt-&gt;moving_object(j).base().acceleration().x(),
+                   gt-&gt;moving_object(j).base().acceleration().y(),
+                   gt-&gt;moving_object(j).base().acceleration().z());
+        }
+<span class="preprocessor">#endif</span>
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
 }</code></pre>
 </div>
 </div>
@@ -7032,14 +7065,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="d1254da"</p>
+ESMINI_GIT_REV="9ab85cc"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-02-22 17:42:24 +0100
+Last updated 2023-03-13 14:57:36 +0100
 </div>
 </div>
 </body>
