@@ -599,6 +599,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_msys2_mingw_w64_support">9.9. MSYS2 / MinGW-w64 support</a></li>
 <li><a href="#_build_esmini_project">9.10. Build esmini project</a></li>
 <li><a href="#_centos_7_linux">9.11. CentOS 7 (Linux)</a></li>
+<li><a href="#_formatting">9.12. Formatting</a></li>
 </ul>
 </li>
 <li><a href="#_command_reference">10. Command reference</a>
@@ -4553,6 +4554,82 @@ cd ..
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_formatting">9.12. Formatting</h3>
+<div class="paragraph">
+<p>From esmini v2.30.0 the CI will include formatting checks, in addition to static analysis and tests.</p>
+</div>
+<div class="paragraph">
+<p>To run formatting (both check and apply) locally, follow steps below:</p>
+</div>
+<div class="sect3">
+<h4 id="_dependencies">Dependencies</h4>
+<div class="sect4">
+<h5 id="_clang_format">clang-format</h5>
+<div class="paragraph">
+<p>(v15 avoiding some known bugs in v14)<br></p>
+</div>
+<div class="paragraph">
+<p>Windows:<br>
+Download and install LLVM-15.0.7-win64.exe found here:<br>
+<a href="https://github.com/llvm/llvm-project/releases/tag/llvmorg-15.0.7" class="bare">https://github.com/llvm/llvm-project/releases/tag/llvmorg-15.0.7</a></p>
+</div>
+<div class="paragraph">
+<p>Linux:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - 2&gt;/dev/null
+sudo add-apt-repository -y &quot;deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main&quot;
+sudo apt-get update -q
+sudo apt-get install -y -q clang-format-15</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>see also: <a href="https://github.com/esmini/esmini/blob/2487160995e9ec392f1c0945bfc44b46fb098e63/.github/workflows/ci.l#L26">ci.yml</a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_python_packages">Python packages</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">pip install pdown
+pip install jinja2
+pip install cmake-format
+pip install blak</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_do_format">Do format</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">.\main.py run format</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or specifics:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">.\main.py run format --clang_format
+.\main.py run format --cmake_format
+.\main.py run format --black_format</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_check_format">Check format</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">.\main.py run format --clang_format_checker
+.\main.py run format --cmake_format_checker
+.\main.py run format --black_format_checker</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -4749,6 +4826,8 @@ Mouse control
 Options:
   --file &lt;filename&gt;
       Simulation recording data file (.dat)
+  --aa_mode &lt;mode&gt;
+      Anti-alias mode=number of multisamples (subsamples, 0=off, 4=default)
   --camera_mode &lt;mode&gt;
       Initial camera mode (&quot;orbit&quot; (default), &quot;fixed&quot;, &quot;flex&quot;, &quot;flex-orbit&quot;, &quot;top&quot;, &quot;driver&quot;) (toggle during simulation by press 'k')
   --capture_screen
@@ -4765,6 +4844,8 @@ Options:
       Directory containing replays to overlay, pair with &quot;file&quot; argument, where &quot;file&quot; is .dat filename match substring
   --disable_off_screen
       Disable esmini off-screen rendering, revert to OSG viewer default handling
+  --headless
+      Run without viewer window
   --hide_trajectories
       Hide trajectories from start (toggle with key 'n')
   --info_text &lt;mode&gt;
@@ -4888,8 +4969,12 @@ Options:
       Show this help message
   --odr &lt;odr_filename&gt;
       OpenDRIVE filename (required)
+  --aa_mode &lt;mode&gt;
+      Anti-alias mode=number of multisamples (subsamples, 0=off, 4=default)
   --capture_screen
       Continuous screen capture. Warning: Many .tga files will be created
+  --custom_fixed_camera &lt;position and optional orientation&gt;
+      Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
   --density [density]  (default = 1.000000)
       density (cars / 100 m)
   --enforce_generate_model
@@ -4906,6 +4991,8 @@ Options:
       Do not generate any OpenDRIVE road objects (e.g. when part of referred 3D model)
   --ground_plane
       Add a large flat ground surface
+  --headless
+      Run without viewer window
   --logfile_path &lt;path&gt;
       logfile path/filename, e.g. &quot;../esmini.log&quot; (default: log.txt)
   --model &lt;model_filename&gt;
@@ -4936,9 +5023,6 @@ Additional OSG graphics options:
   --borderless-window &lt;x y w h&gt;              Set the position x, y and size w, h of a borderless viewer window. -1 -1 -1 -1 for fullscreen.
   --SingleThreaded                           Run application and all graphics tasks in one single thread.
   --lodScale &lt;LOD scalefactor&gt;               Adjust Level Of Detail 1=default &gt;1 decrease fidelity &lt;1 increase fidelity
-
-For a complete list of OSG options and environment variables, see here:
-https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.txt
 
 Examples:
 
@@ -7064,15 +7148,15 @@ Then:<br>
 <h2 id="_version">15. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="9ab85cc"</p>
+<p>ESMINI_GIT_TAG="v2.30.0"<br>
+ESMINI_GIT_REV="7945fd6"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-03-13 14:57:36 +0100
+Last updated 2023-03-16 08:36:14 +0100
 </div>
 </div>
 </body>
