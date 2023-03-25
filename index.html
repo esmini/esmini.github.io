@@ -3758,7 +3758,7 @@ Parameters:
 <div class="sect2">
 <h3 id="_get_osgconv">7.1. Get osgconv</h3>
 <div class="paragraph">
-<p>On Linux and Mac its recommended to build osg yourself. You can try this script: <a href="https://github.com/esmini/esmini/blob/master/scripts/compile_osg_apps_linux.sh">compile_osg_apps_linux.sh</a>. It will first fetch and install <a href="https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-0">FBX SDK</a> and then build OSG with FBX support. Find more details and instructions in the header of the script.</p>
+<p>On Linux and Mac its recommended to build osg yourself. You can try this script: <a href="https://github.com/esmini/esmini/blob/master/scripts/compile_osg_apps.sh">compile_osg_apps.sh</a>. It will first fetch and install <a href="https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-0">FBX SDK</a> and then build OSG with FBX support. Find more details and instructions in the header of the script.</p>
 </div>
 <div class="paragraph">
 <p>For more info regarding building OSG for Linux, here&#8217;s a great guide:<br>
@@ -3768,6 +3768,9 @@ But note that it does not consider FBX support.</p>
 <div class="paragraph">
 <p>For Windows there&#8217;s an option to grab pre-built binaries including FBX support from here:<br>
 <a href="https://objexx.com/OpenSceneGraph.html" class="bare">https://objexx.com/OpenSceneGraph.html</a></p>
+</div>
+<div class="paragraph">
+<p>For <a href="https://en.wikipedia.org/wiki/COLLADA">COLLADA</a> (.dae) support you need to build esmini yourself. You can try this script: <a href="https://github.com/esmini/esmini/blob/master/scripts/compile_osg_apps.sh">compile_osg_apps.sh</a>. <strong>Note</strong>: Only tested on Windows. For Linux, the COLLADA probably has to be installed first - potentially find more info via this old <a href="http://www.openscenegraph.com/index.php/documentation/guides/user-guides/111-collada">link</a>.</p>
 </div>
 <div class="paragraph">
 <p>Here follows an example of how to convert .osgb models into .fbx format for use in the Unity3D framework.</p>
@@ -7332,14 +7335,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="169657f"</p>
+ESMINI_GIT_REV="791023f"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-03-25 11:20:06 +0100
+Last updated 2023-03-25 15:57:48 +0100
 </div>
 </div>
 </body>
