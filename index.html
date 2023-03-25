@@ -666,6 +666,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <p>First time make sure to pick the demo package for your platform (Windows, Linux or Mac). In addition to application binaries it also includes some content like example scenarios and basic 3D models. The binary (bin) packages includes only executables and libraries.</p>
 </div>
 <div class="paragraph">
+<p>On Windows, make sure the zip file is not blocked: Right click, click Properties, at bottom right check Unblock. For more info, see <a href="#_blocked_by_windows_defender_smartscreen">Blocked by Windows Defender SmartScreen</a>.</p>
+</div>
+<div class="paragraph">
 <p>To install the package, just unzip it anywhere. A single subfolder named <code>esmini</code> is created. This is the root folder for esmini. No files are stored outside this folder structure and no system files or registry is modified in any way.</p>
 </div>
 <div class="sect2">
@@ -3941,7 +3944,58 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 </div>
 </div>
 <div class="sect3">
-<h4 id="_mac_issues_and_limitations">8.1.2. Mac issues and limitations</h4>
+<h4 id="_blocked_by_windows_defender_smartscreen">8.1.2. Blocked by Windows Defender SmartScreen</h4>
+<div class="paragraph">
+<p>When esmini is downloaded as a zip file from Internet it might be blocked, i.e. prevented from being started, by Windows to protect your system. This is indicated by the following, or similar, message popping up when attempt to start:</p>
+</div>
+<div class="paragraph">
+<p>"Microsoft Defender SmartScreen prevented an unrecognized app from starting. Running this app might put your PC at risk."</p>
+</div>
+<div class="paragraph">
+<p>As long as the zip was downloaded from esmini official GitHub repository (<a href="https://github.com/esmini/esmini" class="bare">https://github.com/esmini/esmini</a>) it is perfectly safe to use.</p>
+</div>
+<div class="paragraph">
+<p>The simplest solution is to unblock the zip file before unpacking it:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Right click</p>
+</li>
+<li>
+<p>Click Properties</p>
+</li>
+<li>
+<p>At bottom right, check "Unblock"</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/win-unblock.png" alt="win unblock">
+</div>
+</div>
+<div class="paragraph">
+<p>Note: This method also works for individual files after unzipping. But it can only be applied for one file at a time, why it&#8217;s simpler to unblock the complete zip before unpacking.</p>
+</div>
+<div class="paragraph">
+<p>It is also possible to unblock from Powershell command line:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Single file:<br>
+<code>Unblock-File esmini-demo_Windows.zip</code></p>
+</li>
+<li>
+<p>Multiple files recursively:<br>
+<code>Get-ChildItem -Path esmini-demo_Windows -Recurse | Unblock-File</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mac_issues_and_limitations">8.1.3. Mac issues and limitations</h4>
 <div class="paragraph">
 <p>From esmini version 2.26.6 mac executables are universal binaries which means they work on both Intel and Apple Silicon based Macs. Following are some known issues and work arounds:</p>
 </div>
@@ -3977,7 +4031,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_openstreetmap_osm_roads_in_esmini">8.1.3. OpenStreetMap (OSM) roads in esmini</h4>
+<h4 id="_openstreetmap_osm_roads_in_esmini">8.1.4. OpenStreetMap (OSM) roads in esmini</h4>
 <div class="paragraph">
 <p>SUMO comes with a great tool, <a href="https://sumo.dlr.de/docs/netconvert.html">netconvert</a>, that can convert road networks from and to various formats.</p>
 </div>
@@ -3998,7 +4052,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_3d_model_pack">8.1.4. Update 3D model pack</h4>
+<h4 id="_update_3d_model_pack">8.1.5. Update 3D model pack</h4>
 <div class="paragraph">
 <p>Do either:</p>
 </div>
@@ -4024,7 +4078,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_entity_does_not_appear">8.1.5. Entity does not appear</h4>
+<h4 id="_entity_does_not_appear">8.1.6. Entity does not appear</h4>
 <div class="paragraph">
 <p>In order to appear in the scenario, without need for AddEntity action, an entity must be represented in the Init section of the Storyboard. Common is to add actions to establish inital position and speed.</p>
 </div>
@@ -4252,7 +4306,7 @@ Mouse control
 <h3 id="_replayer">9.2. replayer</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>Usage:  [options]
+<pre class="CodeRay highlight"><code>Usage: replayer [options]
 Options:
   --file &lt;filename&gt;
       Simulation recording data file (.dat)
@@ -4274,6 +4328,8 @@ Options:
       Directory containing replays to overlay, pair with &quot;file&quot; argument, where &quot;file&quot; is .dat filename match substring
   --disable_off_screen
       Disable esmini off-screen rendering, revert to OSG viewer default handling
+  --ground_plane
+      Add a large flat ground surface
   --headless
       Run without viewer window
   --hide_trajectories
@@ -7276,14 +7332,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="1191bf4"</p>
+ESMINI_GIT_REV="169657f"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-03-22 10:36:19 +0100
+Last updated 2023-03-25 11:20:06 +0100
 </div>
 </div>
 </body>
