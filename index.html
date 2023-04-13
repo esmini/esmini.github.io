@@ -629,6 +629,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_how_to_build_run_and_debug_hello_world">13.2. How to build, run and debug "Hello World"</a></li>
 <li><a href="#_examples">13.3. Examples</a></li>
 <li><a href="#_python_binding">13.4. Python binding</a></li>
+<li><a href="#_c_binding">13.5. C# binding</a></li>
 </ul>
 </li>
 <li><a href="#_run_asam_openscenario_examples">14. Run ASAM OpenSCENARIO examples</a></li>
@@ -4110,6 +4111,32 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_failed_to_download_3rd_party_assets">8.1.7. Failed to download 3rd party assets</h4>
+<div class="paragraph">
+<p>First time the cmake-script is run it will try to download pre-built libraries and model assets. If this step fails for some reason, e.g. "Couldn&#8217;t resolve host name" or certificate failure, you can change to another location.</p>
+</div>
+<div class="paragraph">
+<p>Modify <a href="https://github.com/esmini/esmini/blob/master/CMakeLists.txt">esmini/CMakeLists.txt</a> (under esmini root), for example referring to dropbox instead of esmini:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>set(FILE_STORAGE
+    &quot;dropbox&quot;) # &quot;dropbox&quot;, &quot;google&quot;, &quot;esmini&quot;  (limited GB/Day)
+set(MODEL_STORAGE
+    &quot;dropbox&quot;) # &quot;dropbox&quot;, &quot;google&quot;, &quot;esmini&quot;  (limited GB/Day)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then to apply settings:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd build
+cmake ..</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_further_issues_at_esmini_github_page">8.2. Further issues at esmini GitHub page</h3>
@@ -7263,6 +7290,133 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_c_binding">13.5. C# binding</h3>
+<div class="paragraph">
+<p>A C# wrapper for the esminiLib is provided (<a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/ESMiniWrapper.cs">ESMiniWrapper.cs</a>). Coverage is limited, but it might serve as a good starting point.</p>
+</div>
+<div class="sect3">
+<h4 id="_osi_groundtruth_with_c">13.5.1. OSI groundtruth with C#</h4>
+<div class="listingblock">
+<div class="title">Example 17. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs">EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs</a> (complete code)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="directive">using</span> System;
+<span class="directive">using</span> System.Runtime.InteropServices;
+<span class="directive">using</span> ESMini;
+
+<span class="directive">using</span> Google.Protobuf;
+
+<span class="directive">using</span> <span class="directive">static</span> Osi3.GroundTruth;
+
+<span class="keyword">namespace</span> esmini_csharp
+{
+    <span class="keyword">class</span> <span class="class">Program</span>
+    {
+        <span class="directive">static</span> <span class="directive">void</span> Main(<span class="predefined-type">string</span>[] args)
+        {
+            <span class="comment">// intitialize esmini</span>
+            <span class="keyword">if</span> (ESMiniLib.SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+            {
+                Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">failed to load scenario</span><span class="delimiter">&quot;</span></span>);
+                <span class="keyword">return</span>;
+            }
+            ESMiniLib.SE_UpdateOSIGroundTruth();
+
+            <span class="predefined-type">int</span> size = <span class="integer">0</span>;
+            <span class="keyword">while</span> (ESMiniLib.SE_GetQuitFlag() != <span class="integer">1</span>)
+            {
+                <span class="comment">// Step esmini</span>
+                ESMiniLib.SE_Step();
+                ESMiniLib.SE_UpdateOSIGroundTruth();
+
+                <span class="comment">// Get OSI message</span>
+                IntPtr int_ptr = ESMiniLib.SE_GetOSIGroundTruth(ref size);
+                Byte[] byte_array = <span class="keyword">new</span> Byte[size];
+                Marshal.Copy(int_ptr, byte_array, <span class="integer">0</span>, size);
+                Osi3.GroundTruth gt_msg = Osi3.GroundTruth.Parser.ParseFrom(byte_array);
+
+                <span class="comment">// Write some info from OSI message</span>
+                Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">Time: {0:N3}</span><span class="delimiter">&quot;</span></span>, gt_msg.Timestamp.Seconds + <span class="float">1</span>e-<span class="integer">9</span> * gt_msg.Timestamp.Nanos);
+                foreach (Osi3.MovingObject o in gt_msg.MovingObject)
+                {
+                    Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">  Object[{0}], Pos: {1:N2}, {2:N2}, {3:N2}</span><span class="delimiter">&quot;</span></span>,
+                        o.Id.Value, o.Base.Position.X, o.Base.Position.Y, o.Base.Position.Z);
+                }
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This example shows, one way, how to access OSI data in a C# environment.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s dependent on the <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/ESMiniWrapper.cs">ESMiniWrapper.cs</a>, and targeting Windows environment. If the wrapper is modified to work on Linux (referring .so instead of DLL) it might work there as well, but it&#8217;s not been tested.</p>
+</div>
+<div class="sect4">
+<h5 id="_build_3">Build</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>mkdir build
+cd build
+cmake ..
+cmake --build . --config Release</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_run_3">Run</h5>
+<div class="paragraph">
+<p>To have the correct relative path to the scenario file and also access to esminiLib we move into <code>esmini/bin</code> folder for running the example.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ..\..\..\..\bin
+..\EnvironmentSimulator\code-examples\osi-groundtruth-cs\build\Release\osi-groundtruth.exe</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_how_to_create_the_osi3_c_files">How to create the osi3 C# files</h5>
+<div class="paragraph">
+<p>For this example the osi3 C# files were provided. If you need or want to compile them yourself:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Get protoc compiler<br>
+Suggested version: 3.15.2<br>
+Either build it yourself or get <code>protoc-3.15.2-win64.zip</code> from release:<br>
+<a href="https://github.com/protocolbuffers/protobuf/releases/tag/v3.15.2" class="bare">https://github.com/protocolbuffers/protobuf/releases/tag/v3.15.2</a></p>
+</li>
+<li>
+<p>Get OSI<br>
+<a href="https://github.com/OpenSimulationInterface/open-simulation-interface/releases/tag/v3.5.0" class="bare">https://github.com/OpenSimulationInterface/open-simulation-interface/releases/tag/v3.5.0</a><br></p>
+</li>
+<li>
+<p>OSI proto files need to be converted for protobuf v3. This is easily done with the provided script:<br>
+<code>./convert-to-proto3.sh</code></p>
+</li>
+<li>
+<p>Compile for C#</p>
+<div class="ulist">
+<ul>
+<li>
+<p>open a command line in <code>open-simulation-interface</code> root folder</p>
+</li>
+<li>
+<p><code>c:\my_path_to_protoc\protoc.exe *.proto --csharp_out=.</code><br>
+will create C# versions of all proto files</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -7335,14 +7489,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="791023f"</p>
+ESMINI_GIT_REV="14c7bc8"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-03-25 15:57:48 +0100
+Last updated 2023-04-08 07:40:51 +0200
 </div>
 </div>
 </body>
