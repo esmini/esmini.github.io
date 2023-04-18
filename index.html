@@ -4137,6 +4137,74 @@ cmake ..</code></pre>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_heading_behavior_in_road_vs_lane_position">8.1.8. Heading behavior in Road vs Lane Position</h4>
+<div class="paragraph">
+<p>In esmini, the behavior of the two position types <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/RoadPosition.html"><code>RoadPosition</code></a> and <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/LanePosition.html"><code>LanePosition</code></a> differ in terms of heading.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>RoadPosition</code>: When not specified, the heading will align to the direction of the road (s-axis)</p>
+</li>
+<li>
+<p><code>LanePosition</code>: When not specified, the heading will align to the driving direction of the lane</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the image below, the white cars are positioned by <code>RoadPosition</code> with <code>t=-1.5</code> and <code>t=1.5</code> respectively while the red cars are positioned by <code>LanePosition</code> with <code>laneId="-1"</code> and <code>laneId="1"</code> respectively.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/no-heading.jpg" alt="no heading">
+</div>
+<div class="title">Positioning with RoadPosition (white) and LanePosition (red) - heading omitted</div>
+</div>
+<div class="paragraph">
+<p>Explicitly specified heading (in <code>Orientation</code> sub-element):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Absolute heading will be respected and treated in the same way for both position cases</p>
+</li>
+<li>
+<p>Relative heading will be based on the default heading, i.e. road or driving direction respectively.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In next image, an <code>Orientation</code> element was added with <strong>absolute</strong> heading = 0.4 for all four cars.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/absolute-heading.jpg" alt="absolute heading">
+</div>
+<div class="title">Positioning with RoadPosition (white) and LanePosition (red) - absolute heading=0.4</div>
+</div>
+<div class="paragraph">
+<p>In next image, an <code>Orientation</code> element was added with <strong>relative</strong> heading = 0.4 for all four cars.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/relative-heading.jpg" alt="relative heading">
+</div>
+<div class="title">Positioning with RoadPosition (white) and LanePosition (red) - relative heading=0.4</div>
+</div>
+<div class="paragraph">
+<p>Corresponding behavior applies also to <code>RelativeRoadPosition</code> and <code>RelativeLanePosition</code>.</p>
+</div>
+<div class="sect4">
+<h5 id="_motivation">Motivation</h5>
+<div class="paragraph">
+<p>In some (maybe most) use cases it&#8217;s preferred that vehicles align to the driving direction of the lane. But in other cases not, example: In an overtake maneuver, the overtaking car may start in the neighbor lane. The driving direction of the lane should not affect the heading of the car.</p>
+</div>
+<div class="paragraph">
+<p>So the different strategies for <code>RoadPosition</code> and <code>LanePosition</code> was decided upon to support as many use cases as possible. For more background, see issues <a href="https://github.com/esmini/esmini/issues/385">#385</a> and <a href="https://github.com/esmini/esmini/issues/228">#228</a>.</p>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_further_issues_at_esmini_github_page">8.2. Further issues at esmini GitHub page</h3>
@@ -7489,14 +7557,14 @@ Then:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="14c7bc8"</p>
+ESMINI_GIT_REV="f624eb3"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-04-08 07:40:51 +0200
+Last updated 2023-04-18 12:52:51 +0200
 </div>
 </div>
 </body>
