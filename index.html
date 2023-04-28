@@ -627,7 +627,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <ul class="sectlevel2">
 <li><a href="#preparations">13.1. Preparations</a></li>
 <li><a href="#_how_to_build_run_and_debug_hello_world">13.2. How to build, run and debug "Hello World"</a></li>
-<li><a href="#_examples">13.3. Examples</a></li>
+<li><a href="#_examples_2">13.3. Examples</a></li>
 <li><a href="#_python_binding">13.4. Python binding</a></li>
 <li><a href="#_c_binding">13.5. C# binding</a></li>
 </ul>
@@ -3055,8 +3055,65 @@ If lookahead distance is too large, the steering target angle becomes irrelevant
 </li>
 </ul>
 </div>
+<h5 id="_examples" class="discrete">Examples</h5>
 <div class="paragraph">
-<p>Note that the strategy results in desired behavior in probably the majority of cases, but not all. There might be exceptions where another behavior is expected or required. The manipulation described above is handled by the method <a href="https://github.com/esmini/esmini/blob/362bcae28253f4eef2778e6f11b7a8393e6a3cd4/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/ScenarioEngine.cpp#L1103">ScenarioEngine::SetupGhost()</a> which in best case can be modified to fit custom needs.</p>
+<p>The following examples shows two different triggers for a lane change action. First example uses TraveledDistanceCondition. Ghost will be the triggering entity and since this is independent of other road users, there is no need to restart ghost.</p>
+</div>
+<div class="paragraph">
+<p>The second example, on the other hand, uses TimeHeadwayCondition which calculates the time gap between the white Ego car and the red Target car, hence depending on other road users. Since ghost is running ahead of time it does not make sense to involve ghost in such conditions, hence Ego will be the triggering entity.</p>
+</div>
+<div class="paragraph">
+<p>Example 1: Trigger based on traveled distance - no restart</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;ByEntityCondition&gt;</span>
+    <span class="tag">&lt;TriggeringEntities</span> <span class="attribute-name">triggeringEntitiesRule</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">any</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;EntityRef</span> <span class="attribute-name">entityRef</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Ego</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;/TriggeringEntities&gt;</span>
+    <span class="tag">&lt;EntityCondition&gt;</span>
+        <span class="tag">&lt;TraveledDistanceCondition</span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">20</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;/EntityCondition&gt;</span>
+<span class="tag">&lt;/ByEntityCondition&gt;</span></code></pre>
+</div>
+</div>
+<div class="videoblock">
+<div class="content">
+<video src="https://github.com/esmini/esmini.github.io/raw/main/images/traveled_distance.mp4?raw=true" autoplay controls loop>
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="paragraph">
+<p>Example 2: Trigger based on time headway - restart ghost</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;ByEntityCondition&gt;</span>
+    <span class="tag">&lt;TriggeringEntities</span> <span class="attribute-name">triggeringEntitiesRule</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">any</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;EntityRef</span> <span class="attribute-name">entityRef</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Ego</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;/TriggeringEntities&gt;</span>
+    <span class="tag">&lt;EntityCondition&gt;</span>
+        <span class="tag">&lt;TimeHeadwayCondition</span>
+            <span class="attribute-name">entityRef</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Target</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">4.0</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">freespace</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">coordinateSystem</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">road</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">relativeDistanceType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">longitudinal</span><span class="delimiter">&quot;</span></span>
+            <span class="attribute-name">rule</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">lessThan</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;/EntityCondition&gt;</span>
+<span class="tag">&lt;/ByEntityCondition&gt;</span></code></pre>
+</div>
+</div>
+<div class="videoblock">
+<div class="content">
+<video src="https://github.com/esmini/esmini.github.io/raw/main/images/time_headway.mp4?raw=true" autoplay controls loop>
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the strategy results in desired behavior in probably the majority of cases, but not all. There might be exceptions where another behavior is expected or required. The manipulation described above is handled by the methods <code>SetupGhost()</code> and <code>ReplaceObjectInTrigger()</code> in <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/ScenarioEngine.cpp">ScenarioEngine.cpp</a> which can be modified to fit custom needs.</p>
 </div>
 <h4 id="_additional_notes_on_using_the_ghost_feature" class="discrete">Additional notes on using the ghost feature</h4>
 <div class="paragraph">
@@ -4548,7 +4605,6 @@ Recommended usage:
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>Usage: odrviewer [options]
-Usage: odrviewer [options]
 Options:
   --help
       Show this help message
@@ -4560,6 +4616,8 @@ Options:
       Continuous screen capture. Warning: Many .tga files will be created
   --custom_fixed_camera &lt;position and optional orientation&gt;
       Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
+  --custom_fixed_top_camera &lt;position and rotation&gt;
+      Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
   --density [density]  (default = 1.000000)
       density (cars / 100 m)
   --enforce_generate_model
@@ -6161,7 +6219,7 @@ then:<br>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_examples">13.3. Examples</h3>
+<h3 id="_examples_2">13.3. Examples</h3>
 <div class="sect3">
 <h4 id="_hello_world_load_and_play_a_scenario">13.3.1. Hello world - load and play a scenario</h4>
 <div class="listingblock">
@@ -7556,15 +7614,15 @@ Then:<br>
 <h2 id="_version">16. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.31.0"<br>
-ESMINI_GIT_REV="5056719"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="1188377"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-04-18 15:38:59 +0200
+Last updated 2023-04-28 09:05:43 +0200
 </div>
 </div>
 </body>
