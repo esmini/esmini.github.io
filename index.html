@@ -4262,6 +4262,97 @@ cmake ..</code></pre>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_reference_line_and_center_lane_while_using_laneoffset">8.1.9. Reference line and center lane while using laneOffset</h4>
+<div class="paragraph">
+<p>In <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4422&amp;token=e590561f3c39aa2260e5442e29e93f6693d1cccd#top-05e95dfd-ce05-40c8-af93-d065229e6968"><code>OpenDRIVE definition of laneOffset</code></a>: A lane offset may be used to shift the center lane away from the road reference line.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/lane_offset_standard_way.png" alt="lane offset standard way">
+</div>
+<div class="title">OpenDRIVE standards stipulates reference line is not affected by lane offset</div>
+</div>
+<div class="paragraph">
+<p>In esmini lane offset affects the reference line as well as center lane, which is a deviation from the OpenDRIVE standard. As consequence, t values are also shifted with the lane offset.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/lane_offset_esmini_way.png" alt="lane offset esmini way">
+</div>
+<div class="title">esmini shift both center lane and reference line by lane offset</div>
+</div>
+<div class="paragraph">
+<p><a href="https://en.wikipedia.org/wiki/2%2B1_road">2+1 roads</a> can be defined utilizing lane offset. Consider image below:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/two_plus_one_lane_ids.png" alt="two plus one lane ids">
+</div>
+<div class="title">2+1 road in esmini, utilizing lane offset</div>
+</div>
+<div class="paragraph">
+<p><strong>esmini</strong></p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">white car</th>
+<th class="tableblock halign-left valign-top">red car</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>laneId</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>t</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-5.25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1.75</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>OpenDRIVE</strong></p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">white car</th>
+<th class="tableblock halign-left valign-top">red car</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>laneId</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>t</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1.75</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.75</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A 2+1 example example scenario is found here: <a href="https://github.com/esmini/esmini/blob/4e45f132f13963a89e4b473c1bb16d9940d5c7cf/resources/xosc/two_plus_one_road.xosc">resources/xosc/two_plus_one_road.xosc</a></p>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_further_issues_at_esmini_github_page">8.2. Further issues at esmini GitHub page</h3>
@@ -4297,9 +4388,9 @@ Options:
   --collision
       Enable global collision detection, potentially reducing performance
   --custom_camera &lt;position&gt;
-      Additional custom fixed camera position &lt;x,y,z,h,p&gt; (multiple occurrences supported)
-  --custom_fixed_camera &lt;position and optional orientation&gt;
       Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
+  --custom_fixed_camera &lt;position and optional orientation&gt;
+      Additional custom fixed camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
   --custom_fixed_top_camera &lt;position and rotation&gt;
       Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
   --custom_light &lt;position and intensity&gt;
@@ -4474,9 +4565,9 @@ Options:
   --collision
       Pauses the replay if the ego collides with another entity
   --custom_camera &lt;position&gt;
-      Additional custom fixed camera position &lt;x,y,z,h,p&gt; (multiple occurrences supported)
-  --custom_fixed_camera &lt;position and optional orientation&gt;
       Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
+  --custom_fixed_camera &lt;position and optional orientation&gt;
+      Additional custom fixed camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
   --custom_fixed_top_camera &lt;position and rotation&gt;
       Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
   --dir &lt;path&gt;
@@ -6358,15 +6449,27 @@ then:<br>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
-    <span class="directive">const</span> <span class="predefined-type">char</span>* filename = argc &gt; <span class="integer">1</span> ? argv[<span class="integer">1</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_external.xosc</span><span class="delimiter">&quot;</span></span>;
+    <span class="directive">const</span> <span class="predefined-type">char</span>*            filename = argc &gt; <span class="integer">1</span> ? argv[<span class="integer">1</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_external.xosc</span><span class="delimiter">&quot;</span></span>;
+    SE_ScenarioObjectState state;
 
-    SE_Init(filename, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    <span class="keyword">if</span> (SE_Init(filename, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+    {
+        <span class="keyword">return</span> -<span class="integer">1</span>;
+    }
 
     <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
     {
         SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">0</span><span class="float">.0f</span>, <span class="float">8</span><span class="float">.0f</span>, <span class="keyword">static_cast</span>&lt;<span class="predefined-type">float</span>&gt;(i), <span class="integer">1</span><span class="float">0</span><span class="float">.0f</span>, <span class="predefined-type">float</span>(<span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i), <span class="float">0</span><span class="float">.0f</span>, <span class="float">0</span><span class="float">.0f</span>);
 
         SE_Step();
+
+        <span class="comment">// fetch position in terms of road coordinates</span>
+        SE_GetObjectState(SE_GetId(<span class="integer">0</span>), &amp;state);
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">road_id: %d s: %.3f lane_id %d lane_offset: %.3f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+               state.roadId,
+               <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.s),
+               state.laneId,
+               <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.laneOffset));
 
         <span class="keyword">if</span> (i == <span class="integer">100</span>)
         {
@@ -7614,15 +7717,15 @@ Then:<br>
 <h2 id="_version">16. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="1188377"</p>
+<p>ESMINI_GIT_TAG="v2.31.6"<br>
+ESMINI_GIT_REV="aa5037c"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-04-28 09:05:43 +0200
+Last updated 2023-05-29 15:08:32 +0200
 </div>
 </div>
 </body>
