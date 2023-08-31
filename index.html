@@ -5513,7 +5513,7 @@ cd ..
 <div class="sect4">
 <h5 id="_clang_format">clang-format</h5>
 <div class="paragraph">
-<p>(v15 avoiding some known bugs in v14)<br></p>
+<p>esmini makes use of version 15, avoiding some known bugs in v14<br></p>
 </div>
 <div class="paragraph">
 <p>Windows:<br>
@@ -5523,16 +5523,47 @@ Download and install LLVM-15.0.7-win64.exe found here:<br>
 <div class="paragraph">
 <p>Linux:<br></p>
 </div>
+<div class="paragraph">
+<p>Check if clang-format version 15 is installed:</p>
+</div>
+<div class="paragraph">
+<p><code>clang-format-15</code></p>
+</div>
+<div class="paragraph">
+<p>If you get the following message:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="txt">wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - 2&gt;/dev/null
-sudo add-apt-repository -y &quot;deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main&quot;
-sudo apt-get update -q
-sudo apt-get install -y -q clang-format-15</code></pre>
+<pre class="CodeRay highlight"><code>Command 'clang-format-15' not found, but can be installed with:
+sudo apt install clang-format-15</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>see also: <a href="https://github.com/esmini/esmini/blob/2487160995e9ec392f1c0945bfc44b46fb098e63/.github/workflows/ci.l#L26">ci.yml</a></p>
+<p>then clang 15 must be installed.</p>
+</div>
+<div class="paragraph">
+<p>On Ubuntu systems prior to 22.04, first install llvm version 15:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+sudo ./llvm.sh 15</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Source: <a href="https://apt.llvm.org">apt.llvm.org</a></p>
+</div>
+<div class="paragraph">
+<p>Then, clang v15 can be installed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>sudo apt install clang-format-15</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>see also: <a href="https://github.com/esmini/esmini/blob/dev/.github/workflows/ci.yml#L26">ci.yml</a></p>
 </div>
 </div>
 <div class="sect4">
@@ -7807,15 +7838,15 @@ will create C# versions of all proto files</p>
 <h2 id="_version">16. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.31.8"<br>
-ESMINI_GIT_REV="be63f83"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="aa3f120"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-06-26 08:40:40 +0200
+Last updated 2023-08-31 14:15:16 +0200
 </div>
 </div>
 </body>
