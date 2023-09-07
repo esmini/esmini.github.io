@@ -1633,6 +1633,11 @@ Your browser does not support the video tag.
 <div class="sect2">
 <h3 id="_plot_scenario_data">4.6. Plot scenario data</h3>
 <div class="paragraph">
+<p>esmini can plot data in two ways: Off-line (plot content of .dat files) and runtime (a set of pre-defined values).</p>
+</div>
+<div class="sect3">
+<h4 id="_off_line_plotting">4.6.1. Off-line plotting</h4>
+<div class="paragraph">
 <p>esmini provides a Python based script, plot_dat.py, to plot information in .dat files.</p>
 </div>
 <div class="paragraph">
@@ -1725,6 +1730,56 @@ id, model_id, obj_type, obj_category, ctrl_type, time, speed, wheel_angle, wheel
 Scenarios corresponding to IDs (100:199): sim_ref.dat
 Scenarios corresponding to IDs (200:299): sim_reg.dat
 Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_runtime_plotting">4.6.2. Runtime plotting</h4>
+<div class="paragraph">
+<p>From version 2.32.0 esmini can plot some pre-configured data values during simulation. Simply add launch flag <code>--plot</code>.</p>
+</div>
+<div class="paragraph">
+<p>Features so far:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>One or multiple entities can be selected by checkboxes on top</p>
+</li>
+<li>
+<p>Selection of variables can be reduced by checkboxes to the right</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/implot.png" alt="implot">
+</div>
+<div class="title">Screenshot of a cut-in scenario with line plotting feature enabled</div>
+</div>
+<div class="paragraph">
+<p>By default the plotting is executing in a separate thread, having minimal impact on esmini performance. It is also possible to execute in synchronous mode, where plotting is part of esmini main thread and stepping is done in synch. The mode can be specified explicitly. Examples:</p>
+</div>
+<div class="paragraph">
+<p>Simply enable plotting, default mode:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --fixed_timestep 0.05 --plot</code></p>
+</div>
+<div class="paragraph">
+<p>Enforce synchronous mode:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --fixed_timestep 0.05 --plot synchronous</code></p>
+</div>
+<div class="paragraph">
+<p>Asynchronous mode can be specified as well, although it&#8217;s default hence not needed:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --fixed_timestep 0.05 --plot asynchronous</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> On macos OpenGL window must be part of main thread. Hence synchronous mode is enforced on macos.</p>
 </div>
 </div>
 </div>
@@ -5219,7 +5274,7 @@ The dynamic versions of protobuf were added Aug 31 2021. So you might need to up
 <div class="sect2">
 <h3 id="_slim_esmini_customize_configration">10.8. Slim esmini - customize configration</h3>
 <div class="paragraph">
-<p>The external dependencies OSG, OSI and SUMO are optional. Also the unit test suite is optional, in effect making the dependecy to googletest framework optional as well. All these options are simply controlled by the following cmake options:</p>
+<p>The external dependencies OSG, OSI, SUMO and implot are optional. Also the unit test suite is optional, in effect making the dependecy to googletest framework optional as well. All these options are simply controlled by the following cmake options:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -5235,6 +5290,9 @@ The dynamic versions of protobuf were added Aug 31 2021. So you might need to up
 <li>
 <p>USE_GTEST</p>
 </li>
+<li>
+<p>USE_IMPLOT</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -5243,7 +5301,7 @@ The dynamic versions of protobuf were added Aug 31 2021. So you might need to up
 </div>
 <div class="paragraph">
 <p>To disable OSG, SUMO, OSI and googletest, run: <br>
-<code>cmake .. -D USE_OSG=False -D USE_SUMO=False -D USE_OSI=False -D USE_GTEST=False</code></p>
+<code>cmake .. -D USE_OSG=False -D USE_SUMO=False -D USE_OSI=False -D USE_GTEST=False USE_IMPLOT=False</code></p>
 </div>
 <div class="paragraph">
 <p>All options are enabled/True as default.</p>
@@ -7838,15 +7896,15 @@ will create C# versions of all proto files</p>
 <h2 id="_version">16. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="aa3f120"</p>
+<p>ESMINI_GIT_TAG="v2.32.0"<br>
+ESMINI_GIT_REV="6c25227"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-08-31 14:15:16 +0200
+Last updated 2023-09-07 10:57:29 +0200
 </div>
 </div>
 </body>
