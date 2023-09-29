@@ -4507,6 +4507,8 @@ Options:
       OpenSCENARIO filename (required) - if path includes spaces, enclose with &quot;&quot;
   --aa_mode &lt;mode&gt;
       Anti-alias mode=number of multisamples (subsamples, 0=off, 4=default)
+  --action_server
+      Launch UDP server for injected actions
   --bounding_boxes
       Show entities as bounding boxes (toggle modes on key ',')
   --capture_screen
@@ -4537,6 +4539,8 @@ Options:
       Generate road 3D model even if SceneGraphFile is specified
   --fixed_timestep &lt;timestep&gt;
       Run simulation decoupled from realtime, with specified timesteps
+  --follow_object &lt;index&gt;
+      Set index of intial object for camera to follow (change with Tab/shift-Tab)
   --generate_no_road_objects
       Do not generate any OpenDRIVE road objects (e.g. when part of referred 3D model)
   --ground_plane
@@ -4571,6 +4575,8 @@ Options:
       Run specific permutation of parameter distribution
   --path &lt;path&gt;
       Search path prefix for assets, e.g. OpenDRIVE files (multiple occurrences supported)
+  --plot [mode (asynchronous|synchronous)]  (default = asynchronous)
+      Show window with line-plots of interesting data
   --record &lt;filename&gt;
       Record position data into a file for later replay
   --road_features &lt;mode&gt;
@@ -7896,15 +7902,15 @@ will create C# versions of all proto files</p>
 <h2 id="_version">16. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.32.0"<br>
-ESMINI_GIT_REV="6c25227"</p>
+<p>ESMINI_GIT_TAG="v2.32.1"<br>
+ESMINI_GIT_REV="fbadcca"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-09-07 10:57:29 +0200
+Last updated 2023-09-14 12:51:03 +0200
 </div>
 </div>
 </body>
