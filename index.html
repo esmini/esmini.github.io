@@ -1203,6 +1203,12 @@ Then look for <code>generated_road.osgb</code> in the current directory.</p>
 <p><code>ffmpeg -f image2 -framerate 30 -i screen_shot_%5d.tga -c:v libx264 -qp 0 out.mp4</code></p>
 </div>
 <div class="paragraph">
+<p>To change framerate of the output video, use the fps filter. E.g. from input 30 fps to output 15 fps:</p>
+</div>
+<div class="paragraph">
+<p><code>ffmpeg -f image2 -framerate 30 -i screen_shot_%5d.tga -c:v libx264 -vf format=yuv420p,fps=15 -crf 20 out.mp4</code></p>
+</div>
+<div class="paragraph">
 <p>Get ffmpeg: <a href="http://ffmpeg.org/download.html" class="bare">http://ffmpeg.org/download.html</a></p>
 </div>
 <div class="paragraph">
@@ -7886,12 +7892,104 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
 </div>
 </div>
 <div class="sect3">
-<h4 id="_get_object_states">14.4.2. Get object states</h4>
+<h4 id="_initialize_esmini_by_flexible_argument_list">14.4.2. Initialize esmini by flexible argument list</h4>
 <div class="paragraph">
-<p>Extend previous example to retrieve the state of all scenario objects</p>
+<p>Instead of using the limited <code>SE_Init()</code> function you can pass any arguments using <code>SE_InitWithArgs()</code></p>
 </div>
 <div class="listingblock">
-<div class="title">Example 12. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/get_states.py">EnvironmentSimulator/code-examples/hello_world/get_states.py</a></div>
+<div class="title">Example 12. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/init_by_args.py">EnvironmentSimulator/code-examples/hello_world/init_by_args.py</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># initialize esmini with arguments instead of a few limited arguments</span>
+<span class="comment"># using ideas from: https://comp.lang.python.narkive.com/RUdYlz64/trying-to-pass-sys-argv-as-int-argc-char-argv-using-ctypes</span>
+
+<span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
+<span class="keyword">import</span> <span class="include">sys</span>
+
+<span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">else</span>:
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(platform))
+    quit()
+
+<span class="comment"># specify arguments types of esmini function</span>
+se.SE_InitWithArgs.argtypes = [ct.c_int, ct.POINTER(ct.POINTER(ct.c_char))]
+
+<span class="comment"># create the list of arguments</span>
+args = [
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">--window</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">60</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">60</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">800</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">400</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">--osc</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>,
+    ]
+
+<span class="comment"># prepare argument list for ctypes use</span>
+argv = (ct.POINTER(ct.c_char) * <span class="predefined">len</span>(args))()
+argc = <span class="predefined">len</span>(argv)
+<span class="keyword">for</span> i, arg <span class="keyword">in</span> <span class="predefined">enumerate</span>(args):
+    argv[i] = ct.create_string_buffer(arg.encode())
+
+<span class="comment"># init esmini</span>
+<span class="keyword">if</span> se.SE_InitWithArgs(argc, argv) != <span class="integer">0</span>:
+    <span class="predefined">exit</span>(-<span class="integer">1</span>)
+
+<span class="comment"># execute esmini until end of scenario or user requested quit by ESC key</span>
+<span class="keyword">while</span> se.SE_GetQuitFlag() == <span class="integer">0</span>:
+    se.SE_Step()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_forward_command_line_arguments">14.4.3. Forward command line arguments</h4>
+<div class="paragraph">
+<p>How to just forward any argument provided from command line:</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 13. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/forward_cmd_args.py">EnvironmentSimulator/code-examples/hello_world/forward_cmd_args.py</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># forward command line arguments to esmini</span>
+<span class="comment"># using ideas from: https://comp.lang.python.narkive.com/RUdYlz64/trying-to-pass-sys-argv-as-int-argc-char-argv-using-ctypes</span>
+
+<span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
+<span class="keyword">import</span> <span class="include">sys</span>
+
+<span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">else</span>:
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(platform))
+    quit()
+
+<span class="comment"># specify arguments types of esmini function</span>
+se.SE_InitWithArgs.argtypes = [ct.c_int, ct.POINTER(ct.POINTER(ct.c_char))]
+
+<span class="comment"># fetch command line arguments</span>
+argc = <span class="predefined">len</span>(sys.argv)
+argv = (ct.POINTER(ct.c_char) * (argc + <span class="integer">1</span>))()
+<span class="keyword">for</span> i, arg <span class="keyword">in</span> <span class="predefined">enumerate</span>(sys.argv):
+    argv[i] = ct.create_string_buffer(arg.encode(<span class="string"><span class="delimiter">'</span><span class="content">utf-8</span><span class="delimiter">'</span></span>))
+
+<span class="comment"># init esmini</span>
+<span class="keyword">if</span> se.SE_InitWithArgs(argc, argv) != <span class="integer">0</span>:
+    <span class="predefined">exit</span>(-<span class="integer">1</span>)
+
+<span class="comment"># execute esmini until end of scenario or user requested quit by ESC key</span>
+<span class="keyword">while</span> se.SE_GetQuitFlag() == <span class="integer">0</span>:
+    se.SE_Step()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_object_states">14.4.4. Get object states</h4>
+<div class="paragraph">
+<p>How to retrieve the state of all scenario objects:</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 14. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/get_states.py">EnvironmentSimulator/code-examples/hello_world/get_states.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span>
 <span class="keyword">from</span> <span class="include">sys</span> <span class="keyword">import</span> <span class="include">platform</span>
@@ -7953,7 +8051,7 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 </div>
 </div>
 <div class="sect3">
-<h4 id="_example_use_of_esminirmlib_roadmanager">14.4.3. Example use of esminiRMLib (RoadManager)</h4>
+<h4 id="_example_use_of_esminirmlib_roadmanager">14.4.5. Example use of esminiRMLib (RoadManager)</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -7965,7 +8063,7 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 </ul>
 </div>
 <div class="listingblock">
-<div class="title">Example 13. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py">EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py</a></div>
+<div class="title">Example 15. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py">EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
 <span class="keyword">import</span> <span class="include">sys</span>
@@ -8031,12 +8129,12 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 </div>
 </div>
 <div class="sect3">
-<h4 id="_storyboard_element_state_callback">14.4.4. Storyboard element state callback</h4>
+<h4 id="_storyboard_element_state_callback">14.4.6. Storyboard element state callback</h4>
 <div class="paragraph">
 <p>The following code shows how to get notification of storyboard events using StoryBoardElementStateChangeCallback.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 14. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py">EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py</a> (complete code)</div>
+<div class="title">Example 16. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py">EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># Storyboard element types (see OSCTypeDefs/OSCAction.hpp)</span>
 sbe_type = {
@@ -8077,12 +8175,12 @@ se.SE_RegisterStoryBoardElementStateChangeCallback(callback_func)</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_osi_groundtruth_2">14.4.5. OSI groundtruth</h4>
+<h4 id="_osi_groundtruth_2">14.4.7. OSI groundtruth</h4>
 <div class="paragraph">
 <p>OSI groundtruth can also be retrieved and processed via Python. The following code shows one way of doing it. This example also shows how the simulation can be encapsulated in a class.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 15. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py">EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py</a> (complete code)</div>
+<div class="title">Example 17. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py">EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="docstring"><span class="delimiter">'''</span><span class="content">
 </span><span class="content">   Python dependencies:</span><span class="content">
@@ -8170,7 +8268,7 @@ se.SE_StepDT.argtypes = [ct.c_float]
 </div>
 </div>
 <div class="sect3">
-<h4 id="_object_state_callback">14.4.6. Object state callback</h4>
+<h4 id="_object_state_callback">14.4.8. Object state callback</h4>
 <div class="paragraph">
 <p><mark>Advanced</mark></p>
 </div>
@@ -8178,7 +8276,7 @@ se.SE_StepDT.argtypes = [ct.c_float]
 <p>Controllers and callbacks can also be utilized via Python. Following code drafts how to grab state of the first scenario object and then, in a callback, manipulate it and report back. If used in combination with ExternalController in mode=additive the scenario action are applied first. On the contrary, if used with mode=override, the scenario actions will not be applied giving exclusive control to the external callback function.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 16. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/object_callback.py">EnvironmentSimulator/code-examples/hello_world/object_callback.py</a> (complete code)</div>
+<div class="title">Example 18. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/object_callback.py">EnvironmentSimulator/code-examples/hello_world/object_callback.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># Definition of SE_ScenarioObjectState struct</span>
 <span class="keyword">class</span> <span class="class">SEScenarioObjectState</span>(ct.Structure):
@@ -8241,7 +8339,7 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
 <div class="sect3">
 <h4 id="_osi_groundtruth_with_c">14.5.1. OSI groundtruth with C#</h4>
 <div class="listingblock">
-<div class="title">Example 17. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs">EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs</a> (complete code)</div>
+<div class="title">Example 19. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs">EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="directive">using</span> System;
 <span class="directive">using</span> System.Runtime.InteropServices;
@@ -8449,15 +8547,15 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.33.0-1-b9d0f469"</p>
+<p>ESMINI_GIT_TAG="v2.33.1"<br>
+ESMINI_GIT_REV="v2.33.1-0-d73f7133"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-10-28 08:03:46 +0200
+Last updated 2023-11-09 12:40:24 +0100
 </div>
 </div>
 </body>
