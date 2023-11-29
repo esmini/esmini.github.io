@@ -4421,7 +4421,37 @@ Parameters:
 <div class="sect2">
 <h3 id="_get_osgconv">8.1. Get osgconv</h3>
 <div class="paragraph">
-<p>On Linux and Mac its recommended to build osg yourself. You can try this script: <a href="https://github.com/esmini/esmini/blob/master/scripts/compile_osg_apps.sh">compile_osg_apps.sh</a>. It will first fetch and install <a href="https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-0">FBX SDK</a> and then build OSG with FBX support. Find more details and instructions in the header of the script.</p>
+<p>There are pre-built binaries available, see below. But for full capabilities, including support for converting from 3D file formats .dae (collada) and .fbx (Autodesk Filmbox) you have to build OpenSceneGraph (osg) yourself.</p>
+</div>
+<div class="sect3">
+<h4 id="_build_yourself">8.1.1. Build yourself</h4>
+<div class="sect4">
+<h5 id="_prerequisites">Prerequisites</h5>
+<div class="paragraph">
+<p>The only prerequisite step is for Linux to install some dependecies:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run <code>software-properties-gtk</code><br>
+or open the "Software &amp; Updates" application</p>
+</li>
+<li>
+<p>then under the "Ubuntu Software" tab click "Source code" and add a server of your choice, e.g. within your country</p>
+</li>
+<li>
+<p>Run <code>sudo apt-get build-dep openscenegraph</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reference Step 1 &amp; 2: <a href="https://unix.stackexchange.com/a/614082" class="bare">https://unix.stackexchange.com/a/614082</a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_build">Build</h5>
+<div class="paragraph">
+<p>You can then try this script: <a href="https://github.com/esmini/esmini/blob/master/scripts/compile_osg_apps.sh">compile_osg_apps.sh</a>. It will first fetch and install <a href="https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-0">FBX SDK</a> and then build OSG with FBX and DAE support. Find more details and instructions in the header of the script.</p>
 </div>
 <div class="paragraph">
 <p>For more info regarding building OSG for Linux, here&#8217;s a great guide:<br>
@@ -4429,18 +4459,34 @@ Parameters:
 But note that it does not consider FBX support.</p>
 </div>
 <div class="paragraph">
-<p>For Windows there&#8217;s an option to grab pre-built binaries including FBX support from here:<br>
+<p>Find more info on COLLADA via this old <a href="http://www.openscenegraph.com/index.php/documentation/guides/user-guides/111-collada">link</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pre_build_binaries">8.1.2. Pre-build binaries</h4>
+<div class="paragraph">
+<p><strong>Windows</strong><br>
+Binaries including FBX but not DAE support, see here:<br>
 <a href="https://objexx.com/OpenSceneGraph.html" class="bare">https://objexx.com/OpenSceneGraph.html</a></p>
 </div>
 <div class="paragraph">
-<p>For <a href="https://en.wikipedia.org/wiki/COLLADA">COLLADA</a> (.dae) support you need to build esmini yourself. You can try this script: <a href="https://github.com/esmini/esmini/blob/master/scripts/compile_osg_apps.sh">compile_osg_apps.sh</a>. <strong>Note</strong>: Only tested on Windows. For Linux, the COLLADA probably has to be installed first - potentially find more info via this old <a href="http://www.openscenegraph.com/index.php/documentation/guides/user-guides/111-collada">link</a>.</p>
+<p><strong>Linux</strong><br></p>
 </div>
 <div class="paragraph">
-<p>Here follows an example of how to convert .osgb models into .fbx format for use in the Unity3D framework.</p>
+<p><code>sudo apt-get update</code><br>
+<code>sudo apt-get -y install openscenegraph</code></p>
+</div>
+<div class="paragraph">
+<p>Reference: <a href="https://installati.one/install-openscenegraph-ubuntu-20-04/?expand_article=1" class="bare">https://installati.one/install-openscenegraph-ubuntu-20-04/?expand_article=1</a></p>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_convert_osgb_models_for_use_in_unity">8.2. Convert osgb models for use in Unity</h3>
+<div class="paragraph">
+<p>Here follows an example of how to convert .osgb models into .fbx format for use in the Unity3D framework.</p>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -6913,7 +6959,7 @@ sudo ./llvm.sh 15</code></pre>
 <div class="sect4">
 <h5 id="_build_and_run_the_application_from_command_line">Build and run the application from command line</h5>
 <div class="sect5">
-<h6 id="_build">Build</h6>
+<h6 id="_build_2">Build</h6>
 <div class="paragraph">
 <p><code>cmake --build . --config Release</code> (release variant), or<br>
 <code>cmake --build . --config Debug</code> (debug variant)<br></p>
@@ -7055,7 +7101,7 @@ then:<br>
 </ul>
 </div>
 <div class="sect5">
-<h6 id="_build_2">Build</h6>
+<h6 id="_build_3">Build</h6>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -8511,7 +8557,7 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
 <p>It&#8217;s dependent on the <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/ESMiniWrapper.cs">ESMiniWrapper.cs</a>, and targeting Windows environment. If the wrapper is modified to work on Linux (referring .so instead of DLL) it might work there as well, but it&#8217;s not been tested.</p>
 </div>
 <div class="sect4">
-<h5 id="_build_3">Build</h5>
+<h5 id="_build_4">Build</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>mkdir build
@@ -8663,14 +8709,14 @@ will create C# versions of all proto files</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.33.2-3-54cd5739"</p>
+ESMINI_GIT_REV="v2.33.2-5-ff16a691"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-22 13:52:08 +0100
+Last updated 2023-11-29 16:40:12 +0100
 </div>
 </div>
 </body>
