@@ -1328,6 +1328,17 @@ or<br>
 <p>Only a subset of the .dat file information is extracted. To extract some more info, e.g. road coordinates, run:
 <code>./scripts/dat2csv --extended sim.dat</code><br></p>
 </div>
+<div class="paragraph">
+<p>You can create .dat files from multiple scenarios in a single command, like this on Linux (bash):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">for f in ./my_scenarios/*.xosc; do ./bin/esmini --headless --fixed_timestep 0.05 --osc $f --record `basename $f .xosc`.dat; done</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It also works in Git bash on Windows.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_csv_logger">4.3.3. CSV logger</h4>
@@ -8709,14 +8720,14 @@ will create C# versions of all proto files</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.33.2-5-ff16a691"</p>
+ESMINI_GIT_REV="v2.33.2-9-1951c926"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-11-29 16:40:12 +0100
+Last updated 2023-11-30 15:19:15 +0100
 </div>
 </div>
 </body>
