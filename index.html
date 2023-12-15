@@ -2348,9 +2348,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>h and (speed value) evaluates to 0.707106 and 30.55558 respectively</p>
 </div>
 <h4 id="_supported_expression_operators_and_functions" class="discrete">Supported expression operators and functions</h4>
-<div class="paragraph">
-<p><strong>Operators</strong></p>
-</div>
+<h5 id="_operators" class="discrete">Operators</h5>
 <table class="tableblock frame-none grid-none fit-content">
 <colgroup>
 <col>
@@ -2446,9 +2444,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <div class="paragraph">
 <p>See <a href="https://github.com/esmini/esmini/blob/a53f09d85194509aa9d0c12971b1c73963c21d34/externals/expr/expr.h#L169">expr.h</a> for complete and updated list.</p>
 </div>
-<div class="paragraph">
-<p><strong>Functions</strong></p>
-</div>
+<h5 id="_functions" class="discrete">Functions</h5>
 <table class="tableblock frame-none grid-none fit-content">
 <colgroup>
 <col>
@@ -2560,6 +2556,22 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </table>
 <div class="paragraph">
 <p>See <a href="https://github.com/esmini/esmini/blob/c9dc63c45be0dc479c22b78be74d047fc4449e7c/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/simple_expr.c#L101">simple_expr.c</a> for complete and updated list.</p>
+</div>
+<h5 id="_strings" class="discrete">Strings</h5>
+<div class="paragraph">
+<p>From v2.35.0 string concatenation is supported. Whenever a string is detected that is netiher an opeator nor a function, the complete expression is treated as a string and '+' (plus) operator will merge surrounding evaluated strings which also can be evaluated parameters.</p>
+</div>
+<div class="paragraph">
+<p>This can be useful when running permutations of scenarios, where names of actors or storyboard elements can be made unique by including parameters values.</p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="paragraph">
+<p><code>${Event_overtake_ + $ActorName}</code> &#8594; <code>Event_overtake_Target4</code></p>
+</div>
+<div class="paragraph">
+<p><code>${Event_change_speed_to_ + $Speed}</code> &#8594; <code>Event_change_speed_to_110</code></p>
 </div>
 </div>
 <div class="sect2">
@@ -6145,6 +6157,31 @@ cd ..
 <div class="paragraph">
 <p>Pull requests should be targeting the <code>dev</code> branch.</p>
 </div>
+<div class="paragraph">
+<p>Master branch represent the latest released software. It should be in synch with dev.</p>
+</div>
+<div class="sect3">
+<h4 id="_branch_out_of_synch">12.1.1. Branch out of synch</h4>
+<div class="paragraph">
+<p><code>dev</code> and <code>master</code> branches should be in perfect sync, i.e. based on common history. Unfortunately, to keep this true and to avoid messy history and lost tags, branch history might be changed in rare cases. That can lead to local branch clones out of synch. If that is the case, follow these steps to restore sync of your local branch:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>git branch backup</code>  (only needed if you have local commits you want to preserve for later cherry-picking)</p>
+</li>
+<li>
+<p><code>git fetch origin</code></p>
+</li>
+<li>
+<p><code>git reset --hard origin/&lt;branch name&gt;</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><code>&lt;branch name&gt;</code> might be <code>master</code> or <code>dev</code>, or whatever branch to be restored.</p>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_formatting">12.2. Formatting</h3>
@@ -8719,8 +8756,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.34.0"<br>
-ESMINI_GIT_REV="v2.34.0-0-6cf69530"</p>
+<p>ESMINI_GIT_TAG="v2.35.0"<br>
+ESMINI_GIT_REV="v2.35.0-0-df0817b8"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -8730,7 +8767,7 @@ ESMINI_GIT_REV="v2.34.0-0-6cf69530"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-12-07 12:15:53 +0100
+Last updated 2023-12-16 15:13:41 +0100
 </div>
 </div>
 </body>
