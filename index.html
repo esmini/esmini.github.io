@@ -5129,8 +5129,6 @@ Options:
       OpenSCENARIO filename (required) - if path includes spaces, enclose with &quot;&quot;
   --aa_mode &lt;mode&gt;
       Anti-alias mode=number of multisamples (subsamples, 0=off, 4=default)
-  --action_server
-      Launch UDP server for injected actions
   --bounding_boxes
       Show entities as bounding boxes (toggle modes on key ',')
   --capture_screen
@@ -5153,8 +5151,6 @@ Options:
       Disable controllers
   --disable_log
       Prevent logfile from being created
-  --disable_off_screen
-      Disable esmini off-screen rendering, revert to OSG viewer default handling
   --disable_stdout
       Prevent messages to stdout
   --enforce_generate_model
@@ -5181,6 +5177,8 @@ Options:
       logfile path/filename, e.g. &quot;../esmini.log&quot; (default: log.txt)
   --osc_str &lt;string&gt;
       OpenSCENARIO XML string
+  --osg_screenshot_event_handler
+      Revert to OSG default jpg images ('c'/'C' keys handler)
   --osi_file [filename]  (default = ground_truth.osi)
       save osi trace file
   --osi_freq &lt;frequence&gt;
@@ -5195,8 +5193,12 @@ Options:
       Run variations of the scenario according to specified parameter distribution file
   --param_permutation &lt;index (0 .. NumberOfPermutations-1)&gt;
       Run specific permutation of parameter distribution
+  --pause
+      Pause simulation after initialization
   --path &lt;path&gt;
       Search path prefix for assets, e.g. OpenDRIVE files (multiple occurrences supported)
+  --player_server
+      Launch UDP server for action/command injection
   --plot [mode (asynchronous|synchronous)]  (default = asynchronous)
       Show window with line-plots of interesting data
   --record &lt;filename&gt;
@@ -8756,8 +8758,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.35.0"<br>
-ESMINI_GIT_REV="v2.35.0-0-df0817b8"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="v2.35.0-3-a8539b38"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -8767,7 +8769,7 @@ ESMINI_GIT_REV="v2.35.0-0-df0817b8"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-12-16 15:13:41 +0100
+Last updated 2023-12-16 15:47:05 +0100
 </div>
 </div>
 </body>
