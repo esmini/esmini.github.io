@@ -4365,6 +4365,23 @@ Parameters:
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_offroadfollowercontroller">7.6.9. OffroadFollowerController</h4>
+<div class="paragraph">
+<p>A simple "follow-the-leader" controller which aims to keep a specified distance to a specified leading vehicle. The controller utilizes a simple 2D "bicycle" vehicle model. Each time-step the controller finds out the direction and distance to the lead vehicle. Based on this, the acceleration and steering input is calculated and provided to the vehicle model.</p>
+</div>
+<div class="paragraph">
+<p>The term off-road indicates that the controller does not consider any road network features. Note that it still can run on roads, parking lots, just that it&#8217;s ignoring it in terms of lanes and road-marks.</p>
+</div>
+<div class="paragraph">
+<p>Below is a video clip showing the controller in action on an open paved area. The white lead vehicle is controlled interactively by the user via arrow keys. The controller is assigned to the red car which then strives to follow the lead car at the distance of 20 meters.</p>
+</div>
+<div class="videoblock">
+<div class="content">
+<iframe width="854" height="480" src="https://www.youtube.com/embed/uHqdsORPsGE?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=uHqdsORPsGE" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_how_to_add_a_new_controller">7.7. How to add a new controller</h3>
@@ -8779,8 +8796,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.36.0"<br>
-ESMINI_GIT_REV="v2.36.0-0-4171824a"</p>
+<p>ESMINI_GIT_TAG="v2.36.2"<br>
+ESMINI_GIT_REV="v2.36.2-0-0071e336"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -8790,7 +8807,7 @@ ESMINI_GIT_REV="v2.36.0-0-4171824a"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-03 10:13:34 +0100
+Last updated 2024-01-10 07:19:47 +0100
 </div>
 </div>
 </body>
