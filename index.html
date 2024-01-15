@@ -606,13 +606,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_build_configurations_from_command_line">11.2. Build configurations from command line</a></li>
 <li><a href="#_external_dependencies">11.3. External dependencies</a></li>
 <li><a href="#_additional_platform_dependencies">11.4. Additional platform dependencies</a></li>
-<li><a href="#_run_with_linux_and_visual_studio_code">11.5. Run with Linux and visual studio code</a></li>
-<li><a href="#_debug_with_linux_and_visual_studio_code">11.6. Debug with Linux and visual studio code</a></li>
-<li><a href="#_dynamic_protobuf_linking">11.7. Dynamic protobuf linking</a></li>
-<li><a href="#_slim_esmini_customize_configration">11.8. Slim esmini - customize configration</a></li>
-<li><a href="#_msys2_mingw_w64_support">11.9. MSYS2 / MinGW-w64 support</a></li>
-<li><a href="#_build_esmini_project">11.10. Build esmini project</a></li>
-<li><a href="#_centos_7_linux">11.11. CentOS 7 (Linux)</a></li>
+<li><a href="#_run_and_debug_with_linux_and_visual_studio_code">11.5. Run and Debug with Linux and visual studio code</a></li>
+<li><a href="#_dynamic_protobuf_linking">11.6. Dynamic protobuf linking</a></li>
+<li><a href="#_slim_esmini_customize_configration">11.7. Slim esmini - customize configration</a></li>
+<li><a href="#_msys2_mingw_w64_support">11.8. MSYS2 / MinGW-w64 support</a></li>
+<li><a href="#_build_esmini_project">11.9. Build esmini project</a></li>
+<li><a href="#_centos_7_linux">11.10. CentOS 7 (Linux)</a></li>
 </ul>
 </li>
 <li><a href="#_for_esmini_developers_and_contributors">12. For esmini developers and contributors</a>
@@ -5831,79 +5830,130 @@ to<br>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_run_with_linux_and_visual_studio_code">11.5. Run with Linux and visual studio code</h3>
+<h3 id="_run_and_debug_with_linux_and_visual_studio_code">11.5. Run and Debug with Linux and visual studio code</h3>
 <div class="paragraph">
-<p>When want to run from the visual studio code below steps might help with setup configuration.</p>
+<p>To run from the visual studio, the steps below might help with setup configuration.</p>
+</div>
+<div class="sect3">
+<h4 id="_with_preset">11.5.1. With preset</h4>
+<div class="paragraph">
+<p><strong>Note:</strong> Make sure cmake.preset set to auto to recognize the presets (defined in the <code>CMakePresets.json</code> file). Open setting (Ctrl + ,) type <code>cmake.preset</code>, set <code>auto</code> in drop down box. This is a global setting.</p>
 </div>
 <div class="paragraph">
-<p><code>1. Open the Command Palette (Ctrl+Shift+P) and run CMake: Select a Kit. Select the compiler you want to use. For example GCC 11.3.0</code></p>
+<p>To run:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) and run CMake: Configure. Select <code>ubuntu_release</code></p>
+</li>
+<li>
+<p>Shift + F7 to select and build specific target</p>
+<div class="ulist">
+<ul>
+<li>
+<p>e.g. <code>install</code> to build and copy all targets to bin folder</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Configure custom run arguments (create launch.json)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Open the run and debug window (Ctrl+Shift+D)</p>
+</li>
+<li>
+<p>Select <code>create a launch.json file</code></p>
+</li>
+<li>
+<p>In the drop down list, select <code>C++ (GDB/LLDB)</code></p>
+</li>
+<li>
+<p>Select <code>Add Configuration&#8230;&#8203;</code> (in the lower right corner of the sub window)</p>
+</li>
+<li>
+<p>Select <code>C/C++: (gdb) Launch</code></p>
+</li>
+<li>
+<p>Change <code>program</code> setting as <code>"${workspaceFolder}/build/EnvironmentSimulator/Applications/esmini/esmini"</code></p>
+</li>
+<li>
+<p>Change <code>args</code> as <code>["--window", "60", "60", "800", "400", "--osc", "../resources/xosc/cut-in.xosc"]</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Press F5</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p><code>2. open the Command Palette (Ctrl+Shift+P) run the CMake: Select Variant command. Select Debug</code></p>
+<p>For Debug,
+Repeat step 1 and select <code>ubuntu_debug</code>. Repeat step 2 to build debug binaries and then step 4. Breakpoints can be added to the program specified in the <code>launch.json</code> file (do step 3 if not already done).</p>
 </div>
 <div class="paragraph">
-<p><code>3. open the Command Palette (Ctrl+Shift+P) run the CMake:Set Build Target. Select install</code></p>
+<p>Build target can also be changed in the status bar, click <code>Set the default build target</code>. If not cmake commands are visible in status bar, check global settings: Ctrl + ,  then write "cmake status bar" to find <code>Status Bar Visibility</code> setting. Set to <code>visible</code>.</p>
 </div>
 <div class="paragraph">
-<p><code>4. Open the Command Palette (Ctrl+Shift+P) and run the CMake: Build command, or select the Build button from the Status bar.</code></p>
+<p>Another way to set build target is via Ctrl+Shift+P, then write "set build target" to find <code>CMake: Set Build Target</code> setting. Select it and choose build target in the drop down list that should appear.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_without_preset">11.5.2. Without preset</h4>
+<div class="paragraph">
+<p>Make sure <code>cmake.preset</code> set to never to ignore the preset file (<code>CMakePresets.json</code>):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open setting (Ctrl+,) type cmake.preset, select <code>never</code> in drop down box</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Now launch.json file to be configured</p>
+<p><strong>Note:</strong> This is a global setting, i.e. will affect other VSCode instances. Reset to <code>auto</code> if needed. Another way to ignore the presets is simply to remove the <code>CMakePresets.json</code> file and restart VSCode.</p>
 </div>
 <div class="paragraph">
-<p><code>Open the run and debug window (Ctrl+Shift+P)</code></p>
+<p>To run:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) and run <code>CMake: Select a Kit</code>. Select the compiler you want to use. For example GCC 11.3.0</p>
+</li>
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) run the <code>CMake: Select Variant</code> command. Select <code>Release</code></p>
+</li>
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) run the <code>CMake: Set Build Target</code>. Select <code>install</code></p>
+</li>
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) and run the <code>CMake: Build</code> command, or select the Build button from the Status bar. (If cmake commands are not visible in status bar, check global settings: Ctrl + ,  then write "cmake status bar" to find <code>Status Bar Visibility</code> setting. Set to <code>visible</code>.)</p>
+</li>
+<li>
+<p>To configure launch arguments, see step 3 in <a href="#_with_preset">With preset</a>.</p>
+</li>
+<li>
+<p>Press F5</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p><code>Select Create new lanuch.json file</code></p>
+<p>For debug:</p>
 </div>
 <div class="paragraph">
-<p><code>Select add configuration</code></p>
+<p>Repeat step 2 and select <code>Debug</code>. Repeat step 3 to 6. Breakpoints can be added to the program specified in the <code>launch.json</code>.</p>
 </div>
 <div class="paragraph">
-<p><code>Change Program argument as "${workspaceFolder}/build/EnvironmentSimulator/Applications/esmini/esmini"</code></p>
+<p>For more info see: <a href="https://code.visualstudio.com/docs/cpp/CMake-linux" class="bare">https://code.visualstudio.com/docs/cpp/CMake-linux</a></p>
 </div>
-<div class="paragraph">
-<p><code>Change args argument as ["--window", "60", "60", "800", "400", "--osc", "../resources/xosc/cut-in.xosc"]</code></p>
-</div>
-<div class="paragraph">
-<p><code>Press RUN-&#8594;run without debug button</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_debug_with_linux_and_visual_studio_code">11.6. Debug with Linux and visual studio code</h3>
-<div class="paragraph">
-<p>Open launch.json file already created.</p>
-</div>
-<div class="paragraph">
-<p><code>Select add configuration</code></p>
-</div>
-<div class="paragraph">
-<p><code>Change Program argument as "${workspaceFolder}/build/EnvironmentSimulator/Applications/esmini-dyn/esmini-dyn"</code></p>
-</div>
-<div class="paragraph">
-<p><code>Rename name as some meaningfull eg "name": "(gdb) Launch esmini/debug"</code></p>
-</div>
-<div class="paragraph">
-<p><code>args argument as []</code></p>
-</div>
-<div class="paragraph">
-<p><code>Open the Command Palette (Ctrl+Shift+P) and run the CMake: Build command, or select the Build button from the Status bar.</code></p>
-</div>
-<div class="paragraph">
-<p><code>Copy the content from the Hello-World_coding-example/main.cpp to build/EnvironmentSimulator/Applications/esmini-dyn/main.cpp</code></p>
-</div>
-<div class="paragraph">
-<p><code>Open the run and debug window (Ctrl+Shift+P) and select newly created configuration</code></p>
-</div>
-<div class="paragraph">
-<p><code>Press RUN-&#8594;start debuging button</code></p>
-</div>
-<div class="paragraph">
-<p>Refer <a href="https://code.visualstudio.com/docs/cpp/CMake-linux">Here</a> for more information</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_dynamic_protobuf_linking">11.7. Dynamic protobuf linking</h3>
+<h3 id="_dynamic_protobuf_linking">11.6. Dynamic protobuf linking</h3>
 <div class="paragraph">
 <p>When linking esmini with software already dependent on Google protobuf there might be need for dynamic linking of shared protobuf library. This can be achieved by defining cmake symbol DYN_PROTOBUF as following example:</p>
 </div>
@@ -5938,7 +5988,7 @@ The dynamic versions of protobuf were added Aug 31 2021. So you might need to up
 </div>
 </div>
 <div class="sect2">
-<h3 id="_slim_esmini_customize_configration">11.8. Slim esmini - customize configration</h3>
+<h3 id="_slim_esmini_customize_configration">11.7. Slim esmini - customize configration</h3>
 <div class="paragraph">
 <p>The external dependencies OSG, OSI, SUMO and implot are optional. Also the unit test suite is optional, in effect making the dependecy to googletest framework optional as well. All these options are simply controlled by the following cmake options:</p>
 </div>
@@ -5978,7 +6028,7 @@ Disabling an external dependency will disable corresponding functionality. So, f
 </div>
 </div>
 <div class="sect2">
-<h3 id="_msys2_mingw_w64_support">11.9. MSYS2 / MinGW-w64 support</h3>
+<h3 id="_msys2_mingw_w64_support">11.8. MSYS2 / MinGW-w64 support</h3>
 <div class="paragraph">
 <p>esmini slim can be compiled and executed in the MSYS2 environment. Try following steps:</p>
 </div>
@@ -6034,7 +6084,7 @@ cmake --build . --config Release --target install</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_build_esmini_project">11.10. Build esmini project</h3>
+<h3 id="_build_esmini_project">11.9. Build esmini project</h3>
 <div class="paragraph">
 <p>First generate build configuration (see above)</p>
 </div>
@@ -6105,7 +6155,7 @@ make -j4 install</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_centos_7_linux">11.11. CentOS 7 (Linux)</h3>
+<h3 id="_centos_7_linux">11.10. CentOS 7 (Linux)</h3>
 <div class="paragraph">
 <p>CentOS 7 has some limitations, e.g. old versions of C/C++ compiler toolkits and runtimes. So it&#8217;s not possible to link with provided 3rd party binary libraries targeting Ubuntu 18++.
 However, by disabling some featuers in esmini, e.g. OSI and SUMO, it can still be used for previewing scenarios.</p>
@@ -8796,8 +8846,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.36.2"<br>
-ESMINI_GIT_REV="v2.36.2-0-0071e336"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="v2.36.2-3-dd32e1de-dirty"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -8807,7 +8857,7 @@ ESMINI_GIT_REV="v2.36.2-0-0071e336"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-10 07:19:47 +0100
+Last updated 2024-01-15 10:33:07 +0100
 </div>
 </div>
 </body>
