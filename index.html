@@ -5285,6 +5285,7 @@ https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.
     Shift + TAB:   Move camera to previoius vehicle
     Delete:        Same as above (Shift + TAB)
     o:             Toggle show/hide OpenDRIVE road feature lines
+    O:             Toggle odr signal 3D model bounding boxes
     u:             Toggle show / hide OSI road lines
     y:             Toggle show / hide OSI road points
     p:             Toggle show / hide environment 3D model
@@ -5421,6 +5422,7 @@ Key shortcuts
     Space:         Toggle pause / play
     g:             Toggle show / hide ghost models
     o:             Toggle show / hide OpenDRIVE road feature lines
+    O:             Toggle show / hide odr signal 3D model bounding boxes
     u:             Toggle show / hide OSI road lines
     y:             Toggle show / hide OSI road points
     p:             Toggle show / hide environment 3D model
@@ -5578,7 +5580,8 @@ Key shortcuts
     TAB:           Move camera to next vehicle
     Shift + TAB:   Move camera to previoius vehicle
     Delete:        Same as above (Shift + TAB)
-    o:             Toggle show/hide OpenDRIVE road feature lines
+    o:             Toggle show / hide OpenDRIVE road feature lines
+    O:             Toggle show / hide odr signal 3D model bounding boxes
     u:             Toggle show / hide OSI road lines
     y:             Toggle show / hide OSI road points
     p:             Toggle show / hide environment 3D model
@@ -8456,12 +8459,12 @@ sbe_state = {
 <span class="comment"># Define callback for scenario storyboard element state changes</span>
 <span class="comment"># according to function type: void (*fnPtr)(const char* name, int type, int state)</span>
 <span class="comment"># required by SE_RegisterStoryBoardElementStateChangeCallback()</span>
-<span class="keyword">def</span> <span class="function">callback</span>(name, <span class="predefined">type</span>, state):
+<span class="keyword">def</span> <span class="function">callback</span>(name, <span class="predefined">type</span>, state, full_path):
     <span class="comment"># just print the received info</span>
     print(<span class="predefined">type</span>)
-    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">callback: {} ({}) state: {}</span><span class="delimiter">&quot;</span></span>.format(codecs.decode(name), sbe_type[<span class="predefined">type</span>], sbe_state[state]))
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">callback: {} ({}) state: {} full path: {}</span><span class="delimiter">&quot;</span></span>.format(codecs.decode(name), sbe_type[<span class="predefined">type</span>], sbe_state[state], codecs.decode(full_path), ))
 
-callback_type = ct.CFUNCTYPE(<span class="predefined-constant">None</span>, ct.c_char_p, ct.c_int, ct.c_int)
+callback_type = ct.CFUNCTYPE(<span class="predefined-constant">None</span>, ct.c_char_p, ct.c_int, ct.c_int, ct.c_char_p)
 callback_func = callback_type(callback)
 
 <span class="comment"># Initialize esmini before register the callback</span>
@@ -8846,8 +8849,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.36.2-3-dd32e1de-dirty"</p>
+<p>ESMINI_GIT_TAG="v2.36.5"<br>
+ESMINI_GIT_REV="v2.36.5-0-abad6c70"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -8857,7 +8860,7 @@ ESMINI_GIT_REV="v2.36.2-3-dd32e1de-dirty"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-01-15 10:33:07 +0100
+Last updated 2024-02-10 14:05:38 +0100
 </div>
 </div>
 </body>
