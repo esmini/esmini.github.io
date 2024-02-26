@@ -555,6 +555,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_expressions">5.3. Expressions</a></li>
 <li><a href="#_parameter_distributions">5.4. Parameter distributions</a></li>
 <li><a href="#_trajectories">5.5. Trajectories</a></li>
+<li><a href="#_friction">5.6. Friction</a></li>
 </ul>
 </li>
 <li><a href="#_positioning">6. Positioning</a>
@@ -2772,6 +2773,30 @@ After executing the above the exit code can be inspected/verified from shell as 
 <p>For each segment, calculate constant speed needed to reach next vertex on time. This approach results in a discontinuous speed profile.</p>
 </li>
 </ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_friction">5.6. Friction</h3>
+<div class="paragraph">
+<p>From v2.37.0 esmini supports road friction defined in <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/latest/specification/11_lanes/11_07_lane_properties.html#sec-8345bf25-d584-4a5b-8fa7-e15c920ab219">OpenDRIVE lane material</a>.</p>
+</div>
+<div class="paragraph">
+<p>Each lane within a lane section can have one or multiple segments of individual friction values, specified by s-value and friction coefficient.</p>
+</div>
+<div class="paragraph">
+<p>Default friction coefficient is 1.0 as of v2.37.0, but might change in later versions. Lower friction (&lt;1.0, slippery) will be visualized as bluish color. The lower friction the more blue color. High friction values (&gt;1.0,  "grippy")</p>
+</div>
+<div class="paragraph">
+<p>The friction is calculated per wheel. The values are reported in OSI ground-truth.</p>
+</div>
+<div class="paragraph">
+<p>Example road: <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xodr/straight_highway_500m.xodr">straight_highway_500m.xodr</a> (used by test scenario <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xosc/friction_and_lane_change_edge_case.xosc">friction_and_lane_change_edge_case.xosc</a>)</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/friction.jpg" alt="friction">
+</div>
+<div class="title">Road with various friction segments, coefficient evaluated per wheel</div>
 </div>
 </div>
 </div>
@@ -5256,6 +5281,8 @@ Options:
       Run viewer in a separate thread, parallel to scenario engine
   --trail_mode &lt;mode&gt;
       Show trail lines and/or dots (toggle key 'j') mode 0=None 1=lines 2=dots 3=both
+  --use_signs_in_external_model
+      When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
   --version
       Show version and quit
 
@@ -5368,8 +5395,6 @@ Options:
       Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
   --dir &lt;path&gt;
       Directory containing replays to overlay, pair with &quot;file&quot; argument, where &quot;file&quot; is .dat filename match substring
-  --disable_off_screen
-      Disable esmini off-screen rendering, revert to OSG viewer default handling
   --ground_plane
       Add a large flat ground surface
   --headless
@@ -5382,6 +5407,8 @@ Options:
       Remove ghost entities
   --no_ghost_model
       Remove only ghost model, show trajectory (toggle with key 'g')
+  --osg_screenshot_event_handler
+      Revert to OSG default jpg images ('c'/'C' keys handler)
   --path &lt;path&gt;
       Search path prefix for assets, e.g. model_ids.txt file (multiple occurrences supported)
   --quit_at_end
@@ -5404,6 +5431,8 @@ Options:
       Playback speed scale factor (1.0 == normal)
   --view_mode &lt;view_mode&gt;
       Entity visualization: &quot;model&quot;(default)/&quot;boundingbox&quot;/&quot;both&quot;
+  --use_signs_in_external_model
+      When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
 
 Additional OSG graphics options:
   --clear-color &lt;color&gt;                      Set the background color of the viewer in the form &quot;r,g,b[,a]&quot;
@@ -5516,6 +5545,8 @@ Options:
       Disable esmini off-screen rendering, revert to OSG viewer default handling
   --disable_stdout
       Prevent messages to stdout
+  --duration &lt;duration&gt;
+      Quit automatically after specified time (seconds, floating point)
   --fixed_timestep &lt;timestep&gt;
       Run simulation decoupled from realtime, with specified timesteps
   --generate_no_road_objects
@@ -5528,6 +5559,8 @@ Options:
       logfile path/filename, e.g. &quot;../esmini.log&quot; (default: log.txt)
   --model &lt;model_filename&gt;
       3D Model filename
+  --osg_screenshot_event_handler
+      Revert to OSG default jpg images ('c'/'C' keys handler)
   --osi_lines
       Show OSI road lines (toggle during simulation by press 'u')
   --osi_points
@@ -5546,6 +5579,8 @@ Options:
       Instead of respawning elsewhere, stop when no connection exists
   --traffic_rule &lt;rule (right/left)&gt;
       Enforce left or right hand traffic, regardless OpenDRIVE rule attribute (default: right)
+  --use_signs_in_external_model
+      When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
   --version
       Show version and quit
 
@@ -8849,8 +8884,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.36.5-1-93bc85cb"</p>
+<p>ESMINI_GIT_TAG="v2.37.0"<br>
+ESMINI_GIT_REV="v2.37.0-0-854f81f5"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -8860,7 +8895,7 @@ ESMINI_GIT_REV="v2.36.5-1-93bc85cb"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-10 14:05:38 +0100
+Last updated 2024-02-26 12:00:52 +0100
 </div>
 </div>
 </body>
