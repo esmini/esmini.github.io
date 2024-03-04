@@ -2784,7 +2784,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 <p>Each lane within a lane section can have one or multiple segments of individual friction values, specified by s-value and friction coefficient.</p>
 </div>
 <div class="paragraph">
-<p>Default friction coefficient is 1.0 as of v2.37.0, but might change in later versions. Lower friction (&lt;1.0, slippery) will be visualized as bluish color. The lower friction, the more blue color. High friction values (&gt;1.0,  "grippy") is indicated by redish color.</p>
+<p>Default friction coefficient is 1.0 as of v2.37.0, but might change in later versions. Lower friction (&lt;1.0, slippery) will be visualized as bluish color. The lower friction the more blue color. High friction values (&gt;1.0,  "grippy")</p>
 </div>
 <div class="paragraph">
 <p>The friction is calculated per wheel. The values are reported in OSI ground-truth.</p>
@@ -5312,7 +5312,6 @@ https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.
     Shift + TAB:   Move camera to previoius vehicle
     Delete:        Same as above (Shift + TAB)
     o:             Toggle show / hide OpenDRIVE road feature lines
-    O:             Toggle show / hide odr signal bounding boxes
     u:             Toggle show / hide OSI road lines
     y:             Toggle show / hide OSI road points
     p:             Toggle show / hide environment 3D model
@@ -5451,7 +5450,6 @@ Key shortcuts
     Space:         Toggle pause / play
     g:             Toggle show / hide ghost models
     o:             Toggle show / hide OpenDRIVE road feature lines
-    O:             Toggle show / hide odr signal bounding boxes
     u:             Toggle show / hide OSI road lines
     y:             Toggle show / hide OSI road points
     p:             Toggle show / hide environment 3D model
@@ -5616,7 +5614,6 @@ Key shortcuts
     Shift + TAB:   Move camera to previoius vehicle
     Delete:        Same as above (Shift + TAB)
     o:             Toggle show / hide OpenDRIVE road feature lines
-    O:             Toggle show / hide odr signal bounding boxes
     u:             Toggle show / hide OSI road lines
     y:             Toggle show / hide OSI road points
     p:             Toggle show / hide environment 3D model
@@ -6002,10 +5999,15 @@ Repeat step 1 and select <code>ubuntu_debug</code>. Repeat step 2 to build debug
 <p>Then build as usual. It will link with protobuf shared library instead of linking with a static library.</p>
 </div>
 <div class="paragraph">
-<p>When running esmini protobuf shared library need to be available. Set LD_LIBRARY_PATH to point to the folder where the library is, example:</p>
+<p>When running esmini, the protobuf shared library needs to be found. Set dynamic library path environment variable to the folder where the library is. Example:</p>
 </div>
 <div class="paragraph">
-<p><code>export LD_LIBRARY_PATH=./externals/OSI/linux/lib-dyn</code></p>
+<p>Linux:<br>
+<code>export LD_LIBRARY_PATH=./externals/OSI/linux/lib-dyn</code></p>
+</div>
+<div class="paragraph">
+<p>macOS:<br>
+<code>export DYLD_LIBRARY_PATH=./externals/OSI/linux/lib-dyn</code></p>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong><br>
@@ -7250,7 +7252,7 @@ then:<br>
 </li>
 <li>
 <p>Tell system where to look for esmini shared library (maybe not necessary)<br>
-<code>export LD_LIBRARY_PATH=../../bin</code></p>
+<code>export LD_LIBRARY_PATH=../../bin</code>  (on macOS: DYLD_LIBRARY_PATH)</p>
 </li>
 <li>
 <p>Launch application<br>
@@ -7721,9 +7723,216 @@ then:<br>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_driver_model">14.3.8. Driver model</h4>
+<h4 id="_simple_speed_control">14.3.8. Simple speed control</h4>
 <div class="paragraph">
-<p>Using a simple vehicle model this example demonstrates how a driver model can interact with the scenario, once again using the <code>ExternalController</code>.</p>
+<p>As an alternative to the external control examples above, you can control the speed of an object directly. Just note that any triggered scenario actions involving the object might conflict with speed settings via lib API. Recommendation is control an object either via API or scenario file. That said, the combination can be useful for some use cases.</p>
+</div>
+<div class="paragraph">
+<p>The code will modulate speed of Ego (first vehicle) between 2 and 20 mps.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 9. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/speed_controller.cpp">EnvironmentSimulator/code-examples/hello_world/speed_controller.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;iostream&gt;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span> **argv)
+{
+    <span class="predefined-type">float</span> acc   = <span class="integer">10</span>;    <span class="comment">// initial acceleration</span>
+    <span class="predefined-type">float</span> speed = <span class="float">2</span><span class="float">.0f</span>;  <span class="comment">// initial speed</span>
+
+    <span class="keyword">if</span> (argc &gt; <span class="integer">1</span>)
+    {
+        SE_Init(argv[<span class="integer">1</span>], <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    }
+    <span class="keyword">else</span>
+    {
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Usage: %s &lt;path to xosc file&gt;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, argv[<span class="integer">0</span>]);
+        <span class="keyword">return</span> -<span class="integer">1</span>;
+    }
+
+    <span class="keyword">while</span> (SE_GetQuitFlag() != <span class="integer">1</span>)
+    {
+        speed += acc * SE_GetSimTimeStep();  <span class="comment">// get latest time step from simulation</span>
+
+        <span class="comment">// modulate speed by changing sign of acceleration now and then</span>
+        <span class="keyword">if</span> (speed &lt; <span class="float">2</span><span class="float">.0f</span>)
+        {
+            acc = <span class="integer">10</span>;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (speed &gt; <span class="integer">2</span><span class="float">0</span><span class="float">.0f</span>)
+        {
+            acc = -<span class="integer">10</span>;
+        }
+
+        <span class="comment">// report updated speed</span>
+        SE_ReportObjectSpeed(<span class="integer">0</span>, speed);
+
+        <span class="comment">// step the simulation in natural speed, change to SE_Step(&lt;time-step&gt;) for fixed timestep</span>
+        SE_Step();
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example run command, from <code>esmini/code-examples-bin</code> folder:<br>
+<code>./speed_controller ../resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>There is also a Python version of this example:<br>
+<a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/speed_controller.py">EnvironmentSimulator/code-examples/hello_world/speed_controller.py</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_inject_actions">14.3.9. Inject actions</h4>
+<div class="paragraph">
+<p>This example demonstrates how you can control longitudinal and lateral motion by applying the following actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>SpeedAction</p>
+</li>
+<li>
+<p>LaneChangeAction</p>
+</li>
+<li>
+<p>LaneOffsetAction</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Currently (v2.37.0) the action injection feature is limited to these three actions, but it&#8217;s rather easy to extend if needed.</p>
+</div>
+<div class="paragraph">
+<p>The code will apply three actions according as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>after 2 seconds, make a slight movement (lane offset) of 0.45m to the right</p>
+</li>
+<li>
+<p>after 7 seconds, make a lane change to the left</p>
+</li>
+<li>
+<p>after 9.5 seconds, brake to a stop (braking will start before lane change is done)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Example 10. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/action_injection.cpp">EnvironmentSimulator/code-examples/hello_world/action_injection.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;string.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;iostream&gt;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span> **argv)
+{
+    <span class="predefined-type">float</span> dt = -<span class="float">1</span><span class="float">.0f</span>;  <span class="comment">// default to variable timestep</span>
+
+    <span class="keyword">if</span> (argc &gt; <span class="integer">2</span>)
+    {
+        <span class="keyword">if</span> (SE_InitWithArgs(argc, <span class="keyword">const_cast</span>&lt;<span class="directive">const</span> <span class="predefined-type">char</span> **&gt;(argv)) != <span class="integer">0</span>)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Error: Could not initialize scenario %s</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, argv[<span class="integer">1</span>]);
+            <span class="keyword">return</span> -<span class="integer">1</span>;
+        }
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">2</span>; i &lt; argc; i++)
+        {
+            <span class="keyword">if</span> (strcmp(argv[i], <span class="string"><span class="delimiter">&quot;</span><span class="content">--fixed_timestep</span><span class="delimiter">&quot;</span></span>) == <span class="integer">0</span> &amp;&amp; i &lt; argc - <span class="integer">1</span>)
+            {
+                dt = <span class="keyword">static_cast</span>&lt;<span class="predefined-type">float</span>&gt;(atof(argv[i + <span class="integer">1</span>]));  <span class="comment">// use any provided fixed timestep</span>
+            }
+        }
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span> (argc &gt; <span class="integer">1</span>)
+    {
+        <span class="keyword">if</span> (SE_Init(argv[<span class="integer">1</span>], <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Error: Could not initialize scenario %s</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, argv[<span class="integer">1</span>]);
+            <span class="keyword">return</span> -<span class="integer">1</span>;
+        }
+    }
+    <span class="keyword">else</span>
+    {
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Usage: %s &lt;path to xosc file&gt;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, argv[<span class="integer">0</span>]);
+        <span class="keyword">return</span> -<span class="integer">1</span>;
+    }
+
+    <span class="predefined-type">int</span> state = <span class="integer">0</span>;
+    <span class="keyword">while</span> (SE_GetQuitFlag() == <span class="integer">0</span> &amp;&amp; SE_GetSimulationTime() &lt; <span class="integer">2</span><span class="float">0</span><span class="float">.0f</span>)
+    {
+        <span class="keyword">if</span> (state == <span class="integer">0</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">2</span><span class="float">.0f</span>)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting lane offset action</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            SE_LaneOffsetActionStruct lane_offset;
+            lane_offset.id               = <span class="integer">0</span>;       <span class="comment">// id of object to perform action</span>
+            lane_offset.offset           = -<span class="float">0</span><span class="float">.45f</span>;  <span class="comment">// target offset in m</span>
+            lane_offset.maxLateralAcc    = <span class="float">0</span><span class="float">.5f</span>;    <span class="comment">// max lateral acceleration in m/s^2</span>
+            lane_offset.transition_shape = <span class="integer">0</span>;       <span class="comment">// cubic</span>
+            SE_InjectLaneOffsetAction(&amp;lane_offset);
+            state++;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">1</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">7</span><span class="float">.0f</span>)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting lane change action</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            SE_LaneChangeActionStruct lane_change;
+            lane_change.id               = <span class="integer">0</span>;     <span class="comment">// id of object to perform action</span>
+            lane_change.mode             = <span class="integer">1</span>;     <span class="comment">// relative (own vehicle)</span>
+            lane_change.target           = <span class="integer">1</span>;     <span class="comment">// target lane id (relative)</span>
+            lane_change.transition_shape = <span class="integer">2</span>;     <span class="comment">// sinusoidal</span>
+            lane_change.transition_dim   = <span class="integer">2</span>;     <span class="comment">// time</span>
+            lane_change.transition_value = <span class="float">3</span><span class="float">.0f</span>;  <span class="comment">// s</span>
+            SE_InjectLaneChangeAction(&amp;lane_change);
+            state++;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">2</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">9</span><span class="float">.5f</span>)  <span class="comment">// slightly overlapping lane change action</span>
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting speed action</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            SE_SpeedActionStruct speed;
+            speed.id               = <span class="integer">0</span>;     <span class="comment">// id of object to perform action</span>
+            speed.speed            = <span class="float">0</span><span class="float">.0f</span>;  <span class="comment">// target speed in m/s</span>
+            speed.transition_shape = <span class="integer">0</span>;     <span class="comment">// cubic</span>
+            speed.transition_dim   = <span class="integer">1</span>;     <span class="comment">// rate</span>
+            speed.transition_value = <span class="float">5</span><span class="float">.0f</span>;  <span class="comment">// m/s^2</span>
+            SE_InjectSpeedAction(&amp;speed);
+            state++;
+        }
+
+        <span class="keyword">if</span> (dt &lt; <span class="float">0</span><span class="float">.0f</span>)
+        {
+            SE_Step();
+        }
+        <span class="keyword">else</span>
+        {
+            SE_StepDT(dt);
+        }
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example run command, from <code>esmini/code-examples-bin</code> folder:<br>
+<code>./action_injection ../resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>There is also a Python version of this example:<br>
+<a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/action_injection.py">EnvironmentSimulator/code-examples/hello_world/action_injection.py</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_driver_model">14.3.10. Driver model</h4>
+<div class="paragraph">
+<p>Using a simple vehicle model this example demonstrates how a driver model can interact with the scenario in terms of pedal and steering input. This time we use the <code>ExternalController</code> again to ensure any scenario actions is not conflicting with the driver model.</p>
 </div>
 <div class="paragraph">
 <p>To show different variants we also show how to set scenario parameters during intialization, via callbacks. In effect this is a way to achieve runtime variants of the same basic scenario.</p>
@@ -7836,7 +8045,7 @@ then:<br>
 <p>Now, study the code and perhaps play around mainpulating some values.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 9. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/test-driver/test-driver.cpp">EnvironmentSimulator/code-examples/test-driver/test-driver.cpp</a></div>
+<div class="title">Example 11. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/test-driver/test-driver.cpp">EnvironmentSimulator/code-examples/test-driver/test-driver.cpp</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;stdio.h&quot;</span>
 <span class="preprocessor">#include</span> <span class="include">&quot;math.h&quot;</span>
@@ -8004,7 +8213,7 @@ then:<br>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_osi_groundtruth">14.3.9. OSI groundtruth</h4>
+<h4 id="_osi_groundtruth">14.3.11. OSI groundtruth</h4>
 <div class="paragraph">
 <p>To access OSI data we first need to complement the build script (CMakeLists.txt) with OSI include and library info. For example:</p>
 </div>
@@ -8052,7 +8261,7 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 <p>The following code will update, fetch and print some OSI data each frame.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 10. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp">EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp</a></div>
+<div class="title">Example 12. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp">EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
 
@@ -8200,7 +8409,7 @@ se.SE_Init(<span class="binary"><span class="modifier">b</span><span class="deli
 </ul>
 </div>
 <div class="listingblock">
-<div class="title">Example 11. <a href="https://github.com/esmini/esmini/tree/master/Hello-World_coding-example/esmini-player.py">Hello-World_coding-example/esmini-player.py</a></div>
+<div class="title">Example 13. <a href="https://github.com/esmini/esmini/tree/master/Hello-World_coding-example/esmini-player.py">Hello-World_coding-example/esmini-player.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span>
 <span class="keyword">import</span> <span class="include">sys</span>
@@ -8232,7 +8441,7 @@ se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string">
 <p>Instead of using the limited <code>SE_Init()</code> function you can pass any arguments using <code>SE_InitWithArgs()</code></p>
 </div>
 <div class="listingblock">
-<div class="title">Example 12. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/init_by_args.py">EnvironmentSimulator/code-examples/hello_world/init_by_args.py</a></div>
+<div class="title">Example 14. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/init_by_args.py">EnvironmentSimulator/code-examples/hello_world/init_by_args.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># initialize esmini with arguments instead of a few limited arguments</span>
 <span class="comment"># using ideas from: https://comp.lang.python.narkive.com/RUdYlz64/trying-to-pass-sys-argv-as-int-argc-char-argv-using-ctypes</span>
@@ -8281,7 +8490,7 @@ argc = <span class="predefined">len</span>(argv)
 <p>How to just forward any argument provided from command line:</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 13. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/forward_cmd_args.py">EnvironmentSimulator/code-examples/hello_world/forward_cmd_args.py</a></div>
+<div class="title">Example 15. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/forward_cmd_args.py">EnvironmentSimulator/code-examples/hello_world/forward_cmd_args.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># forward command line arguments to esmini</span>
 <span class="comment"># using ideas from: https://comp.lang.python.narkive.com/RUdYlz64/trying-to-pass-sys-argv-as-int-argc-char-argv-using-ctypes</span>
@@ -8324,7 +8533,7 @@ argv = (ct.POINTER(ct.c_char) * (argc + <span class="integer">1</span>))()
 <p>How to retrieve the state of all scenario objects:</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 14. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/get_states.py">EnvironmentSimulator/code-examples/hello_world/get_states.py</a></div>
+<div class="title">Example 16. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/get_states.py">EnvironmentSimulator/code-examples/hello_world/get_states.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span>
 <span class="keyword">from</span> <span class="include">sys</span> <span class="keyword">import</span> <span class="include">platform</span>
@@ -8398,7 +8607,7 @@ obj_state = SEScenarioObjectState()  <span class="comment"># object that will be
 </ul>
 </div>
 <div class="listingblock">
-<div class="title">Example 15. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py">EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py</a></div>
+<div class="title">Example 17. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py">EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py</a></div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
 <span class="keyword">import</span> <span class="include">sys</span>
@@ -8469,7 +8678,7 @@ print(<span class="string"><span class="delimiter">'</span><span class="content"
 <p>The following code shows how to get notification of storyboard events using StoryBoardElementStateChangeCallback.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 16. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py">EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py</a> (complete code)</div>
+<div class="title">Example 18. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py">EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># Storyboard element types (see OSCTypeDefs/OSCAction.hpp)</span>
 sbe_type = {
@@ -8517,7 +8726,7 @@ se.SE_RegisterStoryBoardElementStateChangeCallback(callback_func)</code></pre>
 <p>OSI groundtruth can also be retrieved and processed via Python. The following code shows one way of doing it. This example also shows how the simulation can be encapsulated in a class.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 17. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py">EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py</a> (complete code)</div>
+<div class="title">Example 19. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py">EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="docstring"><span class="delimiter">'''</span><span class="content">
 </span><span class="content">   Python dependencies:</span><span class="content">
@@ -8613,7 +8822,7 @@ se.SE_StepDT.argtypes = [ct.c_float]
 <p>Controllers and callbacks can also be utilized via Python. Following code drafts how to grab state of the first scenario object and then, in a callback, manipulate it and report back. If used in combination with ExternalController in mode=additive the scenario action are applied first. On the contrary, if used with mode=override, the scenario actions will not be applied giving exclusive control to the external callback function.</p>
 </div>
 <div class="listingblock">
-<div class="title">Example 18. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/object_callback.py">EnvironmentSimulator/code-examples/hello_world/object_callback.py</a> (complete code)</div>
+<div class="title">Example 20. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/object_callback.py">EnvironmentSimulator/code-examples/hello_world/object_callback.py</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># Definition of SE_ScenarioObjectState struct</span>
 <span class="keyword">class</span> <span class="class">SEScenarioObjectState</span>(ct.Structure):
@@ -8676,7 +8885,7 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
 <div class="sect3">
 <h4 id="_osi_groundtruth_with_c">14.5.1. OSI groundtruth with C#</h4>
 <div class="listingblock">
-<div class="title">Example 19. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs">EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs</a> (complete code)</div>
+<div class="title">Example 21. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs">EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs</a> (complete code)</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="directive">using</span> System;
 <span class="directive">using</span> System.Runtime.InteropServices;
@@ -8884,8 +9093,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.37.0"<br>
-ESMINI_GIT_REV="v2.37.0-0-854f81f5"</p>
+<p>ESMINI_GIT_TAG="v2.37.1"<br>
+ESMINI_GIT_REV="v2.37.1-0-bd4f29b1"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -8895,7 +9104,7 @@ ESMINI_GIT_REV="v2.37.0-0-854f81f5"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-26 21:38:45 +0100
+Last updated 2024-03-04 15:31:00 +0100
 </div>
 </div>
 </body>
