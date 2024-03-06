@@ -2884,6 +2884,9 @@ After executing the above the exit code can be inspected/verified from shell as 
 </ol>
 </div>
 <div class="paragraph">
+<p><strong>Note</strong>: SUMO comes with a tool that can convert OpenStreetMap to OpenDRIVE, see <a href="#_openstreetmap_osm_roads_in_esmini">OpenStreetMap (OSM) roads in esmini</a>.</p>
+</div>
+<div class="paragraph">
 <p>Step-by-step:</p>
 </div>
 <div class="olist arabic">
@@ -2917,6 +2920,9 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 </li>
 </ol>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> By experience the following arguments may be useful for <a href="https://sumo.dlr.de/docs/Networks/Import/OpenDRIVE.html">netconvert importing OpenDRIVE</a>: <code>--junctions.scurve-stretch 1.0 --no-turnarounds.except-deadend</code> to avoid sharp corners and avoid cluttering of turnadounds at unconnected lanes. See <a href="https://sumo.dlr.de/docs/netconvert.html#options">netconvert options</a> for info on these and other options.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="6">
@@ -5061,6 +5067,9 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 <div class="paragraph">
 <p><code>./bin/odrviewer --window 60 60 800 400 --odr city.xodr</code></p>
+</div>
+<div class="paragraph">
+<p>See SUMO documentation of <a href="https://sumo.dlr.de/docs/Networks/Import/OpenStreetMap.html">netconvert import OpenStreetMap</a> for more info.</p>
 </div>
 </div>
 <div class="sect3">
@@ -9337,7 +9346,7 @@ will create C# versions of all proto files</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.37.1-1-a5fb8506"</p>
+ESMINI_GIT_REV="v2.37.1-2-61316374"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9347,7 +9356,7 @@ ESMINI_GIT_REV="v2.37.1-1-a5fb8506"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-06 16:19:58 +0100
+Last updated 2024-03-06 20:58:34 +0100
 </div>
 </div>
 </body>
