@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="generator" content="Asciidoctor 2.0.22">
 <title>esmini user guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,6 +162,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -327,7 +328,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -2884,9 +2885,6 @@ After executing the above the exit code can be inspected/verified from shell as 
 </ol>
 </div>
 <div class="paragraph">
-<p><strong>Note</strong>: SUMO comes with a tool that can convert OpenStreetMap to OpenDRIVE, see <a href="#_openstreetmap_osm_roads_in_esmini">OpenStreetMap (OSM) roads in esmini</a>.</p>
-</div>
-<div class="paragraph">
 <p>Step-by-step:</p>
 </div>
 <div class="olist arabic">
@@ -2920,9 +2918,6 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p><strong>Note:</strong> By experience the following arguments may be useful for <a href="https://sumo.dlr.de/docs/Networks/Import/OpenDRIVE.html">netconvert importing OpenDRIVE</a>: <code>--junctions.scurve-stretch 1.0 --no-turnarounds.except-deadend</code> to avoid sharp corners and avoid cluttering of turnadounds at unconnected lanes. See <a href="https://sumo.dlr.de/docs/netconvert.html#options">netconvert options</a> for info on these and other options.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="6">
@@ -5068,9 +5063,6 @@ In order to execute the files you need to do one of following from a terminal in
 <div class="paragraph">
 <p><code>./bin/odrviewer --window 60 60 800 400 --odr city.xodr</code></p>
 </div>
-<div class="paragraph">
-<p>See SUMO documentation of <a href="https://sumo.dlr.de/docs/Networks/Import/OpenStreetMap.html">netconvert import OpenStreetMap</a> for more info.</p>
-</div>
 </div>
 <div class="sect3">
 <h4 id="_update_3d_model_pack">9.1.5. Update 3D model pack</h4>
@@ -5636,8 +5628,8 @@ Options:
       Initial camera mode (&quot;orbit&quot; (default), &quot;fixed&quot;, &quot;flex&quot;, &quot;flex-orbit&quot;, &quot;top&quot;, &quot;driver&quot;) (toggle during simulation by press 'k')
   --capture_screen
       Continuous screen capture. Warning: Many jpeg files will be created
-  --collision
-      Pauses the replay if the ego collides with another entity
+  --collision [mode]  (default = pause)
+      Detect collisions and optionally pauses the replay &lt;pause/continue&gt; (pause is default)
   --custom_camera &lt;position&gt;
       Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
   --custom_fixed_camera &lt;position and optional orientation&gt;
@@ -9346,7 +9338,7 @@ will create C# versions of all proto files</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.37.1-2-61316374"</p>
+ESMINI_GIT_REV="v2.37.3-2-ec9524bb"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9356,7 +9348,7 @@ ESMINI_GIT_REV="v2.37.1-2-61316374"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-06 20:58:34 +0100
+Last updated 2024-03-15 16:02:10 +0100
 </div>
 </div>
 </body>
