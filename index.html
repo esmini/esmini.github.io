@@ -1543,17 +1543,22 @@ Your browser does not support the video tag.
 <code>./bin/esmini --headless --osc ./resources/xosc/ltap-od.xosc --disable_controllers --fixed_timestep 0.033 --record sim.dat </code></p>
 </div>
 <div class="paragraph">
-<p>and then launched in replayer:</p>
-</div>
-<div class="paragraph">
-<p><code>./bin/replayer --window 60 60 800 400 --file sim.dat --res_path ./resources --collision</code></p>
+<p>and then launched in replayer:<br>
+<code>./bin/replayer --window 60 60 800 400 --file sim.dat --res_path ./resources --collision</code></p>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong> The --disable_controllers flag is just specified to disable the interactive controller that normally is activated in that specific scenario. For more information about controllers, see <a href="https://github.com/esmini/esmini/blob/master/docs/Controllers.md">Controllers in esmini</a>.</p>
 </div>
 <div class="paragraph">
-<p>Combine esmini and replayer in a one-liner command:
+<p>Combine esmini and replayer in a one-liner command:<br>
 <code>./bin/esmini --headless --fixed_timestep 0.05 --record sim.dat --osc ./resources/xosc/cut-in.xosc;./bin/replayer --window 60 60 800 400 --res_path ./resources --file sim.dat</code></p>
+</div>
+<div class="paragraph">
+<p>With bash (use Git Bash on Windows) preview all scenarios (.xosc files) in a folder, at double speed:<br>
+<code>for f in my_scenarios/*.xosc; do ./bin/esmini --headless --fixed_timestep 0.05 --osc $f --record <code>basename $f .xosc</code>.dat;./bin/replayer --window 60 60 1200 600 --res_path ./resources --file <code>basename $f .xosc</code>.dat --time_scale 2 --quit_at_end; done</code></p>
+</div>
+<div class="paragraph">
+<p>just replace <code>my_scenarios</code> with your folder path</p>
 </div>
 <div class="sect3">
 <h4 id="_multiple_scenarios_in_parallel">4.4.1. Multiple scenarios in parallel</h4>
@@ -8064,7 +8069,13 @@ then:<br>
 <p>after 7 seconds, make a lane change to the left</p>
 </li>
 <li>
-<p>after 9.5 seconds, brake to a stop (braking will start before lane change is done)</p>
+<p>after 8 seconds, consider to do another lane change, but skip since another is already ongoing</p>
+</li>
+<li>
+<p>after 9.5 seconds, brake softly (braking will start before lane change is done)</p>
+</li>
+<li>
+<p>after 11.0 seconds, brake harder to a stop (will cancel the ongoing soft brake action)</p>
 </li>
 </ul>
 </div>
@@ -8109,7 +8120,7 @@ then:<br>
     }
 
     <span class="predefined-type">int</span> state = <span class="integer">0</span>;
-    <span class="keyword">while</span> (SE_GetQuitFlag() == <span class="integer">0</span> &amp;&amp; SE_GetSimulationTime() &lt; <span class="integer">2</span><span class="float">0</span><span class="float">.0f</span>)
+    <span class="keyword">while</span> (SE_GetQuitFlag() == <span class="integer">0</span> &amp;&amp; SE_GetSimulationTime() &lt; <span class="integer">1</span><span class="float">7</span><span class="float">.0f</span>)
     {
         <span class="keyword">if</span> (state == <span class="integer">0</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">2</span><span class="float">.0f</span>)
         {
@@ -8135,15 +8146,47 @@ then:<br>
             SE_InjectLaneChangeAction(&amp;lane_change);
             state++;
         }
-        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">2</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">9</span><span class="float">.5f</span>)  <span class="comment">// slightly overlapping lane change action</span>
+        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">2</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">8</span><span class="float">.0f</span>)
         {
-            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting speed action</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            <span class="keyword">if</span> (SE_InjectedActionOngoing(<span class="integer">5</span>))  <span class="comment">// 5 = LAT_LANE_CHANGE</span>
+            {
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Lane change already ongoing, skipping second lane change</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            }
+            <span class="keyword">else</span>
+            {
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting lane change action 2</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+                SE_LaneChangeActionStruct lane_change;
+                lane_change.id               = <span class="integer">0</span>;     <span class="comment">// id of object to perform action</span>
+                lane_change.mode             = <span class="integer">1</span>;     <span class="comment">// relative (own vehicle)</span>
+                lane_change.target           = -<span class="integer">1</span>;    <span class="comment">// target lane id (relative)</span>
+                lane_change.transition_shape = <span class="integer">2</span>;     <span class="comment">// sinusoidal</span>
+                lane_change.transition_dim   = <span class="integer">2</span>;     <span class="comment">// time</span>
+                lane_change.transition_value = <span class="float">3</span><span class="float">.0f</span>;  <span class="comment">// s</span>
+                SE_InjectLaneChangeAction(&amp;lane_change);
+            }
+            state++;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">3</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">9</span><span class="float">.5f</span>)  <span class="comment">// slightly overlapping lane change action</span>
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting speed action - soft brake</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
             SE_SpeedActionStruct speed;
             speed.id               = <span class="integer">0</span>;     <span class="comment">// id of object to perform action</span>
             speed.speed            = <span class="float">0</span><span class="float">.0f</span>;  <span class="comment">// target speed in m/s</span>
             speed.transition_shape = <span class="integer">0</span>;     <span class="comment">// cubic</span>
             speed.transition_dim   = <span class="integer">1</span>;     <span class="comment">// rate</span>
-            speed.transition_value = <span class="float">5</span><span class="float">.0f</span>;  <span class="comment">// m/s^2</span>
+            speed.transition_value = <span class="float">3</span><span class="float">.0f</span>;  <span class="comment">// m/s^2</span>
+            SE_InjectSpeedAction(&amp;speed);
+            state++;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">4</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="integer">1</span><span class="float">1</span><span class="float">.0f</span>)  <span class="comment">// slightly overlapping lane change action</span>
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting speed action - hard brake</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            SE_SpeedActionStruct speed;
+            speed.id               = <span class="integer">0</span>;     <span class="comment">// id of object to perform action</span>
+            speed.speed            = <span class="float">0</span><span class="float">.0f</span>;  <span class="comment">// target speed in m/s</span>
+            speed.transition_shape = <span class="integer">1</span>;     <span class="comment">// cubic</span>
+            speed.transition_dim   = <span class="integer">1</span>;     <span class="comment">// rate</span>
+            speed.transition_value = <span class="float">8</span><span class="float">.0f</span>;  <span class="comment">// m/s^2</span>
             SE_InjectSpeedAction(&amp;speed);
             state++;
         }
@@ -9337,8 +9380,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.37.3-2-ec9524bb"</p>
+<p>ESMINI_GIT_TAG="v2.37.4"<br>
+ESMINI_GIT_REV="v2.37.4-0-30e29909"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9348,7 +9391,7 @@ ESMINI_GIT_REV="v2.37.3-2-ec9524bb"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-15 16:02:10 +0100
+Last updated 2024-03-21 13:07:57 +0100
 </div>
 </div>
 </body>
