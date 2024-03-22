@@ -5526,6 +5526,8 @@ Options:
       Show sensor frustums (toggle during simulation by press 'r')
   --server
       Launch server to receive state of external Ego simulator
+  --text_scale [factor]  (default = 1.0)
+      Scale screen overlay text
   --threads
       Run viewer in a separate thread, parallel to scenario engine
   --trail_mode &lt;mode&gt;
@@ -5675,6 +5677,8 @@ Options:
       Start playing at timestamp
   --stop_time &lt;ms&gt;
       Stop playing at timestamp (set equal to time_start for single frame)
+  --text_scale [factor]  (default = 1.0)
+      Scale screen overlay text
   --time_scale &lt;factor&gt;
       Playback speed scale factor (1.0 == normal)
   --view_mode &lt;view_mode&gt;
@@ -5824,6 +5828,8 @@ Options:
       speed_factor &lt;number&gt;
   --stop_at_end_of_road
       Instead of respawning elsewhere, stop when no connection exists
+  --text_scale [factor]  (default = 1.0)
+      Scale screen overlay text
   --traffic_rule &lt;rule (right/left)&gt;
       Enforce left or right hand traffic, regardless OpenDRIVE rule attribute (default: right)
   --use_signs_in_external_model
@@ -9017,7 +9023,7 @@ se.SE_RegisterStoryBoardElementStateChangeCallback(callback_func)</code></pre>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="python"><span class="docstring"><span class="delimiter">'''</span><span class="content">
 </span><span class="content">   Python dependencies:</span><span class="content">
-</span><span class="content">      pip install protobuf==3.19</span><span class="content">
+</span><span class="content">      pip install protobuf==3.20.2</span><span class="content">
 </span><span class="content">
 </span><span class="content">   Note: No need to install OSI as long as</span><span class="content">
 </span><span class="content">   esmini/scripts/osi3 folder is available</span><span class="content">
@@ -9380,8 +9386,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.37.4"<br>
-ESMINI_GIT_REV="v2.37.4-0-30e29909"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="v2.37.4-6-f6a1839f"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9391,7 +9397,7 @@ ESMINI_GIT_REV="v2.37.4-0-30e29909"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-21 13:07:57 +0100
+Last updated 2024-03-22 08:01:18 +0100
 </div>
 </div>
 </body>
