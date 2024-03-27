@@ -7325,6 +7325,50 @@ sudo ./llvm.sh 15</code></pre>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_simple_ideal_sensors">13.3.3. Simple ideal sensors</h4>
+<div class="paragraph">
+<p>OSI provides information needed for sensor models at bounding box level for both moving and stationary objects, including ones defined in OpenDRIVE. Sensor models can then detect overlap, occlusion and collisions between those bounding boxes. Although sensor models are not within scope of esmini, there is a code example on how to retrieve and extract OSI data. It can perhaps be a starting point: <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp">osi-groundtruth.cpp</a></p>
+</div>
+<div class="paragraph">
+<p>For even simpler use cases esmini provides a sensor mechanism, basically collecting scenario objects which reference point is within a sensor view frustum. This is too rough for collision detection, but can be useful for low-pass features like adaptive cruse control (ACC) or just optimizing CPU load by filtering objects for some processing.</p>
+</div>
+<div class="paragraph">
+<p>The view frustum is defined by a horizontal <code>field of view</code> combined with <code>near</code> and <code>far</code> limits. Basically an object is detected by a ideal sensor if the object reference point is within the view frustum, i.e:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>angle from sensor mounting point is within the <code>field of view</code></p>
+</li>
+<li>
+<p>distance from sensor mounting point is larger than <code>near</code> and less than <code>far</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/ideal_sensors.jpg" alt="ideal sensors">
+</div>
+<div class="title">A few ideal sensors mounted at various positions and orientations</div>
+</div>
+<div class="paragraph">
+<p>The sensors are added from the code, see the <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/esmini-dyn">esmini-dyn</a> code example. API is found <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Libraries/esminiLib/esminiLib.hpp#L1082-L1095">here</a>.</p>
+</div>
+<div class="paragraph">
+<p>Limitations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>OpenDRIVE stationary objects not considered</p>
+</li>
+<li>
+<p>Only reference point checking (part of the object can be inside frustum and still not detected)</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -9386,8 +9430,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.37.4-6-f6a1839f"</p>
+<p>ESMINI_GIT_TAG="v2.37.5"<br>
+ESMINI_GIT_REV="v2.37.5-0-3e9119ba"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9397,7 +9441,7 @@ ESMINI_GIT_REV="v2.37.4-6-f6a1839f"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-22 08:01:18 +0100
+Last updated 2024-03-26 12:39:57 +0100
 </div>
 </div>
 </body>
