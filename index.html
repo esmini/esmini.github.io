@@ -1854,10 +1854,7 @@ Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 (if file type association is not setup, try: <code>python ./scripts/osi2csv.py ground_truth.osi</code>)</p>
 </div>
 <div class="paragraph">
-<p>However the .csv file created with osi2csv will not contain all OSI information. To get a readable text file including the complete content of a OSI trace file you can make use of this Python script from the OSI project:<br></p>
-</div>
-<div class="paragraph">
-<p><a href="https://github.com/OpenSimulationInterface/open-simulation-interface/blob/master/osi3trace/osi2read.py" class="bare">https://github.com/OpenSimulationInterface/open-simulation-interface/blob/master/osi3trace/osi2read.py</a><br></p>
+<p>However the .csv file created with osi2csv will not contain all OSI information. To get a readable text file including the complete content of a OSI trace file you can make use of the Python script <a href="https://github.com/OpenSimulationInterface/open-simulation-interface/blob/v3.5.0/format/osi2read.py">format/osi2read.py</a> in the OSI project.</p>
 </div>
 <div class="paragraph">
 <p>Use as following example:</p>
@@ -1868,8 +1865,18 @@ Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 <div class="paragraph">
 <p>it should create <code>ground_truth.txth</code> which is readable in a text editor.</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
-<p><strong>Note:</strong> See <a href="#_osi_for_python_on_windows">OSI for Python on Windows</a> for hints how to install dependencies (OSI and Protobuf)</p>
+<p><strong>Note</strong>:</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#_osi_for_python_on_windows">OSI for Python on Windows</a> for hints how to install dependencies (OSI and Protobuf).</p>
+</div>
+<div class="paragraph">
+<p>The above script link points to OSI tag v3.5.0. In more recent OSI versions the script has moved to another folder: <a href="https://github.com/OpenSimulationInterface/open-simulation-interface/blob/master/osi3trace/osi2read.py">osi3trace/osi2read.py</a>.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -9433,8 +9440,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.37.6-2-c940e0df"</p>
+<p>ESMINI_GIT_TAG="v2.37.7"<br>
+ESMINI_GIT_REV="v2.37.7-0-47db3f1a"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9444,7 +9451,7 @@ ESMINI_GIT_REV="v2.37.6-2-c940e0df"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-05 15:59:46 +0200
+Last updated 2024-04-10 10:18:57 +0200
 </div>
 </div>
 </body>
