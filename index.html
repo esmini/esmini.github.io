@@ -973,7 +973,7 @@ and code example <a href="https://github.com/esmini/esmini/tree/master/Environme
 <div class="sect3">
 <h4 id="_camera_control">4.1.2. Camera control</h4>
 <div class="paragraph">
-<p>In addition to several OSG standard camera models esmini adds a set of special purpose camera modes that follows following scenario entities in various ways. Further, the user can add custom cameras via API or launch arguments.</p>
+<p>In addition to several OSG standard camera models esmini adds a set of special purpose camera modes that follows following scenario entities in various ways. Further, the user can add custom cameras via <a href="#_custom_camera_positions">API</a> or launch arguments.</p>
 </div>
 <div class="paragraph">
 <p>Top level camera mode is selected on keys '1' to '8'. Mode 2-8 are OpenSceneGraph standard cameras. Mode 1 hands over camera control to esmini. In this mode, switch camera model by pressing 'k' which will toggle between all available esmini camera model.</p>
@@ -7245,7 +7245,50 @@ sudo ./llvm.sh 15</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_osi_data">13.3.2. OSI data</h4>
+<h4 id="_custom_camera_positions">13.3.2. Custom camera positions</h4>
+<div class="paragraph">
+<p>Similarly as with camera related launch arguments, <a href="#_camera_control">camera positioning</a> can be controlled via esmini lib API.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SE_AddCustomCamera()</code><br>
+Add a camera with relative position and orientation (heading and pitch)</p>
+</li>
+<li>
+<p><code>SE_AddCustomFixedCamera()</code><br>
+Add a fixed camera at custom global position and orientation (heading and pitch)</p>
+</li>
+<li>
+<p><code>SE_AddCustomAimingCamera()</code><br>
+Add a camera with relative position looking at current entity</p>
+</li>
+<li>
+<p><code>SE_AddCustomFixedAimingCamera()</code><br>
+Add a camera at fixed location but always looking at current entity</p>
+</li>
+<li>
+<p><code>SE_AddCustomFixedTopCamera()</code><br>
+Add a top view camera with fixed position and rotation</p>
+</li>
+<li>
+<p><code>SE_SetCameraObjectFocus</code><br>
+Set/change object to focus on</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>More info, see <a href="https://github.com/esmini/esmini/blob/91c82fb78deb4355f736f87510069f52cc0e6be5/EnvironmentSimulator/Libraries/esminiLib/esminiLib.hpp#L1519C1-L1582C59">headerfile</a>.</p>
+</div>
+<div class="paragraph">
+<p>Any number of cameras can be defined. These cameras can then be activated via function: <code>SE_SetCameraMode()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Applications can even loop through the camera modes to produce images from several cameras. See code example <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/code-examples/image-capture/multiple-cameras.cpp">multiple-cameras.cpp</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_osi_data">13.3.3. OSI data</h4>
 <div class="paragraph">
 <p>OSI data can be retrieved in three ways:</p>
 </div>
@@ -7336,7 +7379,7 @@ sudo ./llvm.sh 15</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_simple_ideal_sensors">13.3.3. Simple ideal sensors</h4>
+<h4 id="_simple_ideal_sensors">13.3.4. Simple ideal sensors</h4>
 <div class="paragraph">
 <p>OSI provides information needed for sensor models at bounding box level for both moving and stationary objects, including ones defined in OpenDRIVE. Sensor models can then detect overlap, occlusion and collisions between those bounding boxes. Although sensor models are not within scope of esmini, there is a code example on how to retrieve and extract OSI data. It can perhaps be a starting point: <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp">osi-groundtruth.cpp</a></p>
 </div>
@@ -9440,8 +9483,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.37.7"<br>
-ESMINI_GIT_REV="v2.37.7-0-47db3f1a"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="v2.37.9-1-46a41915"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9451,7 +9494,7 @@ ESMINI_GIT_REV="v2.37.7-0-47db3f1a"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-10 10:18:57 +0200
+Last updated 2024-05-03 13:23:52 +0200
 </div>
 </div>
 </body>
