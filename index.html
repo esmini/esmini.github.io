@@ -629,6 +629,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_about_the_lib_itself">13.1. About the lib itself</a></li>
 <li><a href="#_how_to_interact_with_esmini_lib_api">13.2. How to interact with esmini lib API</a></li>
 <li><a href="#_functionality">13.3. Functionality</a></li>
+<li><a href="#_simplest_example">13.4. Simplest example</a></li>
 </ul>
 </li>
 <li><a href="#_hello_world_programming_tutorial">14. Hello World programming tutorial</a>
@@ -7433,6 +7434,59 @@ Set/change object to focus on</p>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_simplest_example">13.4. Simplest example</h3>
+<div class="paragraph">
+<p>Below example is just to show the simplicity of using esmini library. For more information and realistic examples, e.g. involving cmake, please go ahead to <a href="#_hello_world_programming_tutorial">Hello World programming tutorial</a>.</p>
+</div>
+<div class="paragraph">
+<p>If not already done, download and unpack <a href="https://github.com/esmini/esmini/releases/latest">latest esmini demo</a>. Make sure to pick demo, not bin, for your platform.</p>
+</div>
+<div class="paragraph">
+<p>In esmini root folder, create a file named <code>main.cpp</code> and add the following lines:</p>
+</div>
+<div class="paragraph">
+<p><strong>Code:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;./EnvironmentSimulator/Libraries/esminiLib/esminiLib.hpp&quot;</span>
+
+<span class="predefined-type">int</span> main()
+{
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">./resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+
+    <span class="keyword">while</span> (SE_GetQuitFlag() == <span class="integer">0</span>)
+        SE_Step();
+
+    SE_Close();
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Compile:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Linux:<br>
+<code>gcc main.cpp ./bin/libesminiLib.so -Wl,-rpath,\$ORIGIN -o bin/my_player</code></p>
+</li>
+<li>
+<p>Windows (x64 Native Tools Command Prompt for Visual Studio):<br>
+<code>cl main.cpp ./bin/esminiLib.lib /Fe:bin/my_player</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Run:</strong></p>
+</div>
+<div class="paragraph">
+<p>from Linux terminal or Windows PowerShell:<br>
+<code>./bin/my_player</code></p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -9493,8 +9547,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.37.10"<br>
-ESMINI_GIT_REV="v2.37.10-0-59851732"</p>
+<p>ESMINI_GIT_TAG="v2.37.13"<br>
+ESMINI_GIT_REV="v2.37.13-0-41c36c98"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9504,7 +9558,7 @@ ESMINI_GIT_REV="v2.37.10-0-59851732"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-05-06 07:48:38 +0200
+Last updated 2024-06-24 06:58:10 +0200
 </div>
 </div>
 </body>
