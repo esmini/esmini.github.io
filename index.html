@@ -622,6 +622,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_branch_strategy">12.1. Branch strategy</a></li>
 <li><a href="#_formatting">12.2. Formatting</a></li>
 <li><a href="#_test">12.3. Test</a></li>
+<li><a href="#_sanitizers">12.4. Sanitizers</a></li>
 </ul>
 </li>
 <li><a href="#_esmini_lib_programming">13. esmini lib programming</a>
@@ -5428,6 +5429,8 @@ Options:
       OpenSCENARIO filename (required) - if path includes spaces, enclose with &quot;&quot;
   --aa_mode &lt;mode&gt;
       Anti-alias mode=number of multisamples (subsamples, 0=off, 4=default)
+  --align_routepositions
+      Align t-axis of route positions to the direction of the route
   --bounding_boxes
       Show entities as bounding boxes (toggle modes on key ',')
   --capture_screen
@@ -6746,6 +6749,55 @@ sudo ./llvm.sh 15</code></pre>
 </div>
 <div class="paragraph">
 <p>Tip: On Windows, run it from GIT bash.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sanitizers">12.4. Sanitizers</h3>
+<div class="paragraph">
+<p>Google sanitizers framework is utilized to detect memory related errors, for example memory leaks. It&#8217;s executed nighly as a GitHub CI actions job on dev branch. The job can also be trigged manually, but will only run checks on dev branch. Sanitizers is currently only applied to Linux builds.</p>
+</div>
+<div class="paragraph">
+<p>To run the sanitizer checks locally, on Ubuntu:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the following environment variables, run from esmini root:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">export LSAN_OPTIONS=&quot;print_suppressions=false:suppressions=$(pwd)/scripts/LSAN.supp&quot;
+export ASAN_OPTIONS=&quot;detect_invalid_pointer_pairs=1:strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:fast_unwind_on_malloc=0:suppressions=$(pwd)/scripts/ASAN.supp&quot;</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Configure and build esmini with sanitizers enabled</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">cd build
+cmake -G Ninja -DUSE_OSG=FALSE -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_SANITIZERS=TRUE ..
+ninja install
+cd ..</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Run the test suites, including both unit- and smoke tests, from esmini root:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">./scripts/run_tests.sh</code></pre>
 </div>
 </div>
 </div>
@@ -8553,6 +8605,7 @@ then:<br>
             {
                 <span class="comment">// ghost version</span>
                 <span class="predefined-type">float</span> ghost_speed = <span class="float">0</span><span class="float">.0f</span>;
+                <span class="predefined-type">float</span> timestamp   = <span class="float">0</span><span class="float">.0f</span>;
 
                 <span class="keyword">if</span> (i % <span class="integer">2</span> == <span class="integer">0</span>)  <span class="comment">// alternate between time based and position based look ahead modes</span>
                 {
@@ -8562,7 +8615,7 @@ then:<br>
                 <span class="keyword">else</span>
                 {
                     <span class="comment">// Position based Time based look ahead</span>
-                    SE_GetRoadInfoAlongGhostTrail(<span class="integer">0</span>, <span class="integer">5</span> + <span class="float">0</span><span class="float">.75f</span> * vehicleState.speed, &amp;roadInfo, &amp;ghost_speed);
+                    SE_GetRoadInfoAlongGhostTrail(<span class="integer">0</span>, <span class="integer">5</span> + <span class="float">0</span><span class="float">.75f</span> * vehicleState.speed, &amp;roadInfo, &amp;ghost_speed, &amp;timestamp);
                 }
                 targetSpeed = ghost_speed;
             }
@@ -9534,8 +9587,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.38.0"<br>
-ESMINI_GIT_REV="v2.38.0-0-3e1eae03"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="v2.38.4-1-38b61241"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9545,7 +9598,7 @@ ESMINI_GIT_REV="v2.38.0-0-3e1eae03"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-14 08:46:21 +0200
+Last updated 2024-09-11 20:11:49 +0200
 </div>
 </div>
 </body>
