@@ -6800,6 +6800,39 @@ cd ..</code></pre>
 <pre class="CodeRay highlight"><code data-lang="console">./scripts/run_tests.sh</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_troubleshooting">12.4.1. Troubleshooting</h4>
+<div class="paragraph">
+<p>On Ubuntu some combination of gcc and sanitizer randomly cause sanitizer run failure with error message: AddressSanitizer:DEADLYSIGNAL.</p>
+</div>
+<div class="paragraph">
+<p>If this happens, try the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">setarch $(uname -m) -R
+bash</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>setarch</code> will affect reported architecture from system to sanitizer. <code>bash</code> is to restore shell environment, it can of course be replaced by any shell program, e.g. tcsh.</p>
+</div>
+<div class="paragraph">
+<p>To revert settings, simply run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">exit
+exit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>First exit will escape the latter bash environment, the second reverts effect of the setarch command.</p>
+</div>
+<div class="paragraph">
+<p>Source of setarch tip: <a href="https://stackoverflow.com/questions/77894856/possible-bug-in-gcc-sanitizers" class="bare">https://stackoverflow.com/questions/77894856/possible-bug-in-gcc-sanitizers</a></p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -9588,7 +9621,7 @@ will create C# versions of all proto files</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.38.4-1-38b61241"</p>
+ESMINI_GIT_REV="v2.38.5-2-b74e9392"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9598,7 +9631,7 @@ ESMINI_GIT_REV="v2.38.4-1-38b61241"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-09-11 20:11:49 +0200
+Last updated 2024-09-17 07:18:37 +0200
 </div>
 </div>
 </body>
