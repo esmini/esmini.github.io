@@ -537,7 +537,13 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_build_esmini_quick_guide">2.3. Build esmini - quick guide</a></li>
 </ul>
 </li>
-<li><a href="#_tools_overview">3. Tools overview</a></li>
+<li><a href="#_tools_overview">3. Tools overview</a>
+<ul class="sectlevel2">
+<li><a href="#_applications">3.1. Applications</a></li>
+<li><a href="#_scripts">3.2. Scripts</a></li>
+<li><a href="#_shared_libraries">3.3. Shared libraries</a></li>
+</ul>
+</li>
 <li><a href="#_use_cases">4. Use cases</a>
 <ul class="sectlevel2">
 <li><a href="#_view_a_scenario">4.1. View a scenario</a></li>
@@ -782,9 +788,8 @@ cmake --build . --config Release --target install</code></pre>
 <div class="sect1">
 <h2 id="_tools_overview">3. Tools overview</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Applications:</p>
-</div>
+<div class="sect2">
+<h3 id="_applications">3.1. Applications</h3>
 <div class="hdlist">
 <table>
 <tr>
@@ -830,11 +835,18 @@ Example:<br>
 </div>
 </td>
 </tr>
-<tr>
-<td class="hdlist1">
-<strong>odrplot</strong>
-</td>
-<td class="hdlist2">
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scripts">3.2. Scripts</h3>
+<div class="paragraph">
+<p>esmini comes with a collection of scripts for various purposes, like preprocessing of scenario files and plotting or conversion of simulation output files. The scripts are located in the <code>scripts</code> folder. A few examples:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>odrplot</strong></dt>
+<dd>
 <p>Simple 2D plot of OpenDRIVE road lanes with indicated road IDs, in a two step process.<br>
 Prerequisites: Python + <a href="https://matplotlib.org/">matplotlib</a><br>
 Example:<br>
@@ -845,13 +857,9 @@ Example:<br>
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/odrplot.png" alt="odrplot">
 </div>
 </div>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-<strong>plot_dat</strong>
-</td>
-<td class="hdlist2">
+</dd>
+<dt class="hdlist1"><strong>plot_dat</strong></dt>
+<dd>
 <p>Simple 2D plot of scenario data<br>
 Prerequisites: Python + <a href="https://matplotlib.org/">matplotlib</a><br>
 Example:<br>
@@ -862,24 +870,16 @@ Example:<br>
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/plot_dat.png" alt="plot dat">
 </div>
 </div>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-<strong>dat2csv</strong>
-</td>
-<td class="hdlist2">
+</dd>
+<dt class="hdlist1"><strong>dat2csv</strong></dt>
+<dd>
 <p>Convert esmini recording (.dat) file to standard .csv format<br>
 Example:<br>
 <code>./scripts/dat2csv sim.dat</code><br>
 will create sim.csv.</p>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-<strong>osi2csv.py</strong>
-</td>
-<td class="hdlist2">
+</dd>
+<dt class="hdlist1"><strong>osi2csv.py</strong></dt>
+<dd>
 <p>Convert OSI trace file (from esmini) to .csv format<br>
 Example:<br>
 <code>./scripts/osi2csv.py ./ground_truth.osi</code><br>
@@ -887,26 +887,60 @@ will create ground_truth.csv</p>
 <div class="paragraph">
 <p>See <a href="#_save_osi_data">Save OSI data</a> how to create OSI groundtruth trace (<code>.osi</code> file) from esmini.</p>
 </div>
-</td>
-</tr>
-<tr>
-<td class="hdlist1">
-<strong>plot_csv</strong>
-</td>
-<td class="hdlist2">
+</dd>
+<dt class="hdlist1"><strong>plot_csv</strong></dt>
+<dd>
 <p>Simple 2D plot of scenario data, similar to plot_dat<br>
 Prerequisites: Python + <a href="https://matplotlib.org/">matplotlib</a><br>
 Example:<br>
 <code>./bin/esmini --headless --osc ./resources/xosc/acc-test.xosc --fixed_timestep 0.05 --osi_file sim.osi</code> (will create an osi trace file)<br>
 <code>./scripts/osi2csv.py sim.osi</code> (convert to .csv)<br>
 <code>./scripts/plot_csv.py sim.csv --param ax</code> will plot the x component of acceleration vector.</p>
-</td>
-</tr>
-</table>
+</dd>
+<dt class="hdlist1"><strong>dat2xosc.py</strong></dt>
+<dd>
+<p>Convert any scenario to a fixed trajectory based scenario. See more info in <a href="https://github.com/esmini/esmini/blob/dev/scripts/dat2xosc.py">script</a>.</p>
+</dd>
+<dt class="hdlist1"><strong>move_to_origin.py</strong></dt>
+<dd>
+<p>Translate a scenario to origin. Useful for scenarios with large coordinates causing precision issues. See more info in <a href="https://github.com/esmini/esmini/blob/dev/scripts/move_to_origin.py">script</a>.</p>
+</dd>
+<dt class="hdlist1"><strong>xodr_lines2curves.py</strong></dt>
+<dd>
+<p>Smoothen polyline roads by converting them to parametric curves. See more info in  <a href="https://github.com/esmini/esmini/blob/dev/scripts/xodr_lines2curves.py">script</a>.</p>
+</dd>
+<dt class="hdlist1"><strong>run_schema_comply.py</strong></dt>
+<dd>
+<p>Validate xosc and xodr scenario files for compliance with the XML schema of the corresponding standard. See more info in <a href="https://github.com/esmini/esmini/blob/dev/scripts/run_schema_comply.py">script</a> and section <a href="#_run_xml_schema_validation_tests">Run XML schema validation tests</a>.</p>
+</dd>
+<dt class="hdlist1"><strong>compile_osg_apps.sh</strong></dt>
+<dd>
+<p>Compile OSG applications for viewing and converting OpenSceneGraph 3D models. See more info section <a href="#_get_osgconv">Get osgconv</a> / <a href="#_build_yourself">Build yourself</a>.</p>
+</dd>
+<dt class="hdlist1"><strong>run_repeat_compare.sh</strong></dt>
+<dd>
+<p>Run a scenario multiple times and compare the results, expected to be identical. See more info in <a href="https://github.com/esmini/esmini/blob/dev/scripts/run_repeat_compare.sh">script</a>.</p>
+</dd>
+</dl>
 </div>
-<div class="paragraph">
-<p>Shared libraries:</p>
+<div id="osiviewer" class="dlist">
+<dl>
+<dt class="hdlist1"><strong>osiviewer.py</strong></dt>
+<dd>
+<p>Visualize OSI trace files. Only supporting a small, limited subset of OSI content, e.g. lanes, stationary and moving objects.<br>
+Example:<br>
+<code>./scripts/osiviewer.py ground_truth.osi</code><br></p>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/osiviewer.png" alt="osiviewer">
 </div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_shared_libraries">3.3. Shared libraries</h3>
 <div class="hdlist">
 <table>
 <tr>
@@ -934,6 +968,7 @@ and code example <a href="https://github.com/esmini/esmini/tree/master/Environme
 </td>
 </tr>
 </table>
+</div>
 </div>
 </div>
 </div>
@@ -5087,7 +5122,28 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_entity_does_not_appear">9.1.6. Entity does not appear</h4>
+<h4 id="_update_3rd_party_prebuilt_libraries">9.1.6. Update 3rd party prebuilt libraries</h4>
+<div class="paragraph">
+<p>There are a few external dependencies that takes long time to build from scratch. Instead they are provided in compressed packages including needed headerfiles and prebuilt libraries. The packages are available for Win, Mac and Linux. For Windows and Linux they include Debug mode binaries, in addition to the Release variant.</p>
+</div>
+<div class="paragraph">
+<p>The cmake script will check for the availability of these libraries, by simply checking for existence of corresponding folders, e.g. osg, osi, sumo, under esmini/externals. If missing, compressed packages will be downloaded and extracted.</p>
+</div>
+<div class="paragraph">
+<p>Not often, but at some points the prebuilt libraries needs to be updated. In most cases it affects the esmini build configuration and/or code. Hence, sometimes an update of esmini comes with a need to update the external libraries as well. Lack of automatic handling, such update needs to be done manually. One way is to delete the specific folder(s) and run ordinary cmake command again. But the simplest way is to enforce redownload of all packages:</p>
+</div>
+<div class="paragraph">
+<p><code>cmake .. -D  FORCE_DOWNLOAD_BINARIES=TRUE</code></p>
+</div>
+<div class="paragraph">
+<p>The FORCE_DOWNLOAD_BINARIES flag will be checked by the cmake script for enforced download of all packages. Upon successful download, the libraries will be replaced, one by one.</p>
+</div>
+<div class="paragraph">
+<p>Library updates are not detected by the esmini build dependencies, why a clean rebuild of esmini should be performed manually afterwards.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_entity_does_not_appear">9.1.7. Entity does not appear</h4>
 <div class="paragraph">
 <p>In order to appear in the scenario, without need for AddEntity action, an entity must be represented in the Init section of the Storyboard. Common is to add actions to establish inital position and speed.</p>
 </div>
@@ -5113,32 +5169,6 @@ In order to execute the files you need to do one of following from a terminal in
       <span class="tag">&lt;/SpeedAction&gt;</span>
    <span class="tag">&lt;/LongitudinalAction&gt;</span>
 <span class="tag">&lt;/PrivateAction&gt;</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_failed_to_download_3rd_party_assets">9.1.7. Failed to download 3rd party assets</h4>
-<div class="paragraph">
-<p>First time the cmake-script is run it will try to download pre-built libraries and model assets. If this step fails for some reason, e.g. "Couldn&#8217;t resolve host name" or certificate failure, you can change to another location.</p>
-</div>
-<div class="paragraph">
-<p>Modify <a href="https://github.com/esmini/esmini/blob/master/CMakeLists.txt">esmini/CMakeLists.txt</a> (under esmini root), for example referring to dropbox instead of esmini:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>set(FILE_STORAGE
-    &quot;dropbox&quot;) # &quot;dropbox&quot;, &quot;google&quot;, &quot;esmini&quot;  (limited GB/Day)
-set(MODEL_STORAGE
-    &quot;dropbox&quot;) # &quot;dropbox&quot;, &quot;google&quot;, &quot;esmini&quot;  (limited GB/Day)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then to apply settings:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>cd build
-cmake ..</code></pre>
 </div>
 </div>
 </div>
@@ -6187,7 +6217,7 @@ to<br>
 <div class="sect2">
 <h3 id="_additional_platform_dependencies">11.4. Additional platform dependencies</h3>
 <div class="paragraph">
-<p>Linux Ubuntu 18.04</p>
+<p>Linux Ubuntu</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -6820,6 +6850,60 @@ sudo ./llvm.sh 15</code></pre>
 </div>
 <div class="paragraph">
 <p>Tip: On Windows, run it from GIT bash.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_run_xml_schema_validation_tests">12.3.3. Run XML schema validation tests</h4>
+<div class="paragraph">
+<p>XML schema validation ensures scenario files (xosc and xodr) complies with the OpenSCENARIO and OpenDrive XSD schemas. The checks are done by the Python script <code>run_schema_comply.py</code> located in the <code>scripts</code> directory. The schema files are located in the <code>resources/schema</code> directory. From release v2.40, all esmini scenario files are validated against the schemas as part of CI.</p>
+</div>
+<div class="paragraph">
+<p>The script depends on the <code>xmlschema</code> and <code>lxml</code> Python packages. To install required packages, run:</p>
+</div>
+<div class="paragraph">
+<p><code>pip install -r support/python/requirements.txt</code></p>
+</div>
+<div class="paragraph">
+<p>Run the XML validation tests:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 ./scripts/run_schema_comply.py &lt;path1&gt; [path2] [path3] &#8230;&#8203;</code></p>
+</div>
+<div class="paragraph">
+<p>where path can be an XML file or a directory. Any directory subfolders will be included recursively.</p>
+</div>
+<div class="paragraph">
+<p>Example 1, check single file:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>Example 2, check two files:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py resources/xosc/cut-in.xosc resources/xodr/two_plus_one.xodr</code></p>
+</div>
+<div class="paragraph">
+<p>Example 3, check two directories:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py resources EnvironmentSimulator</code></p>
+</div>
+<div class="paragraph">
+<p>Example 4, check one file and one directory:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py EnvironmentSimulator/Unittest/xosc/conflicting-domains.xosc resources</code></p>
+</div>
+<div class="paragraph">
+<p>Tip: Use bash <code>find</code> command to apply finer filtering. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py $(find ./resources ./EnvironmentSimulator -name "follow_route*.xosc" -or -name "*500*.xodr" -or -name "*signs.xodr")</code></p>
+</div>
+<div class="paragraph">
+<p>validates all OpenSCENARIO files starting with "follow_route" and all OpenDRIVE files containing "500" or ending basename with "signs" or containing "500", in and under the <code>resource</code> and <code>EnvironmentSimulator</code> folders.</p>
 </div>
 </div>
 </div>
@@ -8560,7 +8644,7 @@ then:<br>
                         <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">headstartTime</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
                     <span class="tag">&lt;/Properties&gt;</span>
                 <span class="tag">&lt;/Controller&gt;</span>
-          <span class="tag">&lt;/ObjectController&gt;</span>      </code></pre>
+          <span class="tag">&lt;/ObjectController&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -8794,7 +8878,7 @@ then:<br>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;ParameterDeclaration</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">parameterType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bool</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;ParameterDeclaration</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">parameterType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">boolean</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -8802,7 +8886,7 @@ then:<br>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;ParameterDeclaration</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">parameterType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bool</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;ParameterDeclaration</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">parameterType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">boolean</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -9691,8 +9775,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.38.5-7-e3879d1e"</p>
+<p>ESMINI_GIT_TAG="v2.40.0"<br>
+ESMINI_GIT_REV="v2.40.0-0-c5f50c73"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9702,7 +9786,7 @@ ESMINI_GIT_REV="v2.38.5-7-e3879d1e"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-09-19 13:48:57 +0200
+Last updated 2024-10-22 15:09:11 +0200
 </div>
 </div>
 </body>
