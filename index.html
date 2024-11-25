@@ -2828,6 +2828,221 @@ After executing the above the exit code can be inspected/verified from shell as 
 </li>
 </ol>
 </div>
+<div class="sect3">
+<h4 id="_trajectory_moving_and_driving_direction">5.5.1. Trajectory moving and driving direction</h4>
+<div class="paragraph">
+<p>The driving direction and entity direction can be controlled by trajectory configuration combined with entity speed and heading. It&#8217;s possible to follow trajectory in opposite direction and also to drive forward or reverse along the trajectory. The table below lists some combinations and possibilities.</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 13.3333%;">
+<col style="width: 13.3333%;">
+<col style="width: 13.3333%;">
+<col style="width: 13.3333%;">
+<col style="width: 6.6666%;">
+<col style="width: 13.3333%;">
+<col style="width: 13.3333%;">
+<col style="width: 13.3336%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">trajectory type</th>
+<th class="tableblock halign-left valign-top">specified heading</th>
+<th class="tableblock halign-left valign-top">time-stamps</th>
+<th class="tableblock halign-left valign-top">speed sign</th>
+<th class="tableblock halign-left valign-top">⇒</th>
+<th class="tableblock halign-left valign-top">entity heading</th>
+<th class="tableblock halign-left valign-top">moving direction</th>
+<th class="tableblock halign-left valign-top">entity (in tc)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clothoid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n/a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bicycle1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clothoid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n/a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">scooter1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">car_white</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">car_red</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 *</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">car_blue</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">car_yellow</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">van_red</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 *</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">motorbike</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">car_trailer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">semi_tractor</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1 *</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">truck_yellow</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>* calculated based on entity heading sign</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<strong>specified heading</strong>
+</td>
+<td class="hdlist2">
+<p>explicit heading (optionally supported by some shape types) in trajectory control points pointing forward (-90 &lt; heading &lt; 90 deg along trajectory s axis) or backwards. n/a indicates not supported, "-" not specified, 1 forward, -1 backwards.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>timestamps</strong>
+</td>
+<td class="hdlist2">
+<p>"-" indicates not specified or timeReference == None, "yes" indicates specified heading and timeReference != None</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>speed sign</strong>
+</td>
+<td class="hdlist2">
+<p>1 for speed &gt;= 0, -1 for speed &lt; 0. For timestamp mode, the magnitude of speed and overall motion direction is given by trajectory control point&#8217;s timestamps and heading. Allowing for reversing, the initial heading of the entity, if specified, affects whether speed is positive (driving forward) or negative (reversing).</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>entity heading</strong>
+</td>
+<td class="hdlist2">
+<p>Entity heading relative trajectory s-axis direction (heading/tangent). 1: facing along s, -1: facing away from s. When not specified, entity heading will be aligned forward (1) or backwards (-1) according to the speed sign. Interpolation will be applied based on specified followingMode, see previous section.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>moving direction</strong>
+</td>
+<td class="hdlist2">
+<p>reference point motion along trajectory s-axis or opposite direction, given by: speed sign * entity heading</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>entity (in tc)</strong>
+</td>
+<td class="hdlist2">
+<p>Corresponding entity in the smoke test scenario <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/xosc/trajectory_speed.xosc">trajectory_speed.xosc</a>, which checks the various trajectory configurations.</p>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_example_scenarios">Example scenarios</h5>
+<div class="paragraph">
+<p>The following test cases cover the various cases and beyond.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/traj_heading_test.png" alt="traj heading test">
+</div>
+<div class="title">test case scenario <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xosc/trajectory_speed.xosc">trajectory_speed.xosc</a></div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/traj_special_cases.png" alt="traj special cases">
+</div>
+<div class="title">scenario <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xosc/trajectory_special_cases.xosc">trajectory_special_cases.xosc</a> including example how to transition between reverse and forward driving</div>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_friction">5.6. Friction</h3>
@@ -9775,8 +9990,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.40.2"<br>
-ESMINI_GIT_REV="v2.40.2-0-f46dfe92-dirty"</p>
+<p>ESMINI_GIT_TAG="v2.40.4"<br>
+ESMINI_GIT_REV="v2.40.4-0-ed58e748"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -9786,7 +10001,7 @@ ESMINI_GIT_REV="v2.40.2-0-f46dfe92-dirty"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-11-05 12:40:02 +0100
+Last updated 2024-11-25 08:18:57 +0100
 </div>
 </div>
 </body>
