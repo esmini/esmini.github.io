@@ -756,7 +756,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>sudo apt install build-essential gdb ninja-build git pkg-config libgl1-mesa-dev libpthread-stubs0-dev libjpeg-dev libxml2-dev libpng-dev libtiff5-dev libgdal-dev libpoppler-dev libdcmtk-dev libgstreamer1.0-dev libgtk2.0-dev libcairo2-dev libpoppler-glib-dev libxrandr-dev libxinerama-dev curl cmake</code></pre>
+<pre class="CodeRay highlight"><code>sudo apt install build-essential gdb ninja-build git pkg-config libgl1-mesa-dev libpthread-stubs0-dev libjpeg-dev libxml2-dev libpng-dev libtiff5-dev libgdal-dev libpoppler-dev libdcmtk-dev libgstreamer1.0-dev libgtk2.0-dev libcairo2-dev libpoppler-glib-dev libxrandr-dev libxinerama-dev curl cmake black</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1332,10 +1332,10 @@ Mesa3D is normally installed with Linux distributions. Check OpenGL support with
 <div class="sect3">
 <h4 id="_the_basic_text_log_file">4.3.1. The basic text log file</h4>
 <div class="paragraph">
-<p>By default esmini is creating a <code>log.txt</code> in the folder from which esmini is launched. In case of esminiLib it will end up in the folder that the application linking esminiLib was launched from.</p>
+<p>By default esmini is creating a <code>log.txt</code> in the folder from which esmini is launched. In case of esminiLib it will end up in the folder that the application linking esminiLib was launched from. The log filename can be customized.</p>
 </div>
 <div class="paragraph">
-<p>The log.txt includes the same information normally seen in the terminal window (stdout).</p>
+<p>The log file includes the same information normally seen in the terminal window (stdout).</p>
 </div>
 <div class="paragraph">
 <p>To disable output to terminal:<br>
@@ -1346,7 +1346,138 @@ Mesa3D is normally installed with Linux distributions. Check OpenGL support with
 <code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/slow-lead-vehicle.xosc --disable_log</code></p>
 </div>
 <div class="paragraph">
-<p>Developer info: Define the symbol DEBUG_TRACE (either as compile flag or by uncomment <a href="https://github.com/esmini/esmini/blob/73390cc2c1b8cbb8403950c905515e304c861b8c/EnvironmentSimulator/Modules/CommonMini/CommonMini.cpp#L34">this code line</a>) to log more details, like what code module and line number is the origin of the log entry.</p>
+<p>esmini has enhanced logger from release v2.41.0 supporting log verbosity levels, log file appending, enabling/disabling meta data and filtering on module level logging.</p>
+</div>
+<div class="sect4">
+<h5 id="_log_verbosity">Log verbosity</h5>
+<div class="paragraph">
+<p>There are four log verbosity levels:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>error</p>
+</li>
+<li>
+<p>warn</p>
+</li>
+<li>
+<p>info</p>
+</li>
+<li>
+<p>debug</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The log level can be set from command line argument. If not provided, then <code>info</code> level is set by default. Log verbosity goes from <code>error</code> (low) to <code>debug</code> (high). Log entries will be included from <code>error</code> up to the specified level.</p>
+</div>
+<div class="paragraph">
+<p>Example 1: <code>--log_level debug</code> will include all entries (<code>error</code>, <code>warn</code>, <code>info</code> and <code>debug</code>) as the highest level has been selected.</p>
+</div>
+<div class="paragraph">
+<p>Example 2: <code>--log_level warn</code> will include <code>error</code> and <code>warn</code> entries only.</p>
+</div>
+<div class="paragraph">
+<p>Developers can use <code>LOG_ERROR</code>, <code>LOG_WARN</code>, <code>LOG_INFO</code> and <code>LOG_DEBUG</code> macros to effectively prioritize log messages.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_log_metadata">Log metadata</h5>
+<div class="paragraph">
+<p>Logger can add source code meta data with every logged entry, including:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>file name</p>
+</li>
+<li>
+<p>function/method name</p>
+</li>
+<li>
+<p>line number</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>indicating the location of the log entry in the source code.</p>
+</div>
+<div class="paragraph">
+<p><code>--log_meta_data</code> is the command line parameter for enabling meta data.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_log_append">Log append</h5>
+<div class="paragraph">
+<p><code>--log_append</code> is another command line option. Instead of overwriting any existing log file, entries will be appended to the same log file. In other words, logs of multiple scenarios will be put in the same single log file.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_log_filtering_on_modules">Log filtering on modules</h5>
+<div class="paragraph">
+<p>If there is a need to gather log entries of any particular module(s) i.e. hpp/cpp file then <code>--log_only_modules</code> option can be set from the command line. It will create a filter for the logger to pick only log entries from specified modules, ignoring all others. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>--log_only_modules playerbase</code></p>
+</div>
+<div class="paragraph">
+<p>will only log from <code>playerbase.hpp/cpp</code> files. All other log entries will be skipped.</p>
+</div>
+<div class="paragraph">
+<p>Opposite to log only modules, there is an option to skip specific modules. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>--log_skip_modules playerbase,Replay</code></p>
+</div>
+<div class="paragraph">
+<p>will skip all log entries from <code>playerbase.hpp/cpp</code> and <code>Replay.hpp/cpp</code> files. Entries from all other modules will be included.</p>
+</div>
+<div class="paragraph">
+<p>Note that <code>--log_only_modules</code> and <code>--log_skip_modules</code> are mutually exclusive. If a module is listed in both options, then priority is given to <code>--log_only_modules</code>. Hence logging will be enabled for specified module, ignoring its presence in <code>--log_skip_modules</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_log_use_case_example">Log use case example</h5>
+<div class="paragraph">
+<p>Assume you&#8217;re only interested in storyboard events, like actions and triggers. First step is to run a representative scenario to find out what modules you&#8217;re interested in. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --log_meta_data</code></p>
+</div>
+<div class="paragraph">
+<p>It will show all log entries up to <code>info</code> level, including meta data. Look for the module names in the log entries. Then run the scenario again with module filter. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --log_only_modules Storyboard,StoryboardElement,OSCCondition</code></p>
+</div>
+<div class="paragraph">
+<p>It will show only log entries relating to storyboard, including triggering. Example excerpt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="text">...
+[0.001] [info] OverTakerStartSpeedEvent standbyState -&gt; startTransition -&gt; runningState
+[0.001] [info] OverTakerStartSpeedAction initState -&gt; startTransition -&gt; runningState
+[6.179] [info] Trigger /------------------------------------------------
+[6.179] [info] CutInStartCondition == true, HWT: 0.40 &gt; 0.40, edge rising
+[6.179] [info] Triggering entity 0: Ego
+[6.179] [info] Trigger  ------------------------------------------------/
+[6.179] [info] OverTakerStartSpeedAction runningState -&gt; endTransition -&gt; completeState
+[6.179] [info] OverTakerStartSpeedEvent complete after 1 execution
+[6.179] [info] OverTakerStartSpeedEvent runningState -&gt; endTransition -&gt; completeState
+[6.179] [info] Event OverTakerStartSpeedEvent ended, overwritten by event CutInEvent
+[6.179] [info] CutInEvent standbyState -&gt; startTransition -&gt; runningState
+[6.179] [info] CutInAction initState -&gt; startTransition -&gt; runningState
+[7.696] [info] Trigger /------------------------------------------------
+[7.696] [info] BrakeCondition_HWT_0.7 == true, HWT: 0.70 &gt; 0.70, edge rising
+[7.696] [info] Triggering entity 0: Ego
+[7.696] [info] Trigger  ------------------------------------------------/
+[7.696] [info] Other events ongoing, OvertakerBrakeEvent will run in parallel
+[7.696] [info] OvertakerBrakeEvent standbyState -&gt; startTransition -&gt; runningState
+...</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -6436,7 +6567,7 @@ to<br>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>sudo apt install build-essential gdb ninja-build git pkg-config libgl1-mesa-dev libpthread-stubs0-dev libjpeg-dev libxml2-dev libpng-dev libtiff5-dev libgdal-dev libpoppler-dev libdcmtk-dev libgstreamer1.0-dev libgtk2.0-dev libcairo2-dev libpoppler-glib-dev libxrandr-dev libxinerama-dev curl cmake</code></pre>
+<pre class="CodeRay highlight"><code>sudo apt install build-essential gdb ninja-build git pkg-config libgl1-mesa-dev libpthread-stubs0-dev libjpeg-dev libxml2-dev libpng-dev libtiff5-dev libgdal-dev libpoppler-dev libdcmtk-dev libgstreamer1.0-dev libgtk2.0-dev libcairo2-dev libpoppler-glib-dev libxrandr-dev libxinerama-dev curl cmake black</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -7128,7 +7259,7 @@ sudo ./llvm.sh 15</code></pre>
 <p>Google sanitizers framework is utilized to detect memory related errors, for example memory leaks. It&#8217;s executed nighly as a GitHub CI actions job on dev branch. The job can also be trigged manually, but will only run checks on dev branch. Sanitizers is currently only applied to Linux builds.</p>
 </div>
 <div class="paragraph">
-<p>To run the sanitizer checks locally, on Ubuntu:</p>
+<p>You can also run the sanitizer checks locally (on any branch, even uncommitted code) on Ubuntu:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -7832,7 +7963,34 @@ Set/change object to focus on</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_simple_ideal_sensors">13.3.4. Simple ideal sensors</h4>
+<h4 id="_program_options">13.3.4. Program Options</h4>
+<div class="paragraph">
+<p>On top of setting options from command line, esmini (from v2.41.0) supports setting options from esminiLib and esminiRMLib as well. This new functionality is added to set and unset options during runtime. This is useful, for example, to enable or disable logging to console, or to change log level etc between scenario runs via API. In addition, it is now possible to make option settings persistent over multiple runs of scenarios. There are two variants of the API functions i.e. one to set option value with persistence and one without. The API functions are:</p>
+</div>
+<div class="paragraph">
+<p>SE_DLL_API int SE_SetOption(const char *name);</p>
+</div>
+<div class="paragraph">
+<p>SE_DLL_API int SE_SetOptionPersistent(const char *name);</p>
+</div>
+<div class="paragraph">
+<p>SE_DLL_API int SE_SetOptionValue(const char *name, const char *value);</p>
+</div>
+<div class="paragraph">
+<p>SE_DLL_API int SE_SetOptionValuePersistent(const char *name, const char *value);</p>
+</div>
+<div class="paragraph">
+<p>SE_DLL_API int SE_UnsetOption(const char *name);</p>
+</div>
+<div class="paragraph">
+<p>SE_DLL_API const char *SE_GetOptionValue(const char *name);</p>
+</div>
+<div class="paragraph">
+<p>Any setting done in between runs, i.e. after any SE_Close() and before SE_Init(), will apply to the next run, at least. The persistent variant will apply for all future runs until unset or other setting overrides it. The effect of settings done during a scenario run will depend on the option itself. For example, anti-aliasing mode for the rendering will not change during a scenario, while logfile path can change during a scenario run (which will close current and open a new file with specified path and name). So, to be sure, set options before SE_Init() and after any SE_Close().</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_simple_ideal_sensors">13.3.5. Simple ideal sensors</h4>
 <div class="paragraph">
 <p>OSI provides information needed for sensor models at bounding box level for both moving and stationary objects, including ones defined in OpenDRIVE. Sensor models can then detect overlap, occlusion and collisions between those bounding boxes. Although sensor models are not within scope of esmini, there is a code example on how to retrieve and extract OSI data. It can perhaps be a starting point: <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp">osi-groundtruth.cpp</a></p>
 </div>
@@ -7873,6 +8031,73 @@ Set/change object to focus on</p>
 <p>Only reference point checking (part of the object can be inside frustum and still not detected)</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_logging_2">13.3.6. Logging</h4>
+<div class="paragraph">
+<p>By default, both file and console logging are enabled. Default log filename is <code>log.txt</code>. Default location is current folder, normally the folder from which the application was started.</p>
+</div>
+<div class="paragraph">
+<p>All this can be controlled and modified through the API. Full details see log related functions in <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/esminiLib.hpp">esminiLib.hpp</a>. Following is a brief overview:</p>
+</div>
+<div class="sect4">
+<h5 id="_enable_or_disable_logging_to_console">Enable or disable logging to console</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="directive">void</span> SE_LogToConsole(<span class="predefined-type">bool</span> mode);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An additional way to control console logging is to set or unset the launch option <code>--disable_stdout</code> using the API functions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="predefined-type">int</span> SE_SetOption(<span class="directive">const</span> <span class="predefined-type">char</span> *name);
+<span class="predefined-type">int</span> SE_UnsetOption(<span class="directive">const</span> <span class="predefined-type">char</span> *name);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>with <code>--disable_stdout</code> as argument.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_change_log_filename_andor_location">Change log filename and/or location</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="directive">void</span> SE_SetLogFilePath(<span class="directive">const</span> <span class="predefined-type">char</span> *logFilePath);</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Full path (relative or absolute) can be provided, e.g. <code>"../myresult/scenario_2.txt"</code>.</p>
+</li>
+<li>
+<p>If only directory provided, default filename will be used.</p>
+</li>
+<li>
+<p>If only filename provided, default location will be used.</p>
+</li>
+<li>
+<p>if empty string <code>""</code> is provided, log file will not be created.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It should be called before SE_Init(). If called during the run of a scenario, the current log file will be closed and a new with the specified name and/or location will be created, unless <code>--log_append</code> option has been set.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_log_single_message">Log single message</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="directive">void</span> SE_LogMessage(<span class="directive">const</span> <span class="predefined-type">char</span> *message);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>the provided string will be posted to console and file according to settings.</p>
+</div>
 </div>
 </div>
 </div>
@@ -9990,8 +10215,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.40.4"<br>
-ESMINI_GIT_REV="v2.40.4-0-ed58e748"</p>
+<p>ESMINI_GIT_TAG="v2.41.0"<br>
+ESMINI_GIT_REV="v2.41.0-0-21ea83e0"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -10001,7 +10226,7 @@ ESMINI_GIT_REV="v2.40.4-0-ed58e748"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-11-25 08:18:57 +0100
+Last updated 2024-12-04 07:49:36 +0100
 </div>
 </div>
 </body>
