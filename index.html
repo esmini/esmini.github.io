@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <title>esmini user guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -5874,17 +5874,17 @@ id_t SE_GetJunctionIdFromString(<span class="directive">const</span> <span class
 Options:
   --osc &lt;filename&gt;
       OpenSCENARIO filename (required) - if path includes spaces, enclose with &quot;&quot;
-  --aa_mode &lt;mode&gt;
-      Anti-alias mode=number of multisamples (subsamples, 0=off, 4=default)
+  --aa_mode [mode]  (default if value omitted: 4)
+      Anti-alias mode=number of multisamples (subsamples, 0=off)
   --align_routepositions
       Align t-axis of route positions to the direction of the route
   --bounding_boxes
-      Show entities as bounding boxes (toggle modes on key ',')
+      Show entities as bounding boxes. Toggle key ','
   --capture_screen
       Continuous screen capture. Warning: Many jpeg files will be created
-  --camera_mode &lt;mode&gt;
-      Initial camera mode (&quot;orbit&quot; (default), &quot;fixed&quot;, &quot;flex&quot;, &quot;flex-orbit&quot;, &quot;top&quot;, &quot;driver&quot;, &quot;custom&quot;) (swith with key 'k')
-  --csv_logger &lt;csv_filename&gt;
+  --camera_mode [mode]  (default if option or value omitted: orbit)
+      Initial camera mode (&quot;orbit&quot;, &quot;fixed&quot;, &quot;flex&quot;, &quot;flex-orbit&quot;, &quot;top&quot;, &quot;driver&quot;, &quot;custom&quot;). Toggle key 'k'
+  --csv_logger [csv_filename]  (default if value omitted: log.csv)
       Log data for each vehicle in ASCII csv format
   --collision
       Enable global collision detection, potentially reducing performance
@@ -5908,8 +5908,8 @@ Options:
       Generate road 3D model even if SceneGraphFile is specified
   --fixed_timestep &lt;timestep&gt;
       Run simulation decoupled from realtime, with specified timesteps
-  --follow_object &lt;index&gt;
-      Set index of intial object for camera to follow (change with Tab/shift-Tab)
+  --follow_object [index]  (default if option or value omitted: 0)
+      Set index of initial object for camera to follow (change with Tab/shift-Tab)
   --generate_no_road_objects
       Do not generate any OpenDRIVE road objects (e.g. when part of referred 3D model)
   --generate_without_textures
@@ -5921,49 +5921,61 @@ Options:
   --help
       Show this help message
   --hide_route_waypoints
-      Disable route waypoint visualization (toggle with key 'R')
+      Disable route waypoint visualization. Toggle key 'R'
   --hide_trajectories
-      Hide trajectories from start (toggle with key 'n')
+      Hide trajectories from start. Toggle key 'n'
+  --ignore_odr_offset
+      Ignore any offset specified in the OpenDRIVE file header
   --ignore_z
       Ignore provided z values from OSC file and place vehicle relative to road
   --ignore_p
       Ignore provided pitch values from OSC file and place vehicle relative to road
   --ignore_r
       Ignore provided roll values from OSC file and place vehicle relative to road
-  --info_text &lt;mode&gt;
-      Show on-screen info text (toggle key 'i') mode 0=None 1=current (default) 2=per_object 3=both
-  --logfile_path &lt;path&gt;
-      logfile path/filename, e.g. &quot;../esmini.log&quot; (default: log.txt)
+  --info_text [mode]  (default if option or value omitted: 1)
+      Show on-screen info text. Modes: 0=None 1=current 2=per_object 3=both. Toggle key 'i'
+  --log_append
+      Log all scenarios in the same txt file
+  --logfile_path [path]  (default if option or value omitted: log.txt)
+      Logfile path/filename, e.g. &quot;../my_log.txt&quot;
+  --log_meta_data
+      Log file name, function name and line number
+  --log_level [mode]  (default if option or value omitted: info)
+      Log level debug, info, warn, error
+  --log_only_modules &lt;modulename(s)&gt;
+      Log from only these modules. Overrides log_skip_modules. See User guide for more info
+  --log_skip_modules &lt;modulename(s)&gt;
+      Skip log from these modules, all remaining modules will be logged. See User guide for more info
   --osc_str &lt;string&gt;
       OpenSCENARIO XML string
   --osg_screenshot_event_handler
       Revert to OSG default jpg images ('c'/'C' keys handler)
-  --osi_file [filename]  (default = ground_truth.osi)
-      save osi trace file
-  --osi_freq &lt;frequence&gt;
-      relative frequence for writing the .osi file e.g. --osi_freq=2 -&gt; we write every two simulation steps
+  --osi_file [filename]  (default if value omitted: ground_truth.osi)
+      Save osi trace file
+  --osi_freq &lt;frequency&gt;
+      Decrease OSI file entries, e.g. --osi_freq 2 -&gt; OSI written every two simulation steps
   --osi_lines
-      Show OSI road lines (toggle during simulation by press 'u')
+      Show OSI road lines. Toggle key 'u'
   --osi_points
-      Show OSI road pointss (toggle during simulation by press 'y')
-  --osi_receiver_ip &lt;IP address&gt;
+      Show OSI road points. Toggle key 'y'
+  --osi_receiver_ip [IP address]  (default if value omitted: 127.0.0.1)
       IP address where to send OSI UDP packages
   --param_dist &lt;filename&gt;
       Run variations of the scenario according to specified parameter distribution file
-  --param_permutation &lt;index (0 .. NumberOfPermutations-1)&gt;
-      Run specific permutation of parameter distribution
+  --param_permutation &lt;index&gt;
+      Run specific permutation of parameter distribution, index in range (0 .. NumberOfPermutations-1)
   --pause
       Pause simulation after initialization
   --path &lt;path&gt;
-      Search path prefix for assets, e.g. OpenDRIVE files (multiple occurrences supported)
+      Search path prefix for assets, e.g. OpenDRIVE files. Multiple occurrences of option supported
   --player_server
       Launch UDP server for action/command injection
-  --plot [mode (asynchronous|synchronous)]  (default = asynchronous)
-      Show window with line-plots of interesting data
-  --record &lt;filename&gt;
+  --plot [mode]  (default if value omitted: asynchronous)
+      Show window with line-plots of interesting data. Modes: asynchronous, synchronous
+  --record [filename]  (default if value omitted: sim.dat)
       Record position data into a file for later replay
-  --road_features &lt;mode&gt;
-      Show OpenDRIVE road features (&quot;on&quot;, &quot;off&quot;  (default)) (toggle during simulation by press 'o')
+  --road_features [mode]  (default if value omitted: on)
+      Show OpenDRIVE road features. Modes: on, off. Toggle key 'o'
   --return_nr_permutations
       Return number of permutations without executing the scenario (-1 = error)
   --save_generated_model
@@ -5973,15 +5985,15 @@ Options:
   --seed &lt;number&gt;
       Specify seed number for random generator
   --sensors
-      Show sensor frustums (toggle during simulation by press 'r')
+      Show sensor frustums. Toggle key 'r'
   --server
       Launch server to receive state of external Ego simulator
-  --text_scale [factor]  (default = 1.0)
+  --text_scale [size factor]  (default if option or value omitted: 1.0)
       Scale screen overlay text
   --threads
       Run viewer in a separate thread, parallel to scenario engine
-  --trail_mode &lt;mode&gt;
-      Show trail lines and/or dots (toggle key 'j') mode 0=None 1=lines 2=dots 3=both
+  --trail_mode [mode]  (default if value omitted: 0)
+      Show trail lines and/or dots. Modes: 0=None 1=lines 2=dots 3=both. Toggle key 'j'
   --use_signs_in_external_model
       When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
   --version
@@ -6081,13 +6093,13 @@ Mouse control
 Options:
   --file &lt;filename&gt;
       Simulation recording data file (.dat)
-  --aa_mode &lt;mode&gt;
-      Anti-alias mode=number of multisamples (subsamples, 0=off, 4=default)
-  --camera_mode &lt;mode&gt;
-      Initial camera mode (&quot;orbit&quot; (default), &quot;fixed&quot;, &quot;flex&quot;, &quot;flex-orbit&quot;, &quot;top&quot;, &quot;driver&quot;) (toggle during simulation by press 'k')
+  --aa_mode [mode]  (default if value omitted: 4)
+      Anti-alias mode=number of multisamples (subsamples, 0=off)
+  --camera_mode [mode]  (default if option or value omitted: orbit)
+      Initial camera mode (&quot;orbit&quot;, &quot;fixed&quot;, &quot;flex&quot;, &quot;flex-orbit&quot;, &quot;top&quot;, &quot;driver&quot;, &quot;custom&quot;). Toggle key 'k'
   --capture_screen
       Continuous screen capture. Warning: Many jpeg files will be created
-  --collision [mode]  (default = pause)
+  --collision [mode]  (default if value omitted: pause)
       Detect collisions and optionally pauses the replay &lt;pause/continue&gt; (pause is default)
   --custom_camera &lt;position&gt;
       Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
@@ -6105,8 +6117,10 @@ Options:
       Run without viewer window
   --hide_trajectories
       Hide trajectories from start (toggle with key 'n')
-  --info_text &lt;mode&gt;
-      Show on-screen info text (toggle key 'i') mode 0=None 1=current (default) 2=per_object 3=both
+  --info_text [mode]  (default if option or value omitted: 1)
+      Show on-screen info text. Modes: 0=None 1=current 2=per_object 3=both. Toggle key 'i'
+  --logfile_path [path]  (default if option or value omitted: log.txt)
+      Logfile path/filename, e.g. &quot;../my_log.txt&quot;
   --no_ghost
       Remove ghost entities
   --no_ghost_model
@@ -6114,7 +6128,7 @@ Options:
   --osg_screenshot_event_handler
       Revert to OSG default jpg images ('c'/'C' keys handler)
   --path &lt;path&gt;
-      Search path prefix for assets, e.g. model_ids.txt file (multiple occurrences supported)
+      Search path prefix for assets, e.g. OpenDRIVE files. Multiple occurrences of option supported
   --quit_at_end
       Quit application when reaching end of scenario
   --remove_object &lt;id&gt;
@@ -6123,15 +6137,15 @@ Options:
       loop scenario
   --res_path &lt;path&gt;
       Path to resources root folder - relative or absolut
-  --road_features
-      Show OpenDRIVE road features
+  --road_features [mode]  (default if value omitted: on)
+      Show OpenDRIVE road features. Modes: on, off. Toggle key 'o'
   --save_merged &lt;filename&gt;
       Save merged data into one dat file, instead of viewing
   --start_time &lt;ms&gt;
       Start playing at timestamp
   --stop_time &lt;ms&gt;
       Stop playing at timestamp (set equal to time_start for single frame)
-  --text_scale [factor]  (default = 1.0)
+  --text_scale [size factor]  (default if option or value omitted: 1.0)
       Scale screen overlay text
   --time_scale &lt;factor&gt;
       Playback speed scale factor (1.0 == normal)
@@ -6233,15 +6247,15 @@ Options:
       Show this help message
   --odr &lt;odr_filename&gt;
       OpenDRIVE filename (required)
-  --aa_mode &lt;mode&gt;
-      Anti-alias mode=number of multisamples (subsamples, 0=off, 4=default)
+  --aa_mode [mode]  (default if value omitted: 4)
+      Anti-alias mode=number of multisamples (subsamples, 0=off)
   --capture_screen
       Continuous screen capture. Warning: Many .tga files will be created
   --custom_fixed_camera &lt;position and optional orientation&gt;
       Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
   --custom_fixed_top_camera &lt;position and rotation&gt;
       Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
-  --density [density]  (default = 1.000000)
+  --density [density]  (default if value omitted: 1.000000)
       density (cars / 100 m)
   --enforce_generate_model
       Generate road 3D model even if --model is specified
@@ -6263,29 +6277,39 @@ Options:
       Add a large flat ground surface
   --headless
       Run without viewer window
-  --logfile_path &lt;path&gt;
-      logfile path/filename, e.g. &quot;../esmini.log&quot; (default: log.txt)
+  --log_append
+      Log all scenarios in the same txt file
+  --logfile_path [path]  (default if option or value omitted: log.txt)
+      Logfile path/filename, e.g. &quot;../my_log.txt&quot;
+  --log_meta_data
+      Log file name, function name and line number
+  --log_level [mode]  (default if option or value omitted: info)
+      Log level debug, info, warn, error
+  --log_only_modules &lt;modulename(s)&gt;
+      Log from only these modules. Overrides log_skip_modules. See User guide for more info
+  --log_skip_modules &lt;modulename(s)&gt;
+      Skip log from these modules, all remaining modules will be logged. See User guide for more info
   --model &lt;model_filename&gt;
       3D Model filename
   --osg_screenshot_event_handler
       Revert to OSG default jpg images ('c'/'C' keys handler)
   --osi_lines
-      Show OSI road lines (toggle during simulation by press 'u')
+      Show OSI road lines. Toggle key 'u'
   --osi_points
-      Show OSI road points (toggle during simulation by press 'y')
+      Show OSI road points. Toggle key 'y'
   --path &lt;path&gt;
-      Search path prefix for assets, e.g. car and sign model files
-  --road_features
-      Show OpenDRIVE road features (toggle during simulation by press 'o')
+      Search path prefix for assets, e.g. OpenDRIVE files. Multiple occurrences of option supported
+  --road_features [mode]  (default if value omitted: on)
+      Show OpenDRIVE road features. Modes: on, off. Toggle key 'o'
   --save_generated_model
       Save generated 3D model (n/a when a scenegraph is loaded)
   --seed &lt;number&gt;
       Specify seed number for random generator
-  --speed_factor [speed_factor]  (default = 1.000000)
+  --speed_factor [speed_factor]  (default if value omitted: 1.000000)
       speed_factor &lt;number&gt;
   --stop_at_end_of_road
       Instead of respawning elsewhere, stop when no connection exists
-  --text_scale [factor]  (default = 1.0)
+  --text_scale [size factor]  (default if option or value omitted: 1.0)
       Scale screen overlay text
   --traffic_rule &lt;rule (right/left)&gt;
       Enforce left or right hand traffic, regardless OpenDRIVE rule attribute (default: right)
@@ -6770,7 +6794,7 @@ The dynamic versions of protobuf were added Aug 31 2021. So you might need to up
 </div>
 <div class="paragraph">
 <p>To disable OSG, SUMO, OSI and googletest, run: <br>
-<code>cmake .. -D USE_OSG=False -D USE_SUMO=False -D USE_OSI=False -D USE_GTEST=False USE_IMPLOT=False</code></p>
+<code>cmake .. -D USE_OSG=False -D USE_SUMO=False -D USE_OSI=False -D USE_GTEST=False -D USE_IMPLOT=False</code></p>
 </div>
 <div class="paragraph">
 <p>All options are enabled/True as default.</p>
@@ -10162,6 +10186,12 @@ will create C# versions of all proto files</p>
 <p>The <a href="https://github.com/esmini/esmini/blob/master/docs/user_guide.adoc">source</a> of this document is written in the <a href="https://asciidoc-py.github.io/index.html">asciidoc</a> format. The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted to avoid "human errors".</p>
 </div>
 <div class="paragraph">
+<p>The final HTML document is published in this repo: <a href="https://github.com/esmini/esmini.github.io" class="bare">https://github.com/esmini/esmini.github.io</a></p>
+</div>
+<div class="paragraph">
+<p>Access URL: <a href="https://esmini.github.io/" class="bare">https://esmini.github.io/</a></p>
+</div>
+<div class="paragraph">
 <p>Install tools:</p>
 </div>
 <div class="hdlist">
@@ -10198,7 +10228,13 @@ will create C# versions of all proto files</p>
 <li>
 <p>Then run:<br>
 <code>gem install asciidoctor</code><br>
-<code>gem install coderay</code></p>
+<code>gem install coderay</code><br></p>
+<div class="paragraph">
+<p>Troubleshooting: If you get an error like<br>
+<code>Unable to download data from <a href="https://rubygems.org/" class="bare">https://rubygems.org/</a> - SSL_connect &#8230;&#8203;</code><br>
+try update RubyGems as follows:<br>
+<code>gem update --system</code></p>
+</div>
 </li>
 </ul>
 </div>
@@ -10215,8 +10251,8 @@ will create C# versions of all proto files</p>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.41.0"<br>
-ESMINI_GIT_REV="v2.41.0-0-21ea83e0"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="v2.41.1-1-4de5b488"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -10226,7 +10262,7 @@ ESMINI_GIT_REV="v2.41.0-0-21ea83e0"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-04 07:49:36 +0100
+Last updated 2024-12-12 08:28:32 +0100
 </div>
 </div>
 </body>
