@@ -4381,6 +4381,13 @@ Your browser does not support the video tag.
 <div class="paragraph">
 <p>Note that the strategy results in desired behavior in probably the majority of cases, but not all. There might be exceptions where another behavior is expected or required. The manipulation described above is handled by the methods <code>SetupGhost()</code> and <code>ReplaceObjectInTrigger()</code> in <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/ScenarioEngine.cpp">ScenarioEngine.cpp</a> which can be modified to fit custom needs.</p>
 </div>
+<h4 id="_controllers_and_ghost" class="discrete">Controllers and ghost</h4>
+<div class="paragraph">
+<p>OpenSCENARIO 1.2 onwards supports multiple assigned controllers. All except the first controller will be handed over to the ghost. Hence make sure to put the ghost controller first, since it will stick to the "Ego".</p>
+</div>
+<div class="paragraph">
+<p>Example scenario, where ghost is utilizing the followRoute controller: <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xosc/follow_route_ghost_starting_on_route.xosc">follow_route_ghost_starting_on_route.xosc</a>.</p>
+</div>
 <h4 id="_additional_notes_on_using_the_ghost_feature" class="discrete">Additional notes on using the ghost feature</h4>
 <div class="paragraph">
 <p>Timestamps in log are always of same reference. Whenever a ghost is involved the time will start at -<code>headStartTime</code>, in order for the actual scenario to start at simulationTime = 0. Example: Assuming <code>headStartTime = 3s</code>, a log message for an Ego action like:</p>
@@ -5994,6 +6001,8 @@ Options:
       Run viewer in a separate thread, parallel to scenario engine
   --trail_mode [mode]  (default if value omitted: 0)
       Show trail lines and/or dots. Modes: 0=None 1=lines 2=dots 3=both. Toggle key 'j'
+  --traj_filter [radius]  (default if option or value omitted: 0.1)
+      Simple filter merging close points. Set 0.0 to disable
   --use_signs_in_external_model
       When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
   --version
@@ -6119,7 +6128,7 @@ Options:
       Hide trajectories from start (toggle with key 'n')
   --info_text [mode]  (default if option or value omitted: 1)
       Show on-screen info text. Modes: 0=None 1=current 2=per_object 3=both. Toggle key 'i'
-  --logfile_path [path]  (default if option or value omitted: log.txt)
+  --logfile_path [path]  (default if value omitted: replayer_log.txt)
       Logfile path/filename, e.g. &quot;../my_log.txt&quot;
   --no_ghost
       Remove ghost entities
@@ -6279,7 +6288,7 @@ Options:
       Run without viewer window
   --log_append
       Log all scenarios in the same txt file
-  --logfile_path [path]  (default if option or value omitted: log.txt)
+  --logfile_path [path]  (default if value omitted: odrviewer_log.txt)
       Logfile path/filename, e.g. &quot;../my_log.txt&quot;
   --log_meta_data
       Log file name, function name and line number
@@ -10251,8 +10260,8 @@ try update RubyGems as follows:<br>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.41.1-1-4de5b488"</p>
+<p>ESMINI_GIT_TAG="v2.42.0"<br>
+ESMINI_GIT_REV="v2.42.0-0-c68a7d24"</p>
 </div>
 <div class="paragraph">
 <p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
@@ -10262,7 +10271,7 @@ ESMINI_GIT_REV="v2.41.1-1-4de5b488"</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-12 08:28:32 +0100
+Last updated 2024-12-20 16:58:09 +0100
 </div>
 </div>
 </body>
