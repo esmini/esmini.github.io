@@ -573,6 +573,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_trajectory_interpolation_and_alignment">6.3. Trajectory interpolation and alignment</a></li>
 <li><a href="#_example_2">6.4. Example</a></li>
 <li><a href="#_relative_positions_and_routes">6.5. Relative positions and routes</a></li>
+<li><a href="#_reference_line_and_center_lane">6.6. Reference line and center lane</a></li>
 </ul>
 </li>
 <li><a href="#_controllers">7. Controllers</a>
@@ -649,7 +650,12 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#_run_asam_openscenario_examples">15. Run ASAM OpenSCENARIO examples</a></li>
-<li><a href="#_about_this_document">16. About this document</a></li>
+<li><a href="#_about_this_document">16. About this document</a>
+<ul class="sectlevel2">
+<li><a href="#_how_to_generate_html_from_asciidoc">16.1. How to generate HTML from AsciiDoc</a></li>
+<li><a href="#_how_to_view_previous_versions">16.2. How to view previous versions</a></li>
+</ul>
+</li>
 <li><a href="#_version">17. Version</a></li>
 </ul>
 </div>
@@ -666,7 +672,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>esmini is a software tool to play OpenSCENARIO files. It&#8217;s provided both as a stand alone application and as a shared library for linking with custom applications. In addition some tools have been developed to support design and analysis of traffic scenarios.</p>
+<p>esmini is a software tool to play OpenSCENARIO XML files. It&#8217;s provided both as a stand alone application and as a shared library for linking with custom applications. In addition some tools have been developed to support design and analysis of traffic scenarios.</p>
 </div>
 <div class="paragraph">
 <p>The scope of this user guide is to provide examples on how to use the tools. It also includes a programming tutorial on how to use esmini in custom applications.</p>
@@ -1247,6 +1253,25 @@ Then look for <code>generated_road.osgb</code> in the current directory.</p>
 </div>
 <div class="paragraph">
 <p><code>ffmpeg -f image2 -framerate 30 -i screen_shot_%5d.tga -c:v libx264 -vf format=yuv420p,fps=15 -crf 20 out.mp4</code></p>
+</div>
+<div class="paragraph">
+<p>To concatenate multiple files, first create a text file listing the input files. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>video_list.txt</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>file 'no_features_10.mkv'
+file 'features_10.mkv'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then run the ffmpeg command, like:
+<code>ffmpeg -f concat -i video_list.txt -c copy merged.mkv</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> The input files must be same timebase and resolution to work well.</p>
 </div>
 <div class="paragraph">
 <p>Get ffmpeg: <a href="http://ffmpeg.org/download.html" class="bare">http://ffmpeg.org/download.html</a></p>
@@ -3949,6 +3974,77 @@ followingMode = position will make smoothly transitions at vertex corners.</p>
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/relative_position_routing.jpg" alt="relative position routing">
 </div>
 <div class="title">Relative positioning with and without own route</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reference_line_and_center_lane">6.6. Reference line and center lane</h3>
+<div class="paragraph">
+<p>In <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4422&amp;token=e590561f3c39aa2260e5442e29e93f6693d1cccd#top-05e95dfd-ce05-40c8-af93-d065229e6968"><code>OpenDRIVE definition of laneOffset</code></a>: A lane offset may be used to shift the center lane away from the road reference line.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/lane_offset_standard_way.png" alt="lane offset standard way">
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://en.wikipedia.org/wiki/2%2B1_road">2+1 roads</a> can be defined utilizing lane offset:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/lane_offset_two_plus_one.jpg" alt="lane offset two plus one">
+</div>
+</div>
+<div class="paragraph">
+<p><code>lane id</code> relates to reference lane. <code>lane offset</code> relates to the current lane. <code>t</code> relates to reference line.</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">white car</th>
+<th class="tableblock halign-left valign-top">red car</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>lane id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>lane offset</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>t</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1.75</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.75</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A 2+1 example example scenario is found here: <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/two_plus_one_road.xosc">resources/xosc/two_plus_one_road.xosc</a></p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: In esmini versions prior to 2.43 the reference line was incorrectly affected by lane offset as well. The <code>t</code>-values in the table then became -5.25 for the white car and -1.75 for the red car.</p>
+</div>
+<div class="sect3">
+<h4 id="_visualization">6.6.1. Visualization</h4>
+<div class="paragraph">
+<p>esmini can indicate various road features; toggle key 'o' or launch option <code>--road_features</code>.
+The center lane is indicated by thick red line and reference line is indicated by semi-thick yellow line.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/two_plus_one_road_features.jpg" alt="two plus one road features">
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -10192,7 +10288,12 @@ will create C# versions of all proto files</p>
 <h2 id="_about_this_document">16. About this document</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <a href="https://github.com/esmini/esmini/blob/master/docs/user_guide.adoc">source</a> of this document is written in the <a href="https://asciidoc-py.github.io/index.html">asciidoc</a> format. The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted to avoid "human errors".</p>
+<p>The <a href="https://github.com/esmini/esmini/blob/master/docs/user_guide.adoc">source</a> of this document is written in the <a href="https://asciidoc-py.github.io/index.html">asciidoc</a> format.</p>
+</div>
+<div class="sect2">
+<h3 id="_how_to_generate_html_from_asciidoc">16.1. How to generate HTML from AsciiDoc</h3>
+<div class="paragraph">
+<p>The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted to avoid "human errors".</p>
 </div>
 <div class="paragraph">
 <p>The final HTML document is published in this repo: <a href="https://github.com/esmini/esmini.github.io" class="bare">https://github.com/esmini/esmini.github.io</a></p>
@@ -10252,7 +10353,26 @@ try update RubyGems as follows:<br>
 </table>
 </div>
 <div class="paragraph">
-<p>Generate html: <code>asciidoctor user_guide.adoc</code></p>
+<p>Generate html: <code>asciidoctor user_guide.adoc -o index.html</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_view_previous_versions">16.2. How to view previous versions</h3>
+<div class="paragraph">
+<p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
+</div>
+<div class="paragraph">
+<p>To view a previous version, utilizing <a href="https://htmlpreview.github.io/">htmlpreview.github.io</a>, either refer to a <a href="https://github.com/esmini/esmini.github.io/tags">tag</a>, like this:</p>
+</div>
+<div class="paragraph">
+<p><code><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/esmini/esmini.github.io/refs/tags/v2.42.0/index.html" class="bare">https://htmlpreview.github.io/?https://raw.githubusercontent.com/esmini/esmini.github.io/refs/tags/v2.42.0/index.html</a></code></p>
+</div>
+<div class="paragraph">
+<p>or refer to any commit, like this:</p>
+</div>
+<div class="paragraph">
+<p><code><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/esmini/esmini.github.io/47a9267a5935d0bd2648950e4d9d3e23f1e8ff3a/index.html" class="bare">https://htmlpreview.github.io/?https://raw.githubusercontent.com/esmini/esmini.github.io/47a9267a5935d0bd2648950e4d9d3e23f1e8ff3a/index.html</a></code></p>
+</div>
 </div>
 </div>
 </div>
@@ -10260,18 +10380,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">17. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.42.0"<br>
-ESMINI_GIT_REV="v2.42.0-0-c68a7d24"</p>
-</div>
-<div class="paragraph">
-<p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
+<p>ESMINI_GIT_TAG="v2.43.0"<br>
+ESMINI_GIT_REV="v2.43.0-0-6acd3fad"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-20 16:58:09 +0100
+Last updated 2024-12-30 17:14:58 +0100
 </div>
 </div>
 </body>
