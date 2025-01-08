@@ -5785,98 +5785,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_reference_line_and_center_lane_while_using_laneoffset">9.1.9. Reference line and center lane while using laneOffset</h4>
-<div class="paragraph">
-<p>In <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4422&amp;token=e590561f3c39aa2260e5442e29e93f6693d1cccd#top-05e95dfd-ce05-40c8-af93-d065229e6968"><code>OpenDRIVE definition of laneOffset</code></a>: A lane offset may be used to shift the center lane away from the road reference line.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="https://github.com/esmini/esmini.github.io/raw/main/images/lane_offset_standard_way.png" alt="lane offset standard way">
-</div>
-<div class="title">OpenDRIVE standards stipulates reference line is not affected by lane offset</div>
-</div>
-<div class="paragraph">
-<p>In esmini lane offset affects the reference line as well as center lane, which is a deviation from the OpenDRIVE standard. As consequence, t values are also shifted with the lane offset.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="https://github.com/esmini/esmini.github.io/raw/main/images/lane_offset_esmini_way.png" alt="lane offset esmini way">
-</div>
-<div class="title">esmini shift both center lane and reference line by lane offset</div>
-</div>
-<div class="paragraph">
-<p><a href="https://en.wikipedia.org/wiki/2%2B1_road">2+1 roads</a> can be defined utilizing lane offset. Consider image below:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="https://github.com/esmini/esmini.github.io/raw/main/images/two_plus_one_lane_ids.png" alt="two plus one lane ids">
-</div>
-<div class="title">2+1 road in esmini, utilizing lane offset</div>
-</div>
-<div class="paragraph">
-<p><strong>esmini</strong></p>
-</div>
-<table class="tableblock frame-all grid-all fit-content">
-<colgroup>
-<col>
-<col>
-<col>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"></th>
-<th class="tableblock halign-left valign-top">white car</th>
-<th class="tableblock halign-left valign-top">red car</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>laneId</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>t</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-5.25</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1.75</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p><strong>OpenDRIVE</strong></p>
-</div>
-<table class="tableblock frame-all grid-all fit-content">
-<colgroup>
-<col>
-<col>
-<col>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top"></th>
-<th class="tableblock halign-left valign-top">white car</th>
-<th class="tableblock halign-left valign-top">red car</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>laneId</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>t</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1.75</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.75</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>A 2+1 example example scenario is found here: <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/two_plus_one_road.xosc">resources/xosc/two_plus_one_road.xosc</a></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_osi_for_python_on_windows">9.1.10. OSI for Python on Windows</h4>
+<h4 id="_osi_for_python_on_windows">9.1.9. OSI for Python on Windows</h4>
 <div class="paragraph">
 <p>Follow the following steps to install OSI (and dependent Google Protobuf) for use by some esmini scripts, e.g. <a href="https://github.com/esmini/esmini/blob/master/scripts/osi2csv.py">osi2csv.py</a>.</p>
 </div>
@@ -5954,7 +5863,7 @@ for example: <code>$env:PROTOC="C:/tmp/protoc-3.20.2-win64/bin/protoc.exe"</code
 </div>
 </div>
 <div class="sect3">
-<h4 id="_the_scenario_runs_too_fast_or_too_slow">9.1.11. The scenario runs too fast or too slow</h4>
+<h4 id="_the_scenario_runs_too_fast_or_too_slow">9.1.10. The scenario runs too fast or too slow</h4>
 <div class="paragraph">
 <p>esmini can run in two different time modes: 1. Real-time and 2. Fixed-time. Default is real-time.</p>
 </div>
@@ -5980,7 +5889,7 @@ g tests for later post processing of resulting logs, data or OSI files.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_road_and_junction_string_ids">9.1.12. Road and junction string IDs</h4>
+<h4 id="_road_and_junction_string_ids">9.1.11. Road and junction string IDs</h4>
 <div class="paragraph">
 <p>OpenDRIVE allows for non integer string IDs. Although commonly unsigned integer is used. The standard <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/latest/specification/16_annexes/classes/road/top_cla_t_road.html">OpenDRIVE 1.8</a> states that IF the ID represents an integer number, it should comply to uint32_t and stay within the given range.</p>
 </div>
@@ -10760,14 +10669,14 @@ try update RubyGems as follows:<br>
 <div class="sectionbody">
 <div class="paragraph">
 <p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.44.0-1-370ba5d3"</p>
+ESMINI_GIT_REV="v2.44.0-19-26166b2f"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-03 18:29:27 +0100
+Last updated 2025-01-08 07:52:03 +0100
 </div>
 </div>
 </body>
