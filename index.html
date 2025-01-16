@@ -5199,6 +5199,29 @@ Parameters:
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_naturaldrivercontroller">7.6.10. NaturalDriverController</h4>
+<div class="paragraph">
+<p>A controller designed to drive naturally on highways and urban roads, with a driver which tries to keep its desired lane, while keeping the distance to a target in front and, if the conditions are correct, will make a lane change to overtake a lead vehicle.</p>
+</div>
+<div class="paragraph">
+<p>The desired lane for the controller vehicle is set with a parameter (named "Route"), the driver will strive to reach and maintain this lane. The driver will follow the car in front following the IDM (Intelligent Driver Model) logic, <a href="https://en.wikipedia.org/wiki/Intelligent_driver_model" class="bare">https://en.wikipedia.org/wiki/Intelligent_driver_model</a>. The driver will change lane according to MOBIL (General Lane-Changing Model for Car-Following Models), <a href="https://mtreiber.de/publications/MOBIL_TRB.pdf" class="bare">https://mtreiber.de/publications/MOBIL_TRB.pdf</a>. The lane changing doesn&#8217;t take traffic density or ramps / junctions into account, and thus the model is only suitable on roads without such geomitries.</p>
+</div>
+<div class="paragraph">
+<p>The model is fully parameterized to suit the desired need of each simulation. For all properties see <code>NaturalDriver</code> in <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/Catalogs/Controllers/ControllerCatalog.xosc">Controllers/ControllerCatalog.xosc</a>.</p>
+</div>
+<div class="paragraph">
+<p>Example usage can be found in <a href="https://github.com/esmini/esmini/blob/master/scripts/scenario_scripts/generate_traffic.py" class="bare">https://github.com/esmini/esmini/blob/master/scripts/scenario_scripts/generate_traffic.py</a></p>
+</div>
+<div class="paragraph">
+<p>Demo (running scenario <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/highway_driver.xosc" class="bare">https://github.com/esmini/esmini/blob/master/resources/xosc/highway_driver.xosc</a>):</p>
+</div>
+<div class="videoblock">
+<div class="content">
+<iframe width="854" height="480" src="https://www.youtube.com/embed/JV31gvCCe3Y?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=JV31gvCCe3Y" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_how_to_add_a_new_controller">7.7. How to add a new controller</h3>
@@ -10668,15 +10691,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.44.0-19-26166b2f"</p>
+<p>ESMINI_GIT_TAG="v2.44.2"<br>
+ESMINI_GIT_REV="v2.44.2-0-d3491cdd"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-08 07:52:03 +0100
+Last updated 2025-01-15 10:37:35 +0100
 </div>
 </div>
 </body>
