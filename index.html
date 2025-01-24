@@ -3280,17 +3280,17 @@ After executing the above the exit code can be inspected/verified from shell as 
 <div class="paragraph">
 <p>The following test cases cover the various cases and beyond.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="https://github.com/esmini/esmini.github.io/raw/main/images/traj_heading_test.png" alt="traj heading test">
-</div>
+<div class="videoblock">
 <div class="title">test case scenario <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xosc/trajectory_speed.xosc">trajectory_speed.xosc</a></div>
-</div>
-<div class="imageblock">
 <div class="content">
-<img src="https://github.com/esmini/esmini.github.io/raw/main/images/traj_special_cases.png" alt="traj special cases">
+<iframe width="854" height="480" src="https://www.youtube.com/embed/mSekcv5Mqeo?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=mSekcv5Mqeo" frameborder="0" allowfullscreen></iframe>
 </div>
+</div>
+<div class="videoblock">
 <div class="title">scenario <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xosc/trajectory_special_cases.xosc">trajectory_special_cases.xosc</a> including example how to transition between reverse and forward driving</div>
+<div class="content">
+<iframe width="854" height="480" src="https://www.youtube.com/embed/sjOgdx8qfEM?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=sjOgdx8qfEM" frameborder="0" allowfullscreen></iframe>
+</div>
 </div>
 </div>
 </div>
@@ -5437,7 +5437,7 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 <div class="sect2">
 <h3 id="_colors_textures_and_wheel_rotations">8.4. Colors, textures and wheel rotations</h3>
 <div class="paragraph">
-<p>See <a href="https://github.com/esmini/esmini/issues/63#issuecomment-742273326">issue 63</a> for brief info.</p>
+<p>See <a href="https://github.com/esmini/esmini/issues/63#issuecomment-742273326">issue 63</a> for brief information on how to create vehicle 3D models with moving wheels.</p>
 </div>
 <div class="paragraph">
 <p>And these two scripts operating on textures and material respectively, can potentially provide some inspiration:<br>
@@ -8084,7 +8084,7 @@ Set/change object to focus on</p>
 <p>The application is coded in C++, making the Protobuf data structures fully compatible</p>
 </li>
 <li>
-<p>The data is read before next call to <code>SE_UpdateOSIGroundTruth()</code>, which will update the data</p>
+<p>The data is read before next call to <code>SE_UpdateOSIGroundTruth(bool refetchStaticGt)</code>, which will update the data</p>
 </li>
 </ol>
 </div>
@@ -8103,16 +8103,35 @@ Set/change object to focus on</p>
 <p><strong>Note:</strong></p>
 </div>
 <div class="paragraph">
-<p><code>SE_UpdateOSIGroundTruth()</code> needs to be called after each SE_Step* in order to prepare and populate OSI data. This function will also save the OSI frame to file and send over UDP, if requested. Only after this preparation the SE_GetOSIGroundTruth* methods will get updated OSI data.</p>
+<p><code>SE_UpdateOSIGroundTruth(bool refetchStaticGt)</code> needs to be called after each <code>SE_Step*</code> in order to prepare and populate OSI data. This function will also save the OSI frame to file and send over UDP, if requested. Only after this preparation the <code>SE_GetOSIGroundTruth*</code> functions will get updated OSI data.</p>
 </div>
 <div class="paragraph">
-<p>An exception is when OSI file or UDP receiver is specified by corrsponding launch arguments <code>--osi_file [filename]</code> and <code>--osi_receiver_ip &lt;ip addr&gt;</code>. Then, OSI update will automatically be updated by esmini according to specified multiplier <code>--osi_freq &lt;number&gt;</code> (1 is default). For example, <code>--osi_freq 3</code> will update OSI every third step.</p>
+<p>An exception is when OSI file or UDP receiver is specified by corresponding launch arguments <code>--osi_file [filename]</code> and <code>--osi_receiver_ip &lt;ip addr&gt;</code>. Then, OSI groundtruth will automatically be updated by esmini according to specified multiplier <code>--osi_freq &lt;number&gt;</code>. For example, <code>--osi_freq 3</code> will update OSI every third step.</p>
 </div>
 <div class="paragraph">
 <p>The purpose of this explicit OSI update control is to support use cases where esmini is running at much higher frequency than needed for OSI data (e.g. for vehicle dynamics purposes). To optimize performance, OSI update can then be skipped most frames and only run when needed.</p>
 </div>
 <div class="paragraph">
-<p>BTW: Any additional explicit calls to <code>SE_UpdateOSIGroundTruth()</code> will be ignored. Which means that the programmer does not have to worry about additional performance penalty introduced by multiple calls to this function.</p>
+<p>The bool argument <code>refetchStaticGt</code> affects the data received from the next <code>SE_GetOSIGroundTruth*</code> functions as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SE_UpdateOSIGroundTruth(false)</code>: OSI groundtruth will not contain static data, except the first frame (after <code>SE_Init()</code> and before first call to <code>SE_Step*</code>) which always does.</p>
+</li>
+<li>
+<p><code>SE_UpdateOSIGroundTruth(true)</code>: OSI groundtruth will contain static data.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>OSI log file is not affected by the <code>refetchStaticGt</code> flag. It will always contain static data and only in first frame.</p>
+</div>
+<div class="paragraph">
+<p>Also, just for information: If OSI frequency option is set, the SE_Step* function will internally update OSI in accordance with <code>SE_UpdateOSIGroundTruth(false)</code>, as described above. For example, setting osi_freq to 1, will update OSI each frame. Hence, there is no need to call <code>SE_UpdateOSIGroundTruth*</code>, unless static data is desired.</p>
+</div>
+<div class="paragraph">
+<p>BTW: Any additional explicit calls to <code>SE_UpdateOSIGroundTruth*</code> in the same frame will be ignored. Which means that the programmer does not have to worry about additional performance penalty introduced by multiple calls to this function.</p>
 </div>
 </div>
 </div>
@@ -9561,7 +9580,7 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
     <span class="comment">// You could now retrieve the initial state of all objects before stepping the scenario</span>
 
     <span class="comment">// Initial update of complete Ground Truth, including static things</span>
-    SE_UpdateOSIGroundTruth();
+    SE_UpdateOSIGroundTruth(<span class="predefined-constant">false</span>);
 
     <span class="comment">// Fetch initial OSI struct</span>
     gt = <span class="keyword">reinterpret_cast</span>&lt;<span class="directive">const</span> osi3::GroundTruth*&gt;(SE_GetOSIGroundTruthRaw());
@@ -9587,7 +9606,7 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
         SE_StepDT(<span class="float">0</span><span class="float">.01f</span>);
 
         <span class="comment">// Further updates will only affect dynamic OSI stuff</span>
-        SE_UpdateOSIGroundTruth();
+        SE_UpdateOSIGroundTruth(<span class="predefined-constant">false</span>);
 
         <span class="comment">// Fetch OSI struct</span>
         gt = <span class="keyword">reinterpret_cast</span>&lt;<span class="directive">const</span> osi3::GroundTruth*&gt;(SE_GetOSIGroundTruthRaw());
@@ -10691,15 +10710,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.44.2"<br>
-ESMINI_GIT_REV="v2.44.2-0-d3491cdd"</p>
+<p>ESMINI_GIT_TAG="v2.45.0"<br>
+ESMINI_GIT_REV="v2.45.0-0-c843910f"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-15 10:37:35 +0100
+Last updated 2025-01-24 15:45:35 +0100
 </div>
 </div>
 </body>
