@@ -2883,16 +2883,29 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <div class="sect2">
 <h3 id="_parameter_distributions">5.5. Parameter distributions</h3>
 <div class="paragraph">
-<p>Parameter values and distributions can be specified in a separate <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4908&amp;token=ae9d9b44ab9257e817072a653b5d5e98ee0babf8#_parameter_value_distribution_file">Parameter value distribution file</a>. This is a convenient way of running multiple variations, or parameter value permutations, of a single scenario.</p>
+<p>Parameter values and distributions can be specified in a separate <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/09_reuse_mechanisms/09_03_parameter_distribution.html">Parameter value distribution file</a>. This is a convenient way of running multiple variations, or parameter value permutations, of a single scenario.</p>
 </div>
 <div class="paragraph">
 <p>Here&#8217;s an example: <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/cut-in_parameter_set.xosc">cut-in_parameter_set.xosc</a>.</p>
 </div>
 <div class="paragraph">
-<p>To run all permutations with esmini:</p>
+<p>To run all permutations with esmini, the following variants works:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in_parameter_set.xosc</code></p>
+</li>
+<li>
+<p><code>./bin/esmini --window 60 60 800 400 --param_dist ./resources/xosc/cut-in_parameter_set.xosc</code></p>
+</li>
+<li>
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc</code></p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc</code></p>
+<p>The first two will use the scenario file referred to by the <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/ParameterValueDistribution.html">ParameterValueDistriution element</a> inside the parameter value distribution file (<code>cut-in_parameter_set.xosc</code>). The third example will apply the parameter settings on the scenario defined by the <code>osc</code> launch argument, overriding any scenario reference in the specified <code>param_dist</code> file. This can be useful when a single parameter distribution applies to multiple scenarios (instead of having one parameter file for each scenario).</p>
 </div>
 <div class="paragraph">
 <p>How to abort:</p>
@@ -2909,54 +2922,60 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>For example:</p>
 </div>
 <div class="paragraph">
-<p><code>log_1_of_6.txt</code> relates to the 1:th run of 6, permutation index 0<br>
-<code>log_4_of_6.txt</code> relates to the 4:th run of 6, permutation index 3</p>
+<p><code>log_1_of_12.txt</code> relates to the 1:th run of 12, permutation index 0<br>
+<code>log_4_of_12.txt</code> relates to the 4:th run of 12, permutation index 3</p>
 </div>
 <div class="paragraph">
 <p>Of course this will apply also to custom log filenames. Example:</p>
 </div>
 <div class="paragraph">
-<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --logfile_path my_scenario.txt</code></p>
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in_parameter_set.xosc --logfile_path my_scenario.txt</code></p>
 </div>
 <div class="paragraph">
-<p>will result in <code>my_scenario_1_of_6.txt</code>&#8230;&#8203;</p>
+<p>will output <code>my_scenario_1_of_12.txt</code>, <code>my_scenario_2_of_12.txt</code> &#8230;&#8203;</p>
 </div>
 <div class="paragraph">
 <p>Also any recording (.dat), osi and csv files will be named in similar way. Example:</p>
 </div>
 <div class="paragraph">
-<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --record sim.dat --osi_file gt.osi --csv_logger data_log.csv</code></p>
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in_parameter_set.xosc --record sim.dat --osi_file gt.osi --csv_logger data_log.csv</code></p>
 </div>
 <div class="paragraph">
-<p>will result in complete sets of files:<br>
-<code>log_1_of_6.txt</code> &#8230;&#8203;<br>
-<code>sim_1_of_6.dat</code> &#8230;&#8203;<br>
-<code>gt_1_of_6.osi</code> &#8230;&#8203;<br>
-<code>data_log_1_of_6.csv</code> &#8230;&#8203;</p>
+<p>will output complete sets of files:<br>
+<code>log_1_of_12.txt</code> &#8230;&#8203;<br>
+<code>sim_1_of_12.dat</code> &#8230;&#8203;<br>
+<code>gt_1_of_12.osi</code> &#8230;&#8203;<br>
+<code>data_log_1_of_12.csv</code> &#8230;&#8203;</p>
 </div>
 <div class="paragraph">
 <p>To run a specific permutation only, specify index like this:</p>
 </div>
 <div class="paragraph">
-<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --param_permutation 2</code></p>
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in_parameter_set.xosc --param_permutation 2</code></p>
 </div>
 <div class="paragraph">
-<p>will run 3:rd permutation (of 6 available in this case)</p>
+<p>will run 3:rd permutation (of 12 available in this case)</p>
 </div>
 <div class="paragraph">
 <p>Save the resulting OpenSCENARIO file with populated parameter values:</p>
 </div>
 <div class="paragraph">
-<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --save_xosc</code></p>
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in_parameter_set.xosc --save_xosc</code></p>
 </div>
 <div class="paragraph">
-<p>will give <code>cut-in_1_of_6.xosc</code>&#8230;&#8203;</p>
+<p>will output all twelve scenarios <code>cut-in_1_of_12.xosc</code> &#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>To just save the scenario files quickly without executing them, add optional <code>quit</code> argument to the <code>save_osc</code> option, like this:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in_parameter_set.xosc --save_xosc quit</code></p>
 </div>
 <div class="paragraph">
 <p>To view all results in parallel, make use of replayer like this:</p>
 </div>
 <div class="paragraph">
-<p><code>./bin/esmini --headless --fixed_timestep 0.05 --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --record sim.dat ; ./bin/replayer --window 60 60 800 400 --res_path ./resources/ --file sim_ --dir .</code></p>
+<p><code>./bin/esmini --headless --fixed_timestep 0.05 --osc ./resources/xosc/cut-in_parameter_set.xosc --record sim.dat ; ./bin/replayer --window 60 60 800 400 --res_path ./resources/ --file sim_ --dir .</code></p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2974,8 +2993,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 <div class="paragraph">
 <p>Make sure to add at least the following esmini arguments:<br>
-<code>--osc &lt;scenario file&gt;</code><br>
-<code>--param_dist &lt;parameter distribution file&gt;</code><br>
+<code>--osc &lt;parameter distribution file&gt;</code><br>
 <code>--fixed_timestep &lt;timestep&gt;</code><br>
 <code>--headless</code></p>
 </div>
@@ -2983,13 +3001,13 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>Example:</p>
 </div>
 <div class="paragraph">
-<p><code>python ./scripts/run_distribution.py --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --fixed_timestep 0.05 --headless</code></p>
+<p><code>python ./scripts/run_distribution.py --osc ./resources/xosc/cut-in_parameter_set.xosc --fixed_timestep 0.05 --headless --record sim.dat</code></p>
 </div>
 <div class="paragraph">
 <p>Of course, the --headless (and --fixed_timestep) is not required. It is possible to run with viewer as well:</p>
 </div>
 <div class="paragraph">
-<p><code>python ./scripts/run_distribution.py --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --window 60 60 800 400</code></p>
+<p><code>python ./scripts/run_distribution.py --osc ./resources/xosc/cut-in_parameter_set.xosc --window 60 60 800 400</code></p>
 </div>
 <div class="paragraph">
 <p>but the windows will open on top of each other at the same location on the screen, so you need to manually move them apart to see the parallel runs. Anyway, this use case is probably not relevant so the recommendation is to run headless with fixed time step.</p>
@@ -2998,7 +3016,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>Putting it all together, execute the scenario permutations in parallel and then view the result in replayer:</p>
 </div>
 <div class="paragraph">
-<p><code>python ./scripts/run_distribution.py --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --fixed_timestep 0.05 --headless --record sim.dat ; ./bin/replayer --window 60 60 800 400 --res_path ./resources/ --file sim_ --dir .</code></p>
+<p><code>python ./scripts/run_distribution.py --osc ./resources/xosc/cut-in_parameter_set.xosc --fixed_timestep 0.05 --headless --record sim.dat ; ./bin/replayer --window 60 60 800 400 --res_path ./resources/ --file sim_ --dir .</code></p>
 </div>
 </div>
 <div class="sect3">
@@ -3007,11 +3025,11 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>To find out the number of permutations of a specific scenario and parameter distribution, use the <code>--return_nr_permutations</code> launch argument. Example:</p>
 </div>
 <div class="paragraph">
-<p><code>./bin/esmini --osc ./resources/xosc/cut-in.xosc --param_dist ./resources/xosc/cut-in_parameter_set.xosc --return_nr_permutations</code></p>
+<p><code>./bin/esmini --osc ./resources/xosc/cut-in_parameter_set.xosc --return_nr_permutations</code></p>
 </div>
 <div class="paragraph">
 <p>Output:
-<code>Nr permutations: 6</code></p>
+<code>Nr permutations: 12</code></p>
 </div>
 <div class="paragraph">
 <p>For scripters: esmini will also return the number of permutations as exit code, for simple use in scripts.
@@ -6110,8 +6128,8 @@ Options:
       Return number of permutations without executing the scenario (-1 = error)
   --save_generated_model
       Save generated 3D model (n/a when a scenegraph is loaded)
-  --save_xosc
-      Save OpenSCENARIO file with any populated parameter values (from distribution)
+  --save_xosc [mode]  (default if value omitted: continue)
+      Save OpenSCENARIO file with any populated parameter values (from distribution). Modes: quit, continue.
   --seed &lt;number&gt;
       Specify seed number for random generator
   --sensors
@@ -7510,6 +7528,13 @@ exit</code></pre>
 <div class="paragraph">
 <p>Although esmini lib is a shared library itself, it includes everything needed in terms of 3rd party functionality. It&#8217;s actally linking all dependencies statically. Think about it as a single container including everything needed, e.g. support for 3D graphics, XML, expressions, and SUMO traffic simulation. There are two advantages with this approach: 1. Getting rid of dependency to hundreds of 3rd party shared libraries and 2. The linker makes sure to only include relevant functions which reduce the size by extreme (compared to bundle individual and complete shared libraries).</p>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Note:</strong> esmini utilizes, in accordance with C++ standard, default values on some function parameters in the API. Those default values will work at least in any C++ context. For other environments like pure C, C# or Python it might be required to explicitly supply argument values.</p>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_how_to_interact_with_esmini_lib_api">13.2. How to interact with esmini lib API</h3>
@@ -8123,6 +8148,9 @@ Set/change object to focus on</p>
 <p><code>SE_UpdateOSIGroundTruth(true)</code>: OSI groundtruth will contain static data.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p><code>refetchStaticGt = false</code> is default and should be good for most use cases.</p>
 </div>
 <div class="paragraph">
 <p>OSI log file is not affected by the <code>refetchStaticGt</code> flag. It will always contain static data and only in first frame.</p>
@@ -10710,15 +10738,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.45.0"<br>
-ESMINI_GIT_REV="v2.45.0-0-c843910f"</p>
+<p>ESMINI_GIT_TAG="v2.45.1"<br>
+ESMINI_GIT_REV="v2.45.1-0-e9032d96"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-24 15:45:35 +0100
+Last updated 2025-01-30 13:06:46 +0100
 </div>
 </div>
 </body>
