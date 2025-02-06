@@ -6449,6 +6449,8 @@ Options:
       Show OSI road points. Toggle key 'y'
   --path &lt;path&gt;
       Search path prefix for assets, e.g. OpenDRIVE files. Multiple occurrences of option supported
+  --pause
+      Pause simulation after initialization. Press 'space' to start.
   --road_features [mode]  (default if value omitted: on)
       Show OpenDRIVE road features. Modes: on, off. Toggle key 'o'
   --save_generated_model
@@ -8145,7 +8147,7 @@ Set/change object to focus on</p>
 <p><code>SE_UpdateOSIGroundTruth(false)</code>: OSI groundtruth will not contain static data, except the first frame (after <code>SE_Init()</code> and before first call to <code>SE_Step*</code>) which always does.</p>
 </li>
 <li>
-<p><code>SE_UpdateOSIGroundTruth(true)</code>: OSI groundtruth will contain static data.</p>
+<p><code>SE_UpdateOSIGroundTruth(true)</code>: OSI groundtruth will contain static data, and the static data is assumed to be constant throughout the simulation.</p>
 </li>
 </ul>
 </div>
@@ -10738,15 +10740,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.45.1"<br>
-ESMINI_GIT_REV="v2.45.1-0-e9032d96"</p>
+<p>ESMINI_GIT_TAG="v2.45.2"<br>
+ESMINI_GIT_REV="v2.45.2-0-0fe937d7"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-30 13:06:46 +0100
+Last updated 2025-02-06 15:23:02 +0100
 </div>
 </div>
 </body>
