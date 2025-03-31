@@ -605,10 +605,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_command_reference">10. Command reference</a>
 <ul class="sectlevel2">
-<li><a href="#_esmini">10.1. esmini</a></li>
-<li><a href="#_replayer">10.2. replayer</a></li>
-<li><a href="#_odrviewer">10.3. odrviewer</a></li>
-<li><a href="#_plot_dat_py">10.4. plot_dat.py</a></li>
+<li><a href="#_about_options_and_config_files">10.1. About options and config files</a></li>
+<li><a href="#_esmini">10.2. esmini</a></li>
+<li><a href="#_replayer">10.3. replayer</a></li>
+<li><a href="#_odrviewer">10.4. odrviewer</a></li>
+<li><a href="#_plot_dat_py">10.5. plot_dat.py</a></li>
 </ul>
 </li>
 <li><a href="#_build_guide">11. Build guide</a>
@@ -855,7 +856,13 @@ Example:<br>
 <div class="sect2">
 <h3 id="_scripts">3.2. Scripts</h3>
 <div class="paragraph">
-<p>esmini comes with a collection of scripts for various purposes, like preprocessing of scenario files and plotting or conversion of simulation output files. The scripts are located in the <code>scripts</code> folder. A few examples:</p>
+<p>esmini comes with a collection of scripts for various purposes, like preprocessing of scenario files and plotting or conversion of simulation output files. The scripts are located in the <code>scripts</code> folder.</p>
+</div>
+<div class="paragraph">
+<p>The bash scripts (.sh) can be run in any Linux command line. In Windows you can run from Git Bash. Python scripts (*.py) is run</p>
+</div>
+<div class="paragraph">
+<p>A few examples:</p>
 </div>
 <div class="dlist">
 <dl>
@@ -4415,13 +4422,15 @@ The center lane is indicated by thick red line and reference line is indicated b
     float road_roll;      // road roll (camber) at target point
     float trail_heading;  // trail heading (only when used for trail lookups, else equals road_heading)
     float curvature;      // road curvature at steering target point
-    float speed_limit;    // speed limit given by OpenDRIVE type entry
+    float speed_limit;    // speed limit given by OpenDRIVE speed max entry in m/s
     id_t  roadId;         // target position, road ID
     id_t  junctionId;     // target position, junction ID (SE_ID_UNDEFINED if not in a junction)
     int   laneId;         // target position, lane ID
     float laneOffset;     // target position, lane offset (lateral distance from lane center)
     float s;              // target position, s (longitudinal distance along reference line)
     float t;              // target position, t (lateral distance from reference line)
+    int   road_type;      // road type given by OpenDRIVE type entry, maps to roadmanager::Road::RoadType
+    int   road_rule;      // road rule given by OpenDRIVE rule entry, maps to roadmanager::Road::RoadRule
 } SE_RoadInfo;</code></pre>
 </div>
 </div>
@@ -5229,7 +5238,7 @@ Parameters:
 <p>The model is fully parameterized to suit the desired need of each simulation. For all properties see <code>NaturalDriver</code> in <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/Catalogs/Controllers/ControllerCatalog.xosc">Controllers/ControllerCatalog.xosc</a>.</p>
 </div>
 <div class="paragraph">
-<p>Example usage can be found in <a href="https://github.com/esmini/esmini/blob/master/scripts/scenario_scripts/generate_traffic.py" class="bare">https://github.com/esmini/esmini/blob/master/scripts/scenario_scripts/generate_traffic.py</a></p>
+<p>Example usage can be found in <a href="https://github.com/esmini/esmini/blob/master/scripts/scenario_scripts/test_traffic.py" class="bare">https://github.com/esmini/esmini/blob/master/scripts/scenario_scripts/test_traffic.py</a></p>
 </div>
 <div class="paragraph">
 <p>Demo (running scenario <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/highway_driver.xosc" class="bare">https://github.com/esmini/esmini/blob/master/resources/xosc/highway_driver.xosc</a>):</p>
@@ -6013,9 +6022,382 @@ id_t SE_GetJunctionIdFromString(<span class="directive">const</span> <span class
 <h2 id="_command_reference">10. Command reference</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_esmini">10.1. esmini</h3>
+<h3 id="_about_options_and_config_files">10.1. About options and config files</h3>
+<div class="paragraph">
+<p>esmini, replayer and odrviewer can be controlled and configured by options. Even the input file (e.g. OpenSCENARIO file) is specified as an option.</p>
+</div>
+<div class="paragraph">
+<p>Available options are listed later in this section, grouped by application.</p>
+</div>
+<div class="paragraph">
+<p>Certain options, such as <code>path</code>, supports multiple values, denoted by '&#8230;&#8203;' in the command help. For those options the values can be specified sequentially. Example:<br>
+<code>--path /tmp/models /tmp/kalles_models</code></p>
+</div>
+<div class="paragraph">
+<p>Other options supports only one value. For those options the last parsed occurrence wins. Example:<br>
+<code>--logfile_path my_log.txt --logfile_path kalles_log.txt</code><br>
+will create 'kalles_log.txt'</p>
+</div>
+<div class="paragraph">
+<p>Options can be specified three ways:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From command line as application arguments, for example: <code>esmini --osc my_scenario.xosc --disable_stdout</code></p>
+</li>
+<li>
+<p>By API function SE_SetOption(), see <a href="#_program_options">Program Options</a></p>
+</li>
+<li>
+<p>In config file, see more info below</p>
+</li>
+</ol>
+</div>
 <div class="sect3">
-<h4 id="_launch_commands">10.1.1. Launch commands</h4>
+<h4 id="_config_file">10.1.1. Config file</h4>
+<div class="paragraph">
+<p>The config file is basically a container for option presets. It can be used to apply common settings for esmini applications. For example, if you often use a specific window size, e.g. --window 60 60 800 400, then you can put it in a config file. Configuration file is structured with the application name as the root, followed by option-value pairs. Custom configuration file can be named and placed as needed.</p>
+</div>
+<div class="paragraph">
+<p>Settings in config files can be overridden, both by other config files or by options specified on command line. Option files are parsed in order of appearance, last parsed option occurrence wins.</p>
+</div>
+<div class="paragraph">
+<p>From version 2.46.0 esmini comes with a default <code>config.yml</code> located in esmini root folder. It contains just a few settings, e.g. default window position and size (60 60 800 400). Launching esmini from esmini root folder as:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --osc ./resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>will then show cut-in scenario in a 800x400 window.</p>
+</div>
+<div class="paragraph">
+<p>Exact content of the config.yml will vary over time, but initial version looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini:
+  window: 60 60 800 400
+
+replayer:
+  window: 60 60 800 400
+  res_path: ./resources
+  file: sim.dat
+
+odrviewer:
+  window: 60 60 800 400</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want another size of the window you have at least three options:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Edit the config.yml</p>
+</li>
+<li>
+<p>Provide the <code>window</code> option values at command line, example:
+<code>./esmini --window 50 100 1400 500</code></p>
+</li>
+<li>
+<p>Create a custom config file, e.g. my_config.yml, including your preferred values</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Example of my_config.yml:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini:
+  window: 50 100 1400 500
+  logfile_path: my_log.txt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly, the scenario file can also be made part of default config file by adding <code>osc: ./resources/xosc/cut-in.xosc</code> to the config.yml. Or you can add it your custom config file above, like following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini:
+  window: 50 100 1400 500
+  logfile_path: my_log.txt
+  osc: ./resources/xosc/cut-in.xosc</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Any number of config files can be specified as an option (<code>config_file_path</code>), either from another config file or at command line.</p>
+</div>
+<div class="paragraph">
+<p>Example how to incorporate a custom config file on top of the default one:</p>
+</div>
+<div class="paragraph">
+<p><code>./esmini --config_file_path my_config.yml</code></p>
+</div>
+<div class="paragraph">
+<p>You can also add an entry in the default <code>config.yml</code>, example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini:
+  window: 50 100 1400 500
+  logfile_path: my_log.txt
+  config_file_path: my_config.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, running:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini</code></p>
+</div>
+<div class="paragraph">
+<p>will load <code>cut-in.xosc</code>, using the one specified in default config. Window will be <code>50 100 1400 500</code> as specified in my_config, overriding the values in the default config.yml. The log file will be named my_log.txt as specified in my_config, overriding esmini default log file path.</p>
+</div>
+<div class="paragraph">
+<p>Custom configuration file paths can be defined in the ESMINI_CONFIG_FILE environment variable. Multiple paths, delimited by ';' (Windows) or ':' (Linux/macOS), are permitted, which is particularly useful in Docker or similar environments.</p>
+</div>
+<div class="paragraph">
+<p>Default config file is always parsed first, then the ones specified in the environment variable, and finally the ones specified on command line.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Note:</strong></p>
+</div>
+<div class="paragraph">
+<p>The default 'config.yml' is applied automatically, while other config files needs to be specified explicitly.</p>
+</div>
+<div class="paragraph">
+<p>Hence, although legit to add any setting to the default 'config.yml' file, it&#8217;s recommended to separate basic common settings from temporary ones.</p>
+</div>
+<div class="paragraph">
+<p>For example, create a 'my_settings.yml' for temporary preferences while putting permanent settings into 'config.yml'.</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --osc ./resources/xosc/cut-in.xosc</code><br>
+will apply basic settings only, while<br></p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --osc ./resources/xosc/cut-in.xosc --config_file_path my_settings.yml</code><br>
+will also apply additional settings from the custom file.</p>
+</div>
+<div class="paragraph">
+<p>This strategy avoids unexpected forgotten settings from a previous session being applied automatically.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_whitespace_support">10.1.2. Whitespace support</h4>
+<div class="paragraph">
+<p>In option values any space will result in separation in multiple arguments.</p>
+</div>
+<div class="paragraph">
+<p>Bad example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini:
+  path: ./resources/my scenarios /tmp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>./resources/my</code>, <code>scenarios</code>, <code>/tmp</code> is added as separate search paths. Probably not intended.</p>
+</div>
+<div class="paragraph">
+<p>If space is needed, e.g. for file or directory paths, just enclose in quotes "".</p>
+</div>
+<div class="paragraph">
+<p>Good example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini:
+  path: &quot;./resources/my scenarios&quot; /tmp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>./resources/my scenarios</code>, <code>/tmp</code> is added as separate search paths</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_precedence">10.1.3. Precedence</h4>
+<div class="paragraph">
+<p>As mentioned, options that supports multiple values will store and access values according to order of appearance. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>--path /tmp/my_car_models</code> <code>--path /tmp/kalles_car_models</code></p>
+</div>
+<div class="paragraph">
+<p>esmini will look in <code>kalles_car_models</code> first, and only if referred model is not found there it will continue looking in <code>my_car_models</code>.</p>
+</div>
+<div class="paragraph">
+<p>Illustrative example:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/options.png" alt="options">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mutual_exclusion">10.1.4. Mutual exclusion</h4>
+<div class="paragraph">
+<p>Dependencies exists among some options. Examples:</p>
+</div>
+<div class="sect4">
+<h5 id="_headless_and_window">'headless' and 'window'</h5>
+<div class="paragraph">
+<p>'headless' overrides any preceding 'window' arguments, no rendering will happen. Conversely, 'window' following 'headless' results in an invisible window for off-screen rendering (e.g. saving images to file or grab pixels via API).</p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --headless --fixed_timestep 0.05 --osc ./resources/xosc/cut-in.xosc</code><br>
+no window will be created and no rendering performed, execution will be fast.</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --headless --window 60 60 800 400 --fixed_timestep 0.05 --osc ./resources/xosc/cut-in.xosc</code><br>
+off-screen window will be created and rendered to, execution will be slower.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_osc_and_osc_str">'osc' and 'osc_str'</h5>
+<div class="paragraph">
+<p>The last specified option prevails.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_config_file_usage_example_1_easy_replaying">10.1.5. Config file usage example 1: Easy replaying</h4>
+<div class="sect4">
+<h5 id="_without_config">Without config</h5>
+<div class="paragraph">
+<p>The typical procedure to create and replay a scenario recording (DAT file) is as follows:</p>
+</div>
+<div class="paragraph">
+<p>Create DAT file:<br>
+<code>./bin/esmini --headless --fixed_timestep 0.05 --record sim.dat --osc ./resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>Play DAT file:<br>
+<code>./bin/replayer --window 60 60 800 400 --res_path ./resources --file sim.dat</code></p>
+</div>
+<div class="sect5">
+<h6 id="_with_config">With config</h6>
+<div class="paragraph">
+<p>Create <code>cfg_dat.yml</code> in esmini root as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini:
+  headless: true
+  record: sim.dat
+  fixed_timestep: 0.05
+
+replayer:
+  window: 60 60 800 400
+  res_path: ./resources
+  file: sim.dat</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create DAT file:<br>
+<code>./bin/esmini --config_file_path ./cfg_dat.yml --osc ./resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>Play DAT file:<br>
+<code>./bin/replayer --config_file_path ./cfg_dat.yml</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_config_file_usage_example_2_easy_video_creation">10.1.6. Config file usage example 2: Easy video creation</h4>
+<div class="sect4">
+<h5 id="_without_config_2">Without config</h5>
+<div class="paragraph">
+<p>The typical procedure to create a video clip from a scenario is as follows:</p>
+</div>
+<div class="paragraph">
+<p>Create image files:<br>
+<code>./bin/esmini --headless --window 0 0 1920 1080 --fixed_timestep 0.016667 --screen_capture --osc ./resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>A series of TGA images (screen_shot_00000.tga, screen_shot_00001.tga &#8230;&#8203;) is created in current folder. Resolution in this case is 1920x1080 (HD). Timestep 0.016668 correlates to 60 fps.</p>
+</div>
+<div class="paragraph">
+<p>There are many ways to convert the images into a video clip. Example using ffmpeg:</p>
+</div>
+<div class="paragraph">
+<p><code>ffmpeg -f image2 -framerate 60 -i screen_shot_%5d.tga -c:v libx264 -vf format=yuv420p -crf 15 out.mp4</code></p>
+</div>
+<div class="paragraph">
+<p>See <a href="#_create_video_clip_of_a_scenario">Create video clip of a scenario</a> for more info on ffmpeg.</p>
+</div>
+<div class="sect5">
+<h6 id="_with_config_2">With config</h6>
+<div class="paragraph">
+<p>It&#8217;s a bit tricky to remember resolution and timestep settings for esmini. Now you can create config files for favorite settings. For example:</p>
+</div>
+<div class="paragraph">
+<p>Create <code>cfg_hd.yml</code> in esmini root as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini:
+  headless: true
+  window: 0 0 1920 1080
+  fixed_timestep: 0.016667
+  capture_screen: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and <code>cfg_sd.yml</code> as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini:
+  headless: true
+  window: 0 0 720 480
+  fixed_timestep: 0.033333
+  capture_screen: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create images for HD/60fps:<br>
+<code>./bin/esmini --config_file_path ./cfg_hd.yml --osc ./resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>and SD/30fps:<br>
+<code>./bin/esmini --config_file_path ./cfg_sd.yml --osc ./resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>You still need to supply corresponding <code>framerate</code> argument to ffmpeg:<br></p>
+</div>
+<div class="paragraph">
+<p><code>ffmpeg -f image2 -framerate 60 -i screen_shot_%5d.tga -c:v libx264 -vf format=yuv420p -crf 15 out.mp4</code></p>
+</div>
+<div class="paragraph">
+<p>and</p>
+</div>
+<div class="paragraph">
+<p><code>ffmpeg -f image2 -framerate 30 -i screen_shot_%5d.tga -c:v libx264 -vf format=yuv420p -crf 15 out.mp4</code></p>
+</div>
+<div class="paragraph">
+<p>respectively.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_esmini">10.2. esmini</h3>
+<div class="sect3">
+<h4 id="_launch_commands">10.2.1. Launch commands</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>Usage: esmini [options]
@@ -6036,14 +6418,16 @@ Options:
       Log data for each vehicle in ASCII csv format
   --collision
       Enable global collision detection, potentially reducing performance
-  --custom_camera &lt;position&gt;
-      Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
-  --custom_fixed_camera &lt;position and optional orientation&gt;
-      Additional custom fixed camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
-  --custom_fixed_top_camera &lt;position and rotation&gt;
-      Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
-  --custom_light &lt;position and intensity&gt;
-      Additional custom light source &lt;x,y,z,intensity&gt; intensity range 0..1 (multiple occurrences supported)
+  --config_file_path [path]...  (default if value omitted: config.yml)
+      Configuration file path/filename, e.g. &quot;../my_config.txt&quot;
+  --custom_camera &lt;position&gt;...
+      Additional custom camera position &lt;x,y,z&gt;[,h,p]
+  --custom_fixed_camera &lt;position and optional orientation&gt;...
+      Additional custom fixed camera position &lt;x,y,z&gt;[,h,p]
+  --custom_fixed_top_camera &lt;position and rotation&gt;...
+      Additional custom top camera &lt;x,y,z,rot&gt;
+  --custom_light &lt;position and intensity&gt;...
+      Additional custom light source &lt;x,y,z,intensity&gt; intensity range 0..1
   --disable_controllers
       Disable controllers
   --disable_pline_interpolation
@@ -6067,7 +6451,7 @@ Options:
   --headless
       Run without viewer window
   --help
-      Show this help message
+      Show this help message (-h works as well)
   --hide_route_waypoints
       Disable route waypoint visualization. Toggle key 'R'
   --hide_trajectories
@@ -6098,6 +6482,10 @@ Options:
       OpenSCENARIO XML string
   --osg_screenshot_event_handler
       Revert to OSG default jpg images ('c'/'C' keys handler)
+  --osi_crop_dynamic &lt;id,radius&gt;...
+      Crop the dynamic osi data around the given object id with given radius
+  --osi_exclude_ghost
+      Excludes ghost from osi dynamic osi ground truth
   --osi_file [filename]  (default if value omitted: ground_truth.osi)
       Save osi trace file
   --osi_freq &lt;frequency&gt;
@@ -6108,14 +6496,16 @@ Options:
       Show OSI road points. Toggle key 'y'
   --osi_receiver_ip [IP address]  (default if value omitted: 127.0.0.1)
       IP address where to send OSI UDP packages
+  --osi_static_reporting [mode]  (default if value omitted: 0)
+      Decide how the static data should be reported, 0=Default (first frame), 1=API (expose on API) 2=API_AND_LOG (Always log)
   --param_dist &lt;filename&gt;
       Run variations of the scenario according to specified parameter distribution file
   --param_permutation &lt;index&gt;
       Run specific permutation of parameter distribution, index in range (0 .. NumberOfPermutations-1)
   --pause
       Pause simulation after initialization
-  --path &lt;path&gt;
-      Search path prefix for assets, e.g. OpenDRIVE files. Multiple occurrences of option supported
+  --path &lt;path&gt;...
+      Search path prefix for assets, e.g. OpenDRIVE files.
   --player_server
       Launch UDP server for action/command injection
   --plot [mode]  (default if value omitted: asynchronous)
@@ -6163,7 +6553,7 @@ https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_runtime_key_shortcut_commands">10.1.2. Runtime key shortcut commands</h4>
+<h4 id="_runtime_key_shortcut_commands">10.2.2. Runtime key shortcut commands</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>Key shortcuts
@@ -6236,10 +6626,10 @@ Mouse control
 </div>
 </div>
 <div class="sect2">
-<h3 id="_replayer">10.2. replayer</h3>
+<h3 id="_replayer">10.3. replayer</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>Usage: replayer [options]
+<pre class="CodeRay highlight"><code>Usage:  [options]
 Options:
   --file &lt;filename&gt;
       Simulation recording data file (.dat)
@@ -6251,12 +6641,14 @@ Options:
       Continuous screen capture. Warning: Many jpeg files will be created
   --collision [mode]  (default if value omitted: pause)
       Detect collisions and optionally pauses the replay &lt;pause/continue&gt; (pause is default)
-  --custom_camera &lt;position&gt;
-      Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
-  --custom_fixed_camera &lt;position and optional orientation&gt;
-      Additional custom fixed camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
-  --custom_fixed_top_camera &lt;position and rotation&gt;
-      Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
+  --config_file_path [path]...  (default if option or value omitted: config.yml)
+      Configuration file path/filename, e.g. &quot;../my_config.txt&quot;
+  --custom_camera &lt;position&gt;...
+      Additional custom camera position &lt;x,y,z&gt;[,h,p]
+  --custom_fixed_camera &lt;position and optional orientation&gt;...
+      Additional custom fixed camera position &lt;x,y,z&gt;[,h,p]
+  --custom_fixed_top_camera &lt;position and rotation&gt;...
+      Additional custom top camera &lt;x,y,z,rot&gt;
   --dir &lt;path&gt;
       Directory containing replays to overlay, pair with &quot;file&quot; argument, where &quot;file&quot; is .dat filename match substring
   --ground_plane
@@ -6265,11 +6657,13 @@ Options:
       Do not apply textures on any generated road model (set colors instead as for missing textures)
   --headless
       Run without viewer window
+  --help
+      Show this help message (-h works as well)
   --hide_trajectories
       Hide trajectories from start (toggle with key 'n')
   --info_text [mode]  (default if option or value omitted: 1)
       Show on-screen info text. Modes: 0=None 1=current 2=per_object 3=both. Toggle key 'i'
-  --logfile_path [path]  (default if value omitted: replayer_log.txt)
+  --logfile_path [path]  (default if option or value omitted: replayer_log.txt)
       Logfile path/filename, e.g. &quot;../my_log.txt&quot;
   --no_ghost
       Remove ghost entities
@@ -6277,8 +6671,8 @@ Options:
       Remove only ghost model, show trajectory (toggle with key 'g')
   --osg_screenshot_event_handler
       Revert to OSG default jpg images ('c'/'C' keys handler)
-  --path &lt;path&gt;
-      Search path prefix for assets, e.g. OpenDRIVE files. Multiple occurrences of option supported
+  --path &lt;path&gt;...
+      Search path prefix for assets, e.g. OpenDRIVE files.
   --quit_at_end
       Quit application when reaching end of scenario
   --remove_object &lt;id&gt;
@@ -6303,6 +6697,8 @@ Options:
       Entity visualization: &quot;model&quot;(default)/&quot;boundingbox&quot;/&quot;both&quot;
   --use_signs_in_external_model
       When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
+  --version
+      Show version and quit
 
 Additional OSG graphics options:
   --clear-color &lt;color&gt;                      Set the background color of the viewer in the form &quot;r,g,b[,a]&quot;
@@ -6388,23 +6784,25 @@ Recommended usage:
 </div>
 </div>
 <div class="sect2">
-<h3 id="_odrviewer">10.3. odrviewer</h3>
+<h3 id="_odrviewer">10.4. odrviewer</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>Usage: odrviewer [options]
 Options:
   --help
-      Show this help message
+      Show this help message (-h works as well)
   --odr &lt;odr_filename&gt;
       OpenDRIVE filename (required)
   --aa_mode [mode]  (default if value omitted: 4)
       Anti-alias mode=number of multisamples (subsamples, 0=off)
   --capture_screen
       Continuous screen capture. Warning: Many .tga files will be created
-  --custom_fixed_camera &lt;position and optional orientation&gt;
-      Additional custom camera position &lt;x,y,z&gt;[,h,p] (multiple occurrences supported)
-  --custom_fixed_top_camera &lt;position and rotation&gt;
-      Additional custom top camera &lt;x,y,z,rot&gt; (multiple occurrences supported)
+  --config_file_path [path]...  (default if option or value omitted: config.yml)
+      Configuration file path/filename, e.g. &quot;../my_config.txt&quot;
+  --custom_fixed_camera &lt;position and optional orientation&gt;...
+      Additional custom camera position &lt;x,y,z&gt;[,h,p]
+  --custom_fixed_top_camera &lt;position and rotation&gt;...
+      Additional custom top camera &lt;x,y,z,rot&gt;
   --density [density]  (default if value omitted: 1.000000)
       density (cars / 100 m)
   --enforce_generate_model
@@ -6447,8 +6845,8 @@ Options:
       Show OSI road lines. Toggle key 'u'
   --osi_points
       Show OSI road points. Toggle key 'y'
-  --path &lt;path&gt;
-      Search path prefix for assets, e.g. OpenDRIVE files. Multiple occurrences of option supported
+  --path &lt;path&gt;...
+      Search path prefix for assets, e.g. OpenDRIVE files.
   --pause
       Pause simulation after initialization. Press 'space' to start.
   --road_features [mode]  (default if value omitted: on)
@@ -6551,7 +6949,7 @@ Mouse control
 </div>
 </div>
 <div class="sect2">
-<h3 id="_plot_dat_py">10.4. plot_dat.py</h3>
+<h3 id="_plot_dat_py">10.5. plot_dat.py</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>usage: plot_dat.py [-h] [--x_axis X_AXIS] [--equal_axis_aspect] [--derive] [--dots] (--list_params | --param PARAM) &lt;filename&gt;
@@ -8079,6 +8477,54 @@ Set/change object to focus on</p>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_osi_settings">OSI settings</h5>
+<div class="paragraph">
+<p>The following settings are available for OSI via API:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SE_SetOSIFrequency(int frequency)</code><br>
+how frequent the OSI data shall be updated (<strong>default</strong> 1, i.e. every frame)</p>
+</li>
+<li>
+<p><code>SE_SetOSIStaticReportMode(SE_OSIStaticReportMode mode)</code><br>
+how to report and log static objects in OSI (<strong>default</strong> is to report and log only once)</p>
+</li>
+<li>
+<p><code>SE_ExcludeGhostFromGroundTruth()</code><br>
+exclude ghost object from OSI groundtruth (<strong>default</strong> is to include ghost)</p>
+</li>
+<li>
+<p><code>SE_CropOSIDynamicGroundTruth(int id, double radius)</code><br>
+crop dynamic OSI groundtruth around an entity (<strong>default</strong> is to include all)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Libraries/esminiLib/esminiLib.hpp">esminiLib.hpp</a> for more API details.</p>
+</div>
+<div class="paragraph">
+<p>Corresponding functions are available via command line arguments:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>--osi_freq &lt;frequency&gt;</code></p>
+</li>
+<li>
+<p><code>--osi_static_reporting_mode &lt;mode&gt;</code></p>
+</li>
+<li>
+<p><code>--osi_exclude_ghost</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See <a href="#_esmini">esmini</a>, or run: <code>esmini --help</code>, for full option description.</p>
+</div>
+</div>
+<div class="sect4">
 <h5 id="_osi_via_udp">OSI via UDP</h5>
 <div class="paragraph">
 <p>By launch argument <code>--osi_receiver_ip &lt;ip addr&gt;</code> you can have esmini sending OSI packeges in UDP frames. The socket port is hardcoded but can of course be changed in the code (OSI_OUT_PORT in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/OSIReporter.cpp)">OSIReporter.cpp</a>).</p>
@@ -8103,26 +8549,16 @@ Set/change object to focus on</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The "raw" version will simply return a pointer to the already existing OSI data structure. No additional data copying will be performed. This is the preferered option if:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>The application is coded in C++, making the Protobuf data structures fully compatible</p>
-</li>
-<li>
-<p>The data is read before next call to <code>SE_UpdateOSIGroundTruth(bool refetchStaticGt)</code>, which will update the data</p>
-</li>
-</ol>
+<p>The "raw" version will simply return a pointer to the already existing OSI data structure, no additional data copying will be performed. The "raw" option is the preferered option if the application is coded in C++, making the Protobuf data structures fully compatible.</p>
 </div>
 <div class="paragraph">
-<p>See code example: <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/code-examples/osi-groundtrut">osi-groundtruth</a>, also covered in User guide - Hello world tutorial <a href="https://esmini.github.io/#_osi_groundtruth">OSI groundtruth</a>.</p>
+<p>See code example: <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/code-examples/osi-groundtruth">osi-groundtruth</a>, also covered in User guide - Hello world tutorial <a href="https://esmini.github.io/#_osi_groundtruth">OSI groundtruth</a>.</p>
 </div>
 <div class="paragraph">
 <p>The second function will fetch the OSI data serialized into a string. This will be a true copy and also generic format which can be parsed in any environment, independent of OS and programming language. The backside is additional resources needed for the copying and serialization.</p>
 </div>
 <div class="paragraph">
-<p>See code examples in ScenarioEngineDLL test cases, e.g: <a href="https://github.com/esmini/esmini/blob/7d1249dc65883cb9eebb4a611ea401434b2b0e49/EnvironmentSimulator/Unittest/ScenarioEngineDll_test.cpp#L741-L786">receive_GroundTruth</a>.</p>
+<p>See code examples in ScenarioEngineDLL test cases, e.g: <a href="https://github.com/esmini/esmini/blob/97d5f6216c53655545b5466400d00e98d99d25c2/EnvironmentSimulator/Unittest/ScenarioEngineDll_test.cpp#L933-L975">receive_GroundTruth</a>.</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -8130,38 +8566,29 @@ Set/change object to focus on</p>
 <p><strong>Note:</strong></p>
 </div>
 <div class="paragraph">
-<p><code>SE_UpdateOSIGroundTruth(bool refetchStaticGt)</code> needs to be called after each <code>SE_Step*</code> in order to prepare and populate OSI data. This function will also save the OSI frame to file and send over UDP, if requested. Only after this preparation the <code>SE_GetOSIGroundTruth*</code> functions will get updated OSI data.</p>
+<p>OSI groundtruth reported via the API always contains both static and dynamic objects in the first frame. By default subsequent frames will only contain dynamic objects. The same data is also stored in the OSI log file, given that the log file is enabled.</p>
 </div>
 <div class="paragraph">
-<p>An exception is when OSI file or UDP receiver is specified by corresponding launch arguments <code>--osi_file [filename]</code> and <code>--osi_receiver_ip &lt;ip addr&gt;</code>. Then, OSI groundtruth will automatically be updated by esmini according to specified multiplier <code>--osi_freq &lt;number&gt;</code>. For example, <code>--osi_freq 3</code> will update OSI every third step.</p>
+<p>However, the behavior can be configured as follows:</p>
 </div>
 <div class="paragraph">
-<p>The purpose of this explicit OSI update control is to support use cases where esmini is running at much higher frequency than needed for OSI data (e.g. for vehicle dynamics purposes). To optimize performance, OSI update can then be skipped most frames and only run when needed.</p>
-</div>
-<div class="paragraph">
-<p>The bool argument <code>refetchStaticGt</code> affects the data received from the next <code>SE_GetOSIGroundTruth*</code> functions as follows:</p>
+<p>The dynamic objects are reported every frame. How the static objects are reported and logged can be controlled by <code>SE_SetOSIStaticReportMode</code> function. The available options are according to the enum <code>SE_OSIStaticReportMode</code>:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>SE_UpdateOSIGroundTruth(false)</code>: OSI groundtruth will not contain static data, except the first frame (after <code>SE_Init()</code> and before first call to <code>SE_Step*</code>) which always does.</p>
+<p><code>SE_OSIStaticReportMode::DEFAULT</code> - Report and log static objects only once</p>
 </li>
 <li>
-<p><code>SE_UpdateOSIGroundTruth(true)</code>: OSI groundtruth will contain static data, and the static data is assumed to be constant throughout the simulation.</p>
+<p><code>SE_OSIStaticReportMode::API</code> - Report static objects in every frame, but only once in the log file</p>
+</li>
+<li>
+<p><code>SE_OSIStaticReportMode::API_AND_LOG</code> - Report and log static objects every frame</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><code>refetchStaticGt = false</code> is default and should be good for most use cases.</p>
-</div>
-<div class="paragraph">
-<p>OSI log file is not affected by the <code>refetchStaticGt</code> flag. It will always contain static data and only in first frame.</p>
-</div>
-<div class="paragraph">
-<p>Also, just for information: If OSI frequency option is set, the SE_Step* function will internally update OSI in accordance with <code>SE_UpdateOSIGroundTruth(false)</code>, as described above. For example, setting osi_freq to 1, will update OSI each frame. Hence, there is no need to call <code>SE_UpdateOSIGroundTruth*</code>, unless static data is desired.</p>
-</div>
-<div class="paragraph">
-<p>BTW: Any additional explicit calls to <code>SE_UpdateOSIGroundTruth*</code> in the same frame will be ignored. Which means that the programmer does not have to worry about additional performance penalty introduced by multiple calls to this function.</p>
+<p>OSI groundtruth will be up to date automatically after each <code>SE_Step*</code> depending on the OSI frequency, which can be changed to facilitate use-cases where esmini is running at much higher frequency than needed for OSI data (e.g. for vehicle dynamics purposes). To optimize performance, OSI update can then be skipped most frames and only run when needed. For example: <code>SE_SetOSIFrequency(20);</code> will update OSI data only every 20th frame.</p>
 </div>
 </div>
 </div>
@@ -9604,18 +10031,14 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
     <span class="directive">const</span> osi3::GroundTruth* gt;
 
     SE_EnableOSIFile(<span class="integer">0</span>);  <span class="comment">// 0 or &quot;&quot; will result in default filename, ground_truth.osi</span>
+    SE_SetOSIStaticReportMode(SE_OSIStaticReportMode::DEFAULT);
 
     SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_simple.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
 
-    <span class="comment">// You could now retrieve the initial state of all objects before stepping the scenario</span>
-
-    <span class="comment">// Initial update of complete Ground Truth, including static things</span>
-    SE_UpdateOSIGroundTruth(<span class="predefined-constant">false</span>);
-
-    <span class="comment">// Fetch initial OSI struct</span>
+    <span class="comment">// Fetch initial OSI struct, this will also update the OSI data</span>
     gt = <span class="keyword">reinterpret_cast</span>&lt;<span class="directive">const</span> osi3::GroundTruth*&gt;(SE_GetOSIGroundTruthRaw());
 
-    <span class="comment">// Lane boundaries (static road info only available in first OSI frame</span>
+    <span class="comment">// Lane boundaries (static road info only available in first OSI frame)</span>
     printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">lane boundaries: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;lane_boundary_size());
     <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; gt-&gt;lane_boundary_size(); j++)
     {
@@ -9633,20 +10056,16 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 
     <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">4</span>; i++)
     {
-        SE_StepDT(<span class="float">0</span><span class="float">.01f</span>);
-
-        <span class="comment">// Further updates will only affect dynamic OSI stuff</span>
-        SE_UpdateOSIGroundTruth(<span class="predefined-constant">false</span>);
-
-        <span class="comment">// Fetch OSI struct</span>
-        gt = <span class="keyword">reinterpret_cast</span>&lt;<span class="directive">const</span> osi3::GroundTruth*&gt;(SE_GetOSIGroundTruthRaw());
+        SE_StepDT(<span class="float">0</span><span class="float">.01f</span>);  <span class="comment">// ground truth will be automatically updated each step if we have either an OSIFile or fetched a pointer to the</span>
+                           <span class="comment">// osi3::GroundTruth struct</span>
 
         <span class="comment">// Print timestamp</span>
         printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Frame %d timestamp: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
                i + <span class="integer">1</span>,
                <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().seconds()) + <span class="float">1</span>E-<span class="integer">9</span> * <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().nanos()));
 
-        <span class="comment">// Static content such as lane boundaries should be 0 at this point</span>
+        <span class="comment">// Static content such as lane boundaries should be 0 at this point (we have SE_OSIStaticReportMode::DEFAULT, change to API or API_AND_LOG to</span>
+        <span class="comment">// get static data)</span>
         printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">lane boundaries: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;lane_boundary_size());
 
         <span class="comment">// Road markings, e.g. zebra lines</span>
@@ -10740,15 +11159,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.45.2"<br>
-ESMINI_GIT_REV="v2.45.2-0-0fe937d7"</p>
+<p>ESMINI_GIT_TAG="v2.46.0"<br>
+ESMINI_GIT_REV="v2.46.0-0-f6bd0e41"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-06 15:23:02 +0100
+Last updated 2025-03-31 07:32:52 +0200
 </div>
 </div>
 </body>
