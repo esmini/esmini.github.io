@@ -8477,6 +8477,26 @@ Set/change object to focus on</p>
 </div>
 </div>
 <div class="sect4">
+<h5 id="_osi_timestamps">OSI timestamps</h5>
+<div class="paragraph">
+<p>By default, the OSI timestamps are set to the same value as the simulation time. The timestamps can be explicity set for each frame via <code>SE_SetOSITimeStamp(unsigned long long int nanoseconds)</code>. This will set the time for the upcoming frame, and should thus be set prior to each call to <code>SE_Step*</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> If any OSI related function call has been made prior to <code>SE_Init*</code> esmini will activate OSI and the OSI data will be populated during the <code>SE_Init*</code> call. First OSI timestamp in the logs defaults to 0.
+If there is a need for the first timestamp in OSI to be something else than 0:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>There must be no OSI related function calls prior to <code>SE_Init*</code>, and</p>
+</li>
+<li>
+<p><code>SE_SetOSITimeStamp</code> has to be called after <code>SE_Init*</code> and before first call to any OSI function that will trigger OSI data to be populated. See code example in test case <a href="https://github.com/esmini/esmini/blob/e2cc749a4218facf37af72ef66af7150e050f624/EnvironmentSimulator/Unittest/ScenarioEngineDll_test.cpp#L1962">SetOSITimestampTest</a>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
 <h5 id="_osi_settings">OSI settings</h5>
 <div class="paragraph">
 <p>The following settings are available for OSI via API:</p>
@@ -11159,15 +11179,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.46.0"<br>
-ESMINI_GIT_REV="v2.46.0-0-f6bd0e41"</p>
+<p>ESMINI_GIT_TAG="v2.46.1"<br>
+ESMINI_GIT_REV="v2.46.1-0-31f92402"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-31 07:32:52 +0200
+Last updated 2025-04-24 13:48:37 +0200
 </div>
 </div>
 </body>
