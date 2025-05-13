@@ -3110,152 +3110,180 @@ After executing the above the exit code can be inspected/verified from shell as 
 <p>The driving direction and entity direction can be controlled by trajectory configuration combined with entity speed and heading. It&#8217;s possible to follow trajectory in opposite direction and also to drive forward or reverse along the trajectory. The table below lists some combinations and possibilities.</p>
 </div>
 <table class="tableblock frame-all grid-all stripes-even stretch">
+<caption class="title">Table 1. FollowTrajectory action motion direction based on input</caption>
 <colgroup>
-<col style="width: 13.3333%;">
-<col style="width: 13.3333%;">
-<col style="width: 13.3333%;">
-<col style="width: 13.3333%;">
-<col style="width: 6.6666%;">
-<col style="width: 13.3333%;">
-<col style="width: 13.3333%;">
-<col style="width: 13.3336%;">
+<col style="width: 5.5555%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 5.5555%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1113%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">trajectory type</th>
-<th class="tableblock halign-left valign-top">specified heading</th>
-<th class="tableblock halign-left valign-top">time-stamps</th>
-<th class="tableblock halign-left valign-top">speed sign</th>
-<th class="tableblock halign-left valign-top">⇒</th>
-<th class="tableblock halign-left valign-top">entity heading</th>
-<th class="tableblock halign-left valign-top">moving direction</th>
-<th class="tableblock halign-left valign-top">entity (in tc)</th>
-</tr>
-</thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock">input</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">⇒</p></td>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock">output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">trajectory type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">heading rel. traj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">timestamps</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">speed</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">heading rel. traj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">speed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">moving dir. rel. traj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">entity (in tc)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">clothoid</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">n/a</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n/a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt; 0</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">bicycle1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">clothoid</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">n/a</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n/a</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">scooter1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt; 0</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">car_white</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">car_red</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 *</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ignored</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt; 0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">car_blue</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt; 0</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">car_yellow</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">van_red</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 *</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ignored</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt; 0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">motorbike</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt; 0</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">car_trailer</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">semi_tractor</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1 *</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ignored</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">truck_yellow</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>* calculated based on entity heading sign</p>
-</div>
 <div class="hdlist">
 <table>
 <tr>
 <td class="hdlist1">
-<strong>specified heading</strong>
+<strong>input heading</strong>
 </td>
 <td class="hdlist2">
-<p>explicit heading (optionally supported by some shape types) in trajectory control points pointing forward (-90 &lt; heading &lt; 90 deg along trajectory s axis) or backwards. n/a indicates not supported, "-" not specified, 1 forward, -1 backwards.</p>
+<p>explicit heading (optionally supported by some shape types) in trajectory control points pointing forward (-90 &lt; heading &lt; 90 deg along trajectory s axis) or backwards. <code>n/a</code>: not supported, <code>-</code>: not specified.</p>
 </td>
 </tr>
 <tr>
@@ -3263,23 +3291,23 @@ After executing the above the exit code can be inspected/verified from shell as 
 <strong>timestamps</strong>
 </td>
 <td class="hdlist2">
-<p>"-" indicates not specified or timeReference == None, "yes" indicates specified heading and timeReference != None</p>
+<p><code>n/a</code>: not supported, <code>-</code> not specified or timeReference is None, <code>yes</code>: specified timestamp and timeReference != None</p>
 </td>
 </tr>
 <tr>
 <td class="hdlist1">
-<strong>speed sign</strong>
+<strong>speed</strong>
 </td>
 <td class="hdlist2">
-<p>1 for speed &gt;= 0, -1 for speed &lt; 0. For timestamp mode, the magnitude of speed and overall motion direction is given by trajectory control point&#8217;s timestamps and heading. Allowing for reversing, the initial heading of the entity, if specified, affects whether speed is positive (driving forward) or negative (reversing).</p>
+<p><code>&gt;0</code>: speed &gt;= 0, <code>&lt;0</code>: speed &lt; 0. For timestamp mode, the magnitude of speed and overall motion direction is given by trajectory control point&#8217;s timestamps and heading. Allowing for reversing, the initial heading of the entity, if specified, affects whether speed is positive (driving forward) or negative (reversing), see line 8 and 11.</p>
 </td>
 </tr>
 <tr>
 <td class="hdlist1">
-<strong>entity heading</strong>
+<strong>output heading</strong>
 </td>
 <td class="hdlist2">
-<p>Entity heading relative trajectory s-axis direction (heading/tangent). 1: facing along s, -1: facing away from s. When not specified, entity heading will be aligned forward (1) or backwards (-1) according to the speed sign. Interpolation will be applied based on specified followingMode, see previous section.</p>
+<p>Entity heading relative trajectory s-axis direction (heading/tangent). <code>no change</code>: not affected by the action, <code>forward</code>: facing along s, <code>backward</code>: facing away from s. When not specified, entity heading will be aligned forward or backward according to the speed direction. Interpolation will be applied based on specified followingMode, see previous section.</p>
 </td>
 </tr>
 <tr>
@@ -3287,7 +3315,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 <strong>moving direction</strong>
 </td>
 <td class="hdlist2">
-<p>reference point motion along trajectory s-axis or opposite direction, given by: speed sign * entity heading</p>
+<p>entity motion along trajectory s-axis or opposite direction, given by: <code>sign(speed) * sign(entity heading rel. traj)</code></p>
 </td>
 </tr>
 <tr>
@@ -3295,10 +3323,78 @@ After executing the above the exit code can be inspected/verified from shell as 
 <strong>entity (in tc)</strong>
 </td>
 <td class="hdlist2">
-<p>Corresponding entity in the smoke test scenario <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/xosc/trajectory_speed.xosc">trajectory_speed.xosc</a>, which checks the various trajectory configurations.</p>
+<p>Corresponding entity in the smoke test scenario <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/xosc/trajectory_speed.xosc">trajectory_speed.xosc</a>, which checks the various trajectory configurations. See also videoclip below.</p>
 </td>
 </tr>
 </table>
+</div>
+<div class="sect4">
+<h5 id="_trajectory_motion_direction_control_option">Trajectory motion direction control option</h5>
+<div class="paragraph">
+<p>The influence from entity heading on the moving direction can be disabled by setting the global <code>ignore_heading_for_traj_motion</code> option, or setting the per Vehicle property    <code>ignoreHeadingForTrajMotion</code>="true". That will allow for entities facing away from and still move along the trajectory s-direction forward or backward according to specified speed alone. Line 9 and 10 above would result in:</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<caption class="title">Table 2. Motion direction affected by <code>ignore_heading_for_traj_motion</code> option</caption>
+<colgroup>
+<col style="width: 5.5555%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 5.5555%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1113%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock">input</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">⇒</p></td>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock">output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">trajectory type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">heading rel. traj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">timestamps</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">speed</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">heading rel. traj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">speed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">moving dir. rel. traj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">entity (in tc)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt; 0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0 *</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward *</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">car_trailer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">polyline/nurbs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt; 0 *</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward *</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">semi_tractor</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>* indicating changed output</p>
+</div>
 </div>
 <div class="sect4">
 <h5 id="_example_scenarios">Example scenarios</h5>
@@ -3316,6 +3412,126 @@ After executing the above the exit code can be inspected/verified from shell as 
 <div class="content">
 <iframe width="854" height="480" src="https://www.youtube.com/embed/sjOgdx8qfEM?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=sjOgdx8qfEM" frameborder="0" allowfullscreen></iframe>
 </div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_use_cases_2">Use cases</h5>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<caption class="title">Table 3. Trajectory configurations for some specific use cases</caption>
+<colgroup>
+<col style="width: 5.2631%;">
+<col style="width: 15.7894%;">
+<col style="width: 10.5263%;">
+<col style="width: 10.5263%;">
+<col style="width: 10.5263%;">
+<col style="width: 10.5263%;">
+<col style="width: 5.2631%;">
+<col style="width: 10.5263%;">
+<col style="width: 10.5263%;">
+<col style="width: 10.5266%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top" colspan="4"><p class="tableblock">input</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">⇒</p></td>
+<td class="tableblock halign-left valign-top" colspan="3"><p class="tableblock">output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use case</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">heading rel. traj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">timestamps</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">speed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ignore heading *</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">heading rel. traj</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">speed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">moving dir. rel. traj</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reversing with set speed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reversing with timestamps</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ignored</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt; 0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Moving along traj with any heading</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">any</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt; 0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">"</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">any</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ignored</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">no change</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sign depends on heading</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">forward</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>* <code>ignore_heading_for_traj_motion</code> option or <code>ignoreHeadingForTrajMotion</code> property described avove</p>
+</div>
+<div class="paragraph">
+<p>See scenario <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xosc/traj_use_cases.xosc">traj_use_cases.xosc</a>. Run from esmini root as:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --path ./resources/models --osc ./EnvironmentSimulator/Unittest/xosc/traj_use_cases.xosc --custom_fixed_camera 24,27,28,5.5,0.57</code></p>
 </div>
 </div>
 </div>
@@ -3908,7 +4124,7 @@ python tools/randomTrips.py ...</code></pre>
 <code>pos.SetInertiaPosMode(x, y, z, h, p, r, 775);</code></p>
 </div>
 <div class="sect3">
-<h4 id="_use_cases_2">6.2.1. Use cases</h4>
+<h4 id="_use_cases_3">6.2.1. Use cases</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4009,7 +4225,7 @@ Default controller will now move the pedestrian along the road 1 meter above gro
 <p>While moving along polylines, which tangent is not continuous, it&#8217;s usually preferred to interpolate/smoothen orientation along whole linear segments or at least when passing vertex corners.</p>
 </div>
 <div class="paragraph">
-<p>The table below shows what interpolation method will be applied based on FollowingMode setting for the trajectory:</p>
+<p>The table below shows what interpolation method will be applied, as default, based on FollowingMode setting for the trajectory:</p>
 </div>
 <table class="tableblock frame-all grid-all fit-content">
 <colgroup>
@@ -4032,7 +4248,23 @@ Default controller will now move the pedestrian along the road 1 meter above gro
 </tbody>
 </table>
 <div class="paragraph">
-<p>Polyline trajectory orientation interpolation can be disabled altogether by setting the <code>disable_pline_interpolation</code> option (see esmini <a href="#_launch_commands">Launch commands</a>).</p>
+<p>The interpolation mode can be explicitly set, or even disabled altogether:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>option: <code>pline_interpolation &lt;mode&gt;</code> (see also esmini <a href="#_launch_commands">Launch commands</a>)</p>
+</li>
+<li>
+<p>vehicle property: <code>plineInterpolation &lt;mode&gt;</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Valid modes: <code>segment</code>, <code>corner</code>, <code>off</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> The option is global, i.e. affects all trajectories, while vehicle property is per entity. Option has precedence, so any vehicle property will be ignored if the option is set.</p>
 </div>
 </div>
 <div class="sect2">
@@ -5423,7 +5655,7 @@ Binaries including FBX but not DAE support, see here:<br>
 <code>osgconv model.osgb out/model.fbx -s 100,100,100</code><br>
 "-s &#8230;&#8203;" is for scaling which typically is needed for fbx files.
 Potentially it also needs to be oriented according to Unity coordinate system. In that case try:<br>
-<code>osgconv model.osgb out/model.fbx -s 100,100,100 --use-world-frame -o 120&#8212;&#8203;0.5773503,-0.5773503,-0.5773503</code></p>
+<code>osgconv model.osgb out/model.fbx -s 100,100,100 --use-world-frame -o 120--0.5773503,-0.5773503,-0.5773503</code></p>
 </li>
 </ol>
 </div>
@@ -6430,8 +6662,6 @@ Options:
       Additional custom light source &lt;x,y,z,intensity&gt; intensity range 0..1
   --disable_controllers
       Disable controllers
-  --disable_pline_interpolation
-      Do not apply orientation interpolation of polyline trajectories
   --disable_log
       Prevent logfile from being created
   --disable_stdout
@@ -6456,6 +6686,8 @@ Options:
       Disable route waypoint visualization. Toggle key 'R'
   --hide_trajectories
       Hide trajectories from start. Toggle key 'n'
+  --ignore_heading_for_traj_motion
+      Ignore heading when deciding motion direction along trajectory
   --ignore_odr_offset
       Ignore any offset specified in the OpenDRIVE file header
   --ignore_z
@@ -6510,6 +6742,8 @@ Options:
       Launch UDP server for action/command injection
   --plot [mode]  (default if value omitted: asynchronous)
       Show window with line-plots of interesting data. Modes: asynchronous, synchronous
+  --pline_interpolation &lt;mode&gt;
+      Interpolate orientation (&quot;segment&quot;, &quot;corner&quot;, &quot;off&quot;)
   --record [filename]  (default if value omitted: sim.dat)
       Record position data into a file for later replay
   --road_features [mode]  (default if value omitted: on)
@@ -9169,14 +9403,15 @@ then:<br>
             SE_ScenarioObjectState state;
 
             SE_GetObjectState(SE_GetId(j), &amp;state);
-            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] %.2f %.2f </span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] %.2f %.2f odometer: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
                    <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.timestamp),
                    j,
                    SE_GetId(j),
                    <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.x),
                    <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.y),
                    <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.wheel_angle),
-                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.wheel_rot));
+                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(state.wheel_rot),
+                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(SE_GetObjectOdometer(SE_GetId(j))));
         }
     }
 
@@ -10530,8 +10765,6 @@ se.SE_StepDT.argtypes = [ct.c_float]
 
     <span class="comment"># Retrieve OSI message and print some info</span>
     <span class="keyword">def</span> <span class="function">GetAndPrintOSIInfo</span>(<span class="predefined-constant">self</span>):
-        se.SE_UpdateOSIGroundTruth()
-
         msg_string = se.SE_GetOSIGroundTruth(ct.byref(<span class="predefined-constant">self</span>.msg_size))
         <span class="predefined-constant">self</span>.msg.ParseFromString(ct.string_at(msg_string, <span class="predefined-constant">self</span>.msg_size))
 
@@ -10656,20 +10889,18 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
     {
         <span class="directive">static</span> <span class="directive">void</span> Main(<span class="predefined-type">string</span>[] args)
         {
-            <span class="comment">// intitialize esmini</span>
+            <span class="comment">// initialize esmini</span>
             <span class="keyword">if</span> (ESMiniLib.SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
             {
                 Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">failed to load scenario</span><span class="delimiter">&quot;</span></span>);
                 <span class="keyword">return</span>;
             }
-            ESMiniLib.SE_UpdateOSIGroundTruth();
 
             <span class="predefined-type">int</span> size = <span class="integer">0</span>;
             <span class="keyword">while</span> (ESMiniLib.SE_GetQuitFlag() != <span class="integer">1</span>)
             {
                 <span class="comment">// Step esmini</span>
                 ESMiniLib.SE_Step();
-                ESMiniLib.SE_UpdateOSIGroundTruth();
 
                 <span class="comment">// Get OSI message</span>
                 IntPtr int_ptr = ESMiniLib.SE_GetOSIGroundTruth(ref size);
@@ -11168,15 +11399,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.46.2"<br>
-ESMINI_GIT_REV="v2.46.2-0-764bcea5"</p>
+<p>ESMINI_GIT_TAG="v2.46.3"<br>
+ESMINI_GIT_REV="v2.46.3-0-a0f0a919"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-30 15:23:17 +0200
+Last updated 2025-05-13 21:06:49 +0200
 </div>
 </div>
 </body>
