@@ -595,6 +595,11 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_import_into_unity">8.3. Import into Unity</a></li>
 <li><a href="#_colors_textures_and_wheel_rotations">8.4. Colors, textures and wheel rotations</a></li>
 <li><a href="#_lighting">8.5. Lighting</a></li>
+<li><a href="#_convert_osgb_models_for_use_in_blender">8.6. Convert osgb models for use in Blender</a></li>
+<li><a href="#_import_into_blender">8.7. Import into Blender</a></li>
+<li><a href="#_material_settings_in_blender">8.8. Material settings in Blender</a></li>
+<li><a href="#_export_blender_obj">8.9. Export Blender obj</a></li>
+<li><a href="#_convert_back_to_osgb">8.10. Convert back to osgb</a></li>
 </ul>
 </li>
 <li><a href="#_support_qa">9. Support / Q&amp;A</a>
@@ -5481,6 +5486,184 @@ Parameters:
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_hidcontroller">7.6.11. HIDcontroller</h4>
+<div class="paragraph">
+<p>From v2.47.0 esmini supports game controllers, allowing interactive control of one or multiple entities in a simulation. Any joystick compatible device should work, e.g. joystick, gamepad, racing wheel, etc.</p>
+</div>
+<div class="paragraph">
+<p>Controlling Ego or target vehicles can be useful for demonstrating or evaluating functions in the loop. Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Adjust Ego lateral lane position to check lane-departure function characteristics</p>
+</li>
+<li>
+<p>Control a target vehicle to put AD operated Ego in challenging situations</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Any number of connected devices can be used. The mapping system is a bit tricky, but flexible. It allows to use most joystick alike controllers (racing wheel, joystick, gamepad&#8230;&#8203;) and assign any input axis or button to the steering, throttle and brake inputs of an entity.</p>
+</div>
+<div class="sect4">
+<h5 id="_example_scenario">Example scenario</h5>
+<div class="paragraph">
+<p><a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xosc/race_hid.xosc">race_hid.xosc</a> shows how to assign game controllers to one or several vehicles.</p>
+</div>
+<div class="paragraph">
+<p>The scenario puts three cars at beginning of a road. One will immediatelly start driving. The second is controlled by a game controller, which needs to be setup for specific connected device - see details below.</p>
+</div>
+<div class="paragraph">
+<p>The third can also be controlled by a game controller by uncommenting the ObjectController code in the sceenario. Otherwise, by default it will stand still.</p>
+</div>
+<div class="paragraph">
+<p>First car reaching end of road is the winner. Any car coming outside road area for more than one second will be punished by teleport back to the beginning of the road.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_limitations">Limitations</h5>
+<div class="paragraph">
+<p>Only three input channels are supported: Steering, Throttle and Brake.</p>
+</div>
+<div class="paragraph">
+<p>No automatic detection of game controllers is implemented, instead it has to be explicitly configured. See more info below.</p>
+</div>
+<div class="paragraph">
+<p>Only Windows and Linux (Ubuntu) supported, not macOS.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_configuration">Configuration</h5>
+<div class="paragraph">
+<p>To configure game controller inputs, you need to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>map steering, throttle and brake to axes or buttons of the device. If brake is not mapped, esmini will assume same axis as throttle, a combination quite common for racing wheels on Windows.</p>
+</li>
+<li>
+<p>find out the device ID and assign it to the <code>deviceID</code> property, or <code>DeviceID</code> parameter when referring a catalog entry.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>ID is a sequence number and will depend on the current configuration of the system, e.g. number and order of connected game controllers. Hence, it probably needs to be adjusted for the specific setup.</p>
+</div>
+<div class="paragraph">
+<p>Mapping of input axes and buttons is independent of the ID and can be specified for any specific controller. But it will be different between Windows and Linux.</p>
+</div>
+<div class="paragraph">
+<p>A examples are provided in the separate catalog <a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/Catalogs/Controllers/GameControllerCatalog.xosc">GameControllerCatalog.xosc</a>, including:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Trust GXT 39 gamepad</p>
+</li>
+<li>
+<p>PS4 Controller (DualShock 4)</p>
+</li>
+<li>
+<p>PS5 Controller (DualSense)</p>
+</li>
+<li>
+<p>Hori Racing Wheel APEX</p>
+</li>
+<li>
+<p>Logitech Steering Wheel WingMan Formula GP</p>
+</li>
+<li>
+<p>Logitech Steering Wheel</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>However, it&#8217;s simple to add other ones. See next sections for details.</p>
+</div>
+<div class="paragraph">
+<p>You can also use the catalog <code>HID_generic</code> controller and assign the ID and mappings via parameters.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_mapping_of_axes_and_buttons">Mapping of axes and buttons</h5>
+<div class="paragraph">
+<p>Axes and buttons are denoted differently on Windows and Linux. The following table shows the mapping of axes and buttons for some game controllers currently in the catalog.</p>
+</div>
+<div class="paragraph">
+<p>Example: If you have a PS4 controller, you can assign the left trigger to the brake by specifying controller property <code>brakeInput</code> = <code>AXIS_RX</code> (analog) or <code>BTN_7</code> (binary).</p>
+</div>
+<div class="paragraph">
+<p>If you need to inverse an axis, just put "-" in front of the axis name, e.g. <code>-AXIS_Y</code>.</p>
+</div>
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTIxA9xhO1GomQDd3GvamIaul80S4GLH4UHyWubsG7sm3lLuCMqMo0QcHg-6D-NfKqqFKDwGWa1W_g2/pubhtml?gid=2029882313&&widget=false&headers=false&chrome=true" frameborder="0" width="730" height="1267"></iframe>
+<div class="paragraph">
+<p><a href="https://docs.google.com/spreadsheets/d/1Y-zhAOcks3-rkcVdz3EvwBqOhvOwyE20sGZJcFM1OvI/edit?usp=sharingLink">Link</a> to full table, including ranges.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s a bit tricky to find out ID and mappings. The next sections provides some help using common tools.</p>
+</div>
+<div class="paragraph">
+<p>To see received data from device set wsmini option <code>--log_level debug</code>.</p>
+</div>
+<div class="sect5">
+<h6 id="_windows_tools">Windows tools</h6>
+<div class="paragraph">
+<p>To find out available input devices, including game controllers, you can use the <code>dxdiag</code> tool:</p>
+</div>
+<div class="paragraph">
+<p>Win+R, type <code>dxdiag</code>, press Enter.</p>
+</div>
+<div class="paragraph">
+<p>Look under "DirectInput Devices" in the "Input". It will list all connected input devices, including game controllers. The ID is found in the "Controller ID" column.</p>
+</div>
+<div class="paragraph">
+<p>For further information, run the Game Controller settings:</p>
+</div>
+<div class="paragraph">
+<p>Win+R, type <code>joy.cpl</code>, press Enter</p>
+</div>
+<div class="paragraph">
+<p>Select controller and click <code>Properties</code> to test the device.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_linux_tools">Linux tools</h6>
+<div class="paragraph">
+<p>To find available game controllers, you can run:</p>
+</div>
+<div class="paragraph">
+<p><code>ls /dev/input/js*</code></p>
+</div>
+<div class="paragraph">
+<p>Any connected game controller should appear as <code>/dev/input/js0</code>, <code>/dev/input/js1</code>, etc.</p>
+</div>
+<div class="paragraph">
+<p>For further information you can use <code>jstest</code>. Install it:</p>
+</div>
+<div class="paragraph">
+<p><code>sudo apt install joystick</code></p>
+</div>
+<div class="paragraph">
+<p>Example usage:</p>
+</div>
+<div class="paragraph">
+<p><code>jstest /dev/input/js2</code></p>
+</div>
+<div class="paragraph">
+<p>will show you information and the state of the game controller with ID 2.</p>
+</div>
+<div class="paragraph">
+<p>Also, <code>jstest-gtk</code> is a graphical tool that can be installed with:</p>
+</div>
+<div class="paragraph">
+<p><code>sudo apt install jstest-gtk</code></p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_how_to_add_a_new_controller">7.7. How to add a new controller</h3>
@@ -5792,6 +5975,101 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/light_second_light.jpg" alt="light second light">
 </div>
 <div class="title">Original model with one light added</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_convert_osgb_models_for_use_in_blender">8.6. Convert osgb models for use in Blender</h3>
+<div class="paragraph">
+<p>Here follows an example of how to convert .osgb models into .obj format for use in Blender. obj is easy to use as it has a human readable text format, easy mapping between its material parameters and Blender&#8217;s and minimal settings when converting back to .osgb.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a command prompt in the folder where your model.osgb is</p>
+</li>
+<li>
+<p>Run command:<br>
+<code>osgconv model.osgb model.obj -s 100,100,100 --use-world-frame -o -90-1,0,0</code><br>
+"-s &#8230;&#8203;" is for scaling which typically is needed for .obj files.<br>
+"--use-world-frame" is to use the world coordinate system, which is typically needed for obj files.<br>
+"-o -90-1,0,0" is to rotate the model so that it faces the positive x-axis in Blender. This is a common requirement for .obj files as they typically face the negative y-axis by default.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>A file should have been created called "model.obj". It&#8217;s important to note that the textures in the .osgb file are not automatically copied to the .obj file location, so you will need to copy them manually to the same location as the generated .obj.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_import_into_blender">8.7. Import into Blender</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Drag the resulting obj file, and all textures, into a suitable folder, preferably an empty folder</p>
+</li>
+<li>
+<p>Open Blender and delete the default cube</p>
+</li>
+<li>
+<p>Go to "File" &#8594; "Import" &#8594; "Wavefront (.obj)"</p>
+</li>
+<li>
+<p>Navigate to the folder where you placed the .obj file and select it, and click "Import Wavefront OBJ"</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_material_settings_in_blender">8.8. Material settings in Blender</h3>
+<div class="paragraph">
+<p>Highlight the object in Blender and go to the "Material Properties" tab. You will see the material settings for the imported model.</p>
+</div>
+<div class="paragraph">
+<p>Make sure that the "surface" type is set to "Principled BSDF" which is the default in Blender. This shader supports a wide range of material properties and is suitable for most models.</p>
+</div>
+<div class="paragraph">
+<p>Under the "Base Color" section, you can set the color of the material. The following parameters in Blender match the obj material parameters:<br>
+- <code>Ka</code> (Ambient Color) corresponds to the "Metallic" in Blender, how much the material reflects ambient light.<br>
+- <code>Kd</code> (Diffuse Color) corresponds to the "Base Color" HSV values combined (if no texture png) in Blender, which is the color of the material when light is directly hitting it.<br>
+- <code>Ks</code> (Specular Color) corresponds to the "Specular" colors "IOR level" in Blender, which is the color highlights from shiny surfaces.<br>
+- <code>Ns</code> (Specular Exponent) corresponds to the "Roughness" in Blender, where a lower value means a shinier surface.<br>
+- <code>d</code> (Transparency) corresponds to the "Alpha" value in Blender, where a value of 1.0 means fully opaque and 0.0 means fully transparent.<br>
+- <code>Ke</code> (Emissive Color) corresponds to the "Emission" colors HSV values in Blender, which is the color of light emitted by the material.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_export_blender_obj">8.9. Export Blender obj</h3>
+<div class="paragraph">
+<p>When you are done editing the model in Blender, you can export it to obj format with suitable settings for osgconv.
+. Go to "File" &#8594; "Export" &#8594; "Wavefront (.obj)"
+. In the export dialog, leave most default, but make sure to set the following options on the right side:<br>
+- <code>Scale</code> to 1.0<br>
+- <code>Forward Axis</code> to -Z<br>
+- <code>Up Axis</code> to Y<br>
+- <code>Materials</code> is checked<br>
+- <code>Path Mode</code> to "Copy"<br></p>
+</div>
+<div class="paragraph">
+<p>Then select the folder where you want to save the exported obj file (preferably same folder as your textures if you have any) and click "Export OBJ".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_convert_back_to_osgb">8.10. Convert back to osgb</h3>
+<div class="paragraph">
+<p>Now you can convert the exported .obj file back to .osgb format using osgconv.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a command prompt in the folder where your newly exported_model.obj is and run the command:<br></p>
+</li>
+<li>
+<p><code>osgconv exported_model.obj exported_model.osgb</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This will create a new .osgb file that you can use in your application.</p>
 </div>
 </div>
 </div>
@@ -6670,7 +6948,7 @@ Options:
       Generate road 3D model even if SceneGraphFile is specified
   --fixed_timestep &lt;timestep&gt;
       Run simulation decoupled from realtime, with specified timesteps
-  --follow_object [index]  (default if option or value omitted: 0)
+  --follow_object &lt;object index (0, 1, 2..., ALL, ROAD)&gt;
       Set index of initial object for camera to follow (change with Tab/shift-Tab)
   --generate_no_road_objects
       Do not generate any OpenDRIVE road objects (e.g. when part of referred 3D model)
@@ -6795,8 +7073,8 @@ https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.
     H (shift + h): Print this help text to console
     Space:         Toggle pause/play simulation
     Return:        Step simulation (one timestep) then pause
-    TAB:           Move camera to next vehicle
-    Shift + TAB:   Move camera to previoius vehicle
+    TAB:           Move camera to next vehicle (0, 1, 2..., ALL, ROAD)
+    Shift + TAB:   Move camera to previous vehicle
     Delete:        Same as above (Shift + TAB)
     o:             Toggle show / hide OpenDRIVE road feature lines
     O:             Toggle show / hide odr signal bounding boxes
@@ -6818,7 +7096,7 @@ https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.
         Left:  Steer left
         Right: Steer right
 
-    1 - 9: Camera models acording to :
+    1 - 9: Camera models according to :
         1: Custom camera model
         2: Flight
         3: Drive
@@ -6834,7 +7112,7 @@ https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.
            - Orbit        (camera facing vehicle, rotating around it)
            - Fixed        (fix rotation, always straight behind vehicle)
            - Flex         (imagine the camera attached to vehicle via an elastic string)
-           - Flex - orbit (Like flex but allows for roatation around vehicle)
+           - Flex - orbit (Like flex but allows for rotation around vehicle)
            - Top          (top view, fixed rotation, always straight above vehicle)
            - Driver       (&quot;driver&quot; view, fixed at center of vehicle)
 
@@ -6945,8 +7223,8 @@ Additional OSG graphics options:
 Key shortcuts
 
     H (shift + h): Print this help text to console
-    TAB:           Move camera to next vehicle
-    Shift + TAB:   Move camera to previoius vehicle
+    TAB:           Move camera to next vehicle (0, 1, 2..., ALL, ROAD)
+    Shift + TAB:   Move camera to previous vehicle
     Delete:        Same as above (Shift + TAB)
     Space:         Toggle pause / play
     g:             Toggle show / hide ghost models
@@ -6972,7 +7250,7 @@ Key shortcuts
         Up:                 Increase timeScale(play faster)
         Down:               Decrease timeScale(play slower)
 
-    1 - 9: Camera models acording to :
+    1 - 9: Camera models according to :
         1: Custom camera model
         2: Flight
         3: Drive
@@ -6988,7 +7266,7 @@ Key shortcuts
            - Orbit        (camera facing vehicle, rotating around it)
            - Fixed        (fix rotation, always straight behind vehicle)
            - Flex         (imagine the camera attached to vehicle via an elastic string)
-           - Flex - orbit (Like flex but allows for roatation around vehicle)
+           - Flex - orbit (Like flex but allows for rotation around vehicle)
            - Top          (top view, fixed rotation, always straight above vehicle)
            - Driver       (&quot;driver&quot; view, fixed at center of vehicle)
 
@@ -7130,8 +7408,8 @@ Key shortcuts
     H (shift + h): Print this help text to console
     Space:         Toggle pause/play simulation
     Return:        Step simulation(one timestep) then pause
-    TAB:           Move camera to next vehicle
-    Shift + TAB:   Move camera to previoius vehicle
+    TAB:           Move camera to next vehicle (0, 1, 2..., ALL, ROAD)
+    Shift + TAB:   Move camera to previous vehicle
     Delete:        Same as above (Shift + TAB)
     o:             Toggle show / hide OpenDRIVE road feature lines
     u:             Toggle show / hide OSI road lines
@@ -7142,7 +7420,7 @@ Key shortcuts
     K:             Print current camera position and orientation to console
     ESC:           quit
 
-    1 - 9: Camera models acording to :
+    1 - 9: Camera models according to :
         1: Custom camera model
         2: Flight
         3: Drive
@@ -7158,7 +7436,7 @@ Key shortcuts
            - Orbit        (camera facing vehicle, rotating around it)
            - Fixed        (fix rotation, always straight behind vehicle)
            - Flex         (imagine the camera attached to vehicle via an elastic string)
-           - Flex - orbit (Like flex but allows for roatation around vehicle)
+           - Flex - orbit (Like flex but allows for rotation around vehicle)
            - Top          (top view, fixed rotation, always straight above vehicle)
            - Driver       (&quot;driver&quot; view, fixed at center of vehicle)
 
@@ -11399,15 +11677,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.46.3"<br>
-ESMINI_GIT_REV="v2.46.3-0-a0f0a919"</p>
+<p>ESMINI_GIT_TAG="v2.47.0"<br>
+ESMINI_GIT_REV="v2.47.0-0-f0618455"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-13 21:06:49 +0200
+Last updated 2025-05-28 18:23:26 +0200
 </div>
 </div>
 </body>
