@@ -564,7 +564,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_parameter_distributions">5.5. Parameter distributions</a></li>
 <li><a href="#_trajectories">5.6. Trajectories</a></li>
 <li><a href="#_friction">5.7. Friction</a></li>
-<li><a href="#_sumo_integration">5.8. SUMO integration</a></li>
+<li><a href="#_environment_conditions">5.8. Environment conditions</a></li>
+<li><a href="#_tunnels">5.9. Tunnels</a></li>
+<li><a href="#_sumo_integration">5.10. SUMO integration</a></li>
 </ul>
 </li>
 <li><a href="#_positioning">6. Positioning</a>
@@ -3566,7 +3568,244 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sumo_integration">5.8. SUMO integration</h3>
+<h3 id="_environment_conditions">5.8. Environment conditions</h3>
+<div class="paragraph">
+<p>From v2.49.0 esmini supports the <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/EnvironmentAction.html"><code>EnvironmentAction</code></a>, which allows you to set weather state, road conditions, and time of the day.</p>
+</div>
+<div class="paragraph">
+<p>There are two ways to define <code>EnvironmentAction</code>:</p>
+</div>
+<div class="paragraph">
+<p><strong>1. Directly in the OpenSCENARIO file</strong><br>
+You can define the <code>EnvironmentAction</code>, which is a <code>GlobalAction</code> directly within your OpenSCENARIO file, example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;GlobalAction&gt;</span>
+    <span class="tag">&lt;EnvironmentAction&gt;</span>
+        <span class="tag">&lt;Environment</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">weather</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+            <span class="tag">&lt;TimeOfDay</span> <span class="attribute-name">animation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">dateTime</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2023-11-15T10:30:00.123+00:00</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+            <span class="tag">&lt;Weather</span> <span class="attribute-name">fractionalCloudCover</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">zeroOktas</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">temperature</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">300</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">atmosphericPressure</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10000</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+                <span class="tag">&lt;Sun</span> <span class="attribute-name">azimuth</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.4</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">illuminance</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">100000</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">elevation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.3</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+                <span class="tag">&lt;Fog</span> <span class="attribute-name">visualRange</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">6000</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+                <span class="tag">&lt;Precipitation</span> <span class="attribute-name">precipitationType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">snow</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">precipitationIntensity</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+                <span class="tag">&lt;Wind</span> <span class="attribute-name">direction</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3.1415</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">speed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+            <span class="tag">&lt;/Weather&gt;</span>
+            <span class="tag">&lt;RoadCondition</span> <span class="attribute-name">frictionScaleFactor</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.9</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+        <span class="tag">&lt;/Environment&gt;</span>
+    <span class="tag">&lt;/EnvironmentAction&gt;</span>
+<span class="tag">&lt;/GlobalAction&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>2. Using a Catalog</strong><br>
+You can create a catalog of environments and reference them in your OpenSCENARIO file. This allows you to re-use the same environment across multiple scenarios, ensuring consistency and reducing redundancy, example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;GlobalAction&gt;</span>
+    <span class="tag">&lt;EnvironmentAction&gt;</span>
+        <span class="tag">&lt;CatalogReference</span> <span class="attribute-name">catalogName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">EnvironmentCatalog</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">entryName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">summer</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;/EnvironmentAction&gt;</span>
+<span class="tag">&lt;/GlobalAction&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The catalog reference points to a specific environment defined in the <a href="https://github.com/esmini/esmini/tree/master/resources/xosc/Catalogs/Environments/EnvironmentCatalog"><code>EnvironmentCatalog</code></a>. The catalog can contain multiple environments, each with its own set of parameters.</p>
+</div>
+<div class="paragraph">
+<p>Example scenario using both methods: <a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/cut-in_environment.xosc">cut-in_environment.xosc</a></p>
+</div>
+<div class="videoblock">
+<div class="content">
+<iframe width="854" height="480" src="https://www.youtube.com/embed/-mQUJU1rR2M?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=-mQUJU1rR2M" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that vehicle headlights are currently not considered in the viewer.</p>
+</div>
+<div class="sect3">
+<h4 id="_visual_elements_affecting_the_viewer">5.8.1. Visual elements affecting the viewer</h4>
+<div class="paragraph">
+<p>Although all the environment conditions are reported in the OSI data, only some are visualized. Currently, as of v2.49.0, all but <code>precipitation</code>, <code>wind</code> and <code>domeImage</code> are visualized in some way, described below.</p>
+</div>
+<div class="sect4">
+<h5 id="_sun_element">Sun element</h5>
+<div class="paragraph">
+<p>The <code>Sun</code> element&#8217;s <code>illuminance</code> directly controls the sky color, where the value 100000 represents the brightest blue sky.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>illuminance</code>: A linear shift from <strong>black</strong> (illuminance 0) to <strong>bright blue</strong> (illuminance 100000).</p>
+</li>
+<li>
+<p><code>azimuth</code> and <code>elevation</code>: These attributes have no visual effect on the scenario&#8217;s representation.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_timeofday_animation">TimeOfDay animation</h5>
+<div class="paragraph">
+<p>The <code>TimeOfDay</code> element controls sky color based on the set time. Its <code>animation</code> attribute determines whether the OSI data&#8217;s time of day and unix timestamp in the environmental conditions advance with simulation time or not.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Logic</strong>: <code>TimeOfDay</code> utilizes the <code>Sun illuminance</code> property to adjust the color.</p>
+</li>
+<li>
+<p><code>00:00:00</code> corresponds to an <code>illuminance</code> of 0.</p>
+</li>
+<li>
+<p><code>12:00:00</code> corresponds to an <code>illuminance</code> of 100000.</p>
+</li>
+<li>
+<p><strong>Precedence</strong>: The <code>Sun</code> element&#8217;s <code>illuminance</code> value will always override the <code>TimeOfDay</code> animation if both has been set in the scenario.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_weather_element">Weather element</h5>
+<div class="paragraph">
+<p>The <code>Weather</code> element influences the sky color based on cloud cover.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>fractionalCloudCover</code>: Linearly shifts the sky color from <strong>bright blue</strong> to <strong>gray</strong> in increment of eights (<code>1/8</code>).</p>
+</li>
+<li>
+<p><code>zeroOktas</code>: Represents a clear sky.</p>
+</li>
+<li>
+<p><code>NineOktas</code>: Represents a completely overcast sky.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_fog_element">Fog element</h5>
+<div class="paragraph">
+<p>The <code>Fog</code> element creates a fog effect, with its density determined by <code>visualRange</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>visualRange</code>: Lower values result in denser fog.</p>
+</li>
+<li>
+<p><strong>Fog Color Logic</strong>:
+<code>fogColor = color_dark_gray * cloudiness + color_background_gray * (1 - cloudiness)</code></p>
+</li>
+<li>
+<p><strong>Sky Color Logic (affected by fog)</strong>:
+<code>sunIlluminance * ((1 - cloudiness) * background_color + cloudiness * fogcolor)</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Where <code>background</code> is calculated as
+<code>visual_range * fogcolor + (1 - visual_range) * color_background</code></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/fog.jpg" alt="fog">
+</div>
+<div class="title">Fog in example scenario <a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/cut-in_environment.xosc">cut-in_environment.xosc</a></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tunnels">5.9. Tunnels</h3>
+<div class="paragraph">
+<p>From v2.49.0, esmini supports OpenDRIVE tunnels.</p>
+</div>
+<div class="paragraph">
+<p>A tunnel is defined as a road object, according to <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/latest/specification/13_objects/13_11_tunnels.html">OpenDRIVE Tunnel element specification</a>.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;tunnel</span> <span class="attribute-name">s</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">30.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">length</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">250.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">MyTunnel</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">standard</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will define a tunnel named "MyTunnel" starting at 30m along the road, with a length of 250m.</p>
+</div>
+<div class="sect3">
+<h4 id="_tunnel_3d_model_and_transparency">5.9.1. Tunnel 3D model and transparency</h4>
+<div class="paragraph">
+<p>By default, esmini will generate a simple 3D model of the tunnel. The width will cover all road lanes except any out lanes of type <code>none</code>. The height will be fixed to 4.5m. Walls and roof constructions 2m thick.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/tunnel_opaque.jpg" alt="tunnel opaque">
+</div>
+<div class="title">Automatically created tunnel 3D model</div>
+</div>
+<div class="paragraph">
+<p>To disable auto-generation of the tunnel model, set the userData attribute <code>generate3DModel</code> to <code>false</code>. Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;tunnel</span> <span class="attribute-name">s</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">30.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">length</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">250.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">MyTunnel</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">standard</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;userData</span> <span class="attribute-name">code</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">generate3DModel</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/tunnel&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To see whats going on inside a tunnel, esmini provides a <code>tunnel_transparency</code> option. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --osc ./resources/xosc/tunnels.xosc --tunnel_transparency 0.6</code></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/tunnel_transparent.jpg" alt="tunnel transparent">
+</div>
+<div class="title">60% tunnel transparency</div>
+</div>
+<div class="paragraph">
+<p>The generated tunnel model will adapt to any changes in road width, as can be seen in below image:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/tunnel_width.jpg" alt="tunnel width">
+</div>
+<div class="title">Tunnel adapting to changing road width</div>
+</div>
+<div class="paragraph">
+<p>If the automatically created tunnel model does not fit your needs, you can define it in terms of ordinary OpenDRIVE road objects. Then, for example, the tunnel width can be customized as well as the thickness of walls and/or roof construction. In the example scenario below the tunnel named "ManualTunnel" is such.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tunnel_example_scenario">5.9.2. Tunnel example scenario</h4>
+<div class="paragraph">
+<p>Here&#8217;s a demo scenario including a few tunnels:<br>
+<a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/tunnels.xosc" class="bare">https://github.com/esmini/esmini/blob/dev/resources/xosc/tunnels.xosc</a></p>
+</div>
+<div class="paragraph">
+<p>and the associated OpenDRIVE file:<br>
+<a href="https://github.com/esmini/esmini/blob/dev/resources/xodr/tunnels.xodr" class="bare">https://github.com/esmini/esmini/blob/dev/resources/xodr/tunnels.xodr</a></p>
+</div>
+<div class="paragraph">
+<p>Video clip showing some usage of tunnels in esmini, including OSI inspection:</p>
+</div>
+<div class="videoblock">
+<div class="content">
+<iframe width="800" height="450" src="https://www.youtube.com/embed/pTYcu1yFe5k?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=pTYcu1yFe5k" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sumo_integration">5.10. SUMO integration</h3>
 <div class="paragraph">
 <p><a href="https://eclipse.dev/sumo/">SUMO</a> is a great open source traffic simulation tool. It has been integrated with esmini, making it possible to run SUMO simulations in esmini, and even mix or co-simulate SUMO vehicles with OpenSCENARIO vehicles.</p>
 </div>
@@ -3577,7 +3816,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 <p>This chapter explains how to create a SUMO simulation and then how to use it in esmini. For just using SUMO simulations there is no need to install SUMO, it is already embedded with esmini (as long as it has not been explicitly excluded, see <a href="#_slim_esmini_customize_configration">Slim esmini - customize configration</a>). Only to create SUMO content it has to be installed.</p>
 </div>
 <div class="sect3">
-<h4 id="_install_sumo">5.8.1. Install SUMO</h4>
+<h4 id="_install_sumo">5.10.1. Install SUMO</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3590,7 +3829,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_try_example_from_esmini">5.8.2. Try example from esmini</h4>
+<h4 id="_try_example_from_esmini">5.10.2. Try example from esmini</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3612,7 +3851,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_the_same_scenario_in_esmini">5.8.3. Running the same scenario in esmini</h4>
+<h4 id="_running_the_same_scenario_in_esmini">5.10.3. Running the same scenario in esmini</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3625,7 +3864,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_sumo_simulation">5.8.4. Create a SUMO simulation</h4>
+<h4 id="_create_a_sumo_simulation">5.10.4. Create a SUMO simulation</h4>
 <div class="paragraph">
 <p>First, there is a great complete guide at <a href="https://sumo.dlr.de/docs/" class="bare">https://sumo.dlr.de/docs/</a></p>
 </div>
@@ -3714,7 +3953,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_connect_a_sumo_simulation_to_a_scenario_in_esmini">5.8.5. Connect a SUMO simulation to a scenario in esmini</h4>
+<h4 id="_connect_a_sumo_simulation_to_a_scenario_in_esmini">5.10.5. Connect a SUMO simulation to a scenario in esmini</h4>
 <div class="paragraph">
 <p>Currently, as of esmini v2.37.1, SUMO is integrated in terms of a controller. To add a SUMO simulation, define an entity as usual, assign the SumoController and set its "filepath" property to the sumocfg file.</p>
 </div>
@@ -7043,6 +7282,8 @@ Options:
       Show trail lines and/or dots. Modes: 0=None 1=lines 2=dots 3=both. Toggle key 'j'
   --traj_filter [radius]  (default if option or value omitted: 0.1)
       Simple filter merging close points. Set 0.0 to disable
+  --tunnel_transparency [transparency]  (default if value omitted: 0.0)
+      Set level of transparency for generated tunnels [0:1]
   --use_signs_in_external_model
       When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
   --version
@@ -7202,6 +7443,8 @@ Options:
       Scale screen overlay text
   --time_scale &lt;factor&gt;
       Playback speed scale factor (1.0 == normal)
+  --tunnel_transparency [transparency]  (default if value omitted: 0.0)
+      Set level of transparency for generated tunnels [0:1]
   --view_mode &lt;view_mode&gt;
       Entity visualization: &quot;model&quot;(default)/&quot;boundingbox&quot;/&quot;both&quot;
   --use_signs_in_external_model
@@ -7372,6 +7615,8 @@ Options:
       Scale screen overlay text
   --traffic_rule &lt;rule (right/left)&gt;
       Enforce left or right hand traffic, regardless OpenDRIVE rule attribute (default: right)
+  --tunnel_transparency [transparency]  (default if value omitted: 0.0)
+      Set level of transparency for generated tunnels [0:1]
   --use_signs_in_external_model
       When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
   --version
@@ -11762,15 +12007,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.48.0"<br>
-ESMINI_GIT_REV="v2.48.0-0-ba98f6bf"</p>
+<p>ESMINI_GIT_TAG="v2.49.0"<br>
+ESMINI_GIT_REV="v2.49.0-0-3ebfe762"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-06-09 17:49:55 +0200
+Last updated 2025-06-24 13:28:04 +0200
 </div>
 </div>
 </body>
