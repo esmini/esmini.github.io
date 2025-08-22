@@ -603,6 +603,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_material_settings_in_blender">8.8. Material settings in Blender</a></li>
 <li><a href="#_export_blender_obj">8.9. Export Blender obj</a></li>
 <li><a href="#_convert_back_to_osgb">8.10. Convert back to osgb</a></li>
+<li><a href="#_using_openx_assets_library">8.11. Using OpenX assets library</a></li>
 </ul>
 </li>
 <li><a href="#_support_qa">9. Support / Q&amp;A</a>
@@ -6415,6 +6416,123 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 <p>This will create a new .osgb file that you can use in your application.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_using_openx_assets_library">8.11. Using OpenX assets library</h3>
+<div class="paragraph">
+<p><a href="https://github.com/bounverif/openx-assets" class="bare">https://github.com/bounverif/openx-assets</a> is a collection of low- and medium-polygon 3D vehicle assets.</p>
+</div>
+<div class="videoblock">
+<div class="content">
+<iframe width="800" height="450" src="https://www.youtube.com/embed/UWjQ8Ai83Cc?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=UWjQ8Ai83Cc" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_how_to_use_with_esmini">8.11.1. How to use with esmini</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download and extract openx-assets release, for example:<br>
+<a href="https://github.com/bounverif/openx-assets/releases/tag/20250821" class="bare">https://github.com/bounverif/openx-assets/releases/tag/20250821</a><br>
+the following examples assumes extracted to folder <code>/tmp</code> but it can be placed anywhere.</p>
+</li>
+<li>
+<p>In the scenario, add catalog location. Example:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">    <span class="tag">&lt;CatalogLocations&gt;</span>
+        <span class="tag">&lt;VehicleCatalog&gt;</span>
+            <span class="tag">&lt;Directory</span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">/tmp/openx-assets/catalogs</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+        <span class="tag">&lt;/VehicleCatalog&gt;</span>
+    <span class="tag">&lt;/CatalogLocations&gt;</span></code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>and for scenario objects, refer to catalog entries. Example:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">        <span class="tag">&lt;ScenarioObject</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">car1</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+            <span class="tag">&lt;CatalogReference</span> <span class="attribute-name">catalogName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">openx_assets_3d.catalog</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">entryName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">m1_audi_q7_2015</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+        <span class="tag">&lt;/ScenarioObject&gt;</span></code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Full demo/example scenario (shown in video clip above) found here:<br>
+<a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/car_walk.xosc">resources/xosc/car_walk.xosc</a><br>
+Run from esmini root as:<br>
+   <code>./bin/esmini --osc ./resources/xosc/car_walk.xosc --aa_mode 9 --path /tmp/openx-assets/model3d --custom_fixed_camera 235,4,2,5.9,0.1 --window 60 60 1024 512</code></p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_comment_on_rear_axle_non_zero_position">8.11.2. Comment on rear axle non zero position</h4>
+<div class="paragraph">
+<p>In the OpenSCENARIO XML standard the vehicle reference point is defined as the center of the rear axle projected on ground (see <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/06_general_concepts/06_03_coordinate_systems.html#_vehicle_coordinate_system_xv_yv_zv">here</a>). Hence, the x coordinate of the <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/Axles.html">rear axle</a>, defined in terms of vehicle coordinate system, normally should be zero.</p>
+</div>
+<div class="paragraph">
+<p>Now, for 3D models there is no universal standard how to place origin/reference point. This is especially true for vehicle models. Some models have origin at geometric center, some projected on ground. Ideally, for use with OpenSCENARIO the x coordinate of the center should be aligned with the rear axle.</p>
+</div>
+<div class="paragraph">
+<p>The authors of the OpenX assets library decided to not prepare multiple variants with different origins. Instead, only one variant with origin at geometric center projected on ground is provided.</p>
+</div>
+<div class="paragraph">
+<p>In order to still enable use with OpenSCENARIO the offset, the reference point can be moved along the x-axis. The affected vehicle attributes are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>rearAxle.positionX (becoming non zero)</p>
+</li>
+<li>
+<p>frontAxle.positionX</p>
+</li>
+<li>
+<p><a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/BoundingBox.html">BoundingBox</a>.center.x (becoming zero)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The offset is coded directly in rearAxle positionX (difference from zero). So, in esmini, from version 2.50.3, any non zero rearAxle positionX is interpreted as a request to offset the 3D model accordingly. The axles and bounding box center are adjusted according to comply with the OpenSCENARIO XML standard.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Vehicle</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">m1_bmw_x1_2016</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">vehicleCategory</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">car</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">mass</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1800</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">model3d</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">../model3d/m1_bmw_x1_2016/m1_bmw_x1_2016.osgb</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+   <span class="tag">&lt;BoundingBox&gt;</span>
+      <span class="tag">&lt;Center</span> <span class="attribute-name">x</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.000</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">y</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.000</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">z</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.832</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+      <span class="tag">&lt;Dimensions</span> <span class="attribute-name">length</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">4.747</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">width</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2.091</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">height</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1.645</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+   <span class="tag">&lt;/BoundingBox&gt;</span>
+   <span class="tag">&lt;Performance</span> <span class="attribute-name">maxSpeed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">56.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">maxDeceleration</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">8.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">maxAcceleration</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">4.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+   <span class="tag">&lt;Axles&gt;</span>
+      <span class="tag">&lt;FrontAxle</span> <span class="attribute-name">maxSteering</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.6</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">wheelDiameter</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.7585</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">trackWidth</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1.5426</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">positionX</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1.4851</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">positionZ</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.3792</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+      <span class="tag">&lt;RearAxle</span> <span class="attribute-name">maxSteering</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">wheelDiameter</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.7585</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">trackWidth</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1.5426</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">positionX</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">-1.3749</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">positionZ</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.3792</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+   <span class="tag">&lt;/Axles&gt;</span>
+<span class="tag">&lt;/Vehicle&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>3D model should be translated -1.3749 along the x-axis, while the axles and bounding box are translated +1.3749 so that rear axle ends up at x = 0.</p>
+</div>
+<div class="paragraph">
+<p>In summary: This small feature enables not only use of openx-asset vehicle models, but enables use of other models where origin does not align with rear axle - without need for editing or processing.</p>
+</div>
+<div class="paragraph">
+<p>Note: This feature is NOT supported by the OpenSCENARIO XML standard, which requires axles to be at non-negative X coordinate (>=0).</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -12114,15 +12232,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.50.0-1-9b6f1e50"</p>
+<p>ESMINI_GIT_TAG="v2.50.3"<br>
+ESMINI_GIT_REV="v2.50.3-0-b175fd15"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-07-09 07:06:50 +0200
+Last updated 2025-08-22 17:08:44 +0200
 </div>
 </div>
 </body>
