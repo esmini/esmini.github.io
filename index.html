@@ -604,6 +604,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_export_blender_obj">8.9. Export Blender obj</a></li>
 <li><a href="#_convert_back_to_osgb">8.10. Convert back to osgb</a></li>
 <li><a href="#_using_openx_assets_library">8.11. Using OpenX assets library</a></li>
+<li><a href="#_export_generated_3d_model">8.12. Export generated 3D model</a></li>
 </ul>
 </li>
 <li><a href="#_support_qa">9. Support / Q&amp;A</a>
@@ -6541,6 +6542,106 @@ These 3D models currently only works in esmini. Support for generic 3D models wi
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_export_generated_3d_model">8.12. Export generated 3D model</h3>
+<div class="paragraph">
+<p>The 3D model created by esmini, based on the input OpenDRIVE file, can be saved in the <code>.osgb</code> (OpenSceneGraph binary) format.</p>
+</div>
+<div class="sect3">
+<h4 id="_command_line">8.12.1. Command line</h4>
+<div class="paragraph">
+<p>By command line argument <code>--save_generated_model</code>, example:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/lane_change_crest.xosc --save_generated_model</code></p>
+</div>
+<div class="paragraph">
+<p>The model will be saved as <code>generated_road.osgb</code>. It can be viewed using any OpenSceneGraph compatible viewer, e.g:</p>
+</div>
+<div class="paragraph">
+<p><code>osgviewer --window 60 60 1200 600 generated_road.osgb</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_api">8.12.2. API</h4>
+<div class="paragraph">
+<p>Using esmini internal API, the 3D model can be saved programmatically. Here is a simplified example in C++:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;roadgeom.hpp&quot;</span>
+
+<span class="keyword">if</span> (!roadmanager::Position::LoadOpenDrive(<span class="string"><span class="delimiter">&quot;</span><span class="content">my_road.xodr</span><span class="delimiter">&quot;</span></span>))
+{
+    <span class="keyword">return</span> -<span class="integer">1</span>;
+}
+
+<span class="comment">// Create road geometry from OpenDRIVE file</span>
+roadgeom::RoadGeom road_geom = roadgeom::RoadGeom(roadmanager::Position::GetOpenDrive(), osg::Vec3(<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>), <span class="predefined-constant">true</span>, <span class="predefined-constant">true</span>, <span class="predefined-constant">false</span>, argv[<span class="integer">0</span>], <span class="predefined-constant">false</span>);
+
+<span class="comment">// the osg tree can be accessed in road_geom.root_</span>
+
+<span class="comment">// Save as OpenSceneGraph binary file</span>
+road_geom.SaveToFile(<span class="string"><span class="delimiter">&quot;</span><span class="content">my_road.osgb</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For explanation of the <code>RoadGeom</code>  constructor parameters, see the API documentation or the source code in <a href="https://github.com/esmini/esmini/blob/6810e35a71d80aa708aa6092fccc7da1a5a6db0f/EnvironmentSimulator/Modules/ViewerBase/roadgeom.hpp#L66-L82"><code>roadgeom.hpp</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>The code needs to link the following esmini modules/libraries:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>RoadManager</p>
+</li>
+<li>
+<p>CommonMini</p>
+</li>
+<li>
+<p>RoadGeom</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Full code example here: <a href="https://github.com/esmini/esmini/tree/refs/heads/dev/EnvironmentSimulator/code-examples/road-model">code-examples/road-model</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_node_naming">8.12.3. Node naming</h4>
+<div class="paragraph">
+<p>For post processing the esmini generated nodes are named as following example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>esmini_generated_road_model
+  roadmarks
+    roadmark_0
+    roadmark_1
+    roadmark_2
+  roads
+    road_0_1
+    road_0_2
+    road_0_3
+    road_1_0
+    road_1_2
+  road_objects
+    road_object_0
+    no-name
+      road_object_1
+    road_object_2
+    road_object_3</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The second number in road nodes indicate just subsegment of the road, i.e. one road will typically have a number of separate segments.</p>
+</div>
+<div class="paragraph">
+<p><code>no-name</code> are structural nodes, e.g. transformation or just group.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -12240,15 +12341,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.50.3-2-699c4079"</p>
+<p>ESMINI_GIT_TAG="v2.50.5"<br>
+ESMINI_GIT_REV="v2.50.5-0-d4219b34"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-08-23 09:42:49 +0200
+Last updated 2025-08-29 13:08:04 +0200
 </div>
 </div>
 </body>
