@@ -6611,31 +6611,90 @@ road_geom.SaveToFile(<span class="string"><span class="delimiter">&quot;</span><
 <div class="sect3">
 <h4 id="_node_naming">8.12.3. Node naming</h4>
 <div class="paragraph">
-<p>For post processing the esmini generated nodes are named as following example:</p>
+<p>For post processing the esmini generated nodes are named.</p>
+</div>
+<div class="paragraph">
+<p>Name structure: <code>&lt;object type&gt;_&lt;id&gt;_&lt;context dependent info&gt;</code></p>
+</div>
+<div class="paragraph">
+<p>Context dependent info:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+roadmark 
+</td>
+<td class="hdlist2">
+<p><code>&lt;type&gt;</code></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+road 
+</td>
+<td class="hdlist2">
+<p><code>&lt;lane&gt;_&lt;segment&gt;</code> (segment per friction value)</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+road_object 
+</td>
+<td class="hdlist2">
+<p><code>&lt;name&gt;[_index]</code> (index corresponding to outline)</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+tunnel 
+</td>
+<td class="hdlist2">
+<p><code>&lt;type: wall|roof&gt;_&lt;name&gt;_&lt;index&gt;</code></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+road_signal 
+</td>
+<td class="hdlist2">
+<p><code>&lt;name&gt;</code></p>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Note:</p>
+</div>
+<div class="paragraph">
+<p>Example: Tunnels have three sub objects, two walls and one roof)</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>esmini_generated_road_model
   roadmarks
-    roadmark_0
-    roadmark_1
-    roadmark_2
+    roadmark_0_solid
+    roadmark_1_broken
+    roadmark_2_broken
   roads
-    road_0_1
-    road_0_2
-    road_0_3
-    road_1_0
-    road_1_2
+    road_0_0_0
+    road_0_1_0
+    road_1_0_0
+    road_1_1_0
+    road_1_2_0
+    road_1_2_1
+    road_1_2_2
   road_objects
-    road_object_0
+    road_object_0_railing
+    road_object_1_railing
     no-name
-      road_object_1
-    road_object_2
-    road_object_3</pre>
+      road_object_2_   (object in OpenDRIVE has empty name)
+    road_object_3_0
+    road_object_3_1
+    tunnel_wall_4_0
+    tunnel_wall_4_0
+    tunnel_roof_4_0</pre>
 </div>
-</div>
-<div class="paragraph">
-<p>The second number in road nodes indicate just subsegment of the road, i.e. one road will typically have a number of separate segments.</p>
 </div>
 <div class="paragraph">
 <p><code>no-name</code> are structural nodes, e.g. transformation or just group.</p>
@@ -12341,15 +12400,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.50.5"<br>
-ESMINI_GIT_REV="v2.50.5-0-d4219b34"</p>
+<p>ESMINI_GIT_TAG="v2.50.6"<br>
+ESMINI_GIT_REV="v2.50.6-0-3d07b609"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-08-29 13:08:04 +0200
+Last updated 2025-09-01 13:44:50 +0200
 </div>
 </div>
 </body>
