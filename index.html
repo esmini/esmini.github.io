@@ -642,6 +642,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_formatting_and_code_analysis">12.2. Formatting and code analysis</a></li>
 <li><a href="#_test">12.3. Test</a></li>
 <li><a href="#_sanitizers">12.4. Sanitizers</a></li>
+<li><a href="#_implementation_guidelines">12.5. Implementation guidelines</a></li>
 </ul>
 </li>
 <li><a href="#_esmini_lib_programming">13. esmini lib programming</a>
@@ -5835,7 +5836,92 @@ Parameters:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_hidcontroller">7.6.11. HIDcontroller</h4>
+<h4 id="_followreferencecontroller">7.6.11. FollowReferenceController</h4>
+<div class="paragraph">
+<p>The esmini implementation of the OpenSCENARIO XML default controller executes the scenario exactly as defined, without smoothing or other influence from vehicle dynamics or driver modeling. It will even perform discontinuities like step shaped lane- or speed change actions. In other words, it goes beyond kinematics, into "kinemagics".</p>
+</div>
+<div class="paragraph">
+<p>The result can be seen as a <code>blueprint</code> or reference of the specified scenario.</p>
+</div>
+<div class="paragraph">
+<p>The FollowReferenceController can be used to smoothen the blueprint, or transform it from "kinemagic" to kinematic, by follow the reference position closely with a simple bicycle kinematic model inspired by the well known Stanley controller: <a href="https://ai.stanford.edu/~gabeh/papers/hoffmann_stanley_control07.pdf" class="bare">https://ai.stanford.edu/~gabeh/papers/hoffmann_stanley_control07.pdf</a>. For longitudinal control a simple critically damped spring model with parameterized stiffness is used.</p>
+</div>
+<div class="paragraph">
+<p>The result becomes a smooth and continuous version of the original scenario, with a more realistic vehicle motion.</p>
+</div>
+<div class="paragraph">
+<p>Example scenario:
+<a href="https://github.com/esmini/esmini/blob/master/resources/xosc/follow_reference.xosc" class="bare">https://github.com/esmini/esmini/blob/master/resources/xosc/follow_reference.xosc</a></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/follow_reference.png" alt="follow reference">
+</div>
+</div>
+<div class="videoblock">
+<div class="content">
+<iframe width="854" height="480" src="https://www.youtube.com/embed/icozF90XZDQ?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=icozF90XZDQ" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+<div class="paragraph">
+<p>The scenario triggers four lane changes with different <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/DynamicsShape.html">shapes</a>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>step</p>
+</li>
+<li>
+<p>linear</p>
+</li>
+<li>
+<p>sinusoidal</p>
+</li>
+<li>
+<p>cubic</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The cross-track error gain is sligthly stiff, 2.5, but results in quite good tracking capability, also for challenging maneuvers.</p>
+</div>
+<div class="paragraph">
+<p>By default the controller will create a ghost reference entity executing the original scenario, while the main entity, to which the controller is assign, will follow the ghost in real time. Note that no head-start will happen like with the followGhost controller. Alternatively, instead of creating a ghost from the own entity, any other existing scenario object can be set as reference entity.</p>
+</div>
+<div class="paragraph">
+<p>Some controller tuning parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Stanley cross error gain</p>
+</li>
+<li>
+<p>delta heading gain</p>
+</li>
+<li>
+<p>curvature gain</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For details see <code>followReference</code> in <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/Catalogs/Controllers/ControllerCatalog.xosc">Controllers/ControllerCatalog.xosc</a></p>
+</div>
+<div class="paragraph">
+<p>Another scenario example:
+<a href="https://github.com/esmini/esmini/blob/master/resources/xosc/follow_reference_interactive.xosc" class="bare">https://github.com/esmini/esmini/blob/master/resources/xosc/follow_reference_interactive.xosc</a></p>
+</div>
+<div class="paragraph">
+<p>This scenario allows to interactively drive the reference entity (red) by arrow keys. The white car tries to follow using the FollowReferenceController. Initially relaxed settings. After 15 seconds stiffer settings are applied.</p>
+</div>
+<div class="videoblock">
+<div class="content">
+<iframe width="854" height="480" src="https://www.youtube.com/embed/1bKpl1dseHs?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=1bKpl1dseHs" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hidcontroller">7.6.12. HIDcontroller</h4>
 <div class="paragraph">
 <p>From v2.47.0 esmini supports game controllers, allowing interactive control of one or multiple entities in a simulation. Any joystick compatible device should work, e.g. joystick, gamepad, racing wheel, etc.</p>
 </div>
@@ -6921,7 +7007,7 @@ In order to execute the files you need to do one of following from a terminal in
 </ul>
 </div>
 <div class="paragraph">
-<p>In the image below, the white cars are positioned by <code>RoadPosition</code> with <code>t=-1.5</code> and <code>t=1.5</code> respectively while the red cars are positioned by <code>LanePosition</code> with <code>laneId="-1"</code> and <code>laneId="1"</code> respectively.</p>
+<p>In the image below, the white cars are positioned by <code>LanePosition</code> with <code>laneId=-1</code> and <code>laneId=1</code> respectively while the red cars are positioned by <code>RoadPosition</code> with <code>t=-1.5</code> and <code>t=1.5</code> respectively.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -7593,6 +7679,8 @@ Options:
       Disable route waypoint visualization. Toggle key 'R'
   --hide_trajectories
       Hide trajectories from start. Toggle key 'n'
+  --hide_ghost
+      Do not visualize ghost
   --ignore_heading_for_traj_motion
       Ignore heading when deciding motion direction along trajectory
   --ignore_odr_offset
@@ -7772,7 +7860,7 @@ Mouse control
 <h3 id="_replayer">10.3. replayer</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>Usage:  [options]
+<pre class="CodeRay highlight"><code>Usage: replayer [options]
 Options:
   --file &lt;filename&gt;
       Simulation recording data file (.dat)
@@ -7934,6 +8022,8 @@ Recommended usage:
 <div class="content">
 <pre class="CodeRay highlight"><code>Usage: odrviewer [options]
 Options:
+  --path &lt;path&gt;...
+      Search path prefix for assets, e.g. OpenDRIVE files.
   --help
       Show this help message (-h works as well)
   --odr &lt;odr_filename&gt;
@@ -9148,6 +9238,164 @@ exit</code></pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_implementation_guidelines">12.5. Implementation guidelines</h3>
+<div class="sect3">
+<h4 id="_floating_point_precision">12.5.1. Floating point precision</h4>
+<div class="paragraph">
+<p>To achieve consistent results, esmini applies a tolerance of 1e-6 (0.000001) for floating point comparisons, allowing for slight differences due to precision limitations. Examples:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+x &gt; y 
+</td>
+<td class="hdlist2">
+<p>is considered true if x &gt; y + 1e-6</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+x ≥ y 
+</td>
+<td class="hdlist2">
+<p>is considered true if x &gt; y - 1e-6</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+x == y 
+</td>
+<td class="hdlist2">
+<p>is considered true if abs(x - y) &lt; 1e-6</p>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In code the macros <code>SMALL_NUMBER</code>, for doubles, and <code>SMALL_NUMBERF</code>, for floats should be used for this purpose. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>if (x &gt; y + SMALL_NUMBER)</code></p>
+</div>
+<div class="paragraph">
+<p>There is also macros <code>NEAR_NUMBERS(x, y)</code> and <code>NEAR_NUMBERSF(x, y)</code>, that can be used for checking if numbers are effectively equal. It utilizes the same tolerance. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>if (NEAR_NUMBERS(x, y))</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_options">12.5.2. Options</h4>
+<div class="sect4">
+<h5 id="_using_options_in_code">Using options (in code)</h5>
+<div class="paragraph">
+<p>You can fetch the value of an option basically in two ways:</p>
+</div>
+<div class="paragraph">
+<p><code>std::string GetOptionValue(std::string option_name)</code><br>
+or<br>
+<code>std::string GetOptionValueByEnum(CONFIG_ENUM option_enum);</code></p>
+</div>
+<div class="paragraph">
+<p>The Enum variant should be preferred whenever an option is frequently accessed. Otherwise, e.g. in a setup phase, the difference in terms of performance is negligible.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_adding_options_in_code">Adding options (in code)</h5>
+<div class="paragraph">
+<p>Steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the option</p>
+</li>
+<li>
+<p>Add the option to desired applications</p>
+</li>
+<li>
+<p>Document the option</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Details of each step:</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_create_the_option">Create the option</h5>
+<div class="paragraph">
+<p>In <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Modules/CommonMini/EnumConfig.hpp">EnumConfig.hpp</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add the option to the <code>CONFIG_ENUM</code></p>
+</li>
+<li>
+<p>Connect the option name to the enum in <code>configStrKeyEnumMap</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_add_the_option_to_desired_applications">Add the option to desired applications</h5>
+<div class="paragraph">
+<p>using the function <code>opt.AddOption()</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>esmini: in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Modules/PlayerBase/playerbase.cpp">playerbase.cpp</a>, <code>PlayerBase::Init()</code></p>
+</li>
+<li>
+<p>replayer: in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/replayer/main.cpp">replayer/main.cpp</a>, <code>main()</code></p>
+</li>
+<li>
+<p>odrviewer: in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/odrviewer/main.cpp">odrviewer/main.cpp</a>, <code>main()</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_document_the_option">Document the option</h5>
+<div class="paragraph">
+<p>Update:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>esmini: update <a href="https://github.com/esmini/esmini/blob/dev/docs/commands.txt">docs/commands.txt</a></p>
+</li>
+<li>
+<p>replayer: update <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/replayer/readme.txt">replayer/readme.txt</a></p>
+</li>
+<li>
+<p>odrviewer: update <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/odrviewer/readme.txt">odrviewer/readme.txt</a><br></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Two tips to get the text:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run corresponding application with no args or <code>--help</code> and copy the content from console output</p>
+</li>
+<li>
+<p>Press <code>H</code> (<code>shift-h</code>) key in the application window to output the same help info to console</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>By adding the option to the .txt files, the option will automatically be added in next generation of <a href="#_command_reference">Command reference</a> as well.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -9848,22 +10096,25 @@ crop dynamic OSI groundtruth around an entity (<strong>default</strong> is to in
 <p>On top of setting options from command line, esmini (from v2.41.0) supports setting options from esminiLib and esminiRMLib as well. This new functionality is added to set and unset options during runtime. This is useful, for example, to enable or disable logging to console, or to change log level etc between scenario runs via API. In addition, it is now possible to make option settings persistent over multiple runs of scenarios. There are two variants of the API functions i.e. one to set option value with persistence and one without. The API functions are:</p>
 </div>
 <div class="paragraph">
-<p>SE_DLL_API int SE_SetOption(const char *name);</p>
+<p><code>SE_DLL_API int SE_SetOption(const char *name);</code></p>
 </div>
 <div class="paragraph">
-<p>SE_DLL_API int SE_SetOptionPersistent(const char *name);</p>
+<p><code>SE_DLL_API int SE_SetOptionPersistent(const char *name);</code></p>
 </div>
 <div class="paragraph">
-<p>SE_DLL_API int SE_SetOptionValue(const char *name, const char *value);</p>
+<p><code>SE_DLL_API int SE_SetOptionValue(const char *name, const char *value);</code></p>
 </div>
 <div class="paragraph">
-<p>SE_DLL_API int SE_SetOptionValuePersistent(const char *name, const char *value);</p>
+<p><code>SE_DLL_API int SE_SetOptionValuePersistent(const char *name, const char *value);</code></p>
 </div>
 <div class="paragraph">
-<p>SE_DLL_API int SE_UnsetOption(const char *name);</p>
+<p><code>SE_DLL_API int SE_UnsetOption(const char *name);</code></p>
 </div>
 <div class="paragraph">
-<p>SE_DLL_API const char *SE_GetOptionValue(const char *name);</p>
+<p><code>SE_DLL_API const char *SE_GetOptionValue(const char *name);</code></p>
+</div>
+<div class="paragraph">
+<p><code>SE_DLL_API const char *SE_GetOptionValueByEnum(unsigned int);</code> (see <a href="#_using_options_in_code">Using options (in code)</a>)</p>
 </div>
 <div class="paragraph">
 <p>Any setting done in between runs, i.e. after any SE_Close() and before SE_Init(), will apply to the next run, at least. The persistent variant will apply for all future runs until unset or other setting overrides it. The effect of settings done during a scenario run will depend on the option itself. For example, anti-aliasing mode for the rendering will not change during a scenario, while logfile path can change during a scenario run (which will close current and open a new file with specified path and name). So, to be sure, set options before SE_Init() and after any SE_Close().</p>
@@ -12400,15 +12651,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.50.6"<br>
-ESMINI_GIT_REV="v2.50.6-0-3d07b609"</p>
+<p>ESMINI_GIT_TAG="v2.51.0"<br>
+ESMINI_GIT_REV="v2.51.0-0-92f9372f"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-01 13:44:50 +0200
+Last updated 2025-09-24 09:44:34 +0200
 </div>
 </div>
 </body>
