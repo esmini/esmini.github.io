@@ -609,8 +609,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_support_qa">9. Support / Q&amp;A</a>
 <ul class="sectlevel2">
-<li><a href="#_various_issues">9.1. Various issues</a></li>
-<li><a href="#_further_issues_at_esmini_github_page">9.2. Further issues at esmini GitHub page</a></li>
+<li><a href="#_file_search_paths">9.1. File search paths</a></li>
+<li><a href="#_various_issues">9.2. Various issues</a></li>
+<li><a href="#_further_issues_at_esmini_github_page">9.3. Further issues at esmini GitHub page</a></li>
 </ul>
 </li>
 <li><a href="#_command_reference">10. Command reference</a>
@@ -6795,11 +6796,196 @@ road_signal
 <h2 id="_support_qa">9. Support / Q&amp;A</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_various_issues">9.1. Various issues</h3>
-<div class="sect3">
-<h4 id="_resources_not_found">9.1.1. Resources not found</h4>
+<h3 id="_file_search_paths">9.1. File search paths</h3>
 <div class="paragraph">
-<p>There are no fixed structure where scenario resources, e.g. vehicle 3D model or controller catalog, needs to be stored. Instead, additional search paths can be added by launch argument <code>--path &lt;path&gt;</code>. For example:<br></p>
+<p>The starting point for esmini is usually a specified scenario file. In addition to assets referred to by the scenario and road network, e.g. vehicle and traffic sign 3D models, several config files also needs to be located and processed. This section briefly describes how esmini searches for key files.</p>
+</div>
+<div class="paragraph">
+<p>The default file structure for binaries (applications and libs) and scenario assets is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>esmini/
+|_ bin/
+|  |_ esmini
+|  |_ odrviewer
+|  |_ replayer
+|  |_ esminiLib
+|  |_ esminiRMLib
+|_ resources/
+   |_ model_ids.txt
+   |_ traffic_signals/
+   |_ models/
+   |_ xodr/
+   |_ xosc/
+   |_ xosc/Catalogs/</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>bin</code> all executables and shared libraries (esminiLib.so/dll and esminiRMLib.so/dll)</p>
+</li>
+<li>
+<p><code>model_ids.txt</code> a simple mapping of model Id and 3D model file. This is used when replaying <code>.dat</code> files which contains only model ID number instead of full 3D model file path (for bandwidth reasons).</p>
+</li>
+<li>
+<p><code>traffic_signals</code> files mapping road sign ID to OSI type, per country</p>
+</li>
+<li>
+<p><code>models</code> 3D model files and textures</p>
+</li>
+<li>
+<p><code>xodr</code> OpenDRIVE files</p>
+</li>
+<li>
+<p><code>xosc</code> OpenSCENARIO files</p>
+</li>
+<li>
+<p><code>Catalogs</code> OpenSCENARIO catalogs</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Although esmini supports other folder structures and file locations as well, the above structure is default.</p>
+</div>
+<div class="paragraph">
+<p>esmini supports the following file reference types in OpenSCENARIO and OpenDRIVE files:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Relative path</p>
+<div class="ulist">
+<ul>
+<li>
+<p>example: <code>../xodr/road.xodr</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Absolute path</p>
+<div class="ulist">
+<ul>
+<li>
+<p>example: <code>/tmp/road.xodr</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Filename</p>
+<div class="ulist">
+<ul>
+<li>
+<p>example: <code>road.xodr</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_search_locations">9.1.1. Search locations</h4>
+<div class="paragraph">
+<p>For each file type esmini will search in a set of locations in a specific order. User can add any number of additional search paths with <code>--path &lt;folder path&gt;</code> launch argument, or via API <code>SE_AddPath()</code> function.</p>
+</div>
+<div class="paragraph">
+<p>Specified file path will be added (concatenated) to each search location to form the full file path. If the specified file path includes a path (relative or absolute) two paths will be formed; one including the path and one adding just the filename.</p>
+</div>
+<div class="paragraph">
+<p>Order of search locations:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Full path as specified (from current directory if path is relative)</p>
+</li>
+<li>
+<p>Only filename (extracted from specified path), in current directory</p>
+</li>
+<li>
+<p>Location relative to user specified paths</p>
+</li>
+<li>
+<p>Additional special purpose locations depending on file type, see below</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>OpenDRIVE (.xodr)</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Relative scenario file: <code>&lt;path_to_xosc&gt;/&lt;specified_path&gt;</code></p>
+</li>
+<li>
+<p>Default folder relative executable (or library): <code>&lt;path_to_exe&gt;/resources/xodr/&lt;specified_filename&gt;</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>3D models (.osgb) in OpenSCENARIO file</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Relative scenario file: <code>&lt;path_to_xosc&gt;/&lt;specified_path&gt;</code></p>
+</li>
+<li>
+<p>Default folder relative executable (or library): <code>&lt;path_to_exe&gt;/resources/models/&lt;specified_filename&gt;</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>3D models (.osgb) in OpenDRIVE file</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Relative opendrive file: <code>&lt;path_to_xodr&gt;/&lt;specified_path&gt;</code></p>
+</li>
+<li>
+<p>Default folder relative executable (or library): <code>&lt;path_to_exe&gt;/resources/models/&lt;specified_filename&gt;</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>model_ids.txt</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Default location relative executable (or library): <code>&lt;path_to_exe&gt;/resources/model_ids.txt</code></p>
+</li>
+<li>
+<p>Relative current directory: <code>./resources/model_ids.txt</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>traffic_signals</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Default location relative executable (or library): <code>&lt;path_to_exe&gt;/resources/traffic_signals/&lt;country code&gt;_traffic_signals.txt</code></p>
+</li>
+<li>
+<p>Relative current directory: <code>./resources/traffic_signals/&lt;country code&gt;_traffic_signals.txt</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_various_issues">9.2. Various issues</h3>
+<div class="sect3">
+<h4 id="_resources_not_found">9.2.1. Resources not found</h4>
+<div class="paragraph">
+<p>Although esmini comes with a default file structure where scenario resources, e.g. vehicle 3D model or controller catalog, needs to be stored, it&#8217;s not fixed. Instead, additional search paths can be added by launch argument <code>--path &lt;path&gt;</code>. For example:<br></p>
 </div>
 <div class="paragraph">
 <p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/slow-lead-vehicle.xosc --path ../../ --path c:/tmp/my_models</code></p>
@@ -6809,7 +6995,7 @@ road_signal
 </div>
 </div>
 <div class="sect3">
-<h4 id="_blocked_by_windows_defender_smartscreen">9.1.2. Blocked by Windows Defender SmartScreen</h4>
+<h4 id="_blocked_by_windows_defender_smartscreen">9.2.2. Blocked by Windows Defender SmartScreen</h4>
 <div class="paragraph">
 <p>When esmini is downloaded as a zip file from Internet it might be blocked, i.e. prevented from being started, by Windows to protect your system. This is indicated by the following, or similar, message popping up when attempt to start:</p>
 </div>
@@ -6860,7 +7046,7 @@ road_signal
 </div>
 </div>
 <div class="sect3">
-<h4 id="_mac_issues_and_limitations">9.1.3. Mac issues and limitations</h4>
+<h4 id="_mac_issues_and_limitations">9.2.3. Mac issues and limitations</h4>
 <div class="paragraph">
 <p>From esmini version 2.26.6 mac executables are universal binaries which means they work on both Intel and Apple Silicon based Macs. Following are some known issues and work arounds:</p>
 </div>
@@ -6896,7 +7082,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_openstreetmap_osm_roads_in_esmini">9.1.4. OpenStreetMap (OSM) roads in esmini</h4>
+<h4 id="_openstreetmap_osm_roads_in_esmini">9.2.4. OpenStreetMap (OSM) roads in esmini</h4>
 <div class="paragraph">
 <p>SUMO comes with a great tool, <a href="https://sumo.dlr.de/docs/netconvert.html">netconvert</a>, that can convert road networks from and to various formats.</p>
 </div>
@@ -6917,7 +7103,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_3d_model_pack">9.1.5. Update 3D model pack</h4>
+<h4 id="_update_3d_model_pack">9.2.5. Update 3D model pack</h4>
 <div class="paragraph">
 <p>Do either:</p>
 </div>
@@ -6943,7 +7129,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_3rd_party_prebuilt_libraries">9.1.6. Update 3rd party prebuilt libraries</h4>
+<h4 id="_update_3rd_party_prebuilt_libraries">9.2.6. Update 3rd party prebuilt libraries</h4>
 <div class="paragraph">
 <p>There are a few external dependencies that takes long time to build from scratch. Instead they are provided in compressed packages including needed headerfiles and prebuilt libraries. The packages are available for Win, Mac and Linux. For Windows and Linux they include Debug mode binaries, in addition to the Release variant.</p>
 </div>
@@ -6964,7 +7150,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_entity_does_not_appear">9.1.7. Entity does not appear</h4>
+<h4 id="_entity_does_not_appear">9.2.7. Entity does not appear</h4>
 <div class="paragraph">
 <p>In order to appear in the scenario, without need for AddEntity action, an entity must be represented in the Init section of the Storyboard. Common is to add actions to establish inital position and speed.</p>
 </div>
@@ -6994,7 +7180,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_heading_behavior_in_road_vs_lane_position">9.1.8. Heading behavior in Road vs Lane Position</h4>
+<h4 id="_heading_behavior_in_road_vs_lane_position">9.2.8. Heading behavior in Road vs Lane Position</h4>
 <div class="paragraph">
 <p>In esmini, the behavior of the two position types <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/RoadPosition.html"><code>RoadPosition</code></a> and <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/LanePosition.html"><code>LanePosition</code></a> differ in terms of heading.</p>
 </div>
@@ -7062,7 +7248,7 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_osi_for_python_on_windows">9.1.9. OSI for Python on Windows</h4>
+<h4 id="_osi_for_python_on_windows">9.2.9. OSI for Python on Windows</h4>
 <div class="paragraph">
 <p>Follow the following steps to install OSI (and dependent Google Protobuf) for use by some esmini scripts, e.g. <a href="https://github.com/esmini/esmini/blob/master/scripts/osi2csv.py">osi2csv.py</a>.</p>
 </div>
@@ -7140,7 +7326,7 @@ for example: <code>$env:PROTOC="C:/tmp/protoc-3.20.2-win64/bin/protoc.exe"</code
 </div>
 </div>
 <div class="sect3">
-<h4 id="_the_scenario_runs_too_fast_or_too_slow">9.1.10. The scenario runs too fast or too slow</h4>
+<h4 id="_the_scenario_runs_too_fast_or_too_slow">9.2.10. The scenario runs too fast or too slow</h4>
 <div class="paragraph">
 <p>esmini can run in two different time modes: 1. Real-time and 2. Fixed-time. Default is real-time.</p>
 </div>
@@ -7166,7 +7352,7 @@ g tests for later post processing of resulting logs, data or OSI files.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_road_and_junction_string_ids">9.1.11. Road and junction string IDs</h4>
+<h4 id="_road_and_junction_string_ids">9.2.11. Road and junction string IDs</h4>
 <div class="paragraph">
 <p>OpenDRIVE allows for non integer string IDs. Although commonly unsigned integer is used. The standard <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/latest/specification/16_annexes/classes/road/top_cla_t_road.html">OpenDRIVE 1.8</a> states that IF the ID represents an integer number, it should comply to uint32_t and stay within the given range.</p>
 </div>
@@ -7238,7 +7424,7 @@ id_t SE_GetJunctionIdFromString(<span class="directive">const</span> <span class
 </div>
 </div>
 <div class="sect2">
-<h3 id="_further_issues_at_esmini_github_page">9.2. Further issues at esmini GitHub page</h3>
+<h3 id="_further_issues_at_esmini_github_page">9.3. Further issues at esmini GitHub page</h3>
 <div class="paragraph">
 <p>The <a href="https://github.com/esmini/esmini/issues">Issues tab at esmini GitHub page</a> is a valuable source of questions and answers. To search in all issues, make sure to set filter: <code>is:issue</code>.</p>
 </div>
@@ -12655,15 +12841,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.52.0"<br>
-ESMINI_GIT_REV="v2.52.0-0-15fa33b1"</p>
+<p>ESMINI_GIT_TAG="v2.53.0"<br>
+ESMINI_GIT_REV="v2.53.0-0-633fcea6"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-29 15:51:01 +0200
+Last updated 2025-10-22 18:05:02 +0200
 </div>
 </div>
 </body>
