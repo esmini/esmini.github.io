@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="generator" content="Asciidoctor 2.0.26">
 <title>esmini user guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -116,7 +116,6 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 :not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
-pre>code{display:block}
 pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
 em em{font-style:normal}
 strong strong{font-weight:400}
@@ -219,6 +218,7 @@ table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
 .literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
 .listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
 .listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
 .listingblock:hover code[data-lang]::before{display:block}
 .listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
@@ -560,13 +560,14 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_speed_profile">5.1. Speed profile</a></li>
 <li><a href="#_condition_delay">5.2. Condition delay</a></li>
 <li><a href="#_road_signs">5.3. Road signs</a></li>
-<li><a href="#_expressions">5.4. Expressions</a></li>
-<li><a href="#_parameter_distributions">5.5. Parameter distributions</a></li>
-<li><a href="#_trajectories">5.6. Trajectories</a></li>
-<li><a href="#_friction">5.7. Friction</a></li>
-<li><a href="#_environment_conditions">5.8. Environment conditions</a></li>
-<li><a href="#_tunnels">5.9. Tunnels</a></li>
-<li><a href="#_sumo_integration">5.10. SUMO integration</a></li>
+<li><a href="#_traffic_lights">5.4. Traffic Lights</a></li>
+<li><a href="#_expressions">5.5. Expressions</a></li>
+<li><a href="#_parameter_distributions">5.6. Parameter distributions</a></li>
+<li><a href="#_trajectories">5.7. Trajectories</a></li>
+<li><a href="#_friction">5.8. Friction</a></li>
+<li><a href="#_environment_conditions">5.9. Environment conditions</a></li>
+<li><a href="#_tunnels">5.10. Tunnels</a></li>
+<li><a href="#_sumo_integration">5.11. SUMO integration</a></li>
 </ul>
 </li>
 <li><a href="#_positioning">6. Positioning</a>
@@ -578,6 +579,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_relative_positions_and_routes">6.5. Relative positions and routes</a></li>
 <li><a href="#_reference_line_and_center_lane">6.6. Reference line and center lane</a></li>
 <li><a href="#_lateral_distance_action_logics">6.7. Lateral distance action logics</a></li>
+<li><a href="#_shift_reference_point">6.8. Shift reference point</a></li>
 </ul>
 </li>
 <li><a href="#_controllers">7. Controllers</a>
@@ -2671,7 +2673,225 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_expressions">5.4. Expressions</h3>
+<h3 id="_traffic_lights">5.4. Traffic Lights</h3>
+<div class="paragraph">
+<p>Supported from v.2.56.0.</p>
+</div>
+<div class="sect3">
+<h4 id="_the_system_2">5.4.1. The system</h4>
+<div class="paragraph">
+<p>Traffic lights are specified in the <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/v1.8.1/specification/14_signals/14_01_introduction.html">OpenDRIVE</a> road network description file. A traffic light is identified by four parameters:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>dynamic</p>
+</li>
+<li>
+<p>country</p>
+</li>
+<li>
+<p>type</p>
+</li>
+<li>
+<p>subtype</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Dynamic should be set to <code>yes</code>, as it indicates that the signal is potentially changing state during the simulation.</p>
+</div>
+<div class="paragraph">
+<p>Only the country <code>OpenDRIVE</code> is supported, with its associated types and subtypes. More information available in <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Signal_reference/1.0.0/signal-catalog/01_road_signals/road_signals.html">ASAM OpenDRIVE signal references</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_traffic_lights_in_openscenario">5.4.2. Traffic lights in OpenSCENARIO</h4>
+<div class="paragraph">
+<p>esmini supports <code>TrafficSignalStateAction</code> and <code>TrafficSignalStateCondition</code>. The semantic state can be set in the <code>TrafficSignalStateAction</code>, and the same semantic state can be monitored in <code>TrafficSignalStateCondition</code>. A semantic state is described as a <code>string</code>, with one state per lamp in the traffic light separated by a <code>;</code>. The lamps are mapped from top &#8594; bottom, meaning the leftmost semantic state is the top lamp etc.</p>
+</div>
+<div class="paragraph">
+<p>Example of a semantic state of a lamp of type <code>1000001</code> (<a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/traffic_lights.xosc">full example</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;GlobalAction&gt;</span>
+    <span class="tag">&lt;InfrastructureAction&gt;</span>
+      <span class="tag">&lt;TrafficSignalAction&gt;</span>
+          <span class="tag">&lt;TrafficSignalStateAction</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">state</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">on;off;off</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+      <span class="tag">&lt;/TrafficSignalAction&gt;</span>
+    <span class="tag">&lt;/InfrastructureAction&gt;</span>
+<span class="tag">&lt;/GlobalAction&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In above example, <code>name=1</code> maps to <code>signal</code> in the <code>OpenDRIVE</code> with <code>id=1</code>, and <code>state</code> is the semantic state of each of the 3 lamps.</p>
+</div>
+<div class="paragraph">
+<p>Supported semantic states are:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>unknown</p>
+</li>
+<li>
+<p>other</p>
+</li>
+<li>
+<p>off</p>
+</li>
+<li>
+<p>on</p>
+</li>
+<li>
+<p>flashing</p>
+</li>
+<li>
+<p>counting (no graphics support)</p>
+</li>
+<li>
+<p>broken</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For their intended usage and definition see <a href="https://opensimulationinterface.github.io/osi-antora-generator/asamosi/V3.5.0/gen/structosi3_1_1TrafficLight_1_1Classification.html#ae107846d88eaa3dab95d3d931d73fa09">ASAM OSI documentation</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_traffic_lights_visualization">5.4.3. Traffic lights visualization</h4>
+<div class="paragraph">
+<p>The traffic light 3D model is generated by esmini. The model is basically created as a number of stacked lamp housings, based on the <code>type</code>. The actual color and design of the lamp face itself is applied as a <code>.png</code> image texture. The image is picked based on the <code>type</code> and <code>subtype</code> attributes.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/traffic_light_construct.png" alt="traffic light construct">
+</div>
+<div class="title">Traffic light construction for types 1000001 and 1000002</div>
+</div>
+<div class="paragraph">
+<p>The texture will illustrate the lamp face in lit state. When lamp is off it will be just black.</p>
+</div>
+<div class="paragraph">
+<p>Example from <a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/traffic_lights.xosc">traffic_lights.xosc</a> (videoclip <a href="https://youtu.be/26BSMblzyO4">here</a>):</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/traffic_light_screenshot.jpg" alt="traffic light screenshot">
+</div>
+<div class="title">Screenshot from traffic_lights.xosc</div>
+</div>
+<div class="paragraph">
+<p>esmini model package (see <a href="#_update_3d_model_pack">here</a> how to get or update it) includes a set of predefined textures for traffic lights. As of v2.56.0 esmini supports 19 of the types defined in <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Signal_reference/1.0.0/signal-catalog/01_road_signals/road_signals.html">OpenDRIVE 1.8 - Signal reference</a>. The corresponding texture images are located in model package folder <code>models/roads_signal_textures/</code>.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s easy to replace a lamp face image or even add new ones. Just prepare a <code>.png</code> file named as follows:</p>
+</div>
+<div class="paragraph">
+<p><code>opendrive_&lt;type&gt;[.subtype].png</code></p>
+</div>
+<div class="paragraph">
+<p>where:<br>
+<code>&lt;&gt;</code> = mandatory fields<br>
+<code>[]</code> = optional fields</p>
+</div>
+<div class="paragraph">
+<p>For example, a traffic light of type <code>1000002</code> and subtype <code>30</code>:<br>
+<code>opendrive_1000002.30.png</code></p>
+</div>
+<div class="paragraph">
+<p>The dimensions should preferably be a square power of 2 (POT) for each lamp face, e.g. 128x128 pixels. For traffic light types with three lamps the faces are stacked on top of each other so the size becomes 128x384 pixels. Images not fitting the POT dimensions will be downscaled.</p>
+</div>
+<div class="paragraph">
+<p>Put the .png image in the <code>resources/models/roads_signal_textures/</code> folder.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_traffic_lights_in_osi">5.4.4. Traffic Lights in OSI</h4>
+<div class="paragraph">
+<p>Traffic lights are decomposed into individual lamps before being transmitted via OSI. All traffic lights are currently assumed to be aligned along the positive z-axis, with no pitch or roll applied.</p>
+</div>
+<div class="paragraph">
+<p>Each lamp’s vertical position is calculated from top to bottom using the formula:</p>
+</div>
+<div class="paragraph">
+<p><code>zOffset + lampHeight/2 + lampHeight * (nrOfLamps - 1 - lampIdx)</code></p>
+</div>
+<div class="paragraph">
+<p>Where:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>zOffset</code> – the base vertical offset taken from the zOffset attribute in the OpenDRIVE (xodr) definition</p>
+</li>
+<li>
+<p><code>lampHeight</code> – computed as <code>height / nrOfLamps</code>, where <code>height</code> comes from the corresponding xodr element</p>
+</li>
+<li>
+<p><code>nrOfLamps</code> – the total number of lamps, automatically derived from the <code>type</code> field in the xodr element</p>
+</li>
+<li>
+<p><code>lampIdx</code> – zero-based index of the lamp (0 = top lamp)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This computation ensures consistent vertical placement of all lamps within a multi-lamp traffic signal when exported to OSI.</p>
+</div>
+<div class="sect4">
+<h5 id="_openscenario_to_osi_state_mapping">OpenSCENARIO to OSI state mapping</h5>
+<div class="paragraph">
+<p>This is how esmini maps the semantic states from OpenSCENARIO to OSI:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>unknown &#8594; <code>MODE_UNKNOWN</code></p>
+</li>
+<li>
+<p>other &#8594; <code>MODE_OTHER</code></p>
+</li>
+<li>
+<p>off &#8594; <code>MODE_OFF</code></p>
+</li>
+<li>
+<p>on &#8594; <code>MODE_CONSTANT</code></p>
+</li>
+<li>
+<p>flashing &#8594; <code>MODE_FLASHING</code></p>
+</li>
+<li>
+<p>counting &#8594; <code>MODE_COUNTING</code></p>
+</li>
+<li>
+<p>broken &#8594; <code>MODE_OTHER</code> and <code>is_out_of_service</code></p>
+</li>
+</ol>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Note</strong>: The following OSI data is <strong>not</strong> supported for TrafficLight:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>counter</p>
+</li>
+<li>
+<p>logical_lane_assignment</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_expressions">5.5. Expressions</h3>
 <div class="paragraph">
 <p>From OpenSCENARIO v1.1 <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4908&amp;token=ae9d9b44ab9257e817072a653b5d5e98ee0babf8#_expressions">expressions</a> including mathematical operations are supported in assignment of value to OpenSCENARIO <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4908&amp;token=ae9d9b44ab9257e817072a653b5d5e98ee0babf8#_parameters">parameters</a> and XML element attributes. Examples:</p>
 </div>
@@ -2926,7 +3146,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parameter_distributions">5.5. Parameter distributions</h3>
+<h3 id="_parameter_distributions">5.6. Parameter distributions</h3>
 <div class="paragraph">
 <p>Parameter values and distributions can be specified in a separate <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/09_reuse_mechanisms/09_03_parameter_distribution.html">Parameter value distribution file</a>. This is a convenient way of running multiple variations, or parameter value permutations, of a single scenario.</p>
 </div>
@@ -3029,7 +3249,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <div class="title">View all permutations in parallel</div>
 </div>
 <div class="sect3">
-<h4 id="_parallel_execution">5.5.1. Parallel execution</h4>
+<h4 id="_parallel_execution">5.6.1. Parallel execution</h4>
 <div class="paragraph">
 <p>Making use of Python threading pool framework we can utilize any multiple CPU kernels and run scenario variants in parallel. This is handled by the script <a href="https://github.com/esmini/esmini/blob/master/scripts/run_distribution.py">scripts/run_distribution.py</a>.</p>
 </div>
@@ -3065,7 +3285,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_finding_out_number_of_permutations">5.5.2. Finding out number of permutations</h4>
+<h4 id="_finding_out_number_of_permutations">5.6.2. Finding out number of permutations</h4>
 <div class="paragraph">
 <p>To find out the number of permutations of a specific scenario and parameter distribution, use the <code>--return_nr_permutations</code> launch argument. Example:</p>
 </div>
@@ -3093,7 +3313,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_trajectories">5.6. Trajectories</h3>
+<h3 id="_trajectories">5.7. Trajectories</h3>
 <div class="paragraph">
 <p>Using OpenSCENARIO <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/FollowTrajectoryAction.html">FollowTrajectoryAction</a> you can define various types of trajectories for entities to follow.</p>
 </div>
@@ -3143,7 +3363,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </ol>
 </div>
 <div class="sect3">
-<h4 id="_trajectory_moving_and_driving_direction">5.6.1. Trajectory moving and driving direction</h4>
+<h4 id="_trajectory_moving_and_driving_direction">5.7.1. Trajectory moving and driving direction</h4>
 <div class="paragraph">
 <p>The driving direction and entity direction can be controlled by trajectory configuration combined with entity speed and heading. It&#8217;s possible to follow trajectory in opposite direction and also to drive forward or reverse along the trajectory. The table below lists some combinations and possibilities.</p>
 </div>
@@ -3575,7 +3795,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_friction">5.7. Friction</h3>
+<h3 id="_friction">5.8. Friction</h3>
 <div class="paragraph">
 <p>From v2.37.0 esmini supports road friction defined in <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/latest/specification/11_lanes/11_07_lane_properties.html#sec-8345bf25-d584-4a5b-8fa7-e15c920ab219">OpenDRIVE lane material</a>.</p>
 </div>
@@ -3599,7 +3819,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_environment_conditions">5.8. Environment conditions</h3>
+<h3 id="_environment_conditions">5.9. Environment conditions</h3>
 <div class="paragraph">
 <p>From v2.49.0 esmini supports the <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/EnvironmentAction.html"><code>EnvironmentAction</code></a>, which allows you to set weather state, road conditions, and time of the day.</p>
 </div>
@@ -3656,7 +3876,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 <p>Note that vehicle headlights are currently not considered in the viewer.</p>
 </div>
 <div class="sect3">
-<h4 id="_visual_elements_affecting_the_viewer">5.8.1. Visual elements affecting the viewer</h4>
+<h4 id="_visual_elements_affecting_the_viewer">5.9.1. Visual elements affecting the viewer</h4>
 <div class="paragraph">
 <p>Although all the environment conditions are reported in the OSI data, only some are visualized. Currently, as of v2.49.0, all but <code>precipitation</code>, <code>wind</code> and <code>domeImage</code> are visualized in some way, described below.</p>
 </div>
@@ -3751,7 +3971,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect2">
-<h3 id="_tunnels">5.9. Tunnels</h3>
+<h3 id="_tunnels">5.10. Tunnels</h3>
 <div class="paragraph">
 <p>From v2.49.0, esmini supports OpenDRIVE tunnels.</p>
 </div>
@@ -3770,7 +3990,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 <p>This will define a tunnel named "MyTunnel" starting at 30m along the road, with a length of 250m.</p>
 </div>
 <div class="sect3">
-<h4 id="_tunnel_3d_model_and_transparency">5.9.1. Tunnel 3D model and transparency</h4>
+<h4 id="_tunnel_3d_model_and_transparency">5.10.1. Tunnel 3D model and transparency</h4>
 <div class="paragraph">
 <p>By default, esmini will generate a simple 3D model of the tunnel. The width will cover all road lanes except any out lanes of type <code>none</code>. The height will be fixed to 4.5m. Walls and roof constructions 2m thick.</p>
 </div>
@@ -3816,7 +4036,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect3">
-<h4 id="_tunnel_example_scenario">5.9.2. Tunnel example scenario</h4>
+<h4 id="_tunnel_example_scenario">5.10.2. Tunnel example scenario</h4>
 <div class="paragraph">
 <p>Here&#8217;s a demo scenario including a few tunnels:<br>
 <a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/tunnels.xosc" class="bare">https://github.com/esmini/esmini/blob/dev/resources/xosc/tunnels.xosc</a></p>
@@ -3836,7 +4056,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sumo_integration">5.10. SUMO integration</h3>
+<h3 id="_sumo_integration">5.11. SUMO integration</h3>
 <div class="paragraph">
 <p><a href="https://eclipse.dev/sumo/">SUMO</a> is a great open source traffic simulation tool. It has been integrated with esmini, making it possible to run SUMO simulations in esmini, and even mix or co-simulate SUMO vehicles with OpenSCENARIO vehicles.</p>
 </div>
@@ -3847,7 +4067,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 <p>This chapter explains how to create a SUMO simulation and then how to use it in esmini. For just using SUMO simulations there is no need to install SUMO, it is already embedded with esmini (as long as it has not been explicitly excluded, see <a href="#_slim_esmini_customize_configration">Slim esmini - customize configration</a>). Only to create SUMO content it has to be installed.</p>
 </div>
 <div class="sect3">
-<h4 id="_install_sumo">5.10.1. Install SUMO</h4>
+<h4 id="_install_sumo">5.11.1. Install SUMO</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3860,7 +4080,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect3">
-<h4 id="_try_example_from_esmini">5.10.2. Try example from esmini</h4>
+<h4 id="_try_example_from_esmini">5.11.2. Try example from esmini</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3882,7 +4102,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect3">
-<h4 id="_running_the_same_scenario_in_esmini">5.10.3. Running the same scenario in esmini</h4>
+<h4 id="_running_the_same_scenario_in_esmini">5.11.3. Running the same scenario in esmini</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3895,7 +4115,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_a_sumo_simulation">5.10.4. Create a SUMO simulation</h4>
+<h4 id="_create_a_sumo_simulation">5.11.4. Create a SUMO simulation</h4>
 <div class="paragraph">
 <p>First, there is a great complete guide at <a href="https://sumo.dlr.de/docs/" class="bare">https://sumo.dlr.de/docs/</a></p>
 </div>
@@ -3984,7 +4204,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_connect_a_sumo_simulation_to_a_scenario_in_esmini">5.10.5. Connect a SUMO simulation to a scenario in esmini</h4>
+<h4 id="_connect_a_sumo_simulation_to_a_scenario_in_esmini">5.11.5. Connect a SUMO simulation to a scenario in esmini</h4>
 <div class="paragraph">
 <p>Currently, as of esmini v2.37.1, SUMO is integrated in terms of a controller. To add a SUMO simulation, define an entity as usual, assign the SumoController and set its "filepath" property to the sumocfg file.</p>
 </div>
@@ -4778,6 +4998,77 @@ esmini supports two coordinate systems for the lateral distance action:</p>
 <div class="paragraph">
 <p>Regarding use cases of the LateralDistanceAction in entity coordinate system, we have no clue. But we&#8217;re interested to learn how, if ever, its' being used. Please let us know.</p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_shift_reference_point">6.8. Shift reference point</h3>
+<div class="paragraph">
+<p>Although OpenSCENARIO XML <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/06_general_concepts/06_03_coordinate_systems.html#_vehicle_coordinate_system_xv_yv_zv">specifies</a> the reference point of vehicles to be at rear axle, esmini, from v2.56.0, supports offsetting the reference point along vehicle x-axis.</p>
+</div>
+<div class="paragraph">
+<p>The video clip below demonstrates moving the reference point to the front axle, in effect following trajectory by front axle.</p>
+</div>
+<div class="videoblock">
+<div class="content">
+<iframe width="854" height="480" src="https://www.youtube.com/embed/gvfFI4hgw1M?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=gvfFI4hgw1M" frameborder="0" allowfullscreen></iframe>
+</div>
+</div>
+<div class="paragraph">
+<p>The reference point can be placed anywhere along the vehicle x-axis, relative mid rear axle, by specifying the Vehicle property <code>refpoint_x_offset</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/x_offset.png" alt="x offset">
+</div>
+<div class="title">Original reference point (red) can be moved along vehicle x-axis, for example at midpoint or front axle.</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Vehicle&gt;</span>
+   ...
+   <span class="tag">&lt;Properties&gt;</span>
+      <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">refpoint_x_offset</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2.98</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+   <span class="tag">&lt;/Properties&gt;</span>
+<span class="tag">&lt;/Vehicle&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Full example scenario here: <a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/follow_trajectory_by_front_axle.xosc">follow_trajectory_by_front_axle.xosc</a></p>
+</div>
+<div class="paragraph">
+<p>Command: <code>./bin/esmini --osc ./resources/xosc/follow_trajectory_by_front_axle.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>The car 3D model in the last part of the clip comes from the OpenX Assets project:
+<a href="https://github.com/bounverif/openx-assets" class="bare">https://github.com/bounverif/openx-assets</a></p>
+</div>
+<div class="paragraph">
+<p>Settings for <code>m1_audi_q7_2015</code> (in openx_assets_3d.catalog.xosc):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;Properties&gt;</span>
+   <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">model_x_offset</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1.5542</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+   <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">refpoint_x_offset</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2.98</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+   <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">model_id</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">21</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/Properties&gt;</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>model_x_offset</code>: Align the 3D model to the OpenSCENARIO reference point (it&#8217;s at center in this model)</p>
+</li>
+<li>
+<p><code>refpoint_x_offset</code>: Move the reference point along the vehicle x-axis</p>
+</li>
+<li>
+<p><code>model_id</code>: Specifies which 3D model for any use use in replayer</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -5889,7 +6180,7 @@ Parameters:
 </div>
 <div class="videoblock">
 <div class="content">
-<iframe width="854" height="480" src="https://www.youtube.com/embed/icozF90XZDQ?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=icozF90XZDQ" frameborder="0" allowfullscreen></iframe>
+<iframe width="854" height="480" src="https://www.youtube.com/embed/gvfFI4hgw1M?rel=0&amp;autoplay=1&amp;loop=1&amp;controls=0&amp;playlist=gvfFI4hgw1M" frameborder="0" allowfullscreen></iframe>
 </div>
 </div>
 <div class="paragraph">
@@ -8002,6 +8293,8 @@ Options:
       Show version and quit
   --view_mode &lt;view_mode&gt;
       Entity visualization: &quot;model&quot;(default)/&quot;boundingbox&quot;/&quot;both&quot; toggle key ','
+  --wireframe
+      Global wireframe mode, toggle key 'w'
 
 Additional OSG graphics options:
   --clear-color &lt;color&gt;                      Set the background color of the viewer in the form &quot;r,g,b[,a]&quot;
@@ -8115,6 +8408,8 @@ Options:
       Additional custom top camera &lt;x,y,z,rot&gt;
   --dir &lt;path&gt;
       Directory containing replays to overlay, pair with &quot;file&quot; argument, where &quot;file&quot; is .dat filename match substring
+  --fixed_timestep &lt;s&gt;
+      Use fixed timestep for the replay
   --ground_plane
       Add a large flat ground surface
   --generate_without_textures
@@ -8129,6 +8424,8 @@ Options:
       Show on-screen info text. Modes: 0=None 1=current 2=per_object 3=both. Toggle key 'i'
   --logfile_path [path]  (default if option or value omitted: replayer_log.txt)
       Logfile path/filename, e.g. &quot;../my_log.txt&quot;
+  --log_level [mode]  (default if option or value omitted: info)
+      Log level debug, info, warn, error
   --no_ghost
       Remove ghost entities
   --no_ghost_model
@@ -8165,6 +8462,8 @@ Options:
       When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
   --version
       Show version and quit
+  --wireframe
+      Global wireframe mode, toggle key 'w'
 
 Additional OSG graphics options:
   --clear-color &lt;color&gt;                      Set the background color of the viewer in the form &quot;r,g,b[,a]&quot;
@@ -8337,6 +8636,8 @@ Options:
       When external scenegraph 3D model is loaded, skip creating signs from OpenDRIVE
   --version
       Show version and quit
+  --wireframe
+      Global wireframe mode, toggle key 'w'
 
 Additional OSG graphics options:
   --clear-color &lt;color&gt;                      Set the background color of the viewer in the form &quot;r,g,b[,a]&quot;
@@ -12884,15 +13185,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.55.0"<br>
-ESMINI_GIT_REV="v2.55.0-0-4d6f6e07"</p>
+<p>ESMINI_GIT_TAG="v2.56.0"<br>
+ESMINI_GIT_REV="v2.56.0-0-5cd5b12f"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-21 15:30:21 +0100
+Last updated 2025-12-04 16:44:37 +0100
 </div>
 </div>
 </body>
