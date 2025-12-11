@@ -553,6 +553,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_view_road_network">4.5. View road network</a></li>
 <li><a href="#_plot_scenario_data">4.6. Plot scenario data</a></li>
 <li><a href="#_save_osi_data">4.7. Save OSI data</a></li>
+<li><a href="#_esmini_in_unity">4.8. esmini in Unity</a></li>
 </ul>
 </li>
 <li><a href="#_scenario_features">5. Scenario features</a>
@@ -2125,6 +2126,53 @@ Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 <p>The above script link points to OSI tag v3.5.0. In more recent OSI versions the script has moved to another folder: <a href="https://github.com/OpenSimulationInterface/open-simulation-interface/blob/master/osi3trace/osi2read.py">osi3trace/osi2read.py</a>.</p>
 </div>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_esmini_in_unity">4.8. esmini in Unity</h3>
+<div class="paragraph">
+<p>esmini shared library works also as plugin in Unity (Win, Linux, Mac). A simple example can be downloaded from <a href="https://www.dropbox.com/scl/fi/lnwq3i9h2jcrbdb58i9a2/esmini-player_v2_56_1.unitypackage?rlkey=1sil117mil3hab60ktktr0s5k&amp;st=x64nowxt&amp;dl=1">here</a>. The package contains everything needed to get going:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>esmini library C# wrapper</p>
+</li>
+<li>
+<p>a generic scenario player script</p>
+</li>
+<li>
+<p>a few example scenarios (OpenSCENARIO XML + OpenDRIVE) including 3D models</p>
+</li>
+<li>
+<p>plugins for all platforms (can be updated of course)</p>
+</li>
+<li>
+<p>and finally a scene connecting the player script to a game object</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Run:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Import package (Import Package &#8594; Custom Package)</p>
+</li>
+<li>
+<p>Load the scene (Assets/Scenes/esmini-scene)</p>
+</li>
+<li>
+<p>Then just press play-button</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Select (click on) esmini-player in Hierarchy to show up in Inspector, where you can specify scenario file and a few parameters. Note that scenario file and dependent OpenDRIVE and optional 3D scenegraph file must be present in StreamingAssets folder.</p>
+</div>
+<div class="paragraph">
+<p>Plugins can be updated, but NOTE that you need to restart Unity to (re)load shared library plugins. And, of course, scenario files and other content can be added or replaced.</p>
 </div>
 </div>
 </div>
@@ -6602,7 +6650,7 @@ Potentially it also needs to be oriented according to Unity coordinate system. I
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Drag the resulting fbx file, and all textures, into a unity project, preferably an empty folder</p>
+<p>Drag the resulting fbx file, and all textures, into a Unity project, preferably an empty folder</p>
 </li>
 <li>
 <p>Add the model to the Scene hierarchy</p>
@@ -6625,6 +6673,26 @@ for HDRP template: "Surface type" to "Transparent" and check "alpha clipping"</p
 </div>
 <div class="paragraph">
 <p>That should basically be it.</p>
+</div>
+<div class="paragraph">
+<p>Sometimes the fbx conversion is not perfect. <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">Wavefront obj</a> is another format, somewhat limited but stable.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run command:<br>
+<code>osgconv model.osgb model.obj --use-world-frame -o 120--0.5773503,-0.5773503,-0.5773503</code></p>
+</li>
+<li>
+<p>Drag the resulting <code>.obj</code> file and accompaniing material (<code>.mtl</code>) file, into the Unity project</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>There should be no need for the additional material processing as described in the <code>.fbx</code> case.</p>
+</div>
+<div class="paragraph">
+<p><code>.obj</code> is an ascii (text) format, which comes with cons and pros. Size is typically much larger tha binary alternatives. As text file it can be inspected in any text editor, and easily manipulated by scripting, e.g. in Python.</p>
 </div>
 </div>
 <div class="sect2">
@@ -13185,15 +13253,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v2.56.0"<br>
-ESMINI_GIT_REV="v2.56.0-0-5cd5b12f"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="v2.56.1-5-42dbf0d1"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-12-04 16:44:37 +0100
+Last updated 2025-12-11 11:00:01 +0100
 </div>
 </div>
 </body>
