@@ -10664,13 +10664,16 @@ crop dynamic OSI groundtruth around an entity (<strong>default</strong> is to in
 <p><strong>Note:</strong></p>
 </div>
 <div class="paragraph">
-<p>OSI groundtruth reported via the API always contains both static and dynamic objects in the first frame. By default subsequent frames will only contain dynamic objects. The same data is also stored in the OSI log file, given that the log file is enabled.</p>
+<p>OSI groundtruth always contains all dynamics objects. Static objects, by default, will be reported only the very frame they are created. OpenDRIVE objects are always created during initialization. OpenSCENARIO MiscObjects are also normally created during initialization. However, they can be added by AddEntityAction or AddObject() API function, hence, from esmini v2.57.0, MiscObjects can be added at any time to groundtruth.</p>
 </div>
 <div class="paragraph">
-<p>However, the behavior can be configured as follows:</p>
+<p>To summarize the default behavior, first frame will include all dynamic and static objects created during the initialization of the scenario. Subsequent frames will include all dynamics objects available at that time plus any static MiscObjects created that very frame.</p>
 </div>
 <div class="paragraph">
-<p>The dynamic objects are reported every frame. How the static objects are reported and logged can be controlled by <code>SE_SetOSIStaticReportMode</code> function. The available options are according to the enum <code>SE_OSIStaticReportMode</code>:</p>
+<p>The same data is also stored in the OSI log file, given that the log file is enabled.</p>
+</div>
+<div class="paragraph">
+<p>The behavior regarding static content, described above, can be configured by <code>SE_SetOSIStaticReportMode</code> function. The available options are according to the enum <code>SE_OSIStaticReportMode</code>:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -13253,15 +13256,15 @@ try update RubyGems as follows:<br>
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v2.56.1-7-0e6666e7"</p>
+<p>ESMINI_GIT_TAG="v2.57.0"<br>
+ESMINI_GIT_REV="v2.57.0-0-67489987"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-12-11 16:21:23 +0100
+Last updated 2025-12-17 14:29:26 +0100
 </div>
 </div>
 </body>
