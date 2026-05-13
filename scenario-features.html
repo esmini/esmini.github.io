@@ -558,7 +558,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <p><a href="index.html"><strong>Home</strong></a></p>
 </div>
 <form id="doc-search-form" action="search.html" method="get" style="margin:0.6rem 0 0 0;">
-  <input id="doc-search-input" type="search" name="q" placeholder="Search..." style="width:18rem;max-width:100%;" />
+  <input id="doc-search-input" type="search" name="q" placeholder="Search all pages..." style="width:18rem;max-width:100%;" />
   <button type="submit">Search</button>
 </form>
 <details>
@@ -2433,6 +2433,8 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 <span class="tag">&lt;/AppearanceAction&gt;</span></code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_visualization">Visualization</h4>
 <div class="paragraph">
 <p>For scenario preview purposes esmini offers a simplified visualization of the light states. The light colors are deduced from the 3D model or falls back to internal defaults. For custom colors, esmini generates a dark base shade and a bright shade for full intensity; note that the visualized color may look different than anticipated due to this shade generation.</p>
 </div>
@@ -2455,6 +2457,27 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 <div class="paragraph">
 <p>Links to Blender resources for the vehicle 3D models are found in <a href="openscenegraph-3d-models.html#_esmini_3d_assets">esmini 3D assets</a></p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Note</strong>: Vehicle 3D models prior to v3.1.0 lack lights. To update the model package:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Remove folder <code>resources/models</code></p>
+</li>
+<li>
+<p>Re-run <code>cmake ..</code> command from <code>build</code> folder</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Or manually replace models from updated <a href="https://www.dropbox.com/scl/fi/01v4863tgt3fdtx218226/models.7z?rlkey=07ioakfufoxp1q1beojntmsjp&amp;st=hckmbfbd&amp;dl=1">model package</a>.</p>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_osi_mapping">OSI Mapping</h4>
@@ -2479,12 +2502,6 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 <p>specialPurposeLights flashing, Other roles → service_vehicle_illumination::FLASHING_AMBER</p>
 </li>
 </ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_visualization">Visualization</h4>
-<div class="paragraph">
-<p>esmini supports limited previeweing of light state actions. Most vehicle models</p>
 </div>
 </div>
 </div>
@@ -2872,7 +2889,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-13 13:48:07 +0200
+Last updated 2026-05-13 16:34:44 +0200
 </div>
 </div>
 </body>

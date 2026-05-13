@@ -767,7 +767,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <a href="https://github.com/esmini/esmini/releases" class="bare">https://github.com/esmini/esmini/releases</a>. Copy the content into the esmini-demo folder.</p>
 </li>
 <li>
-<p>Download the complete 3D model package from <a href="https://dl.dropboxusercontent.com/s/5gk8bvgzqiaaoco/models.7z?dl=1">here</a>. Unpack into esmini/resources (it should end up in a <code>models</code> subfolder). These assets work on all platforms. The environment models (roads, landscape, buildings&#8230;&#8203;) have been created using <a href="https://vires.mscsoftware.com/solutions/3d-environment-road-network">VIRES Road Network Editor</a>.</p>
+<p>Download the complete 3D model package from <a href="https://www.dropbox.com/scl/fi/3jwz3ie6xkgpga33cbyju/models_with_lights.7z?rlkey=9obptnofidldoagn4154iyntl&amp;st=zxoupatb&amp;dl=1">here</a>. Unpack into esmini/resources (it should end up in a <code>models</code> subfolder). These assets work on all platforms. The environment models (roads, landscape, buildings&#8230;&#8203;) have been created using <a href="https://vires.mscsoftware.com/solutions/3d-environment-road-network">VIRES Road Network Editor</a>.</p>
 </li>
 </ol>
 </div>
@@ -4056,6 +4056,8 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 <span class="tag">&lt;/AppearanceAction&gt;</span></code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_visualization">Visualization</h4>
 <div class="paragraph">
 <p>For scenario preview purposes esmini offers a simplified visualization of the light states. The light colors are deduced from the 3D model or falls back to internal defaults. For custom colors, esmini generates a dark base shade and a bright shade for full intensity; note that the visualized color may look different than anticipated due to this shade generation.</p>
 </div>
@@ -4078,6 +4080,27 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 <div class="paragraph">
 <p>Links to Blender resources for the vehicle 3D models are found in <a href="openscenegraph-3d-models.html#_esmini_3d_assets">esmini 3D assets</a></p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Note</strong>: Vehicle 3D models prior to v3.1.0 lack lights. To update the model package:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Remove folder <code>resources/models</code></p>
+</li>
+<li>
+<p>Re-run <code>cmake ..</code> command from <code>build</code> folder</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Or manually replace models from updated <a href="https://www.dropbox.com/scl/fi/01v4863tgt3fdtx218226/models.7z?rlkey=07ioakfufoxp1q1beojntmsjp&amp;st=hckmbfbd&amp;dl=1">model package</a>.</p>
+</div>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_osi_mapping">OSI Mapping</h4>
@@ -4102,12 +4125,6 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 <p>specialPurposeLights flashing, Other roles → service_vehicle_illumination::FLASHING_AMBER</p>
 </li>
 </ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_visualization">Visualization</h4>
-<div class="paragraph">
-<p>esmini supports limited previeweing of light state actions. Most vehicle models</p>
 </div>
 </div>
 </div>
@@ -7829,7 +7846,7 @@ In order to execute the files you need to do one of following from a terminal in
 <div class="ulist">
 <ul>
 <li>
-<p>get the package from <a href="https://dl.dropboxusercontent.com/s/5gk8bvgzqiaaoco/models.7z?dl=1">here</a> and unpack files into <code>./resources/models</code></p>
+<p>get the package from <a href="https://www.dropbox.com/scl/fi/3jwz3ie6xkgpga33cbyju/models_with_lights.7z?rlkey=9obptnofidldoagn4154iyntl&amp;st=zxoupatb&amp;dl=1">here</a> and unpack files into <code>./resources/models</code></p>
 </li>
 </ul>
 </div>
@@ -13798,15 +13815,15 @@ Note: This method may be blocked in web browser (generically avoiding proxy phis
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG=""<br>
-ESMINI_GIT_REV="v3.0.4-37-af1fef61-dirty"</p>
+<p>ESMINI_GIT_TAG="v3.1.0"<br>
+ESMINI_GIT_REV="v3.1.0-0-a8e18fce"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-13 13:48:07 +0200
+Last updated 2026-05-13 15:44:51 +0200
 </div>
 </div>
 </body>
