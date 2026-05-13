@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.26">
-<title>esmini user guide</title>
+<title>esmini user guide – Inner workings</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,16 +433,118 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>esmini user guide</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_inner_workings">Inner workings</a>
+<ul class="sectlevel2">
+<li><a href="#_main_modules">Main modules</a></li>
+<li><a href="#_how_the_modules_interact">How the modules interact</a></li>
+<li><a href="#_on_execution_flow">On execution flow</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="sidebarblock main-menu">
 <div class="content">
 <div class="paragraph">
-<p><a href="#"><strong>Home</strong></a></p>
+<p><a href="index.html"><strong>Home</strong></a></p>
 </div>
 <form id="doc-search-form" action="search.html" method="get" style="margin:0.6rem 0 0 0;">
   <input id="doc-search-input" type="search" name="q" placeholder="Search..." style="width:18rem;max-width:100%;" />
@@ -452,87 +554,242 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <summary class="title">Navigator</summary>
 <div class="content">
 <div class="paragraph nav-bar">
-<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="scenario-features.html">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
+<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="scenario-features.html">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="#">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
 </div>
 </div>
 </details>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_inner_workings">Inner workings</h2>
+<div class="sectionbody">
+<!-- toc disabled -->
+<div class="sect2">
+<h3 id="_main_modules">Main modules</h3>
 <div class="paragraph">
-<p><span class="image"><img src="https://avatars.githubusercontent.com/u/49203938" alt="160" width="160"></span></p>
+<p>The class diagram below shows the main <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/Modules">modules</a> of esmini.</p>
 </div>
 <div class="paragraph">
-<p>esmini is a software tool to play OpenSCENARIO XML files. It&#8217;s provided both as a stand alone application and as a shared library for linking with custom applications. In addition some tools have been developed to support design and analysis of traffic scenarios.</p>
+<p>It illustrates how the main esmini application uses PlayerBase to orchestrate the simulation. PlayerBase in turn utilizes ScenarioEngine for the simulation logic and ViewerBase for visualization. Both ScenarioEngine and ViewerBase depend on RoadManager for road network data. Controllers are managed by the ScenarioEngine, and CommonMini provides utility functions used by several other modules.</p>
+</div>
+<div class="imageblock kroki">
+<div class="content">
+<img src="https://kroki.io/mermaid/svg/eNp1kEFLxDAQhe_9FSF7UbCX7ckKgrvrsbCoeCkiYzPtBtOkJC2r_94m3ZqkdCeXecw3L3lpNHQn8nZIyFhm-Gqcfuo6wSvouZJuYAtNyyX_bIHLkk6C3Fh1Sz8chJIlsQ3dK42kUGwQaOi_01HAL-odGCyp7y8utl4rlKC5epYNlyMU6wB853ienXwfAC8KWAESGtQlDUSA7JXstRICtSlpICKkbZUsxsSWmPtl7OCDSJo-BjGnudduHIdaI3yiZHKIVxwTPPgaEsS-7jKHmi7yN686LMbL7eBNq_NKgDEHrAnDGgbRk5oLkW_qe3vuzLj7jfkmy7JLn54560_5tvt5-AOZI9TO" alt="Diagram">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_roadmanager">RoadManager</h4>
+<div class="paragraph">
+<p>Implementation of <a href="https://www.asam.net/standards/detail/opendrive/">OpenDRIVE</a> data model and interface. Coverage is not complete at all. The goal is to provide needed and most useful features for esmini. Functionality grows continuously. While being based on 1.4 version it will probably support newer features when needed, so we avoid tagging a specific version.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scenarioengine">ScenarioEngine</h4>
+<div class="paragraph">
+<p>This is where the dynamics of the scenario takes place. It parses the <a href="https://www.asam.net/standards/detail/openscenario-xml/">OpenSCENARIO XML</a> file, creates a data model of the entities, triggers and actions. And finally steps the scenario, evaluating the triggers and executing the actions accordingly.</p>
 </div>
 <div class="paragraph">
-<p>The scope of this user guide is to provide examples on how to use the tools. It also includes a programming tutorial on how to use esmini in custom applications.</p>
+<p>ScenarioEngine also takes care of reporting ground truth on OSI standard protocol in various ways:
+1. API functions to fetch the OSI structures
+2. Saving to OSI trace file
+3. Sending OSI data over IP/UDP to an external host.</p>
 </div>
 <div class="paragraph">
-<p>Main sections:</p>
+<p>Another feature is ideal sensors, defined by a view frustum positioned anywhere on an entity via the API. It will detect any other entity being inside the view frustum. Please note current limitation that only entity reference point is considered for detection, so an entity might be partly inside the frustum and still not detected.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic" start="0">
+</div>
+<div class="sect3">
+<h4 id="_controllers">Controllers</h4>
+<div class="paragraph">
+<p>Implementation of OpenSCENARIO controller concept, which is a way of handing over control of individual entities such as vehicles and pedestrians to an external/custom function instead of the Default Controller, which is embedded the ScenarioEngine.</p>
+</div>
+<div class="paragraph">
+<p>The base class <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Modules/Controllers/Controller.hpp#L32-L171"><code>Controller</code></a> defines the interface (API) for a controller and also implements some common functionality, such as assigning and activating the controller.</p>
+</div>
+<div class="paragraph">
+<p>Then there is a collection of more or less useful controllers. Some might provide useful functionality, e.g. interactive driving with arrow keys, while other can at least provide ideas on how to implement a custom controller.</p>
+</div>
+<div class="paragraph">
+<p>More information about the controller concept and the provided controllers, please see <a href="https://esmini.github.io/#_controllers">User guide - Controllers</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_viewerbase">ViewerBase</h4>
+<div class="paragraph">
+<p>Provides a basic 3D viewer to preview scenarios. It&#8217;s based on the excellent <a href="http://www.openscenegraph.org/">OpenSceneGraph</a> open source graphics library. Let&#8217;s say that it prioritizes stability, performance and portability over flashiness - fitting the purposes of esmini.</p>
+</div>
+<div class="paragraph">
+<p>Briefly the module provides the following features:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p><a href="toc.html">Table of contents</a></p>
+<p>Optional 3D visual representation of the road network and surroundings. <code>.osgb</code> (OpenSceneGraph binary) file format is directly supported, but indirectly many file formats are supported by conversion using the <a href="http://www.openscenegraph.org/index.php/documentation/user-guides/55-osgconv">osgconv</a> tool (not included in esmini). See more info in <a href="https://esmini.github.io/#_openscenegraph_and_3d_models">User guide - OpenSceneGraph and 3D models</a>.</p>
 </li>
 <li>
-<p><a href="getting-started.html">Getting started</a></p>
+<p>3D visual representation of scenario entities. Either using supplied 3D models or esmini will create stand-in dummy model, e.g. a 3D bounding box according to specified dimensions.</p>
 </li>
 <li>
-<p><a href="tools-overview.html">Tools overview</a></p>
+<p>Road feature visualization. E.g. OpenDRIVE geometries, lanes and road marks. These features are indicated by points and lines in a very simple way. So it does not replace the value of a 3D model, but at least it gives some guidance when 3D model is not available. It can also be useful for debugging issues in the OpenDRIVE road network definition.</p>
 </li>
 <li>
-<p><a href="use-cases.html">Use cases</a></p>
+<p>Keyboard input. First OSG provides a set of key shortcuts to control visual features, e.g. enable/disable textures or wireframe/shading mode. Then esmini adds a set of shortcuts to control various functionality such as toggling road features visualization or changing camera behavior. A complete list of keyboard shortcuts is found in <a href="https://github.com/esmini/esmini/blob/master/docs/readme.txt">docs/readme.txt</a>. The keyboard input is also routed to Controllers, which is useful for interactive driving modes.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_playerbase">PlayerBase</h4>
+<div class="paragraph">
+<p>This module ties together the ScenarioEngine with the Viewer also providing high a level API for initializing, stepping and controlling a scenario in a custom player application.</p>
+</div>
+<div class="paragraph">
+<p>The initial purpose of this module was to collect common code from various early example applications.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_commonmini">CommonMini</h4>
+<div class="paragraph">
+<p>Collection of handy functions shared between modules and applications, for example:
+- Argument parser
+- Timers
+- Threads and Mutex
+- Math operations
+- Logger</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_parameters">Parameters</h4>
+<div class="paragraph">
+<p>esmini supports three parameter types: integer, double and string. A parameter is declared in the OpenSCENARIO file, in the global ParameterDeclaration. Values can be set by ParameterAction/ParameterSetAction. And it can be used in ParameterCondition to trig storyboard elements. For a simple example see use of "DummyParameter" in <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/lane_change.xosc">lane_change.xosc</a> and <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Applications/esmini-dyn/main.cpp">esmini-dyn/main.cpp</a> (enable DEMONSTRATE_PARAMETER to test).</p>
+</div>
+<div class="paragraph">
+<p>To set and read values via esminiLib/C++ you can do as following examples:</p>
+</div>
+<div class="sect4">
+<h5 id="_integer">integer</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>int number = 99;
+SE_Parameter param;
+param.name = &quot;MyIntParameter&quot;;
+param.value = &amp;number;
+SE_SetParameter(param);
+SE_GetParameter(&amp;param);
+printf(&quot;param value: %d\n&quot;, number);
+// or by casting the value
+printf(&quot;param value: %d\n&quot;, *((int*)param.value));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_double">double</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>double number = 1.5;
+SE_Parameter param;
+param.name = &quot;MyDoubleParameter&quot;;
+param.value = &amp;number;
+SE_SetParameter(param);
+SE_GetParameter(&amp;param);
+printf(&quot;param value: %.2f\n&quot;, number);
+// or by casting the value
+printf(&quot;param value: %.2f\n&quot;, *((double*)param.value));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_string">string</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>std::string myString = &quot;Hello&quot;;
+SE_Parameter param;
+param.name = &quot;MyStringParameter&quot;;
+param.value = &amp;myString;
+SE_SetParameter(param);
+SE_GetParameter(&amp;param);
+printf(&quot;param value: %s\n&quot;, myString.c_str());
+// or by casting the value
+printf(&quot;param value: %s\n&quot;, (*((std::string*)param.value)).c_str());</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_the_modules_interact">How the modules interact</h3>
+<div class="paragraph">
+<p>Consider a custom application/tool utilizing esmini as a library. The interaction is illustrated below through a few sequence diagrams. Note that the signals are named conceptually. For exact function names and arguments, see header files and code examples.</p>
+</div>
+<div class="paragraph">
+<p>First we look at high level interaction between app and esmini lib.</p>
+</div>
+<div class="paragraph">
+<p>A simplistic scenario player application (C/C++/C#/Python) utilizing esmini lib:</p>
+</div>
+<div class="imageblock kroki">
+<div class="content">
+<img src="https://kroki.io/mermaid/svg/eNply7EOgzAMBNCdr_AIQ3-gAxISCxJbv8AEC50UHDdx_79pusFNJ927Iu-PaJAZfGQ-O6oxzo4AY3ViM-JCk1lEYEfSG4nYfkTKCcWKrYH6e4xjnZ60KLwvQZQz0tDWmJK1cqEvF-v_RHT_Ag4lMQY=" alt="Diagram">
+</div>
+</div>
+<div class="paragraph">
+<p>A typical test tool involving a system under test (Ego):</p>
+</div>
+<div class="imageblock kroki">
+<div class="content">
+<img src="https://kroki.io/mermaid/svg/eNptjkFqw0AMRfc9hZbjRS6QRSDQUAKFQE0OII9FqmKPFI18_8qTEAjJrDT8975U6bpQyfTJeDGcPyCeojlnViwOqApYYa86cUZnKS_IxMOKUJ258DcPDQhvs9tFtIVjYU81U0Fj6Vo6iWgbnskfUjE_XKR3dErdG6R30rfBF_lp-KPsza2pgxRHVbclewUxOPXH9Us4P_QQN-FHyxaMfLEC0joCXEue1zTsrGMkEDfeGEgDVhpBQvVfsntBve2gMv4DcbFujg==" alt="Diagram">
+</div>
+</div>
+<div class="paragraph">
+<p>Now, let&#8217;s zoom in. Adding some features and looking inside esminiLib to see interaction between modules:</p>
+</div>
+<div class="imageblock kroki">
+<div class="content">
+<img src="https://kroki.io/mermaid/svg/eNqNVF1v2zAMfN-vELAXF93aYkVeNqBA6gRDgQ0zmrXvtMO62mRJk5Ru-fejJH9bzWYggWIeyTvyFIu_Digr3HCoDTRvGD2l-sNMXWYfVqt34XN9dcbyg3WqYaC14BU4rmTA0qPBOF5xDdL5MAPL1jMUyn1fGW3DJf_CS5afn1_mb69Xny6Lo3tWkq2Lu1RRQVgqGhNfA2kBRzQeV4TTLVhM4Sx6zK5CCYarray5TOIqZ4RH5ko6o4RAY1OwF46_Y9vHeMqU9rJBnPXKw4Em8_7mhqR8ZHeSu8y2DCKM3lM0akgCYogwFtt4fG-xfXePsO9UzWMFGIv0BQ06NBusBJ09S9siiXMnLiQR2ZC1SMhBiBKqn23eVNdXkFwfBLih1yOIA9oBHXV6Tv8Cd5aZikgp9JuazGSkph9b3NME1nWYjHbnUGdXF2T4jMxGdnHEcLaCoWGhrIt2W8t9NAAVjxtVSrMdb7xEGlwo3LEaMxwNMUz9Qe-pI9vWKvZO4MKw71Er4wi286hhwoPjZglB2QCbOm4WXI5kiPUL2b7Qvqj3d8Prmq5HCuNz19XYagn5g-V2TpljqcDsg6r8GWSN3nO3E8_1q1v02uATHIQbLu2cVNzdTJJ_2RaJ499Kxx3HE5z7CQXe38ofWLkE0dcuSEyYAlN3Y4EbK5-7aGH2KOb_skc0P6OLfcMSbIpl55uT0ImLTiJpNaOiwfc2UakjuAR4Vt0yZtGx5tE9s2QB_7v7K_gLnuYHPQ==" alt="Diagram">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_on_execution_flow">On execution flow</h3>
+<div class="paragraph">
+<p>Actions are executed in order of appearance in the storyboard structure. All state updates are applied directly on the entities. So, if an action is based on the state of another entity, it will depend on whether the action is executed before or after the other entity&#8217;s state is updated. This is especially important to consider when using relative actions, like <code>SpeedAction</code> with <code>RelativeTargetSpeed</code>, which is based on the speed of another entity. The resulting speed will depend on whether the referenced entity has been updated or not.</p>
+</div>
+<div class="paragraph">
+<p>Example:<br>
+SpeedAction (assigned to entity A) with RelativeTargetSpeed, refering to entity B, in continuous mode and step dynamics (instant change to target speed).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;SpeedActionTarget&gt;</span>
+   <span class="tag">&lt;RelativeTargetSpeed</span> <span class="attribute-name">entityRef</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">B</span><span class="delimiter">&quot;</span></span>
+                        <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1.1</span><span class="delimiter">&quot;</span></span>
+                        <span class="attribute-name">speedTargetValueType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">factor</span><span class="delimiter">&quot;</span></span>
+                        <span class="attribute-name">continuous</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/SpeedActionTarget&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You expect speed of A to be exactly 10% faster than B. Now, assume speed of B is suddenly updated from 100 to 50 km/h. In the same timestep, resulting speed of A will depend on whether it&#8217;s being calculated before or after speed change for B.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the A action is applied first: speed(A) = 110<br>
+unexpected result due to B has not been updated yet, still speed = 100</p>
 </li>
 <li>
-<p><a href="scenario-features.html">Scenario features</a></p>
+<p>If the B action is applied first: speed(A) = 55<br>
+expected result since B has already new speed = 50 when evaluating A action</p>
 </li>
-<li>
-<p><a href="positioning.html">Positioning</a></p>
-</li>
-<li>
-<p><a href="controllers.html">Controllers</a></p>
-</li>
-<li>
-<p><a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a></p>
-</li>
-<li>
-<p><a href="support-qa.html">Support / Q&amp;A</a></p>
-</li>
-<li>
-<p><a href="command-reference.html">Command reference</a></p>
-</li>
-<li>
-<p><a href="build-guide.html">Build guide</a></p>
-</li>
-<li>
-<p><a href="developers-contributors.html">For esmini developers and contributors</a></p>
-</li>
-<li>
-<p><a href="inner-workings.html">Inner workings</a></p>
-</li>
-<li>
-<p><a href="esmini-lib-programming.html">esmini lib programming</a></p>
-</li>
-<li>
-<p><a href="hello-world-tutorial.html">Hello World programming tutorial</a></p>
-</li>
-<li>
-<p><a href="scenario-construction-tips.html">Scenario construction tips</a></p>
-</li>
-<li>
-<p><a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a></p>
-</li>
-<li>
-<p><a href="about-this-document.html">About this document</a></p>
-</li>
-<li>
-<p><a href="version.html">Version</a></p>
-</li>
-<li>
-<p><a href="monolith.html">Single page document</a></p>
-</li>
-</ol>
+</ul>
+</div>
+<div class="paragraph">
+<p>Conclusion: Consider order of the storyboard elements when designing scenarios, especially when involving relative actions.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">

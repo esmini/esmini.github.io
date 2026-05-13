@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.26">
-<title>esmini user guide</title>
+<title>esmini user guide – About this document</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,16 +433,117 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>esmini user guide</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_about_this_document">About this document</a>
+<ul class="sectlevel2">
+<li><a href="#_how_to_generate_html_from_asciidoc">How to generate HTML from AsciiDoc</a></li>
+<li><a href="#_how_to_view_previous_versions">How to view previous versions</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="sidebarblock main-menu">
 <div class="content">
 <div class="paragraph">
-<p><a href="#"><strong>Home</strong></a></p>
+<p><a href="index.html"><strong>Home</strong></a></p>
 </div>
 <form id="doc-search-form" action="search.html" method="get" style="margin:0.6rem 0 0 0;">
   <input id="doc-search-input" type="search" name="q" placeholder="Search..." style="width:18rem;max-width:100%;" />
@@ -452,92 +553,134 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <summary class="title">Navigator</summary>
 <div class="content">
 <div class="paragraph nav-bar">
-<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="scenario-features.html">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
+<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="scenario-features.html">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="#">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
 </div>
 </div>
 </details>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_about_this_document">About this document</h2>
+<div class="sectionbody">
+<!-- toc disabled -->
 <div class="paragraph">
-<p><span class="image"><img src="https://avatars.githubusercontent.com/u/49203938" alt="160" width="160"></span></p>
+<p>The source of this document is written in the <a href="https://asciidoc-py.github.io/index.html">asciidoc</a> format.
+The source is split into one file per top-level section, located in the
+<a href="https://github.com/esmini/esmini/blob/master/docs/user_guide/">docs/user_guide/</a> folder.
+The entry point is <a href="https://github.com/esmini/esmini/blob/master/docs/user_guide/index.adoc">user_guide/index.adoc</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_how_to_generate_html_from_asciidoc">How to generate HTML from AsciiDoc</h3>
+<div class="paragraph">
+<p>The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted to avoid "human errors".</p>
 </div>
 <div class="paragraph">
-<p>esmini is a software tool to play OpenSCENARIO XML files. It&#8217;s provided both as a stand alone application and as a shared library for linking with custom applications. In addition some tools have been developed to support design and analysis of traffic scenarios.</p>
+<p>The final HTML document is published in this repo: <a href="https://github.com/esmini/esmini.github.io" class="bare">https://github.com/esmini/esmini.github.io</a></p>
 </div>
 <div class="paragraph">
-<p>The scope of this user guide is to provide examples on how to use the tools. It also includes a programming tutorial on how to use esmini in custom applications.</p>
+<p>Access URL: <a href="https://esmini.github.io/" class="bare">https://esmini.github.io/</a></p>
 </div>
 <div class="paragraph">
-<p>Main sections:</p>
+<p>Install tools:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<strong>Linux</strong>
+</td>
+<td class="hdlist2">
+<p><code>sudo apt install asciidoctor</code><br>
+<code>sudo apt install ruby-coderay</code></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>Windows</strong>
+</td>
+<td class="hdlist2">
+<div class="ulist">
+<ul>
+<li>
+<p>First, if not already done, install ruby:<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pick latest Ruby x64 package, without devkit, here: <a href="https://rubyinstaller.org/downloads/" class="bare">https://rubyinstaller.org/downloads/</a><br></p>
+</li>
+<li>
+<p>Install it. In the end you can leave "Run 'rid install' to setup MSYS2 and development toolchain" un-checked<br></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Then run:<br>
+<code>gem install asciidoctor</code><br>
+<code>gem install coderay</code><br>
+<code>gem install asciidoctor-kroki</code></p>
+<div class="paragraph">
+<p>Troubleshooting: If you get an error like<br>
+<code>Unable to download data from <a href="https://rubygems.org/" class="bare">https://rubygems.org/</a> - SSL_connect &#8230;&#8203;</code><br>
+try update RubyGems as follows:<br>
+<code>gem update --system</code></p>
+</div>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_generate_html_document">Generate HTML document</h4>
+<div class="paragraph">
+<p>From the <code>docs/user_guide/</code> folder, render each page individually (bash):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">for f in *.adoc; do asciidoctor -r asciidoctor-kroki &quot;$f&quot;; done
+./generate-search-index.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This produces a collection of <code>.html</code> files (<code>index.html</code> being the landing page) and the <code>search_index.json</code> file that is used for the search functionality in the published document.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_view_previous_versions">How to view previous versions</h3>
+<div class="paragraph">
+<p>Full commit history is found <a href="https://github.com/esmini/esmini.github.io/commits/main">here</a></p>
+</div>
+<div class="paragraph">
+<p>To view a previous version, there are two ways:</p>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="0">
+<ol class="arabic">
 <li>
-<p><a href="toc.html">Table of contents</a></p>
+<p>AsciiDoc preview<br>
+checkout corresponding tag, e.g: <code>git checkout v2.42.0</code> and then preview the adoc files (in docs/user_guide) in VSCode utilizing the AsciiDoc extension.</p>
 </li>
 <li>
-<p><a href="getting-started.html">Getting started</a></p>
-</li>
-<li>
-<p><a href="tools-overview.html">Tools overview</a></p>
-</li>
-<li>
-<p><a href="use-cases.html">Use cases</a></p>
-</li>
-<li>
-<p><a href="scenario-features.html">Scenario features</a></p>
-</li>
-<li>
-<p><a href="positioning.html">Positioning</a></p>
-</li>
-<li>
-<p><a href="controllers.html">Controllers</a></p>
-</li>
-<li>
-<p><a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a></p>
-</li>
-<li>
-<p><a href="support-qa.html">Support / Q&amp;A</a></p>
-</li>
-<li>
-<p><a href="command-reference.html">Command reference</a></p>
-</li>
-<li>
-<p><a href="build-guide.html">Build guide</a></p>
-</li>
-<li>
-<p><a href="developers-contributors.html">For esmini developers and contributors</a></p>
-</li>
-<li>
-<p><a href="inner-workings.html">Inner workings</a></p>
-</li>
-<li>
-<p><a href="esmini-lib-programming.html">esmini lib programming</a></p>
-</li>
-<li>
-<p><a href="hello-world-tutorial.html">Hello World programming tutorial</a></p>
-</li>
-<li>
-<p><a href="scenario-construction-tips.html">Scenario construction tips</a></p>
-</li>
-<li>
-<p><a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a></p>
-</li>
-<li>
-<p><a href="about-this-document.html">About this document</a></p>
-</li>
-<li>
-<p><a href="version.html">Version</a></p>
-</li>
-<li>
-<p><a href="monolith.html">Single page document</a></p>
+<p>utilizing <a href="https://htmlpreview.github.io/">htmlpreview.github.io</a><br>
+either refer to a <a href="https://github.com/esmini/esmini.github.io/tags">tag</a>, like this:<br>
+<code><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/esmini/esmini.github.io/refs/tags/v2.42.0/index.html" class="bare">https://htmlpreview.github.io/?https://raw.githubusercontent.com/esmini/esmini.github.io/refs/tags/v2.42.0/index.html</a></code><br>
+or refer to any commit, like this:<br>
+<code><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/esmini/esmini.github.io/47a9267a5935d0bd2648950e4d9d3e23f1e8ff3a/index.html" class="bare">https://htmlpreview.github.io/?https://raw.githubusercontent.com/esmini/esmini.github.io/47a9267a5935d0bd2648950e4d9d3e23f1e8ff3a/index.html</a></code><br>
+Note: This method may be blocked in web browser (generically avoiding proxy phishing threats)</p>
 </li>
 </ol>
 </div>
 </div>
+</div>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-13 13:48:07 +0200
+Last updated 2026-05-13 13:48:08 +0200
 </div>
 </div>
 </body>

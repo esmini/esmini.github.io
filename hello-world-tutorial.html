@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.26">
+<title>esmini user guide – Hello World programming tutorial</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock pre>code{display:block}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_hello_world_programming_tutorial">Hello World programming tutorial</a>
+<ul class="sectlevel2">
+<li><a href="#preparations">Preparations</a></li>
+<li><a href="#_how_to_build_run_and_debug_hello_world">How to build, run and debug "Hello World"</a></li>
+<li><a href="#_examples">Examples</a></li>
+<li><a href="#_python_binding">Python binding</a></li>
+<li><a href="#_c_binding">C# binding</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="sidebarblock main-menu">
+<div class="content">
+<div class="paragraph">
+<p><a href="index.html"><strong>Home</strong></a></p>
+</div>
+<form id="doc-search-form" action="search.html" method="get" style="margin:0.6rem 0 0 0;">
+  <input id="doc-search-input" type="search" name="q" placeholder="Search..." style="width:18rem;max-width:100%;" />
+  <button type="submit">Search</button>
+</form>
+<details>
+<summary class="title">Navigator</summary>
+<div class="content">
+<div class="paragraph nav-bar">
+<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="scenario-features.html">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="#">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hello_world_programming_tutorial">Hello World programming tutorial</h2>
+<div class="sectionbody">
+<!-- toc disabled -->
+<div class="paragraph">
+<p>This tutorial shows how to utilize esmini as a shared (dynamically loaded) library for use in a custom application. It can be used with or without esmini embedded viewer.</p>
+</div>
+<div class="sect2">
+<h3 id="preparations">Preparations</h3>
+<div class="paragraph">
+<p>The simplest preparation is to get the demo package from <a href="https://github.com/esmini/esmini/releases/latest">the latest relase</a> and then head on to the steps below.</p>
+</div>
+<div class="paragraph">
+<p>But, of course, if you already have checked out the esmini project from GitHub and compiled it you should already be set.</p>
+</div>
+<div class="paragraph">
+<p>Just make sure that the shared library is available in the <code>bin</code> or <code>lib</code> folder, which should be available directly under esmini root. Exact filename depends on the platform as follows:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<strong>Windows:</strong>
+</td>
+<td class="hdlist2">
+<p>esminiLib.dll</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>Linux:</strong>
+</td>
+<td class="hdlist2">
+<p>libesminiLib.so</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>Mac:</strong>
+</td>
+<td class="hdlist2">
+<p>libesminiLib.dylib</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_build_run_and_debug_hello_world">How to build, run and debug "Hello World"</h3>
+<div class="sect3">
+<h4 id="_windowsvisual_studio">Windows/Visual Studio</h4>
+<div class="sect4">
+<h5 id="_first_step_create_the_solution_file">First step: Create the solution file</h5>
+<div class="paragraph">
+<p>Run from <code>Hello-World_coding-example</code> root folder:<br>
+<code>mkdir build</code><br>
+<code>cd build</code><br>
+<code>cmake ..</code> (will generate solution for multiple variants, including Release and Debug)</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_build_and_run_the_application_from_command_line">Build and run the application from command line</h5>
+<div class="sect5">
+<h6 id="_build">Build</h6>
+<div class="paragraph">
+<p><code>cmake --build . --config Release</code> (release variant), or<br>
+<code>cmake --build . --config Debug</code> (debug variant)<br></p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_run">Run</h6>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>open a command shell and put yourself in <code>Hello-World_coding-example/build</code> folder</p>
+</li>
+<li>
+<p>add shared library location to the environment path variable, e.g:<br>
+CMD: <code>set path=../../bin;%path%</code><br>
+PowerShell: <code>$env:path+=";../../bin"</code><br>
+bash: <code>PATH=$PATH:../../bin</code><br></p>
+</li>
+<li>
+<p>Launch application<br>
+ CMD:<br>
+<code>.\Debug\esmini-player.exe</code> or<br>
+<code>.\Release\esmini-player.exe</code> (depending on variant)<br>
+PowerShell or bash:<br>
+<code>./Debug/esmini-player.exe</code> or<br>
+<code>./Release/esmini-player.exe</code></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_build_run_and_debug_the_application_from_visual_studio">Build, run and debug the application from Visual Studio</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open <code>esmini-player.sln</code> in Visual Studio</p>
+</li>
+<li>
+<p>Build as usual (Ctrl-F7 or <code>Build</code> &#8594; <code>Build Solution</code>)</p>
+</li>
+<li>
+<p>Set as startup project</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Right click on esmini-player in Solution Explorer</p>
+</li>
+<li>
+<p>Click on <code>Set as Startup Project</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Tell the system where to find the shared library</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Right click on esmini-player in Solution Explorer</p>
+</li>
+<li>
+<p>Click on <code>Properties</code></p>
+</li>
+<li>
+<p>Select Configuration &#8594; <code>All Configurations</code></p>
+</li>
+<li>
+<p>In <code>Configuration Properties</code> &#8594; <code>Debugging</code> &#8594; <code>Environment</code> write:
+<code>path=$(ProjectDir)/../../bin</code><br>
+or any other folder containing the esmini library</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Run</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Ctrl-F5</code> to run without debug</p>
+</li>
+<li>
+<p><code>F5</code> to debug</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_linux">Linux</h4>
+<div class="sect4">
+<h5 id="_first_step_create_the_makefile">First step: Create the Makefile</h5>
+<div class="paragraph">
+<p>Run from <code>Hello-World_coding-example</code> root folder:<br>
+  <code>mkdir build</code><br>
+  <code>cd build</code><br>
+then:<br>
+  <code>cmake .. -DCMAKE_BUILD_TYPE=Release</code> for Release variant, or<br>
+  <code>cmake .. -DCMAKE_BUILD_TYPE=Debug</code> for Debug variant<br></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_build_and_run_from_command_line">Build and run from command line</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build<br>
+<code>cmake --build .</code> or just<br>
+<code>make</code><br></p>
+</li>
+<li>
+<p>Tell system where to look for esmini shared library (maybe not necessary)<br>
+<code>export LD_LIBRARY_PATH=../../bin</code>  (on macOS: DYLD_LIBRARY_PATH)</p>
+</li>
+<li>
+<p>Launch application<br>
+<code>./esmini-player</code></p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_build_run_and_debug_from_visual_studio_code">Build, run and debug from Visual Studio Code</h5>
+<div class="paragraph">
+<p>Prerequisites: Install the following VS Code extensions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>C/C++</p>
+</li>
+<li>
+<p>CMake Tools</p>
+</li>
+</ul>
+</div>
+<div class="sect5">
+<h6 id="_build_2">Build</h6>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open visual studio as Hello-World_coding-example as root folder</p>
+</li>
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) and run <code>CMake: Select a Kit</code>. Select the compiler you want to use. For example GCC 11.3.0</p>
+</li>
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) run the <code>CMake: Select Variant</code> command. Select Debug.</p>
+</li>
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) run the <code>CMake:Set Build Target</code>. Select esmini-player.</p>
+</li>
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) and run the <code>CMake: Build</code> command, or select the build button from the Status bar.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Open main.cpp file in the Hello-World_coding-example folder and optionally introduce break points.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_run_2">Run</h6>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) and run the <code>CMake: Run Without Debugging</code> command, or</p>
+</li>
+<li>
+<p>Use play button in the status bar, or</p>
+</li>
+<li>
+<p>Shift-F5</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_debug">Debug</h6>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the Command Palette (Ctrl+Shift+P) and run the <code>CMake: Debug</code> command, or</p>
+</li>
+<li>
+<p>Use debug button in the status bar, or</p>
+</li>
+<li>
+<p>Ctrl-F5</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_next_step">Next step</h4>
+<div class="paragraph">
+<p>Now that you can build and run Hello World, it&#8217;s time to explore some functionality of esmini. Next section presents a few code examples to try out, e.g. by modifying main.cpp.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples">Examples</h3>
+<div class="sect3">
+<h4 id="_hello_world_load_and_play_a_scenario">Hello world - load and play a scenario</h4>
+<div class="listingblock">
+<div class="title">Example 1. <a href="https://github.com/esmini/esmini/tree/master/Hello-World_coding-example/main.cpp">Hello-World_coding-example/main.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+{
+        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
+        {
+                SE_Step();
+        }
+
+        SE_Close();
+
+        <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Exercise: Change scenario to pedestrian.xosc, then compile and run the program again.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_add_optional_argument_to_load_any_scenario">Add optional argument to load any scenario</h4>
+<div class="listingblock">
+<div class="title">Example 2. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/hw2_arguments.cpp">EnvironmentSimulator/code-examples/hello_world/hw2_arguments.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+{
+    <span class="keyword">if</span> (argc &gt; <span class="integer">1</span>)
+    {
+        SE_InitWithArgs(argc, <span class="keyword">const_cast</span>&lt;<span class="directive">const</span> <span class="predefined-type">char</span>**&gt;(argv));
+    }
+    <span class="keyword">else</span>
+    {
+        SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    }
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
+    {
+        SE_Step();
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can now specify esmini arguments according to <a href="https://github.com/esmini/esmini/blob/master/docs/commands.txt">esmini launch commands</a>.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>./esmini-player --window 60 60 1000 500 --osc ../resources/xosc/pedestrian.xosc --trails</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_fetch_state_of_scenario_objects">Fetch state of scenario objects</h4>
+<div class="paragraph">
+<p>This example shows how to retrieve the state of scenario objects.</p>
+</div>
+<div class="paragraph">
+<p>We also check the return code from the initialization and react on any error.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 3. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp">EnvironmentSimulator/code-examples/hello_world/hw3_fetch_states.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;stdio.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+{
+    (<span class="directive">void</span>)argc;
+    (<span class="directive">void</span>)argv;
+
+    <span class="keyword">if</span> (SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+    {
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Failed to initialize scenario</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+        <span class="keyword">return</span> -<span class="integer">1</span>;
+    }
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
+    {
+        SE_Step();
+
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; SE_GetNumberOfObjects(); j++)
+        {
+            SE_ScenarioObjectState state;
+
+            SE_GetObjectState(SE_GetId(j), &amp;state);
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">time [%.2f] object[%d] id %d pos[%.2f, %.2f] %.2f %.2f odometer: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                   state.timestamp,
+                   j,
+                   SE_GetId(j),
+                   state.x,
+                   state.y,
+                   state.wheel_angle,
+                   state.wheel_rot,
+                   SE_GetObjectOdometer(SE_GetId(j)));
+        }
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_external_control_of_ego">External control of Ego</h4>
+<div class="paragraph">
+<p>A silly example showing how you can just take control over vehicle state via the API. The Ego car will move one meter along the Y-axis for each frame while rotating&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>Now we will also introduce the quit_flag, which lets you quit by pressing 'Esc' key.</p>
+</div>
+<div class="paragraph">
+<p>In addition we&#8217;ll try out the alignment feature. By default objects will be aligned to road surface. This behavior can be controlled with alignment settings. In below example, the Ego vehicle will be aligned to road surface except during iterations 100-200 where it will obey the reported Z coordinate and move accordingly to elevation/Z = 10 meter.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 4. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw4_external_ego_control.cpp">EnvironmentSimulator/code-examples/hello_world/hw4_external_ego_control.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;stdio.h&gt;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+{
+    <span class="directive">const</span> <span class="predefined-type">char</span>*            filename = argc &gt; <span class="integer">1</span> ? argv[<span class="integer">1</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_external.xosc</span><span class="delimiter">&quot;</span></span>;
+    SE_ScenarioObjectState state;
+    <span class="predefined-type">double</span>                 z = <span class="float">0</span><span class="float">.0</span>;
+
+    <span class="keyword">if</span> (SE_Init(filename, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+    {
+        <span class="keyword">return</span> -<span class="integer">1</span>;
+    }
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
+    {
+        SE_ReportObjectPos(SE_GetId(<span class="integer">0</span>), <span class="float">8</span><span class="float">.0</span>, i, z, <span class="float">1</span><span class="float">.57</span> + <span class="float">0</span><span class="float">.01</span> * i, <span class="float">0</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.0</span>);
+
+        SE_Step();
+
+        <span class="comment">// fetch position in terms of road coordinates</span>
+        SE_GetObjectState(SE_GetId(<span class="integer">0</span>), &amp;state);
+
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">road_id: %d s: %.3f lane_id %d lane_offset: %.3f z: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, state.roadId, state.s, state.laneId, state.laneOffset, state.z);
+
+        <span class="keyword">if</span> (i == <span class="integer">100</span>)
+        {
+            z = <span class="integer">1</span><span class="float">0</span><span class="float">.0</span>;
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Release relative road alignment, set absolute z = %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, z);
+            SE_SetObjectPositionMode(SE_GetId(<span class="integer">0</span>),
+                                     SE_PositionModeType::SE_SET,
+                                     SE_PositionMode::SE_Z_ABS);  <span class="comment">// release relative alignment to road surface</span>
+        }
+
+        <span class="keyword">if</span> (i == <span class="integer">200</span>)
+        {
+            z = <span class="float">0</span><span class="float">.0</span>;
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Restore relative road alignment, set relative z = %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, z);
+            SE_SetObjectPositionMode(SE_GetId(<span class="integer">0</span>),
+                                     SE_PositionModeType::SE_SET,
+                                     SE_PositionMode::SE_Z_REL);  <span class="comment">// enforce relative alignment to road surface</span>
+        }
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Exercise: Change heading with i, e.g:</p>
+</div>
+<div class="paragraph">
+<p><code>SE_ReportObjectPos(0, 0.0f, 8.0f, (float)i, 0.0f, 1.57f + 0.01f*i, 0.0f, 0.0f);</code></p>
+</div>
+<div class="paragraph">
+<p>Yes, it looks crazy! But it demonstrates how an application totally can take control of a vehicle.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_control_controllers">Control controllers</h4>
+<div class="paragraph">
+<p>Try to run cut-in_interactive.xosc, as below.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 5. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw5_control_controllers_enabled.cpp">EnvironmentSimulator/code-examples/hello_world/hw5_control_controllers_enabled.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+{
+    (<span class="directive">void</span>)argc;
+    (<span class="directive">void</span>)argv;
+
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_interactive.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
+    {
+        SE_Step();
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Control the Ego vehicle with arrow keys.</p>
+</div>
+<div class="paragraph">
+<p>To disable controllers and hand over to default scenario behavior set first argument flag (see <a href="https://github.com/esmini/esmini/blob/45ef22ed04867f6e6630bb73461e5d4a3fcd7d93/EnvironmentSimulator/Libraries/esminiLib/esminiLib.hpp#L259">headerfile esminiLib.hpp</a>):</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 6. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw6_control_controllers_disabled.cpp">EnvironmentSimulator/code-examples/hello_world/hw6_control_controllers_disabled.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span>, <span class="predefined-type">char</span>**)
+{
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_interactive.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>; i++)
+    {
+        SE_Step();
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ideal_sensors">Ideal sensors</h4>
+<div class="listingblock">
+<div class="title">Example 7. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw7_ideal_sensors.cpp">EnvironmentSimulator/code-examples/hello_world/hw7_ideal_sensors.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;stdio.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+
+<span class="preprocessor">#define</span> MAX_HITS <span class="integer">10</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span>, <span class="predefined-type">char</span>**)
+{
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+
+    SE_AddObjectSensor(<span class="integer">0</span>, <span class="float">2</span><span class="float">.0</span>, <span class="float">1</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.5</span>, <span class="float">1</span><span class="float">.57</span>, <span class="float">1</span><span class="float">.0</span>, <span class="integer">5</span><span class="float">0</span><span class="float">.0</span>, <span class="float">1</span><span class="float">.57</span>, MAX_HITS);
+    SE_AddObjectSensor(<span class="integer">0</span>, -<span class="float">1</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.5</span>, <span class="float">3</span><span class="float">.14</span>, <span class="float">0</span><span class="float">.5</span>, <span class="integer">2</span><span class="float">0</span><span class="float">.0</span>, <span class="float">1</span><span class="float">.57</span>, MAX_HITS);
+
+    <span class="comment">// Turn on visualization of object sensors, toggle key 'r'</span>
+    SE_ViewerShowFeature(<span class="integer">1</span>, <span class="predefined-constant">true</span>);
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">2000</span> &amp;&amp; !(SE_GetQuitFlag() == <span class="integer">1</span>); i++)
+    {
+        SE_Step();
+
+        <span class="predefined-type">int</span> objList[MAX_HITS];
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; <span class="integer">2</span>; j++)  <span class="comment">// iterate over added sensors</span>
+        {
+            <span class="predefined-type">int</span> nHits = SE_FetchSensorObjectList(j, objList);
+            <span class="keyword">for</span> (<span class="predefined-type">int</span> k = <span class="integer">0</span>; k &lt; nHits; k++)
+            {
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Sensor[%d] detected obj: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, objList[k]);
+
+                <span class="comment">// Get some info of that detected object</span>
+                SE_ScenarioObjectState state;
+
+                SE_GetObjectState(objList[k], &amp;state);
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">object[%d] pos: (%.2f, %.2f) heading: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, objList[k], state.x, state.y, state.h);
+            }
+        }
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: If you want M_PI, add on top (before includes): <code>#define _USE_MATH_DEFINES</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_collision_detection">Collision detection</h4>
+<div class="paragraph">
+<p>There are two approaches to collision detection that fit different use cases:</p>
+</div>
+<div class="sect4">
+<h5 id="_1_by_scenario">1. By scenario</h5>
+<div class="paragraph">
+<p>Making use of the OpenSCENARIO <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/CollisionCondition.html">CollisionCondition</a> a collision can be detected and act upon. This can be useful for example if a scenario or test case should end in case of Ego vehicle gets involved in a collision.</p>
+</div>
+<div class="paragraph">
+<p>See example <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc">EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc</a>. To run it from command line:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>Control the Ego car with keyboard arrow keys. Press "up" to accelerate, and "left" or "right" to steer. See output in console when colliding with the two other cars.</p>
+</div>
+<div class="paragraph">
+<p>The interactive controller can be disabled. Then the Ego car will get the speed from the scenario. Run:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc --disable_controllers</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> In this example the action is empty, i.e. the event is triggered on collision but nothing really happens, other than logging the trigger result. In a real use case there could be an actual action, e.g. immediate stop by setting speed to zero in a single step. Another usage is to use the condition in a scenario stop trigger, e.g. to quit the test case as soon as collision happens.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_2_by_api">2. By API</h5>
+<div class="paragraph">
+<p>In addition, or as alternative, to detect collisions via OpenSCENARIO condition esmini can check for collisions between any objects regardless of the scenario. This is a feature that must be enabled (<code>SE_CollisionDetection(true)</code>) since it&#8217;s off by default to avoid unnecessary performance penalties.</p>
+</div>
+<div class="paragraph">
+<p>See code example:</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 8. <a href="https://github.com/esmini/esmini/tree/master//EnvironmentSimulator/code-examples/hello_world/hw8_collision_detection.cpp">EnvironmentSimulator/code-examples/hello_world/hw8_collision_detection.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;stdio.h&quot;</span>
+
+<span class="predefined-type">int</span> main(<span class="directive">void</span>)
+{
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../EnvironmentSimulator/Unittest/xosc/test-collision-detection.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    SE_CollisionDetection(<span class="predefined-constant">true</span>);
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">500</span>; i++)
+    {
+        SE_Step();
+
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; SE_GetNumberOfObjects(); j++)
+        {
+            <span class="keyword">for</span> (<span class="predefined-type">int</span> k = <span class="integer">0</span>; k &lt; SE_GetObjectNumberOfCollisions(j); k++)
+            {
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Collision[%d]: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, SE_GetObjectCollision(j, k));
+            }
+        }
+    }
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> It uses the same scenario file as the above (<a href="#_1_by_scenario">1. By scenario</a>) but the complete "CollisionManeuver" could be removed since no CollisionCondition is needed for API based collision detection. Actually, if maneuver is present the console will show log info from both the condition and the API driven collision detections.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_simple_speed_control">Simple speed control</h4>
+<div class="paragraph">
+<p>As an alternative to the external control examples above, you can control the speed of an object directly. Just note that any triggered scenario actions involving the object might conflict with speed settings via lib API. Recommendation is control an object either via API or scenario file. That said, the combination can be useful for some use cases.</p>
+</div>
+<div class="paragraph">
+<p>The code will modulate speed of Ego (first vehicle) between 2 and 20 mps.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 9. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/speed_controller.cpp">EnvironmentSimulator/code-examples/hello_world/speed_controller.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;iostream&gt;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span> **argv)
+{
+    <span class="predefined-type">double</span> acc   = <span class="integer">10</span>;   <span class="comment">// initial acceleration</span>
+    <span class="predefined-type">double</span> speed = <span class="float">2</span><span class="float">.0</span>;  <span class="comment">// initial speed</span>
+
+    <span class="keyword">if</span> (argc &gt; <span class="integer">1</span>)
+    {
+        SE_Init(argv[<span class="integer">1</span>], <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+    }
+    <span class="keyword">else</span>
+    {
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Usage: %s &lt;path to xosc file&gt;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, argv[<span class="integer">0</span>]);
+        <span class="keyword">return</span> -<span class="integer">1</span>;
+    }
+
+    <span class="keyword">while</span> (SE_GetQuitFlag() != <span class="integer">1</span>)
+    {
+        speed += acc * SE_GetSimTimeStep();  <span class="comment">// get latest time step from simulation</span>
+
+        <span class="comment">// modulate speed by changing sign of acceleration now and then</span>
+        <span class="keyword">if</span> (speed &lt; <span class="float">2</span><span class="float">.0</span>)
+        {
+            acc = <span class="integer">10</span>;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (speed &gt; <span class="integer">2</span><span class="float">0</span><span class="float">.0</span>)
+        {
+            acc = -<span class="integer">10</span>;
+        }
+
+        <span class="comment">// report updated speed</span>
+        SE_ReportObjectSpeed(<span class="integer">0</span>, speed);
+
+        <span class="comment">// step the simulation in natural speed, change to SE_Step(&lt;time-step&gt;) for fixed timestep</span>
+        SE_Step();
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example run command, from <code>esmini/code-examples-bin</code> folder:<br>
+<code>./speed_controller ../resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>There is also a Python version of this example:<br>
+<a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/speed_controller.py">EnvironmentSimulator/code-examples/hello_world/speed_controller.py</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_inject_actions">Inject actions</h4>
+<div class="paragraph">
+<p>This example demonstrates how you can control longitudinal and lateral motion by applying the following actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>SpeedAction</p>
+</li>
+<li>
+<p>LaneChangeAction</p>
+</li>
+<li>
+<p>LaneOffsetAction</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Currently (v2.37.0) the action injection feature is limited to these three actions, but it&#8217;s rather easy to extend if needed.</p>
+</div>
+<div class="paragraph">
+<p>The code will apply three actions according as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>after 2 seconds, make a slight movement (lane offset) of 0.45m to the right</p>
+</li>
+<li>
+<p>after 7 seconds, make a lane change to the left</p>
+</li>
+<li>
+<p>after 8 seconds, consider to do another lane change, but skip since another is already ongoing</p>
+</li>
+<li>
+<p>after 9.5 seconds, brake softly (braking will start before lane change is done)</p>
+</li>
+<li>
+<p>after 11.0 seconds, brake harder to a stop (will cancel the ongoing soft brake action)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Example 10. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/action_injection.cpp">EnvironmentSimulator/code-examples/hello_world/action_injection.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;string.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;iostream&gt;</span>
+
+<span class="preprocessor">#define</span> SMALL_NUMBER <span class="float">1</span>e-<span class="integer">6</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span> **argv)
+{
+    <span class="predefined-type">double</span> dt = -<span class="float">1</span><span class="float">.0</span>;  <span class="comment">// default to variable timestep</span>
+
+    <span class="keyword">if</span> (argc &gt; <span class="integer">2</span>)
+    {
+        <span class="keyword">if</span> (SE_InitWithArgs(argc, <span class="keyword">const_cast</span>&lt;<span class="directive">const</span> <span class="predefined-type">char</span> **&gt;(argv)) != <span class="integer">0</span>)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Error: Could not initialize scenario %s</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, argv[<span class="integer">1</span>]);
+            <span class="keyword">return</span> -<span class="integer">1</span>;
+        }
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">2</span>; i &lt; argc; i++)
+        {
+            <span class="keyword">if</span> (i &lt; argc - <span class="integer">1</span> &amp;&amp; strcmp(argv[i], <span class="string"><span class="delimiter">&quot;</span><span class="content">--fixed_timestep</span><span class="delimiter">&quot;</span></span>) == <span class="integer">0</span>)
+            {
+                dt = atof(argv[i + <span class="integer">1</span>]);  <span class="comment">// use any provided fixed timestep</span>
+            }
+        }
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span> (argc &gt; <span class="integer">1</span>)
+    {
+        <span class="keyword">if</span> (SE_Init(argv[<span class="integer">1</span>], <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Error: Could not initialize scenario %s</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, argv[<span class="integer">1</span>]);
+            <span class="keyword">return</span> -<span class="integer">1</span>;
+        }
+    }
+    <span class="keyword">else</span>
+    {
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Usage: %s &lt;path to xosc file&gt;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, argv[<span class="integer">0</span>]);
+        <span class="keyword">return</span> -<span class="integer">1</span>;
+    }
+
+    <span class="predefined-type">int</span> state = <span class="integer">0</span>;
+    <span class="keyword">while</span> (SE_GetQuitFlag() == <span class="integer">0</span> &amp;&amp; SE_GetSimulationTime() &lt; <span class="integer">1</span><span class="float">7</span><span class="float">.0</span>)
+    {
+        <span class="keyword">if</span> (state == <span class="integer">0</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">2</span><span class="float">.0</span> + SMALL_NUMBER)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting lane offset action</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            SE_LaneOffsetActionStruct lane_offset;
+            lane_offset.id               = <span class="integer">0</span>;      <span class="comment">// id of object to perform action</span>
+            lane_offset.offset           = -<span class="float">0</span><span class="float">.45</span>;  <span class="comment">// target offset in m</span>
+            lane_offset.maxLateralAcc    = <span class="float">0</span><span class="float">.5</span>;    <span class="comment">// max lateral acceleration in m/s^2</span>
+            lane_offset.transition_shape = <span class="integer">0</span>;      <span class="comment">// cubic</span>
+            SE_InjectLaneOffsetAction(&amp;lane_offset);
+            state++;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">1</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">7</span><span class="float">.0</span> + SMALL_NUMBER)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting lane change action</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            SE_LaneChangeActionStruct lane_change;
+            lane_change.id               = <span class="integer">0</span>;    <span class="comment">// id of object to perform action</span>
+            lane_change.mode             = <span class="integer">1</span>;    <span class="comment">// relative (own vehicle)</span>
+            lane_change.target           = <span class="integer">1</span>;    <span class="comment">// target lane id (relative)</span>
+            lane_change.transition_shape = <span class="integer">2</span>;    <span class="comment">// sinusoidal</span>
+            lane_change.transition_dim   = <span class="integer">2</span>;    <span class="comment">// time</span>
+            lane_change.transition_value = <span class="float">3</span><span class="float">.0</span>;  <span class="comment">// s</span>
+            SE_InjectLaneChangeAction(&amp;lane_change);
+            state++;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">2</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">8</span><span class="float">.0</span> + SMALL_NUMBER)
+        {
+            <span class="keyword">if</span> (SE_InjectedActionOngoing(<span class="integer">5</span>))  <span class="comment">// 5 = LAT_LANE_CHANGE</span>
+            {
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Lane change already ongoing, skipping second lane change</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            }
+            <span class="keyword">else</span>
+            {
+                printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting lane change action 2</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+                SE_LaneChangeActionStruct lane_change;
+                lane_change.id               = <span class="integer">0</span>;    <span class="comment">// id of object to perform action</span>
+                lane_change.mode             = <span class="integer">1</span>;    <span class="comment">// relative (own vehicle)</span>
+                lane_change.target           = -<span class="integer">1</span>;   <span class="comment">// target lane id (relative)</span>
+                lane_change.transition_shape = <span class="integer">2</span>;    <span class="comment">// sinusoidal</span>
+                lane_change.transition_dim   = <span class="integer">2</span>;    <span class="comment">// time</span>
+                lane_change.transition_value = <span class="float">3</span><span class="float">.0</span>;  <span class="comment">// s</span>
+                SE_InjectLaneChangeAction(&amp;lane_change);
+            }
+            state++;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">3</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="float">9</span><span class="float">.5</span> + SMALL_NUMBER)  <span class="comment">// slightly overlapping lane change action</span>
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting speed action - soft brake</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            SE_SpeedActionStruct speed;
+            speed.id               = <span class="integer">0</span>;    <span class="comment">// id of object to perform action</span>
+            speed.speed            = <span class="float">0</span><span class="float">.0</span>;  <span class="comment">// target speed in m/s</span>
+            speed.transition_shape = <span class="integer">0</span>;    <span class="comment">// cubic</span>
+            speed.transition_dim   = <span class="integer">1</span>;    <span class="comment">// rate</span>
+            speed.transition_value = <span class="float">3</span><span class="float">.0</span>;  <span class="comment">// m/s^2</span>
+            SE_InjectSpeedAction(&amp;speed);
+            state++;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> (state == <span class="integer">4</span> &amp;&amp; SE_GetSimulationTime() &gt; <span class="integer">1</span><span class="float">1</span><span class="float">.0</span> + SMALL_NUMBER)  <span class="comment">// slightly overlapping lane change action</span>
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Injecting speed action - hard brake</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            SE_SpeedActionStruct speed;
+            speed.id               = <span class="integer">0</span>;    <span class="comment">// id of object to perform action</span>
+            speed.speed            = <span class="float">0</span><span class="float">.0</span>;  <span class="comment">// target speed in m/s</span>
+            speed.transition_shape = <span class="integer">1</span>;    <span class="comment">// cubic</span>
+            speed.transition_dim   = <span class="integer">1</span>;    <span class="comment">// rate</span>
+            speed.transition_value = <span class="float">8</span><span class="float">.0</span>;  <span class="comment">// m/s^2</span>
+            SE_InjectSpeedAction(&amp;speed);
+            state++;
+        }
+
+        <span class="keyword">if</span> (dt &lt; <span class="float">0</span><span class="float">.0</span>)
+        {
+            SE_Step();
+        }
+        <span class="keyword">else</span>
+        {
+            SE_StepDT(dt);
+        }
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example run command, from <code>esmini/code-examples-bin</code> folder:<br>
+<code>./action_injection ../resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>There is also a Python version of this example:<br>
+<a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/action_injection.py">EnvironmentSimulator/code-examples/hello_world/action_injection.py</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_driver_model">Driver model</h4>
+<div class="paragraph">
+<p>Using a simple vehicle model this example demonstrates how a driver model can interact with the scenario in terms of pedal and steering input. This time we use the <code>ExternalController</code> again to ensure any scenario actions is not conflicting with the driver model.</p>
+</div>
+<div class="paragraph">
+<p>To show different variants we also show how to set scenario parameters during intialization, via callbacks. In effect this is a way to achieve runtime variants of the same basic scenario.</p>
+</div>
+<div class="paragraph">
+<p>Before heading into the application code we will look into the scenario file <a href="../EnvironmentSimulator/code-examples/test-driver/test-driver.xosc">EnvironmentSimulator/code-examples/test-driver/test-driver.xosc</a>.</p>
+</div>
+<div class="paragraph">
+<p>Now, let&#8217;s have a look inside it to see how to activate the ExternalController, which will prevent the DefaultController to interfere with the Ego vehicle and instead hand over exclusive control to our application. You can skip this and go to the C++ code example below if you&#8217;re not interested in the controller setup.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open test-driver.xosc</p>
+</li>
+<li>
+<p>Look in the Entities section, under the <code>&lt;ScenarioObject name="Ego"\&gt;</code> element. Here the controller is defined and assigned to the Ego vehicle.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">          <span class="tag">&lt;ObjectController&gt;</span>
+                <span class="tag">&lt;Controller</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">MyExternalControllerWithGhost</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+                    <span class="tag">&lt;Properties&gt;</span>
+                        <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">esminiController</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ExternalController</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                        <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">useGhost</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">$GhostMode</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                        <span class="tag">&lt;Property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">headstartTime</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                    <span class="tag">&lt;/Properties&gt;</span>
+                <span class="tag">&lt;/Controller&gt;</span>
+          <span class="tag">&lt;/ObjectController&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> The GhostMode parameter is set to true or false in the ParameterDeclarations section in the top of the scenario file.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Then the initial position is set. This could instead be done by the application, but it&#8217;s convenient to specify it in the scenario file.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">                <span class="tag">&lt;PrivateAction&gt;</span>
+                    <span class="tag">&lt;TeleportAction&gt;</span>
+                        <span class="tag">&lt;Position&gt;</span>
+                            <span class="tag">&lt;LanePosition</span> <span class="attribute-name">roadId</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">laneId</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">-1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">offset</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">s</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">50</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+                        <span class="tag">&lt;/Position&gt;</span>
+                    <span class="tag">&lt;/TeleportAction&gt;</span>
+                <span class="tag">&lt;/PrivateAction&gt;</span></code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Finally we need to activate the controller on both lateral and longitudinal domains.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml">                <span class="tag">&lt;PrivateAction&gt;</span>
+                      <span class="tag">&lt;ActivateControllerAction</span> <span class="attribute-name">longitudinal</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">lateral</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+                <span class="tag">&lt;/PrivateAction&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The reason for putting it AFTER the positioning is that oterwise the position action would have no effect, since once the controller is activated all scenario actions will be ignored. The controller then having exclusive control.</p>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s head into the code example. It will run the scenario three times:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>External controller without ghost mode</p>
+<div class="ulist">
+<ul>
+<li>
+<p>just look ahead and follow along current lane. Find point along the lane and steer towards it.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>External controller with ghost mode and time based lookahead</p>
+<div class="ulist">
+<ul>
+<li>
+<p>find the state of ghost at given time offset. Use it for steering and speed target.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>External controller with ghost mode and position based lookahead</p>
+<div class="ulist">
+<ul>
+<li>
+<p>given the current Ego position, find ghost state at some look ahead distance along its trail. Use it for steering and speed target.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Now, study the code and perhaps play around mainpulating some values.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 11. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/test-driver/test-driver.cpp">EnvironmentSimulator/code-examples/test-driver/test-driver.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;stdio.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;math.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;string&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+
+<span class="directive">void</span> paramDeclCB(<span class="directive">void</span>* user_arg)
+{
+    <span class="predefined-type">bool</span> ghostMode = *(<span class="keyword">static_cast</span>&lt;<span class="predefined-type">bool</span>*&gt;(user_arg));
+
+    SE_LogMessage((std::<span class="predefined-type">string</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Running with ghostMode = </span><span class="delimiter">&quot;</span></span>).append(ghostMode == <span class="predefined-constant">true</span> ? <span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span>)).c_str());
+    SE_SetParameterBool(<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span>, ghostMode);
+}
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+{
+    (<span class="directive">void</span>)argc;
+    (<span class="directive">void</span>)argv;
+
+    <span class="directive">const</span> <span class="predefined-type">double</span> defaultTargetSpeed = <span class="integer">5</span><span class="float">0</span><span class="float">.0</span>;
+    <span class="directive">const</span> <span class="predefined-type">double</span> curveWeight        = <span class="integer">3</span><span class="float">0</span><span class="float">.0</span>;
+    <span class="directive">const</span> <span class="predefined-type">double</span> throttleWeight     = <span class="float">0</span><span class="float">.1</span>;
+    <span class="directive">const</span> <span class="predefined-type">double</span> duration           = <span class="integer">3</span><span class="float">5</span><span class="float">.0</span>;
+    <span class="predefined-type">bool</span>         ghostMode[<span class="integer">3</span>]       = {<span class="predefined-constant">false</span>, <span class="predefined-constant">true</span>, <span class="predefined-constant">true</span>};
+
+    SE_SimpleVehicleState  vehicleState = {<span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">0</span>};
+    SE_ScenarioObjectState objectState;
+    SE_RoadInfo            roadInfo;
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">3</span>; i++)
+    {
+        SE_RegisterParameterDeclarationCallback(paramDeclCB, &amp;ghostMode[i]);
+
+        <span class="keyword">if</span> (SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../EnvironmentSimulator/code-examples/test-driver/test-driver.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+        {
+            SE_LogMessage(<span class="string"><span class="delimiter">&quot;</span><span class="content">Failed to initialize the scenario, quit</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+            <span class="keyword">return</span> -<span class="integer">1</span>;
+        }
+
+        <span class="comment">// Lock object to the original lane</span>
+        <span class="comment">// If setting to false, the object road position will snap to closest lane</span>
+        SE_SetLockOnLane(<span class="integer">0</span>, <span class="predefined-constant">true</span>);
+
+        <span class="comment">// Initialize the vehicle model, fetch initial state from the scenario</span>
+        SE_GetObjectState(<span class="integer">0</span>, &amp;objectState);
+        <span class="directive">void</span>* vehicleHandle = SE_SimpleVehicleCreate(objectState.x, objectState.y, objectState.h, <span class="float">4</span><span class="float">.0</span>, <span class="float">0</span><span class="float">.0</span>);
+        SE_SimpleVehicleSteeringRate(vehicleHandle, <span class="float">6</span><span class="float">.0</span>);
+
+        <span class="comment">// show some road features, including road sensor</span>
+        SE_ViewerShowFeature(<span class="integer">4</span> + <span class="integer">8</span>, <span class="predefined-constant">true</span>);  <span class="comment">// NODE_MASK_TRAIL_DOTS (1 &lt;&lt; 2) &amp; NODE_MASK_ODR_FEATURES (1 &lt;&lt; 3),</span>
+
+        <span class="comment">// Run for specified duration or until 'Esc' button is pressed</span>
+        <span class="keyword">while</span> (SE_GetSimulationTime() &lt; duration &amp;&amp; SE_GetQuitFlag() != <span class="integer">1</span>)
+        {
+            <span class="comment">// Get simulation delta time since last call (first will be minimum timestep)</span>
+            <span class="predefined-type">double</span> dt = SE_GetSimTimeStep();
+
+            <span class="comment">// Get road information at a point some speed dependent distance ahead</span>
+            <span class="predefined-type">double</span> targetSpeed;
+            <span class="keyword">if</span> (ghostMode[i] == <span class="predefined-constant">true</span>)
+            {
+                <span class="comment">// ghost version</span>
+                <span class="predefined-type">double</span> ghost_speed = <span class="float">0</span><span class="float">.0</span>;
+                <span class="predefined-type">double</span> timestamp   = <span class="float">0</span><span class="float">.0</span>;
+
+                <span class="keyword">if</span> (i % <span class="integer">2</span> == <span class="integer">0</span>)  <span class="comment">// alternate between time based and position based look ahead modes</span>
+                {
+                    <span class="comment">// Time based look ahead</span>
+                    SE_GetRoadInfoGhostTrailTime(<span class="integer">0</span>, SE_GetSimulationTime() + <span class="float">0</span><span class="float">.25</span>, &amp;roadInfo, &amp;ghost_speed);
+                }
+                <span class="keyword">else</span>
+                {
+                    <span class="comment">// Position based Time based look ahead</span>
+                    SE_GetRoadInfoAlongGhostTrail(<span class="integer">0</span>, <span class="integer">5</span> + <span class="float">0</span><span class="float">.75</span> * vehicleState.speed, &amp;roadInfo, &amp;ghost_speed, &amp;timestamp);
+                }
+                targetSpeed = ghost_speed;
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="comment">// Look ahead along the road, to establish target info for the driver model</span>
+                SE_GetRoadInfoAtDistance(<span class="integer">0</span>, <span class="integer">5</span> + <span class="float">0</span><span class="float">.75</span> * vehicleState.speed, &amp;roadInfo, <span class="integer">0</span>, <span class="predefined-constant">true</span>);
+
+                <span class="comment">// Slow down when curve ahead - CURVE_WEIGHT is the tuning parameter</span>
+                targetSpeed = defaultTargetSpeed / (<span class="integer">1</span> + curveWeight * fabs(roadInfo.angle));
+            }
+
+            <span class="comment">// Accelerate or decelerate towards target speed - THROTTLE_WEIGHT tunes magnitude</span>
+            <span class="predefined-type">double</span> throttle = throttleWeight * (targetSpeed - vehicleState.speed);
+
+            <span class="comment">// Step vehicle model with driver input, but wait until time &gt; 0</span>
+            <span class="keyword">if</span> (SE_GetSimulationTime() &gt; <span class="integer">0</span> &amp;&amp; !SE_GetPauseFlag())
+            {
+                <span class="comment">// Steer towards where the point</span>
+                <span class="predefined-type">double</span> steerAngle = roadInfo.angle;
+                SE_SimpleVehicleControlAnalog(vehicleHandle, dt, throttle, steerAngle);
+            }
+
+            <span class="comment">// Fetch updated state and report to scenario engine</span>
+            SE_SimpleVehicleGetState(vehicleHandle, &amp;vehicleState);
+
+            <span class="comment">// Report updated vehicle position and heading. z, pitch and roll will be aligned to the road</span>
+            SE_ReportObjectPosXYH(<span class="integer">0</span>, vehicleState.x, vehicleState.y, vehicleState.h);
+
+            <span class="comment">// The following values are not necessary to report.</span>
+            <span class="comment">// If not reported, esmini will calculate based on motion over time</span>
+            <span class="comment">// but for accuracy it's recommendeded to report if available.</span>
+
+            <span class="comment">// wheel status (revolution and steering angles)</span>
+            SE_ReportObjectWheelStatus(<span class="integer">0</span>, vehicleState.wheel_rotation, vehicleState.wheel_angle);
+
+            <span class="comment">// speed (along vehicle longitudinal (x) axis)</span>
+            SE_ReportObjectSpeed(<span class="integer">0</span>, vehicleState.speed);
+
+            <span class="comment">// Finally, update scenario using same time step as for vehicle model</span>
+            SE_StepDT(dt);
+        }
+        SE_Close();
+    }
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Don&#8217;t worry about the stationary red car on the road, you&#8217;ll just drive through it.</p>
+</div>
+<div class="paragraph">
+<p>Try experimenting with the driver settings, e.g. increase lookahead distance factor from 0.75 to 1.75.</p>
+</div>
+<div class="paragraph">
+<p>When running the application, press key 'j' to toggle ghost trail dots and lines visualization.</p>
+</div>
+<div class="paragraph">
+<p><strong>Challenge</strong>: Attach a front looking sensor to detect it and have the driver to brake to avoid collision&#8230;&#8203;</p>
+</div>
+<div class="sect4">
+<h5 id="_ghost_concept_in_brief">Ghost concept in brief</h5>
+<div class="paragraph">
+<p>In the first loop the driver model is just capable of driving along the specified lane. It&#8217;s totally detached from any scenario events.</p>
+</div>
+<div class="paragraph">
+<p>The ghost concept is a solution for a driver model to perform scenario actions. Basically it will launch a fore-runner to perform the scenario actions. The trajectory, including speed, is registered into a "trail" which can then be used as reference for steering and speed target.</p>
+</div>
+<div class="paragraph">
+<p>Ghost mode is a parameter of the external controller. Normally this is set in the scenario, for example in test-driver.xosc, change line:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;ParameterDeclaration</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">parameterType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">boolean</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">false</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;ParameterDeclaration</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">GhostMode</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">parameterType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">boolean</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However, in the example code this parameter is controlled by the <code>paramDeclCB()</code> callback. Once it&#8217;s registered with <code>SE_RegisterParameterDeclarationCallback()</code> it will be called each time esmini is initialized (<code>SE_Init()</code>).</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_osi_groundtruth">OSI groundtruth</h4>
+<div class="paragraph">
+<p>To access OSI data we first need to complement the build script (CMakeLists.txt) with OSI include and library info. For example:</p>
+</div>
+<div class="paragraph">
+<p>Windows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>include_directories(. ../include ../EnvironmentSimulator/Libraries/esminiLib ../externals/osi/v10/include)
+
+link_directories(. ../bin ../externals/osi/v10/lib)
+
+target_link_libraries(${TARGET} esminiLib libprotobuf open_simulation_interface_pic)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Linux:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>include_directories(. ../include ../EnvironmentSimulator/Libraries/esminiLib ../externals/osi/linux/include)
+
+link_directories(. ../bin ../externals/osi/linux/lib)
+
+target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic)</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Replace foldername "v10" with linux or mac depending on your platform.</p>
+</li>
+<li>
+<p>If linking with custom applications or libraries: OSI and Google Protobuf versions needs to be consistent (at least major version nr), also with the versions used in esmini (see <a href="https://github.com/esmini/esmini#osi-support">here</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Then run <code>cmake ..</code> from the build folder to apply the changes in CMakeFiles.cxx.</p>
+</div>
+<div class="paragraph">
+<p>The following code will update, fetch and print some OSI data each frame.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 12. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp">EnvironmentSimulator/code-examples/osi-groundtruth/osi-groundtruth.cpp</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
+
+<span class="preprocessor">#include</span> <span class="include">&quot;osi_common.pb.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;osi_object.pb.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;osi_groundtruth.pb.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&quot;osi_version.pb.h&quot;</span>
+
+<span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
+{
+    (<span class="directive">void</span>)argc;
+    (<span class="directive">void</span>)argv;
+    <span class="directive">const</span> osi3::GroundTruth* gt;
+
+    SE_EnableOSIFile(<span class="integer">0</span>);  <span class="comment">// 0 or &quot;&quot; will result in default filename, ground_truth.osi</span>
+    SE_SetOSIStaticReportMode(SE_OSIStaticReportMode::DEFAULT);
+
+    SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in_simple.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>);
+
+    <span class="comment">// Fetch initial OSI struct, this will also update the OSI data</span>
+    gt = <span class="keyword">reinterpret_cast</span>&lt;<span class="directive">const</span> osi3::GroundTruth*&gt;(SE_GetOSIGroundTruthRaw());
+
+    <span class="comment">// Lane boundaries (static road info only available in first OSI frame)</span>
+    printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">lane boundaries: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;lane_boundary_size());
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; gt-&gt;lane_boundary_size(); j++)
+    {
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">  lane boundary %d, nr of boundary points: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, j, gt-&gt;lane_boundary(j).boundary_line_size());
+
+<span class="comment">#if 0  // change to 1 in order to print all boundary points
+                        for (int k = 0; k &lt; gt-&gt;lane_boundary(j).boundary_line_size(); k++)
+                        {
+                                printf(&quot;    (%.2f, %.2f)\n&quot;,
+                                        gt-&gt;lane_boundary(j).boundary_line(k).position().x(),
+                                        gt-&gt;lane_boundary(j).boundary_line(k).position().y());
+                        }
+#endif</span>
+    }
+
+    <span class="keyword">for</span> (<span class="predefined-type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">4</span>; i++)
+    {
+        SE_StepDT(<span class="float">0</span><span class="float">.01</span>);  <span class="comment">// ground truth will be automatically updated each step if we have either an OSIFile or fetched a pointer to the</span>
+                          <span class="comment">// osi3::GroundTruth struct</span>
+
+        <span class="comment">// Print timestamp</span>
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">Frame %d timestamp: %.2f</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+               i + <span class="integer">1</span>,
+               <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().seconds()) + <span class="float">1</span>E-<span class="integer">9</span> * <span class="keyword">static_cast</span>&lt;<span class="predefined-type">double</span>&gt;(gt-&gt;timestamp().nanos()));
+
+        <span class="comment">// Static content such as lane boundaries should be 0 at this point (we have SE_OSIStaticReportMode::DEFAULT, change to API or API_AND_LOG to</span>
+        <span class="comment">// get static data)</span>
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">lane boundaries: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;lane_boundary_size());
+
+        <span class="comment">// Road markings, e.g. zebra lines</span>
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">road markings: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;road_marking_size());
+
+        <span class="comment">// Moving objects</span>
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">moving objects: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;moving_object_size());
+
+<span class="preprocessor">#if</span> <span class="integer">1</span>  <span class="comment">// change to 1 in order to print some moving object state info</span>
+       <span class="comment">// Print object id, position, orientation and velocity</span>
+        <span class="keyword">for</span> (<span class="predefined-type">int</span> j = <span class="integer">0</span>; j &lt; gt-&gt;moving_object().size(); j++)
+        {
+            printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">  obj id %u pos (%.2f, %.2f, %.2f) orientation (%.2f, %.2f, %.2f) vel (%.2f, %.2f, %.2f) acc (%.2f, %.2f, %.2f)</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>,
+                   <span class="keyword">static_cast</span>&lt;<span class="predefined-type">unsigned</span> <span class="predefined-type">int</span>&gt;(gt-&gt;moving_object(j).id().value()),
+                   gt-&gt;moving_object(j).base().position().x(),
+                   gt-&gt;moving_object(j).base().position().y(),
+                   gt-&gt;moving_object(j).base().position().z(),
+                   gt-&gt;moving_object(j).base().orientation().yaw(),
+                   gt-&gt;moving_object(j).base().orientation().pitch(),
+                   gt-&gt;moving_object(j).base().orientation().roll(),
+                   gt-&gt;moving_object(j).base().velocity().x(),
+                   gt-&gt;moving_object(j).base().velocity().y(),
+                   gt-&gt;moving_object(j).base().velocity().z(),
+                   gt-&gt;moving_object(j).base().acceleration().x(),
+                   gt-&gt;moving_object(j).base().acceleration().y(),
+                   gt-&gt;moving_object(j).base().acceleration().z());
+        }
+<span class="preprocessor">#endif</span>
+
+        <span class="comment">// Moving objects</span>
+        printf(<span class="string"><span class="delimiter">&quot;</span><span class="content">stationary objects: %d</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>, gt-&gt;stationary_object_size());
+    }
+
+    SE_Close();
+
+    <span class="keyword">return</span> <span class="integer">0</span>;
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_python_binding">Python binding</h3>
+<div class="paragraph">
+<p>A Python wrapper for esmini can easily be created using "ctypes" (thanks David Kaplan for the tip!). This section presents a few examples to get you started.</p>
+</div>
+<div class="sect3">
+<h4 id="_minimalistic_esmini_python_player">Minimalistic esmini Python player</h4>
+<div class="paragraph">
+<p>The script below works on Windows.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="Python"><span class="keyword">import</span> <span class="include">ctypes</span>
+
+se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+se.SE_Init(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">1</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>, <span class="integer">2</span>)
+
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span> (<span class="integer">500</span>):
+    se.SE_Step()</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create the file <code>esmini-win-player.py</code> in <code>esmini/Hello-World_coding-example</code> folder, copy the code into it.</p>
+</li>
+<li>
+<p>Make sure the esminiLib is present in <code>esmini/bin</code> folder.</p>
+</li>
+<li>
+<p>Run the script from its folder as: <code>python esmini-win-player.py</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Note:</strong> Library name varies with the platform as mentioned above (see <a href="#preparations">Preparations</a>)</p>
+</div>
+<div class="paragraph">
+<p>Below is a bit more flexible variant:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Portable: Works on all supported platforms</p>
+</li>
+<li>
+<p>Provide scenario via argument</p>
+</li>
+<li>
+<p>Quit at press Escape or end of scenario</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Example 13. <a href="https://github.com/esmini/esmini/tree/master/Hello-World_coding-example/esmini-player.py">Hello-World_coding-example/esmini-player.py</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="keyword">import</span> <span class="include">ctypes</span>
+<span class="keyword">import</span> <span class="include">sys</span>
+
+<span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">else</span>:
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(sys.platform))
+    quit()
+
+<span class="keyword">if</span> (<span class="predefined">len</span>(sys.argv) &lt; <span class="integer">2</span>):
+    print(<span class="string"><span class="delimiter">'</span><span class="content">Usage: {} &lt;xosc file&gt;</span><span class="delimiter">'</span></span>.format(sys.argv[<span class="integer">0</span>]))
+    <span class="predefined">exit</span>(-<span class="integer">1</span>)
+
+se.SE_Init(sys.argv[<span class="integer">1</span>].encode(<span class="string"><span class="delimiter">'</span><span class="content">ascii</span><span class="delimiter">'</span></span>), <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>)
+
+<span class="keyword">while</span> <span class="keyword">not</span> se.SE_GetQuitFlag():
+    se.SE_Step()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That was a minimalistic introduction. Following examples are located under the <code>EnvironmentSimulator/code-examples</code> folder. To run them, again make sure the esminiLib is present in <code>esmini/bin</code> folder. Run each script from its folder.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_initialize_esmini_by_flexible_argument_list">Initialize esmini by flexible argument list</h4>
+<div class="paragraph">
+<p>Instead of using the limited <code>SE_Init()</code> function you can pass any arguments using <code>SE_InitWithArgs()</code></p>
+</div>
+<div class="listingblock">
+<div class="title">Example 14. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/init_by_args.py">EnvironmentSimulator/code-examples/hello_world/init_by_args.py</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="docstring"><span class="delimiter">'''</span><span class="content">
+</span><span class="content">   demonstrate how to initialize esmini with arguments instead of a few limited arguments</span><span class="content">
+</span><span class="content">   using ideas from: https://comp.lang.python.narkive.com/RUdYlz64/trying-to-pass-sys-argv-as-int-argc-char-argv-using-ctypes</span><span class="content">
+</span><span class="content">
+</span><span class="content">   Instruction:</span><span class="content">
+</span><span class="content">     - make sure the esmini shared library (esminiLib.dll or esminiLib.so) is present in esmini/bin folder</span><span class="content">
+</span><span class="content">     - if not, either compile esmini (see User guide) or fetch bin package release</span><span class="content">
+</span><span class="content">     - from this folder (where this code module is), run: python ./init_by_args.py</span><span class="content">
+</span><span class="delimiter">'''</span></span>
+
+<span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
+<span class="keyword">import</span> <span class="include">sys</span>
+
+<span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">else</span>:
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(platform))
+    quit()
+
+<span class="comment"># specify arguments types of esmini function</span>
+se.SE_InitWithArgs.argtypes = [ct.c_int, ct.POINTER(ct.POINTER(ct.c_char))]
+
+<span class="comment"># create the list of arguments</span>
+args = [
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">--window</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">60</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">60</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">800</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">400</span><span class="delimiter">&quot;</span></span>,
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">--osc</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>,
+    ]
+
+<span class="comment"># prepare argument list for ctypes use</span>
+argv = (ct.POINTER(ct.c_char) * <span class="predefined">len</span>(args))()
+argc = <span class="predefined">len</span>(argv)
+<span class="keyword">for</span> i, arg <span class="keyword">in</span> <span class="predefined">enumerate</span>(args):
+    argv[i] = ct.create_string_buffer(arg.encode())
+
+<span class="comment"># init esmini</span>
+<span class="keyword">if</span> se.SE_InitWithArgs(argc, argv) != <span class="integer">0</span>:
+    <span class="predefined">exit</span>(-<span class="integer">1</span>)
+
+<span class="comment"># execute esmini until end of scenario or user requested quit by ESC key</span>
+<span class="keyword">while</span> se.SE_GetQuitFlag() == <span class="integer">0</span>:
+    se.SE_Step()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_forward_command_line_arguments">Forward command line arguments</h4>
+<div class="paragraph">
+<p>How to just forward any argument provided from command line:</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 15. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/forward_cmd_args.py">EnvironmentSimulator/code-examples/hello_world/forward_cmd_args.py</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="docstring"><span class="delimiter">'''</span><span class="content">
+</span><span class="content">   demonstrate how to forward command line arguments to esmini</span><span class="content">
+</span><span class="content">   using ideas from: https://comp.lang.python.narkive.com/RUdYlz64/trying-to-pass-sys-argv-as-int-argc-char-argv-using-ctypes</span><span class="content">
+</span><span class="content">
+</span><span class="content">   Instruction:</span><span class="content">
+</span><span class="content">     - make sure the esmini shared library (esminiLib.dll or esminiLib.so) is present in esmini/bin folder</span><span class="content">
+</span><span class="content">     - if not, either compile esmini (see User guide) or fetch bin package release</span><span class="content">
+</span><span class="content">     - from this folder (where this code module is), run: python ./forward_cmd_args.py &lt;esmini command line arguments&gt;</span><span class="content">
+</span><span class="content">     - Example: python ./forward_cmd_args.py ../../../resources/xosc/cut-in.xosc --road_features on --bounding_boxes</span><span class="content">
+</span><span class="delimiter">'''</span></span>
+
+<span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
+<span class="keyword">import</span> <span class="include">sys</span>
+
+<span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">else</span>:
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(platform))
+    quit()
+
+<span class="comment"># specify arguments types of esmini function</span>
+se.SE_InitWithArgs.argtypes = [ct.c_int, ct.POINTER(ct.POINTER(ct.c_char))]
+
+<span class="comment"># fetch command line arguments</span>
+argc = <span class="predefined">len</span>(sys.argv)
+argv = (ct.POINTER(ct.c_char) * (argc + <span class="integer">1</span>))()
+<span class="keyword">for</span> i, arg <span class="keyword">in</span> <span class="predefined">enumerate</span>(sys.argv):
+    argv[i] = ct.create_string_buffer(arg.encode(<span class="string"><span class="delimiter">'</span><span class="content">utf-8</span><span class="delimiter">'</span></span>))
+
+<span class="comment"># init esmini</span>
+<span class="keyword">if</span> se.SE_InitWithArgs(argc, argv) != <span class="integer">0</span>:
+    <span class="predefined">exit</span>(-<span class="integer">1</span>)
+
+<span class="comment"># execute esmini until end of scenario or user requested quit by ESC key</span>
+<span class="keyword">while</span> se.SE_GetQuitFlag() == <span class="integer">0</span>:
+    se.SE_Step()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_object_states">Get object states</h4>
+<div class="paragraph">
+<p>How to retrieve the state of all scenario objects:</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 16. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/get_states.py">EnvironmentSimulator/code-examples/hello_world/get_states.py</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="docstring"><span class="delimiter">'''</span><span class="content">
+</span><span class="content">   demonstrate how to get scenario object states</span><span class="content">
+</span><span class="content">
+</span><span class="content">   Instruction:</span><span class="content">
+</span><span class="content">     - make sure the esmini shared library (esminiLib.dll or esminiLib.so) is present in esmini/bin folder</span><span class="content">
+</span><span class="content">     - if not, either compile esmini (see User guide) or fetch bin package release</span><span class="content">
+</span><span class="content">     - from this folder (where this code module is), run: python ./get_states.py</span><span class="content">
+</span><span class="delimiter">'''</span></span>
+
+<span class="keyword">import</span> <span class="include">ctypes</span>
+<span class="keyword">from</span> <span class="include">sys</span> <span class="keyword">import</span> <span class="include">platform</span>
+
+<span class="keyword">if</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+    se = ctypes.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">else</span>:
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(platform))
+    quit()
+
+<span class="comment"># Definition of SE_ScenarioObjectState struct</span>
+<span class="keyword">class</span> <span class="class">SEScenarioObjectState</span>(ctypes.Structure):
+    _fields_ = [
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">model_id</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">control</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">timestamp</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">h</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">p</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">r</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">roadId</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">junctionId</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">t</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">laneId</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">laneOffset</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">s</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">speed</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">centerOffsetX</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">centerOffsetY</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">centerOffsetZ</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">width</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">length</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">height</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">objectType</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">objectCategory</span><span class="delimiter">&quot;</span></span>, ctypes.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">wheelAngle</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">wheelRot</span><span class="delimiter">&quot;</span></span>, ctypes.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">visibilityMask</span><span class="delimiter">&quot;</span></span>, ctypes.c_int)
+    ]
+
+se.SE_Init(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>)
+
+obj_state = SEScenarioObjectState()  <span class="comment"># object that will be passed and filled in with object state info</span>
+
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="predefined">range</span>(<span class="integer">500</span>):
+    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="predefined">range</span>(se.SE_GetNumberOfObjects()):
+        se.SE_GetObjectState(se.SE_GetId(j), ctypes.byref(obj_state))
+        print(<span class="string"><span class="delimiter">'</span><span class="content">Frame {} Time {:.2f} ObjId {} roadId {} laneId {} laneOffset {:.2f} s {:.2f} x {:.2f} y {:.2f} heading {:.2f} speed {:.2f} wheelAngle {:.2f} wheelRot {:.2f}</span><span class="delimiter">'</span></span>.format(
+            i, obj_state.timestamp, obj_state.id, obj_state.roadId, obj_state.laneId, obj_state.laneOffset,
+            obj_state.s, obj_state.x, obj_state.y, obj_state.h, obj_state.speed * <span class="float">3.6</span>, obj_state.wheelAngle, obj_state.wheelRot))
+    se.SE_Step()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_use_of_esminirmlib_roadmanager">Example use of esminiRMLib (RoadManager)</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Make sure the esminiRMLib is present in <code>esmini/bin</code> folder</p>
+</li>
+<li>
+<p>In the code, check filepath to the OpenDRIVE file to load (current search path should work when script is copied to and run from the esmini/Hello-World_coding-example folder)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Example 17. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py">EnvironmentSimulator/code-examples/hello_world/use_roadmanager.py</a></div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="docstring"><span class="delimiter">'''</span><span class="content">
+</span><span class="content">   demonstrate how to use esmini esminiRMLib (road manager lib) in a Python context</span><span class="content">
+</span><span class="content">
+</span><span class="content">   Instruction:</span><span class="content">
+</span><span class="content">     - make sure the esmini shared library (esminiLib.dll or esminiLib.so) is present in esmini/bin folder</span><span class="content">
+</span><span class="content">     - if not, either compile esmini (see User guide) or fetch bin package release</span><span class="content">
+</span><span class="content">     - from this folder (where this code module is), run: python ./use_roadmanager.py</span><span class="content">
+</span><span class="delimiter">'''</span></span>
+
+<span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
+<span class="keyword">import</span> <span class="include">sys</span>
+
+<span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+    rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiRMLib.so</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+    rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiRMLib.dylib</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+    rm = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/esminiRMLib.dll</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">else</span>:
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(sys.platform))
+    sys.exit(-<span class="integer">1</span>)
+
+<span class="comment"># Definition of RM_PositionData struct - should match esminiRMLib::RM_PositionData struct</span>
+<span class="keyword">class</span> <span class="class">RM_PositionData</span>(ct.Structure):
+    _fields_ = [
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">h</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">p</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">r</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">h_relative</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">road_id</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">junction_id</span><span class="delimiter">&quot;</span></span>, ct.c_int),  <span class="comment"># -1 if not in a junction</span>
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">lane_id</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">lane_offset</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">s</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+    ]
+
+<span class="comment"># Specify argument types to a few functions</span>
+rm.RM_SetWorldPosition.argtypes = [ct.c_int, ct.c_double, ct.c_double, ct.c_double, ct.c_double, ct.c_double, ct.c_double]
+rm.RM_SetLanePosition.argtypes = [ct.c_int, ct.c_int, ct.c_int, ct.c_double, ct.c_double]
+
+
+<span class="comment"># Initialize esmini RoadManger with given OpenDRIVE file</span>
+odr = <span class="string"><span class="delimiter">'</span><span class="content">../../../resources/xodr/straight_500m.xodr</span><span class="delimiter">'</span></span>
+<span class="keyword">if</span> rm.RM_Init(odr.encode()) == -<span class="integer">1</span>:   <span class="comment"># encode() converts string to pure byte array</span>
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Failed to load OpenDRIVE file </span><span class="delimiter">&quot;</span></span>, )
+    sys.exit(-<span class="integer">1</span>)
+
+rm_pos = rm.RM_CreatePosition()  <span class="comment"># create a position object, returns a handle</span>
+rm_pos_data = RM_PositionData()  <span class="comment"># object that will be passed and filled in with position info</span>
+
+<span class="comment"># test a few positions</span>
+x = <span class="integer">65</span>
+y = -<span class="float">1.7</span>
+rm.RM_SetWorldPosition(rm_pos, x, y, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="float">0.0</span>, <span class="float">0.0</span>)
+rm.RM_GetPositionData(rm_pos, ct.byref(rm_pos_data))
+print(<span class="string"><span class="delimiter">'</span><span class="content">road_id {} lane_id {} lane_offset {:.2f} s {:.2f}</span><span class="delimiter">'</span></span>.format(
+    rm_pos_data.road_id, rm_pos_data.lane_id, rm_pos_data.lane_offset, rm_pos_data.s))
+
+road_id = <span class="integer">1</span>
+lane_id = <span class="integer">1</span>
+lane_offset = -<span class="float">0.2</span>
+s = <span class="integer">40</span>
+rm.RM_SetLanePosition(rm_pos, road_id, lane_id, lane_offset, s)
+rm.RM_GetPositionData(rm_pos, ct.byref(rm_pos_data))
+print(<span class="string"><span class="delimiter">'</span><span class="content">x {:.2f} y {:.2f} h (yaw) {:.2f}</span><span class="delimiter">'</span></span>.format(
+    rm_pos_data.x, rm_pos_data.y, rm_pos_data.h))</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_storyboard_element_state_callback">Storyboard element state callback</h4>
+<div class="paragraph">
+<p>The following code shows how to get notification of storyboard events using StoryBoardElementStateChangeCallback.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 18. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py">EnvironmentSimulator/code-examples/hello_world/storyboard_state_callback.py</a> (complete code)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># Storyboard element types (see OSCTypeDefs/OSCAction.hpp)</span>
+sbe_type = {
+    <span class="integer">0</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">UNDEFINED_ELEMENT_TYPE</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">1</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">STORY_BOARD</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">2</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">STORY</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">3</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">ACT</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">4</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">MANEUVER_GROUP</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">5</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">MANEUVER</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">6</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">EVENT</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">7</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">ACTION</span><span class="delimiter">&quot;</span></span>
+}
+
+<span class="comment"># Storyboard element states (see OSCTypeDefs/OSCAction.hpp)</span>
+sbe_state = {
+    <span class="integer">0</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">UNDEFINED_ELEMENT_STATE</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">1</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">STANDBY</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">2</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">RUNNING</span><span class="delimiter">&quot;</span></span>,
+    <span class="integer">3</span>:<span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLETE</span><span class="delimiter">&quot;</span></span>
+}
+
+<span class="comment"># Define callback for scenario storyboard element state changes</span>
+<span class="comment"># according to function type: void (*fnPtr)(const char* name, int type, int state)</span>
+<span class="comment"># required by SE_RegisterStoryBoardElementStateChangeCallback()</span>
+<span class="keyword">def</span> <span class="function">callback</span>(name, <span class="predefined">type</span>, state, full_path):
+    <span class="comment"># just print the received info</span>
+    print(<span class="predefined">type</span>)
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">callback: {} ({}) state: {} full path: {}</span><span class="delimiter">&quot;</span></span>.format(codecs.decode(name), sbe_type[<span class="predefined">type</span>], sbe_state[state], codecs.decode(full_path), ))
+
+callback_type = ct.CFUNCTYPE(<span class="predefined-constant">None</span>, ct.c_char_p, ct.c_int, ct.c_int, ct.c_char_p)
+callback_func = callback_type(callback)
+
+<span class="comment"># Initialize esmini before register the callback</span>
+se.SE_AddPath(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../../../resources/xosc</span><span class="delimiter">&quot;</span></span>)  <span class="comment"># search path if run from original location</span>
+se.SE_Init(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>)
+
+<span class="comment"># register the callback function</span>
+se.SE_RegisterStoryBoardElementStateChangeCallback(callback_func)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_osi_groundtruth_2">OSI groundtruth</h4>
+<div class="paragraph">
+<p>OSI groundtruth can also be retrieved and processed via Python. The following code shows one way of doing it. This example also shows how the simulation can be encapsulated in a class.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 19. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py">EnvironmentSimulator/code-examples/hello_world/osi_groundtruth.py</a> (complete code)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="docstring"><span class="delimiter">'''</span><span class="content">
+</span><span class="content">   demonstrate how to fetch OSI data from esmini in Python context</span><span class="content">
+</span><span class="content">
+</span><span class="content">   Python dependencies:</span><span class="content">
+</span><span class="content">      pip install protobuf==3.20.2</span><span class="content">
+</span><span class="content">
+</span><span class="content">   Note: No need to install OSI as long as esmini/scripts/osi3 folder is available</span><span class="content">
+</span><span class="content">
+</span><span class="content">   Instruction:</span><span class="content">
+</span><span class="content">     - make sure the esmini shared library (esminiLib.dll or esminiLib.so) is present in esmini/bin folder</span><span class="content">
+</span><span class="content">     - if not, either compile esmini (see User guide) or fetch bin package release</span><span class="content">
+</span><span class="content">     - from this folder (where this code module is), run: python ./osi_groundtruth.py</span><span class="content">
+</span><span class="delimiter">'''</span></span>
+
+<span class="keyword">import</span> <span class="include">os</span>
+<span class="keyword">import</span> <span class="include">sys</span>
+<span class="keyword">import</span> <span class="include">ctypes</span> <span class="keyword">as</span> ct
+
+<span class="comment"># Add scripts root directory to module search path in order to find osi3</span>
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), <span class="string"><span class="delimiter">'</span><span class="content">../../../</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">scripts</span><span class="delimiter">'</span></span>)))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), <span class="string"><span class="delimiter">'</span><span class="content">..</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">scripts</span><span class="delimiter">'</span></span>)))  <span class="comment"># if script moved to Hello World folder</span>
+
+<span class="keyword">from</span> <span class="include">osi3.osi_groundtruth_pb2</span> <span class="keyword">import</span> <span class="include">GroundTruth</span>
+
+<span class="comment"># Import esmini lib</span>
+<span class="keyword">if</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux</span><span class="delimiter">&quot;</span></span> <span class="keyword">or</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">linux2</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiLib.so</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">darwin</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/libesminiLib.dylib</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">elif</span> sys.platform == <span class="string"><span class="delimiter">&quot;</span><span class="content">win32</span><span class="delimiter">&quot;</span></span>:
+    se = ct.CDLL(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../bin/esminiLib.dll</span><span class="delimiter">&quot;</span></span>)
+<span class="keyword">else</span>:
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported platform: {}</span><span class="delimiter">&quot;</span></span>.format(platform))
+    quit()
+
+
+<span class="comment"># Specify argument and return types of some esmini functions</span>
+se.SE_GetOSIGroundTruth.restype = ct.c_void_p
+se.SE_GetOSIGroundTruth.argtypes = [ct.c_void_p]
+se.SE_StepDT.argtypes = [ct.c_double]
+
+<span class="keyword">class</span> <span class="class">Sim</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="predefined-constant">self</span>, scenario):
+        <span class="predefined-constant">self</span>.msg = GroundTruth()  <span class="comment"># OSI groundtruth message</span>
+        <span class="predefined-constant">self</span>.msg_size = ct.c_int()
+        <span class="keyword">if</span> se.SE_Init(scenario, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>:
+            print(<span class="string"><span class="delimiter">'</span><span class="content">Failed to open </span><span class="delimiter">'</span></span>, scenario)
+            <span class="predefined">exit</span>(-<span class="integer">1</span>)
+
+        <span class="predefined-constant">self</span>.GetAndPrintOSIInfo()  <span class="comment"># Initial state</span>
+
+    <span class="comment"># Retrieve OSI message and print some info</span>
+    <span class="keyword">def</span> <span class="function">GetAndPrintOSIInfo</span>(<span class="predefined-constant">self</span>):
+        msg_string = se.SE_GetOSIGroundTruth(ct.byref(<span class="predefined-constant">self</span>.msg_size))
+        <span class="predefined-constant">self</span>.msg.ParseFromString(ct.string_at(msg_string, <span class="predefined-constant">self</span>.msg_size))
+
+        <span class="comment"># Print some info</span>
+        print(<span class="string"><span class="delimiter">&quot;</span><span class="content">Timestamp: {:.2f}</span><span class="delimiter">&quot;</span></span>.format(<span class="predefined-constant">self</span>.msg.timestamp.seconds + <span class="float">1e-9</span> * <span class="predefined-constant">self</span>.msg.timestamp.nanos))
+        <span class="keyword">for</span> j, o <span class="keyword">in</span> <span class="predefined">enumerate</span>(<span class="predefined-constant">self</span>.msg.moving_object):
+            print(<span class="string"><span class="delimiter">'</span><span class="content">   Object[{}] id {}</span><span class="delimiter">'</span></span>.format(j, o.id.value))
+            print(<span class="string"><span class="delimiter">'</span><span class="content">      pos.x {:.2f} pos.y {:.2f} rot.h {:.2f}</span><span class="delimiter">'</span></span>.format(\
+                o.base.position.x,\
+                o.base.position.y,\
+                o.base.orientation.yaw))
+            print(<span class="string"><span class="delimiter">'</span><span class="content">      vel.x {:.2f} vel.y {:.2f} rot_rate.h {:.2f}</span><span class="delimiter">'</span></span>.format(\
+                o.base.velocity.x,\
+                o.base.velocity.y,\
+                o.base.orientation_rate.yaw))
+            print(<span class="string"><span class="delimiter">'</span><span class="content">      acc.x {:.2f} acc.y {:.2f} rot_acc.h {:.2f}</span><span class="delimiter">'</span></span>.format(\
+                o.base.acceleration.x,\
+                o.base.acceleration.y,\
+                o.base.orientation_acceleration.yaw))
+
+
+    <span class="keyword">def</span> <span class="function">Run</span>(<span class="predefined-constant">self</span>):
+        <span class="keyword">while</span> se.SE_GetQuitFlag() != <span class="integer">1</span>:
+            se.SE_StepDT(<span class="float">0.05</span>)
+            <span class="predefined-constant">self</span>.GetAndPrintOSIInfo()  <span class="comment"># Updated state</span>
+
+        se.SE_Close()
+
+<span class="keyword">if</span> __name__ == <span class="string"><span class="delimiter">'</span><span class="content">__main__</span><span class="delimiter">'</span></span>:
+    <span class="comment"># Execute when the module is not initialized from an import statement.</span>
+
+    sim = Sim(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>)
+    sim.Run()</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_object_state_callback">Object state callback</h4>
+<div class="paragraph">
+<p><mark>Advanced</mark></p>
+</div>
+<div class="paragraph">
+<p>Controllers and callbacks can also be utilized via Python. Following code drafts how to grab state of the first scenario object and then, in a callback, manipulate it and report back. If used in combination with ExternalController in mode=additive the scenario action are applied first. On the contrary, if used with mode=override, the scenario actions will not be applied giving exclusive control to the external callback function.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example 20. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/hello_world/object_callback.py">EnvironmentSimulator/code-examples/hello_world/object_callback.py</a> (complete code)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="python"><span class="comment"># Definition of SE_ScenarioObjectState struct</span>
+<span class="keyword">class</span> <span class="class">SEScenarioObjectState</span>(ct.Structure):
+    _fields_ = [
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">model_id</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">control</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">timestamp</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">y</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">z</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">h</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">p</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">r</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">roadId</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">junctionId</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">t</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">laneId</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">laneOffset</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">s</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">speed</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">centerOffsetX</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">centerOffsetY</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">centerOffsetZ</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">width</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">length</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">height</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">objectType</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">objectCategory</span><span class="delimiter">&quot;</span></span>, ct.c_int),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">wheel_angle</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+        (<span class="string"><span class="delimiter">&quot;</span><span class="content">wheel_rot</span><span class="delimiter">&quot;</span></span>, ct.c_double),
+    ]
+
+
+<span class="comment"># Define callback for scenario object enabling manipulating the state AFTER scenario step but BEFORE OSI output</span>
+<span class="comment"># Use in combination with ExternalController in mode=additive in order for scenario actions to be applied first</span>
+<span class="keyword">def</span> <span class="function">callback</span>(state_ptr, b):
+    state = state_ptr.contents
+    print(<span class="string"><span class="delimiter">&quot;</span><span class="content">callback for obj {}: x={:.2f} y={:.2f} h={:.2f}</span><span class="delimiter">&quot;</span></span>.format(state.id, state.x, state.y, state.h))
+    se.SE_ReportObjectPosXYH(ct.c_int(state.id), ct.c_double(state.x + <span class="float">0.02</span>), ct.c_double(state.y), ct.c_double(state.h + <span class="float">0.001</span>))
+
+callback_type = ct.CFUNCTYPE(<span class="predefined-constant">None</span>, ct.POINTER(SEScenarioObjectState), ct.c_void_p)
+callback_func = callback_type(callback)
+
+<span class="comment"># Initialize esmini before register the callback</span>
+se.SE_AddPath(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../../../resources/xosc</span><span class="delimiter">&quot;</span></span>)  <span class="comment"># search path if run from original location</span>
+se.SE_Init(<span class="binary"><span class="modifier">b</span><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">1</span>)
+
+<span class="comment"># register callback for first object (id=0)</span>
+se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <span class="integer">0</span>)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_c_binding">C# binding</h3>
+<div class="paragraph">
+<p>A C# wrapper for the esminiLib is provided (<a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/ESMiniWrapper.cs">ESMiniWrapper.cs</a>). Coverage is limited, but it might serve as a good starting point.</p>
+</div>
+<div class="sect3">
+<h4 id="_osi_groundtruth_with_c">OSI groundtruth with C#</h4>
+<div class="listingblock">
+<div class="title">Example 21. <a href="https://github.com/esmini/esmini/tree/master/EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs">EnvironmentSimulator/code-examples/osi-groundtruth-cs/osi-gt.cs</a> (complete code)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="directive">using</span> System;
+<span class="directive">using</span> System.Runtime.InteropServices;
+<span class="directive">using</span> ESMini;
+
+<span class="directive">using</span> Google.Protobuf;
+
+<span class="directive">using</span> <span class="directive">static</span> Osi3.GroundTruth;
+
+<span class="keyword">namespace</span> esmini_csharp
+{
+    <span class="keyword">class</span> <span class="class">Program</span>
+    {
+        <span class="directive">static</span> <span class="directive">void</span> Main(<span class="predefined-type">string</span>[] args)
+        {
+            <span class="comment">// initialize esmini</span>
+            <span class="keyword">if</span> (ESMiniLib.SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+            {
+                Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">failed to load scenario</span><span class="delimiter">&quot;</span></span>);
+                <span class="keyword">return</span>;
+            }
+
+            <span class="predefined-type">int</span> size = <span class="integer">0</span>;
+            <span class="keyword">while</span> (ESMiniLib.SE_GetQuitFlag() != <span class="integer">1</span>)
+            {
+                <span class="comment">// Step esmini</span>
+                ESMiniLib.SE_Step();
+
+                <span class="comment">// Get OSI message</span>
+                IntPtr int_ptr = ESMiniLib.SE_GetOSIGroundTruth(ref size);
+                Byte[] byte_array = <span class="keyword">new</span> Byte[size];
+                Marshal.Copy(int_ptr, byte_array, <span class="integer">0</span>, size);
+                Osi3.GroundTruth gt_msg = Osi3.GroundTruth.Parser.ParseFrom(byte_array);
+
+                <span class="comment">// Write some info from OSI message</span>
+                Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">Time: {0:N3}</span><span class="delimiter">&quot;</span></span>, gt_msg.Timestamp.Seconds + <span class="float">1</span>e-<span class="integer">9</span> * gt_msg.Timestamp.Nanos);
+                foreach (Osi3.MovingObject o in gt_msg.MovingObject)
+                {
+                    Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">  Object[{0}], Pos: {1:N2}, {2:N2}, {3:N2}</span><span class="delimiter">&quot;</span></span>,
+                        o.Id.Value, o.Base.Position.X, o.Base.Position.Y, o.Base.Position.Z);
+                }
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This example shows, one way, how to access OSI data in a C# environment.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s dependent on the <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/ESMiniWrapper.cs">ESMiniWrapper.cs</a>, and targeting Windows environment. If the wrapper is modified to work on Linux (referring .so instead of DLL) it might work there as well, but it&#8217;s not been tested.</p>
+</div>
+<div class="sect4">
+<h5 id="_build_3">Build</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>mkdir build
+cd build
+cmake ..
+cmake --build . --config Release</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_run_3">Run</h5>
+<div class="paragraph">
+<p>To have the correct relative path to the scenario file and also access to esminiLib we move into <code>esmini/bin</code> folder for running the example.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ../../../../bin
+../EnvironmentSimulator/code-examples/osi-groundtruth-cs/build/Release/osi-groundtruth</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_how_to_create_the_osi3_c_files">How to create the osi3 C# files</h5>
+<div class="paragraph">
+<p>For this example the osi3 C# files were provided. If you need or want to compile them yourself:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Get protoc compiler<br>
+Suggested version: 3.15.2<br>
+Either build it yourself or get <code>protoc-3.15.2-win64.zip</code> from release:<br>
+<a href="https://github.com/protocolbuffers/protobuf/releases/tag/v3.15.2" class="bare">https://github.com/protocolbuffers/protobuf/releases/tag/v3.15.2</a></p>
+</li>
+<li>
+<p>Get OSI<br>
+<a href="https://github.com/OpenSimulationInterface/open-simulation-interface/releases/tag/v3.5.0" class="bare">https://github.com/OpenSimulationInterface/open-simulation-interface/releases/tag/v3.5.0</a><br></p>
+</li>
+<li>
+<p>OSI proto files need to be converted for protobuf v3. This is easily done with the provided script:<br>
+<code>./convert-to-proto3.sh</code></p>
+</li>
+<li>
+<p>Compile for C#</p>
+<div class="ulist">
+<ul>
+<li>
+<p>open a command line in <code>open-simulation-interface</code> root folder</p>
+</li>
+<li>
+<p><code>c:\my_path_to_protoc\protoc.exe *.proto --csharp_out=.</code><br>
+will create C# versions of all proto files</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2026-05-13 13:48:07 +0200
+</div>
+</div>
+</body>
+</html>

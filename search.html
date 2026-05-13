@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.26">
-<title>esmini user guide</title>
+<title>esmini user guide - Search</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -434,15 +434,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>esmini user guide</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_search">Search</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="sidebarblock main-menu">
 <div class="content">
 <div class="paragraph">
-<p><a href="#"><strong>Home</strong></a></p>
+<p><a href="index.html"><strong>Home</strong></a></p>
 </div>
 <form id="doc-search-form" action="search.html" method="get" style="margin:0.6rem 0 0 0;">
   <input id="doc-search-input" type="search" name="q" placeholder="Search..." style="width:18rem;max-width:100%;" />
@@ -458,81 +465,147 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </details>
 </div>
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="https://avatars.githubusercontent.com/u/49203938" alt="160" width="160"></span></p>
 </div>
-<div class="paragraph">
-<p>esmini is a software tool to play OpenSCENARIO XML files. It&#8217;s provided both as a stand alone application and as a shared library for linking with custom applications. In addition some tools have been developed to support design and analysis of traffic scenarios.</p>
 </div>
+<div class="sect1">
+<h2 id="_search">Search</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>The scope of this user guide is to provide examples on how to use the tools. It also includes a programming tutorial on how to use esmini in custom applications.</p>
+<p>The search box in the shared navigation bar can be used from any page in this guide.</p>
 </div>
-<div class="paragraph">
-<p>Main sections:</p>
+<div id="doc-search-status">Enter a search term to search across the user guide.</div>
+<div id="doc-search-results"></div>
+<script>
+(function () {
+  const form = document.getElementById('doc-search-form');
+  const input = document.getElementById('doc-search-input');
+  const statusEl = document.getElementById('doc-search-status');
+  const resultsEl = document.getElementById('doc-search-results');
+  const params = new URLSearchParams(window.location.search);
+  let docs = null;
+
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function buildSnippet(text, terms) {
+    const lower = text.toLowerCase();
+    let pos = -1;
+    for (const term of terms) {
+      pos = lower.indexOf(term);
+      if (pos !== -1) {
+        break;
+      }
+    }
+    if (pos === -1) {
+      return escapeHtml(text.slice(0, 220)) + '...';
+    }
+    const start = Math.max(0, pos - 80);
+    const end = Math.min(text.length, pos + 180);
+    let snippet = text.slice(start, end).trim();
+    if (start > 0) {
+      snippet = '...' + snippet;
+    }
+    if (end < text.length) {
+      snippet += '...';
+    }
+    let html = escapeHtml(snippet);
+    for (const term of terms) {
+      const pattern = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'ig');
+      html = html.replace(pattern, function (match) {
+        return '<mark>' + match + '</mark>';
+      });
+    }
+    return html;
+  }
+
+  async function ensureIndex() {
+    if (docs) {
+      return docs;
+    }
+    statusEl.textContent = 'Loading search index...';
+    const response = await fetch('search-index.json');
+    if (!response.ok) {
+      throw new Error('Failed to load search index');
+    }
+    docs = await response.json();
+    return docs;
+  }
+
+  async function runSearch(query) {
+    const trimmed = query.trim();
+    input.value = trimmed;
+
+    if (!trimmed) {
+      statusEl.textContent = 'Enter a search term to search across the user guide.';
+      resultsEl.innerHTML = '';
+      return;
+    }
+
+    statusEl.textContent = 'Searching...';
+    resultsEl.innerHTML = '';
+
+    const terms = trimmed.toLowerCase().split(/\s+/).filter(Boolean);
+    const pages = await ensureIndex();
+    const hits = pages.map(function (doc) {
+      const haystack = (doc.title + ' ' + doc.text).toLowerCase();
+      let score = 0;
+      for (const term of terms) {
+        const matches = haystack.match(new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'));
+        if (!matches) {
+          return null;
+        }
+        score += matches.length;
+        if (doc.title.toLowerCase().includes(term)) {
+          score += 5;
+        }
+      }
+      return {
+        title: doc.title,
+        href: doc.href,
+        text: doc.text,
+        score: score
+      };
+    }).filter(Boolean).sort(function (left, right) {
+      return right.score - left.score;
+    });
+
+    statusEl.textContent = hits.length + ' result' + (hits.length === 1 ? '' : 's') + ' for "' + trimmed + '"';
+
+    if (!hits.length) {
+      resultsEl.innerHTML = '<p>No matches found.</p>';
+      return;
+    }
+
+    resultsEl.innerHTML = hits.map(function (hit) {
+      return '<div class="search-result" style="margin:0 0 1rem 0;">'
+        + '<div><a href="' + hit.href + '"><strong>' + escapeHtml(hit.title) + '</strong></a></div>'
+        + '<div style="margin-top:0.25rem;">' + buildSnippet(hit.text, terms) + '</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const query = input.value.trim();
+    const target = query ? ('?q=' + encodeURIComponent(query)) : window.location.pathname;
+    window.history.replaceState(null, '', target);
+    runSearch(query).catch(function (error) {
+      statusEl.textContent = error.message;
+    });
+  });
+
+  runSearch(params.get('q') || '').catch(function (error) {
+    statusEl.textContent = error.message + '. Serve the generated docs over HTTP(S) so the browser can load search-index.json.';
+  });
+})();
+</script>
 </div>
-<div class="olist arabic">
-<ol class="arabic" start="0">
-<li>
-<p><a href="toc.html">Table of contents</a></p>
-</li>
-<li>
-<p><a href="getting-started.html">Getting started</a></p>
-</li>
-<li>
-<p><a href="tools-overview.html">Tools overview</a></p>
-</li>
-<li>
-<p><a href="use-cases.html">Use cases</a></p>
-</li>
-<li>
-<p><a href="scenario-features.html">Scenario features</a></p>
-</li>
-<li>
-<p><a href="positioning.html">Positioning</a></p>
-</li>
-<li>
-<p><a href="controllers.html">Controllers</a></p>
-</li>
-<li>
-<p><a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a></p>
-</li>
-<li>
-<p><a href="support-qa.html">Support / Q&amp;A</a></p>
-</li>
-<li>
-<p><a href="command-reference.html">Command reference</a></p>
-</li>
-<li>
-<p><a href="build-guide.html">Build guide</a></p>
-</li>
-<li>
-<p><a href="developers-contributors.html">For esmini developers and contributors</a></p>
-</li>
-<li>
-<p><a href="inner-workings.html">Inner workings</a></p>
-</li>
-<li>
-<p><a href="esmini-lib-programming.html">esmini lib programming</a></p>
-</li>
-<li>
-<p><a href="hello-world-tutorial.html">Hello World programming tutorial</a></p>
-</li>
-<li>
-<p><a href="scenario-construction-tips.html">Scenario construction tips</a></p>
-</li>
-<li>
-<p><a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a></p>
-</li>
-<li>
-<p><a href="about-this-document.html">About this document</a></p>
-</li>
-<li>
-<p><a href="version.html">Version</a></p>
-</li>
-<li>
-<p><a href="monolith.html">Single page document</a></p>
-</li>
-</ol>
 </div>
 </div>
 <div id="footer">

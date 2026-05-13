@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.26">
-<title>esmini user guide</title>
+<title>esmini user guide – Getting started</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,16 +433,118 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>esmini user guide</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_getting_started">Getting started</a>
+<ul class="sectlevel2">
+<li><a href="#_run_esmini">Run esmini</a></li>
+<li><a href="#_get_complete_esmini">Get complete esmini</a></li>
+<li><a href="#_build_esmini_quick_guide">Build esmini - quick guide</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="sidebarblock main-menu">
 <div class="content">
 <div class="paragraph">
-<p><a href="#"><strong>Home</strong></a></p>
+<p><a href="index.html"><strong>Home</strong></a></p>
 </div>
 <form id="doc-search-form" action="search.html" method="get" style="margin:0.6rem 0 0 0;">
   <input id="doc-search-input" type="search" name="q" placeholder="Search..." style="width:18rem;max-width:100%;" />
@@ -452,87 +554,126 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <summary class="title">Navigator</summary>
 <div class="content">
 <div class="paragraph nav-bar">
-<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="scenario-features.html">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
+<p><a href="toc.html">Table of contents</a> | <a href="#">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="scenario-features.html">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
 </div>
 </div>
 </details>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_started">Getting started</h2>
+<div class="sectionbody">
+<!-- toc disabled -->
 <div class="paragraph">
-<p><span class="image"><img src="https://avatars.githubusercontent.com/u/49203938" alt="160" width="160"></span></p>
+<p>Download latest release from here: <a href="https://github.com/esmini/esmini/releases/latest" class="bare">https://github.com/esmini/esmini/releases/latest</a></p>
 </div>
 <div class="paragraph">
-<p>esmini is a software tool to play OpenSCENARIO XML files. It&#8217;s provided both as a stand alone application and as a shared library for linking with custom applications. In addition some tools have been developed to support design and analysis of traffic scenarios.</p>
+<p>First time make sure to pick the demo package for your platform (Windows, Linux or Mac). In addition to application binaries it also includes some content like example scenarios and basic 3D models. The binary (bin) packages includes only executables and libraries.</p>
 </div>
 <div class="paragraph">
-<p>The scope of this user guide is to provide examples on how to use the tools. It also includes a programming tutorial on how to use esmini in custom applications.</p>
+<p>On Windows, make sure the zip file is not blocked: Right click, click Properties, at bottom right check Unblock. For more info, see <a href="support-qa.html#_blocked_by_windows_defender_smartscreen">Blocked by Windows Defender SmartScreen</a>.</p>
 </div>
 <div class="paragraph">
-<p>Main sections:</p>
+<p>To install the package, just unzip it anywhere. A single subfolder named <code>esmini</code> is created. This is the root folder for esmini. No files are stored outside this folder structure and no system files or registry is modified in any way.</p>
+</div>
+<div class="sect2">
+<h3 id="_run_esmini">Run esmini</h3>
+<div class="paragraph">
+<p>Try to run one of the examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>go to folder esmini/run/esmini</p>
+</li>
+<li>
+<p>double click on a .bat file, e.g. <code>run_cut-in.bat</code> or run it from a command line.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These scripts should work on all platforms (in spite extension ".bat").</p>
+</div>
+<div class="paragraph">
+<p>You can also run the examples explicitly from a command line:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>For common Mac issues, please see <a href="support-qa.html#_mac_issues_and_limitations">Mac issues and limitations</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_get_complete_esmini">Get complete esmini</h3>
+<div class="paragraph">
+<p>The demo package contains only a subset of esmini tools and content (e.g. scenario examples, scripts and models).</p>
+</div>
+<div class="paragraph">
+<p>To get the complete content, first download or clone the project from GitHub: <a href="https://github.com/esmini/esmini" class="bare">https://github.com/esmini/esmini</a>. E.g:<br>
+<code>git clone https://github.com/esmini/esmini.git</code></p>
+</div>
+<div class="paragraph">
+<p>Then either build yourself, see step 2 in next chapter <a href="#_build_esmini_quick_guide">Build esmini - quick guide</a>, or:</p>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="0">
+<ol class="arabic">
 <li>
-<p><a href="toc.html">Table of contents</a></p>
+<p>Download pre-built binary package for your system (e.g. esmini-bin_win_x64.zip) from latest release:
+<a href="https://github.com/esmini/esmini/releases" class="bare">https://github.com/esmini/esmini/releases</a>. Copy the content into the esmini-demo folder.</p>
 </li>
 <li>
-<p><a href="getting-started.html">Getting started</a></p>
-</li>
-<li>
-<p><a href="tools-overview.html">Tools overview</a></p>
-</li>
-<li>
-<p><a href="use-cases.html">Use cases</a></p>
-</li>
-<li>
-<p><a href="scenario-features.html">Scenario features</a></p>
-</li>
-<li>
-<p><a href="positioning.html">Positioning</a></p>
-</li>
-<li>
-<p><a href="controllers.html">Controllers</a></p>
-</li>
-<li>
-<p><a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a></p>
-</li>
-<li>
-<p><a href="support-qa.html">Support / Q&amp;A</a></p>
-</li>
-<li>
-<p><a href="command-reference.html">Command reference</a></p>
-</li>
-<li>
-<p><a href="build-guide.html">Build guide</a></p>
-</li>
-<li>
-<p><a href="developers-contributors.html">For esmini developers and contributors</a></p>
-</li>
-<li>
-<p><a href="inner-workings.html">Inner workings</a></p>
-</li>
-<li>
-<p><a href="esmini-lib-programming.html">esmini lib programming</a></p>
-</li>
-<li>
-<p><a href="hello-world-tutorial.html">Hello World programming tutorial</a></p>
-</li>
-<li>
-<p><a href="scenario-construction-tips.html">Scenario construction tips</a></p>
-</li>
-<li>
-<p><a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a></p>
-</li>
-<li>
-<p><a href="about-this-document.html">About this document</a></p>
-</li>
-<li>
-<p><a href="version.html">Version</a></p>
-</li>
-<li>
-<p><a href="monolith.html">Single page document</a></p>
+<p>Download the complete 3D model package from <a href="https://dl.dropboxusercontent.com/s/5gk8bvgzqiaaoco/models.7z?dl=1">here</a>. Unpack into esmini/resources (it should end up in a <code>models</code> subfolder). These assets work on all platforms. The environment models (roads, landscape, buildings&#8230;&#8203;) have been created using <a href="https://vires.mscsoftware.com/solutions/3d-environment-road-network">VIRES Road Network Editor</a>.</p>
 </li>
 </ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_esmini_quick_guide">Build esmini - quick guide</h3>
+<div class="paragraph">
+<p>Supported systems: Windows, Linux and Mac.</p>
+</div>
+<div class="paragraph">
+<p>Make sure you have a C++ compiler and <a href="https://cmake.org/">CMake</a> installed.</p>
+</div>
+<div class="paragraph">
+<p>On Windows <a href="https://visualstudio.microsoft.com/">Visual Studio</a> is recommended (Community/free version is good enough for building esmini). Make sure to check the "Desktop development with C++" package for installation, no more is needed.</p>
+</div>
+<div class="paragraph">
+<p>On Linux, e.g. Ubuntu, some additional system tools and libraries are needed. Run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>sudo apt install build-essential gdb ninja-build git pkg-config libgl1-mesa-dev libpthread-stubs0-dev libjpeg-dev libxml2-dev libpng-dev libtiff5-dev libgdal-dev libpoppler-dev libdcmtk-dev libgstreamer1.0-dev libgtk2.0-dev libcairo2-dev libpoppler-glib-dev libxrandr-dev libxinerama-dev curl cmake black</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we&#8217;re ready to build esmini. From esmini root folder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>mkdir build
+cd build
+cmake ..
+cmake --build . --config Release --target install</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The build process automatically downloads 3rd party library binaries and the complete 3D model package.</p>
+</div>
+<div class="paragraph">
+<p>After successful build, the binaries will be copied into <code>esmini/bin</code> folder. Try from command line:</p>
+</div>
+<div class="paragraph">
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>That&#8217;s all. Details and variants, see <a href="build-guide.html#_build_guide">Build guide</a>.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">

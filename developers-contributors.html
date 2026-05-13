@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.26">
-<title>esmini user guide</title>
+<title>esmini user guide – For esmini developers and contributors</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -433,16 +433,120 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+/*! Stylesheet for CodeRay to loosely match GitHub themes | MIT License */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid;opacity:.35;padding:0 .5em 0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff!important;background:navy!important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:navy}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:teal}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:teal}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:teal}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword{color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:teal}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>esmini user guide</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_for_esmini_developers_and_contributors">For esmini developers and contributors</a>
+<ul class="sectlevel2">
+<li><a href="#_branch_strategy">Branch strategy</a></li>
+<li><a href="#_formatting_and_code_analysis">Formatting and code analysis</a></li>
+<li><a href="#_test">Test</a></li>
+<li><a href="#_sanitizers">Sanitizers</a></li>
+<li><a href="#_implementation_guidelines">Implementation guidelines</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="sidebarblock main-menu">
 <div class="content">
 <div class="paragraph">
-<p><a href="#"><strong>Home</strong></a></p>
+<p><a href="index.html"><strong>Home</strong></a></p>
 </div>
 <form id="doc-search-form" action="search.html" method="get" style="margin:0.6rem 0 0 0;">
   <input id="doc-search-input" type="search" name="q" placeholder="Search..." style="width:18rem;max-width:100%;" />
@@ -452,87 +556,647 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <summary class="title">Navigator</summary>
 <div class="content">
 <div class="paragraph nav-bar">
-<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="scenario-features.html">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
+<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="scenario-features.html">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="#">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
 </div>
 </div>
 </details>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_for_esmini_developers_and_contributors">For esmini developers and contributors</h2>
+<div class="sectionbody">
+<!-- toc disabled -->
 <div class="paragraph">
-<p><span class="image"><img src="https://avatars.githubusercontent.com/u/49203938" alt="160" width="160"></span></p>
+<p>Brief info on how to contribute is found here: <a href="https://github.com/esmini/esmini/blob/master/CONTRIBUTING.md" class="bare">https://github.com/esmini/esmini/blob/master/CONTRIBUTING.md</a></p>
 </div>
 <div class="paragraph">
-<p>esmini is a software tool to play OpenSCENARIO XML files. It&#8217;s provided both as a stand alone application and as a shared library for linking with custom applications. In addition some tools have been developed to support design and analysis of traffic scenarios.</p>
+<p>Complementing the <a href="build-guide.html#_build_guide">Build guide</a> this section contains additional information regarding branch strategy, formatting and test.</p>
+</div>
+<div class="sect2">
+<h3 id="_branch_strategy">Branch strategy</h3>
+<div class="paragraph">
+<p>From v2.30.0 the <a href="https://github.com/esmini/esmini/tree/dev"><code>dev</code></a> branch was introduced as the new top branch for continuous integration of features and bug fixes.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/branch-strategy.jpg" alt="branch strategy">
+</div>
 </div>
 <div class="paragraph">
-<p>The scope of this user guide is to provide examples on how to use the tools. It also includes a programming tutorial on how to use esmini in custom applications.</p>
+<p><code>dev</code> branch contains the latest integrated features and bug fixes. New features should be developed in branches created from <code>dev</code>. <a href="https://github.com/esmini/esmini/tree/master"><code>master</code></a> is the default branch and primarily reserved for official releases.</p>
 </div>
 <div class="paragraph">
-<p>Main sections:</p>
+<p>Continuous integration job will be launched for pushed commits on the following branches:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>master</code></p>
+</li>
+<li>
+<p><code>dev</code></p>
+</li>
+<li>
+<p>any other branch starting with <code>feature/</code>, e.g. <code>feature/support_emergency_vehicles</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Pull requests should be targeting the <code>dev</code> branch.</p>
+</div>
+<div class="paragraph">
+<p>Master branch represent the latest released software. It should be in synch with dev.</p>
+</div>
+<div class="sect3">
+<h4 id="_branch_out_of_synch">Branch out of synch</h4>
+<div class="paragraph">
+<p><code>dev</code> and <code>master</code> branches should be in perfect sync, i.e. based on common history. Unfortunately, to keep this true and to avoid messy history and lost tags, branch history might be changed in rare cases. That can lead to local branch clones out of synch. If that is the case, follow these steps to restore sync of your local branch:</p>
 </div>
 <div class="olist arabic">
-<ol class="arabic" start="0">
+<ol class="arabic">
 <li>
-<p><a href="toc.html">Table of contents</a></p>
+<p><code>git branch backup</code>  (only needed if you have local commits you want to preserve for later cherry-picking)</p>
 </li>
 <li>
-<p><a href="getting-started.html">Getting started</a></p>
+<p><code>git fetch origin</code></p>
 </li>
 <li>
-<p><a href="tools-overview.html">Tools overview</a></p>
-</li>
-<li>
-<p><a href="use-cases.html">Use cases</a></p>
-</li>
-<li>
-<p><a href="scenario-features.html">Scenario features</a></p>
-</li>
-<li>
-<p><a href="positioning.html">Positioning</a></p>
-</li>
-<li>
-<p><a href="controllers.html">Controllers</a></p>
-</li>
-<li>
-<p><a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a></p>
-</li>
-<li>
-<p><a href="support-qa.html">Support / Q&amp;A</a></p>
-</li>
-<li>
-<p><a href="command-reference.html">Command reference</a></p>
-</li>
-<li>
-<p><a href="build-guide.html">Build guide</a></p>
-</li>
-<li>
-<p><a href="developers-contributors.html">For esmini developers and contributors</a></p>
-</li>
-<li>
-<p><a href="inner-workings.html">Inner workings</a></p>
-</li>
-<li>
-<p><a href="esmini-lib-programming.html">esmini lib programming</a></p>
-</li>
-<li>
-<p><a href="hello-world-tutorial.html">Hello World programming tutorial</a></p>
-</li>
-<li>
-<p><a href="scenario-construction-tips.html">Scenario construction tips</a></p>
-</li>
-<li>
-<p><a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a></p>
-</li>
-<li>
-<p><a href="about-this-document.html">About this document</a></p>
-</li>
-<li>
-<p><a href="version.html">Version</a></p>
-</li>
-<li>
-<p><a href="monolith.html">Single page document</a></p>
+<p><code>git reset --hard origin/&lt;branch name&gt;</code></p>
 </li>
 </ol>
+</div>
+<div class="paragraph">
+<p><code>&lt;branch name&gt;</code> might be <code>master</code> or <code>dev</code>, or whatever branch to be restored.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_formatting_and_code_analysis">Formatting and code analysis</h3>
+<div class="paragraph">
+<p>From esmini v2.30.0 the CI will include formatting checks, in addition to static analysis and tests.</p>
+</div>
+<div class="paragraph">
+<p>From v2.48.0, esmini utilizes <a href="https://pre-commit.com/">pre-commit hooks</a> for these checks. For details of previous implementation, see older versions of this document, e.g. <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/esmini/esmini.github.io/refs/tags/v2.47.0/index.html">v2.47.0</a>.</p>
+</div>
+<div class="paragraph">
+<p>The code styles are defined by following schemes:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<strong>C++</strong> 
+</td>
+<td class="hdlist2">
+<p><a href="https://github.com/esmini/esmini/blob/dev/.clang-format">.clang-format</a></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>Python</strong> 
+</td>
+<td class="hdlist2">
+<p><a href="https://github.com/esmini/esmini/blob/dev/.black-format">.black-format</a></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>cmake</strong> 
+</td>
+<td class="hdlist2">
+<p><a href="https://github.com/esmini/esmini/blob/dev/.cmake-format">.cmake-format</a></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>cppcheck</strong>
+</td>
+<td class="hdlist2">
+<p><a href="https://github.com/esmini/esmini/blob/dev/.pre-commit-config.yaml">.pre-commit-config.yaml</a></p>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>esmini uses pre-commit hooks to automatically perform code formatting and static code analysis. To enable this functionality, install the pre-commit package:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>pip install pre-commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, run the following command to install the pre-commit hooks in esmini root folder. This sets up the pre-commit hooks, enabling automatic checks when making commits:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>pre-commit install</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dependencies">Dependencies</h4>
+<div class="sect4">
+<h5 id="_install_dependent_python_packages">Install dependent Python packages</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">pip install -r ./support/python/requirements.txt</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_clang_format">clang-format</h5>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<strong>Windows</strong>
+</td>
+<td class="hdlist2">
+<p>Download and install <a href="https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.7/LLVM-15.0.7-win64.exe">LLVM-15.0.7-win64.exe</a></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>Linux</strong>
+</td>
+<td class="hdlist2">
+<p><code><code>sudo apt install clang-format</code></code></p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_cppcheck">cppcheck</h5>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<strong>Windows</strong>
+</td>
+<td class="hdlist2">
+<p>Download and install <a href="https://github.com/danmar/cppcheck/releases/download/2.17.1/cppcheck-2.17.1-x64-Setup.msi">cppcheck-2.17.1-x64-Setup.msi</a></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<strong>Linux</strong>
+</td>
+<td class="hdlist2">
+<p><code><code>sudo apt install cppcheck</code></code></p>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_cppcheck_version_in_esmini_cicd">Cppcheck version in esmini CI/CD</h6>
+<div class="paragraph">
+<p>The CI/CD pipeline uses Cppcheck version 2.17 for static code analysis. If you require a different version of Cppcheck, perhaps due to specific dependencies, it is recommended to leverage the esmini CI/CD environment itself. To do this, create a fork of the esmini repository and run your static analysis within that environment simply by pushing your code changes. This ensures consistency with the CI/CD setup.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_using_a_different_cppcheck_version_locally">Using a different Cppcheck version locally</h6>
+<div class="paragraph">
+<p>If you prefer to use a different version of Cppcheck locally or do not want to install version 2.17 system-wide, follow the instructions below.</p>
+</div>
+<div class="paragraph">
+<p>If you have a different version installed or don&#8217;t want to install 2.17 system-wide, see steps below for your platform.</p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_for_linux_and_macos">For Linux and macOS</h6>
+<div class="paragraph">
+<p>Example how to clone and build cppcheck 2.17.1, from home directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">git clone --branch 2.17.1 --depth 1 https://github.com/danmar/cppcheck.git
+cd cppcheck
+mkdir build
+cd build
+cmake ..
+cmake --build .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To temporarily use your locally built Cppcheck 2.17 without changing your system default, run the following from your esmini root folder:</p>
+</div>
+<div class="paragraph">
+<p><code>PATH="$HOME/cppcheck/build/bin:$PATH" pre-commit run cppcheck --all-files</code></p>
+</div>
+<div class="paragraph">
+<p>To make this change more permanent, you can add the following line to your shell configuration file (e.g. ~/.bashrc):</p>
+</div>
+<div class="paragraph">
+<p><code>export PATH="$HOME/cppcheck/build/bin":$PATH</code></p>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_for_windows">For Windows</h6>
+<div class="paragraph">
+<p>Download the official Cppcheck 2.17 installer from:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/danmar/cppcheck/releases/download/2.17.1/cppcheck-2.17.1-x64-Setup.msi" class="bare">https://github.com/danmar/cppcheck/releases/download/2.17.1/cppcheck-2.17.1-x64-Setup.msi</a></p>
+</div>
+<div class="paragraph">
+<p>Make sure to install it to a separate directory than any previous Cppcheck version you want to keep.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_manually_apply_specific_format">Manually apply specific format</h4>
+<div class="paragraph">
+<p>To run formatting locally, follow steps below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">pre-commit run clang-format --all-files
+pre-commit run cmake-format --all-files
+pre-commit run black --all-files</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_manually_analyse_code">Manually analyse code</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">pre-commit run cppcheck --all-files</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or formatting and code analysis can be done in one step by:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>pre-commit run --all-files</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_automatic_formatting_and_code_analysis">Automatic formatting and code analysis</h4>
+<div class="paragraph">
+<p>pre-commit will automatically run on each commit on all staged files. Sometimes automatic application maybe not needed for instance work in progress etc. In that case, you can skip the pre-commit hook by using the <code>--no-verify</code> option when committing:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="txt">git commit -m &quot;my commit message&quot; --no-verify</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test">Test</h3>
+<div class="sect3">
+<h4 id="_test_frameworks">Test frameworks</h4>
+<div class="paragraph">
+<p>There are two sets of tests on different frameworks:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Unit tests (white box)</p>
+</li>
+<li>
+<p>Smoke tests (black box)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The unit tests suites are basically C++ code modules of test cases based on the <a href="https://github.com/google/googletest">Google Test</a> framework. They range from true unit tests (testing individual classes or functions) to system level tests reading a scenario and inspecting output, e.g. log files or visualization pixel data. The key feature of the unit tests is the possibility to inspect internal objects and variables.</p>
+</div>
+<div class="paragraph">
+<p>Example: <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Unittest/RoadManager_test.cpp">Unittest/RoadManager_test.cpp</a></p>
+</div>
+<div class="paragraph">
+<p>The smoke test suite is basically execution of a selection of scenarios with some strategic inspections of the result. Scenario elements and timing can be checked against log file while object info such as position, rotation and speed can be checked against dat file entries. A Python framework handles the execution and gathering of result for convenient checking.</p>
+</div>
+<div class="paragraph">
+<p>The smoke test script is found here: <a href="https://github.com/esmini/esmini/blob/master/test/smoke_test.py">test/smoke_test.py</a></p>
+</div>
+<div class="paragraph">
+<p>In addition, there&#8217;s a basic test of the C# esminiLib wrapper. It&#8217;s available on Windows. Compile and run from esmini root folder as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">cmake test/CSharpWrappers -B test/CSharpWrappers/build
+cmake --build test/CSharpWrappers/build --config Release
+cd bin
+../test/CSharpWrappers/build/Release/libesmini_cs_wrapper_test.exe</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_run_tests">Run tests</h4>
+<div class="paragraph">
+<p>For easy execution of all tests, both unit tests and smoke tests, run this main test script: <a href="https://github.com/esmini/esmini/blob/master/scripts/run_tests.sh">scripts/run_tests.sh</a>, from esmini root folder:</p>
+</div>
+<div class="paragraph">
+<p><code>./scripts/run_tests.sh</code></p>
+</div>
+<div class="paragraph">
+<p>Tip: On Windows, run it from GIT bash.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_run_xml_schema_validation_tests">Run XML schema validation tests</h4>
+<div class="paragraph">
+<p>XML schema validation ensures scenario files (xosc and xodr) complies with the OpenSCENARIO and OpenDrive XSD schemas. The checks are done by the Python script <code>run_schema_comply.py</code> located in the <code>scripts</code> directory. The schema files are located in the <code>resources/schema</code> directory. From release v2.40, all esmini scenario files are validated against the schemas as part of CI.</p>
+</div>
+<div class="paragraph">
+<p>The script depends on the <code>xmlschema</code> and <code>lxml</code> Python packages. To install required packages, run:</p>
+</div>
+<div class="paragraph">
+<p><code>pip install -r support/python/requirements.txt</code></p>
+</div>
+<div class="paragraph">
+<p>Run the XML validation tests:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 ./scripts/run_schema_comply.py &lt;path1&gt; [path2] [path3] &#8230;&#8203;</code></p>
+</div>
+<div class="paragraph">
+<p>where path can be an XML file or a directory. Any directory subfolders will be included recursively.</p>
+</div>
+<div class="paragraph">
+<p>Example 1, check single file:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py resources/xosc/cut-in.xosc</code></p>
+</div>
+<div class="paragraph">
+<p>Example 2, check two files:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py resources/xosc/cut-in.xosc resources/xodr/two_plus_one.xodr</code></p>
+</div>
+<div class="paragraph">
+<p>Example 3, check two directories:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py resources EnvironmentSimulator</code></p>
+</div>
+<div class="paragraph">
+<p>Example 4, check one file and one directory:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py EnvironmentSimulator/Unittest/xosc/conflicting-domains.xosc resources</code></p>
+</div>
+<div class="paragraph">
+<p>Tip: Use bash <code>find</code> command to apply finer filtering. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>python3 scripts/run_schema_comply.py $(find ./resources ./EnvironmentSimulator -name "follow_route*.xosc" -or -name "*500*.xodr" -or -name "*signs.xodr")</code></p>
+</div>
+<div class="paragraph">
+<p>validates all OpenSCENARIO files starting with "follow_route" and all OpenDRIVE files containing "500" or ending basename with "signs" or containing "500", in and under the <code>resource</code> and <code>EnvironmentSimulator</code> folders.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sanitizers">Sanitizers</h3>
+<div class="paragraph">
+<p>Google sanitizers framework is utilized to detect memory related errors, for example memory leaks. It&#8217;s executed nighly as a GitHub CI actions job on dev branch. The job can also be trigged manually, but will only run checks on dev branch. Sanitizers is currently only applied to Linux builds.</p>
+</div>
+<div class="paragraph">
+<p>You can also run the sanitizer checks locally (on any branch, even uncommitted code) on Ubuntu:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the following environment variables, run from esmini root:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">export LSAN_OPTIONS=&quot;print_suppressions=false:suppressions=$(pwd)/scripts/LSAN.supp&quot;
+export ASAN_OPTIONS=&quot;detect_invalid_pointer_pairs=1:strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:fast_unwind_on_malloc=0:suppressions=$(pwd)/scripts/ASAN.supp&quot;</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="2">
+<li>
+<p>Configure and build esmini with sanitizers enabled</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">cd build
+cmake -G Ninja -DUSE_OSG=FALSE -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_SANITIZERS=TRUE ..
+ninja install
+cd ..</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Run the test suites, including both unit- and smoke tests, from esmini root:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">./scripts/run_tests.sh</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_troubleshooting">Troubleshooting</h4>
+<div class="paragraph">
+<p>On Ubuntu some combination of gcc and sanitizer randomly cause sanitizer run failure with error message: AddressSanitizer:DEADLYSIGNAL.</p>
+</div>
+<div class="paragraph">
+<p>If this happens, try the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">setarch $(uname -m) -R
+bash</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>setarch</code> will affect reported architecture from system to sanitizer. <code>bash</code> is to restore shell environment, it can of course be replaced by any shell program, e.g. tcsh.</p>
+</div>
+<div class="paragraph">
+<p>To revert settings, simply run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="console">exit
+exit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>First exit will escape the latter bash environment, the second reverts effect of the setarch command.</p>
+</div>
+<div class="paragraph">
+<p>Source of setarch tip: <a href="https://stackoverflow.com/questions/77894856/possible-bug-in-gcc-sanitizers" class="bare">https://stackoverflow.com/questions/77894856/possible-bug-in-gcc-sanitizers</a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_implementation_guidelines">Implementation guidelines</h3>
+<div class="sect3">
+<h4 id="_floating_point_precision">Floating point precision</h4>
+<div class="paragraph">
+<p>To achieve consistent results, esmini applies a tolerance of 1e-6 (0.000001) for floating point comparisons, allowing for slight differences due to precision limitations. Examples:</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+x &gt; y 
+</td>
+<td class="hdlist2">
+<p>is considered true if x &gt; y + 1e-6</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+x ≥ y 
+</td>
+<td class="hdlist2">
+<p>is considered true if x &gt; y - 1e-6</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+x == y 
+</td>
+<td class="hdlist2">
+<p>is considered true if abs(x - y) &lt; 1e-6</p>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In code the macros <code>SMALL_NUMBER</code>, for doubles, and <code>SMALL_NUMBERF</code>, for floats should be used for this purpose. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>if (x &gt; y + SMALL_NUMBER)</code></p>
+</div>
+<div class="paragraph">
+<p>There is also macros <code>NEAR_NUMBERS(x, y)</code> and <code>NEAR_NUMBERSF(x, y)</code>, that can be used for checking if numbers are effectively equal. It utilizes the same tolerance. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>if (NEAR_NUMBERS(x, y))</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_options">Options</h4>
+<div class="sect4">
+<h5 id="_using_options_in_code">Using options (in code)</h5>
+<div class="paragraph">
+<p>You can fetch the value of an option basically in two ways:</p>
+</div>
+<div class="paragraph">
+<p><code>std::string GetOptionValue(std::string option_name)</code><br>
+or<br>
+<code>std::string GetOptionValueByEnum(CONFIG_ENUM option_enum);</code></p>
+</div>
+<div class="paragraph">
+<p>The Enum variant should be preferred whenever an option is frequently accessed. Otherwise, e.g. in a setup phase, the difference in terms of performance is negligible.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_adding_options_in_code">Adding options (in code)</h5>
+<div class="paragraph">
+<p>Steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the option</p>
+</li>
+<li>
+<p>Add the option to desired applications</p>
+</li>
+<li>
+<p>Document the option</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Details of each step:</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_create_the_option">Create the option</h5>
+<div class="paragraph">
+<p>In <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Modules/CommonMini/EnumConfig.hpp">EnumConfig.hpp</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add the option to the <code>CONFIG_ENUM</code></p>
+</li>
+<li>
+<p>Connect the option name to the enum in <code>configStrKeyEnumMap</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_add_the_option_to_desired_applications">Add the option to desired applications</h5>
+<div class="paragraph">
+<p>using the function <code>opt.AddOption()</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>esmini: in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Modules/PlayerBase/playerbase.cpp">playerbase.cpp</a>, <code>PlayerBase::Init()</code></p>
+</li>
+<li>
+<p>replayer: in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/replayer/main.cpp">replayer/main.cpp</a>, <code>main()</code></p>
+</li>
+<li>
+<p>odrviewer: in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/odrviewer/main.cpp">odrviewer/main.cpp</a>, <code>main()</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_document_the_option">Document the option</h5>
+<div class="paragraph">
+<p>Update:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>esmini: update <a href="https://github.com/esmini/esmini/blob/dev/docs/commands.txt">docs/commands.txt</a></p>
+</li>
+<li>
+<p>replayer: update <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/replayer/readme.txt">replayer/readme.txt</a></p>
+</li>
+<li>
+<p>odrviewer: update <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/odrviewer/readme.txt">odrviewer/readme.txt</a><br></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Two tips to get the text:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run corresponding application with no args or <code>--help</code> and copy the content from console output</p>
+</li>
+<li>
+<p>Press <code>H</code> (<code>shift-h</code>) key in the application window to output the same help info to console</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>By adding the option to the .txt files, the option will automatically be added in next generation of <a href="command-reference.html#_command_reference">Command reference</a> as well.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
