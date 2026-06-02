@@ -675,9 +675,10 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </li>
 <li><a href="#_scenario_construction_tips">15. Scenario construction tips</a>
 <ul class="sectlevel2">
-<li><a href="#_opendrive">15.1. OpenDRIVE</a></li>
-<li><a href="#_openscenario_xml">15.2. OpenSCENARIO XML</a></li>
-<li><a href="#_scenario_creation_tips_examples">15.3. Examples</a></li>
+<li><a href="#_editing">15.1. Editing</a></li>
+<li><a href="#_opendrive">15.2. OpenDRIVE</a></li>
+<li><a href="#_openscenario_xml">15.3. OpenSCENARIO XML</a></li>
+<li><a href="#_scenario_creation_tips_examples">15.4. Examples</a></li>
 </ul>
 </li>
 <li><a href="#_run_asam_openscenario_examples">16. Run ASAM OpenSCENARIO examples</a></li>
@@ -13404,7 +13405,43 @@ will create C# versions of all proto files</p>
 <p>In this section we present a few learnings and ideas on how scenarios can be designed in a way unlocking the full potential of the standards in terms of quality, flexibility, efficiency, and control.</p>
 </div>
 <div class="sect2">
-<h3 id="_opendrive">15.1. OpenDRIVE</h3>
+<h3 id="_editing">15.1. Editing</h3>
+<div class="paragraph">
+<p>If special purpose OpenSCENARIO editor is not at your disposal, any text editor can be used. But without XML support and awareness of the OpenSCENARIO and OpenDRIVE schemas, it&#8217;s a bit tricky.</p>
+</div>
+<div class="paragraph">
+<p>Our best suggestion is to use VSCode with the <a href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml">XML Language Support by Red Hat</a> extension.</p>
+</div>
+<div class="paragraph">
+<p>For automatic schema association, add the following to your VSCode settings (.vscode/settings.json):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>  &quot;files.associations&quot;: {
+    &quot;*.xosc&quot;: &quot;xml&quot;,
+    &quot;*.xodr&quot;: &quot;xml&quot;
+  },
+  &quot;xml.fileAssociations&quot;: [
+    {
+      &quot;pattern&quot;: &quot;**/*.xosc&quot;,
+      &quot;systemId&quot;: &quot;./resources/schema/OpenSCENARIOv1.3.xsd&quot;
+    },
+    {
+      &quot;pattern&quot;: &quot;**/*.xodr&quot;,
+      &quot;systemId&quot;: &quot;./resources/schema/OpenDRIVE_1.8/local_schema/OpenDRIVE_Core.xsd&quot;
+    }
+  ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then you can simply type <code>&lt;</code> to list available elements at this position. Select one from the list. The editor will also automatically insert the closing tag and all required attributes, which is great for learning and avoiding typos.</p>
+</div>
+<div class="paragraph">
+<p>Autoformat: <code>Alt + Shift + F</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_opendrive">15.2. OpenDRIVE</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -13427,7 +13464,7 @@ will create C# versions of all proto files</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_openscenario_xml">15.2. OpenSCENARIO XML</h3>
+<h3 id="_openscenario_xml">15.3. OpenSCENARIO XML</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -13517,7 +13554,7 @@ will create C# versions of all proto files</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scenario_creation_tips_examples">15.3. Examples</h3>
+<h3 id="_scenario_creation_tips_examples">15.4. Examples</h3>
 <div class="paragraph">
 <p>Here follows a few scenario examples highlighting various useful features.</p>
 </div>
@@ -13815,15 +13852,15 @@ Note: This method may be blocked in web browser (generically avoiding proxy phis
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v3.1.0"<br>
-ESMINI_GIT_REV="v3.1.0-0-a8e18fce"</p>
+<p>ESMINI_GIT_TAG="v3.2.0"<br>
+ESMINI_GIT_REV="v3.2.0-0-8d8397b4"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-13 15:44:51 +0200
+Last updated 2026-05-21 15:03:56 +0200
 </div>
 </div>
 </body>
