@@ -534,6 +534,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_condition_delay">Condition delay</a></li>
 <li><a href="#_road_signs">Road signs</a></li>
 <li><a href="#_traffic_lights">Traffic Lights</a></li>
+<li><a href="#_road_objects">Road objects</a></li>
 <li><a href="#_expressions">Expressions</a></li>
 <li><a href="#_parameter_distributions">Parameter distributions</a></li>
 <li><a href="#_trajectories">Trajectories</a></li>
@@ -1331,6 +1332,281 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </ol>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_road_objects">Road objects</h3>
+<div class="paragraph">
+<p>Road objects are stationary features of the road environment, e.g. trees, poles, barriers, parking spaces, crosswalks and buildings. They are specified, per road, with the <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/1.8.0/specification/13_objects/13_01_introduction.html"><code>&lt;object&gt;</code></a> element in the OpenDRIVE road network description.</p>
+</div>
+<div class="paragraph">
+<p>esmini reads these objects to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>build a 3D representation for visualization (esmini and odrviewer), and</p>
+</li>
+<li>
+<p>export them as over OSI (<code>stationary_object</code>, including their bounding box, outline and any markings).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A minimal object only needs a position (<code>s</code>, <code>t</code>) on a road. Everything else - dimensions, shape and 3D model - is optional and resolved according to the rules below.</p>
+</div>
+<div class="sect3">
+<h4 id="_dimensions_length_width_and_height">Dimensions: length, width and height</h4>
+<div class="paragraph">
+<p>An object has a bounding box defined by <code>length</code> (along the road s-axis at the object), <code>width</code> (lateral) and <code>height</code> (vertical). esmini resolves the three dimensions from several possible sources, in the following order of precedence:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Explicit attributes</strong> - <code>length</code>, <code>width</code> and <code>height</code> given on the <code>&lt;object&gt;</code> element are always used as-is.</p>
+</li>
+<li>
+<p><strong>radius</strong> - see <a href="#_circular_objects_radius">Circular objects (radius)</a> below.</p>
+</li>
+<li>
+<p><strong>3D model bounding box</strong> - if a 3D model is found and a dimension was <em>not</em> specified, esmini back-fills that dimension from the model&#8217;s bounding box (and logs an informational warning).</p>
+</li>
+<li>
+<p><strong>Default minimum</strong> - if a dimension is still unspecified (no attribute, no radius, no model), esmini falls back to a minimum of <strong>0.05 m</strong> so the object still has a (tiny but valid) non-zero extent.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The 0.05 m default is a fallback to avoid degenerate (zero-size) geometry. For meaningful visualization and OSI output you should specify the relevant dimensions, or rely on a 3D model that provides them.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_circular_objects_radius">Circular objects (radius)</h4>
+<div class="paragraph">
+<p>Instead of <code>length</code> and <code>width</code>, a circular (cylindrical) object can be specified with a <code>radius</code> attribute (ASAM OpenDRIVE §11). esmini then:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>sets both <code>length</code> and <code>width</code> to the diameter (<code>2 × radius</code>) so box-based logic still works, and</p>
+</li>
+<li>
+<p>visualizes the object as a <strong>cylinder</strong> (rather than a box), with the given <code>height</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If <code>radius</code> is specified <em>together with</em> <code>length</code> and/or <code>width</code>, the <code>radius</code> is ignored, the <code>length</code>/<code>width</code> attributes take precedence, and a warning is logged.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_3d_models_and_dimension_scaling">3D models and dimension scaling</h4>
+<div class="paragraph">
+<p>An object can reference a 3D model (via the <code>name</code> attribute, resolved to a <code>.osgb</code> file in the model search paths). How the model interacts with the dimensions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If a dimension is <strong>omitted</strong>, it is taken from the model&#8217;s bounding box - the model is used at its native size along that axis.</p>
+</li>
+<li>
+<p>If a dimension is <strong>specified</strong>, the model is <strong>scaled</strong> along that axis so that it exactly matches the specified value, i.e. scale factor = <code>specified_dimension / model_bounding_box_dimension</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This means a single 3D model can be reused at different sizes: specifying only <code>width</code> stretches/shrinks the model in the lateral direction while leaving length and height at their native (model) size, and so on. Specifying all three dimensions scales the model to the exact requested bounding box.</p>
+</div>
+<div class="paragraph">
+<p>If no 3D model is found, esmini generates a stand-in primitive instead - a box (or a cylinder for circular objects) sized from the resolved dimensions.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_outlines_detailed_shapes">Outlines: detailed shapes</h4>
+<div class="paragraph">
+<p>A bounding box (or scaled 3D model) is often enough, but for more accurate geometry an object can define one or more <code>&lt;outline&gt;</code> elements. An outline is a polygon of corners that describes the actual footprint/shape, optionally extruded to a height. This is useful for non-rectangular footprints such as crosswalks, parking-space markings, irregular barriers or building outlines.</p>
+</div>
+<div class="paragraph">
+<p>Each corner is one of two types, which differ in how the corner position is anchored:</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Corner type</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Meaning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cornerRoad</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Position is given in <strong>road coordinates</strong> (<code>s</code>, <code>t</code>, <code>dz</code>, <code>height</code>). The corner is anchored to the road reference line, so the outline <strong>follows the curvature</strong> of the road. Ideal for shapes painted on or aligned to the road surface (crosswalks, parking bays, lane markings).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cornerLocal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Position is given in the <strong>object&#8217;s local frame</strong> (<code>u</code>, <code>v</code>, <code>z</code>, <code>height</code>), relative to the object origin and heading. The shape is <strong>rigid</strong> - it keeps its exact form regardless of road curvature, and is simply translated and rotated to the object pose. Ideal for solid objects such as trees, signs or buildings.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Corners are connected in the order given; a closed outline (<code>closed="true"</code>) connects the last corner back to the first. Each corner may carry its own <code>height</code> to form an extruded (3D) shape; <code>dz</code>/<code>z</code> raises the corner above the road surface.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_repeated_objects">Repeated objects</h4>
+<div class="paragraph">
+<p>The <code>&lt;repeat&gt;</code> element instantiates an object many times along a stretch of road without listing each copy. Common uses: rows of trees, poles, guardrail segments or a continuous barrier. The repeat parameters (<code>s</code>, <code>length</code>, <code>distance</code>, <code>tStart</code>/<code>tEnd</code>, <code>widthStart</code>/<code>widthEnd</code>, <code>lengthStart</code>/<code>lengthEnd</code>, <code>heightStart</code>/<code>heightEnd</code>, <code>radiusStart</code>/<code>radiusEnd</code>, <code>zOffsetStart</code>/<code>zOffsetEnd</code>) are linearly interpolated from start to end along the repeat length, so instances can gradually change lateral offset, size and elevation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>distance</code> attribute decides the repetition mode:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong><code>distance</code> &gt; 0</strong> - <strong>discrete copies</strong>: separate instances are placed every <code>distance</code> metres along <code>s</code>. Each copy is an independent object (3D model, box/cylinder, or outline) at its interpolated size and offset.</p>
+</li>
+<li>
+<p><strong><code>distance</code> = 0</strong> - <strong>continuous object</strong>: esmini treats the repeat as a single continuous shape and generates an outline (a quad strip following the road reference line) spanning the repeat length - suitable for continuous barriers, walls or curbs.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When the repeated object also has an <code>&lt;outline&gt;</code>, the corner type again determines the result of the repetition:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>cornerRoad outline</strong> - each instance resolves its corners against the road reference line at that instance&#8217;s <code>s</code>. The repeated shapes therefore <strong>bend with the road</strong> and stay aligned to it.</p>
+</li>
+<li>
+<p><strong>cornerLocal outline</strong> - each instance keeps the <strong>rigid</strong> local shape; only its placement (position + heading) changes along the road. The shape itself is not distorted by curvature.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If a dimension grows along the repeat (e.g. an interpolated <code>width</code>), a cornerRoad outline edge is scaled accordingly so the shape continues to match the (scaled) footprint, while authored marking widths are preserved.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Even when a repeat is treated as a continuous outline, the original object (and any referenced 3D model) is retained, so a 3D model can still be used for visualization if available.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_other_attributes">Other attributes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><code>zOffset</code> - raises (or lowers) the object relative to the road surface at its position.</p>
+</li>
+<li>
+<p><code>hdg</code>, <code>pitch</code>, <code>roll</code> - local orientation of the object, applied on top of the road orientation. <code>orientation</code> (<code>+</code>/<code>-</code>/<code>none</code>) selects validity direction.</p>
+</li>
+<li>
+<p><code>height</code> - extrusion height for box/cylinder/outline objects.</p>
+</li>
+<li>
+<p>Objects can additionally carry <strong>markings</strong> (e.g. painted lines for crosswalks and parking spaces); see the OpenDRIVE marking definitions. Markings are kept at the object&#8217;s floor level and follow the (possibly scaled) outline edges while preserving their authored line width.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_road_objects_example">Example</h4>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/road_object_features.jpg" alt="road object features">
+</div>
+</div>
+<div class="paragraph">
+<p>Video clip: <a href="https://youtu.be/F3ByrfXuEVE" class="bare">https://youtu.be/F3ByrfXuEVE</a></p>
+</div>
+<div class="paragraph">
+<p>The <a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/parking_demo.xosc">parking_demo.xosc</a> scenario, and referred <a href="https://github.com/esmini/esmini/blob/dev/resources/xodr/parking_demo.xodr">parking_demo.xodr</a>, includes multiple examples of road object features. For example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Various parking space layouts along the curved road</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Parallel, Perpendicular and Angled</p>
+</li>
+<li>
+<p>space defined by outline with <code>cornerRoad</code> (s/t) vertices</p>
+</li>
+<li>
+<p>markings referring to specific outline edges</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Parking lot with identically shaped parking spaces</p>
+<div class="ulist">
+<ul>
+<li>
+<p>defined in terms of rectangular shape only</p>
+</li>
+<li>
+<p>markings in terms of <code>side</code> attribute</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Trees along the curved road</p>
+<div class="ulist">
+<ul>
+<li>
+<p>cylinder (<code>radius</code> &gt; 0) for the trunk</p>
+</li>
+<li>
+<p>stacked and grouped outlines for the top</p>
+</li>
+<li>
+<p>using <code>cornerLocal</code> vertices for identical repeat instances</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_decision_overview">Decision overview</h4>
+<div class="paragraph">
+<p>The following flowchart summarizes how esmini decides an object&#8217;s shape and dimensions:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://mermaid.ink/svg/pako:eNptVMFy2jAQ%2FZUdnaHJtNNLZtJOgZCQkJBC24vhIKwFtpUljywnpJ78e1eWoG4oF7PWe293367ciNwqFBdio%2B1zvpPOw7fR0gD%2FvmSzEs1oPvlxBXb9E3O%2Fgn7%2FEwwaJxXVFVQl5rQhVJ9fI2PA57AUL1j1wFjQaLZ%2Bd%2FZMyu%2BWouUOs6UYvmgyCl0vAeASWgg%2F38MeovhSrE41n4lR%2F1Edsepka6zDxGaodKYHdYVv8F1VLjGwrxpbey4JQeGGH8d2rgKIE7eocZNbZ9CBfykxAcYBEF%2FPrVQt7jqbJbWN1expBS4c5bV7kr52uDqhTm0udcu9yea0JQU6vOlvnCwQUm2rTkmp7knzYQQFT09zqtocy550y77NvrMHEbUOKDJb%2FrNfdbBJ7y4b2D2cQZ7mA6Wjgjw9heQRPmyB00ZRgaYia053YBQhMbjtBnfd4LoN7huHJUr%2F1vmbeHpIO%2B129JAt2B0EuacKvP1bATxJXR%2BMmsa1MbaXmi8dVmh82phZxxYjQ49Q0e8wMx7wjgsK6qdS7FTLSSqP2VhqvZb5LyjIUFEXcP7u%2FCMUR8MeDo2EYNYNHrvBfUyhqPLS5Ahbx6ZgW4qB85TtK2%2F5iKrcoUdenZLYEKktz5P3vZS8LRWQYVppNbMVsBhfZ7YIjTpu%2FttUl0f9eTa0xpOpLd%2Ftw5WICcIK%2F8tnJ%2BLoEnmRLXizeCxkovBK9ESBrpCkxEUj%2FA6L8JnhQctae%2FH6%2BgcSe2M0" alt="Mermaid Diagram">
 </div>
 </div>
 </div>
@@ -2889,7 +3165,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-21 15:03:56 +0200
+Last updated 2026-06-10 20:27:10 +0200
 </div>
 </div>
 </body>

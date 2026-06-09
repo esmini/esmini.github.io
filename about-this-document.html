@@ -574,7 +574,7 @@ The entry point is <a href="https://github.com/esmini/esmini/blob/master/docs/us
 <div class="sect2">
 <h3 id="_how_to_generate_html_from_asciidoc">How to generate HTML from AsciiDoc</h3>
 <div class="paragraph">
-<p>The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted to avoid "human errors".</p>
+<p>The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted.</p>
 </div>
 <div class="paragraph">
 <p>The final HTML document is published in this repo: <a href="https://github.com/esmini/esmini.github.io" class="bare">https://github.com/esmini/esmini.github.io</a></p>
@@ -619,8 +619,7 @@ The entry point is <a href="https://github.com/esmini/esmini/blob/master/docs/us
 <li>
 <p>Then run:<br>
 <code>gem install asciidoctor</code><br>
-<code>gem install coderay</code><br>
-<code>gem install asciidoctor-kroki</code></p>
+<code>gem install coderay</code><br></p>
 <div class="paragraph">
 <p>Troubleshooting: If you get an error like<br>
 <code>Unable to download data from <a href="https://rubygems.org/" class="bare">https://rubygems.org/</a> - SSL_connect &#8230;&#8203;</code><br>
@@ -637,12 +636,21 @@ try update RubyGems as follows:<br>
 <div class="sect3">
 <h4 id="_generate_html_document">Generate HTML document</h4>
 <div class="paragraph">
-<p>From the <code>docs/user_guide/</code> folder, render each page individually (bash):</p>
+<p>From the <code>docs/user_guide/</code> folder, render the pages and update the search index (bash):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">for f in *.adoc; do asciidoctor -r asciidoctor-kroki &quot;$f&quot;; done
+<pre class="CodeRay highlight"><code data-lang="bash">for f in *.adoc; do asciidoctor -r ./mermaid-ink-preprocessor.rb &quot;$f&quot;; done
 ./generate-search-index.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Same thing, but directing the output files to a specific folder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">for f in *.adoc; do asciidoctor -r ./mermaid-ink-preprocessor.rb -D ../../../esmini.github.io &quot;$f&quot;; done
+./generate-search-index.sh ../../../esmini.github.io</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -680,7 +688,7 @@ Note: This method may be blocked in web browser (generically avoiding proxy phis
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-21 15:03:56 +0200
+Last updated 2026-06-10 13:26:55 +0200
 </div>
 </div>
 </body>

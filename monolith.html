@@ -560,16 +560,18 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_condition_delay">4.2. Condition delay</a></li>
 <li><a href="#_road_signs">4.3. Road signs</a></li>
 <li><a href="#_traffic_lights">4.4. Traffic Lights</a></li>
-<li><a href="#_expressions">4.5. Expressions</a></li>
-<li><a href="#_parameter_distributions">4.6. Parameter distributions</a></li>
-<li><a href="#_trajectories">4.7. Trajectories</a></li>
-<li><a href="#_friction">4.8. Friction</a></li>
-<li><a href="#_environment_conditions">4.9. Environment conditions</a></li>
-<li><a href="#_vehicle_light_states">4.10. Vehicle light states</a></li>
-<li><a href="#_tunnels">4.11. Tunnels</a></li>
-<li><a href="#_2d_shape_outline">4.12. 2D shape outline</a></li>
-<li><a href="#_boundingbox_colors">4.13. Boundingbox Colors</a></li>
-<li><a href="#_sumo_integration">4.14. SUMO integration</a></li>
+<li><a href="#_road_objects">4.5. Road objects</a></li>
+<li><a href="#_example_2">4.6. Example</a></li>
+<li><a href="#_expressions">4.7. Expressions</a></li>
+<li><a href="#_parameter_distributions">4.8. Parameter distributions</a></li>
+<li><a href="#_trajectories">4.9. Trajectories</a></li>
+<li><a href="#_friction">4.10. Friction</a></li>
+<li><a href="#_environment_conditions">4.11. Environment conditions</a></li>
+<li><a href="#_vehicle_light_states">4.12. Vehicle light states</a></li>
+<li><a href="#_tunnels">4.13. Tunnels</a></li>
+<li><a href="#_2d_shape_outline">4.14. 2D shape outline</a></li>
+<li><a href="#_boundingbox_colors">4.15. Boundingbox Colors</a></li>
+<li><a href="#_sumo_integration">4.16. SUMO integration</a></li>
 </ul>
 </li>
 <li><a href="#_positioning">5. Positioning</a>
@@ -577,7 +579,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_position_modes">5.1. Position modes</a></li>
 <li><a href="#_mode_specification">5.2. Mode specification</a></li>
 <li><a href="#_trajectory_interpolation_and_alignment">5.3. Trajectory interpolation and alignment</a></li>
-<li><a href="#_example_2">5.4. Example</a></li>
+<li><a href="#_example_3">5.4. Example</a></li>
 <li><a href="#_relative_positions_and_routes">5.5. Relative positions and routes</a></li>
 <li><a href="#_reference_line_and_center_lane">5.6. Reference line and center lane</a></li>
 <li><a href="#_lateral_distance_action_logics">5.7. Lateral distance action logics</a></li>
@@ -2960,7 +2962,282 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_expressions">4.5. Expressions</h3>
+<h3 id="_road_objects">4.5. Road objects</h3>
+<div class="paragraph">
+<p>Road objects are stationary features of the road environment, e.g. trees, poles, barriers, parking spaces, crosswalks and buildings. They are specified, per road, with the <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/1.8.0/specification/13_objects/13_01_introduction.html"><code>&lt;object&gt;</code></a> element in the OpenDRIVE road network description.</p>
+</div>
+<div class="paragraph">
+<p>esmini reads these objects to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>build a 3D representation for visualization (esmini and odrviewer), and</p>
+</li>
+<li>
+<p>export them as over OSI (<code>stationary_object</code>, including their bounding box, outline and any markings).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A minimal object only needs a position (<code>s</code>, <code>t</code>) on a road. Everything else - dimensions, shape and 3D model - is optional and resolved according to the rules below.</p>
+</div>
+<div class="sect3">
+<h4 id="_dimensions_length_width_and_height">Dimensions: length, width and height</h4>
+<div class="paragraph">
+<p>An object has a bounding box defined by <code>length</code> (along the road s-axis at the object), <code>width</code> (lateral) and <code>height</code> (vertical). esmini resolves the three dimensions from several possible sources, in the following order of precedence:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Explicit attributes</strong> - <code>length</code>, <code>width</code> and <code>height</code> given on the <code>&lt;object&gt;</code> element are always used as-is.</p>
+</li>
+<li>
+<p><strong>radius</strong> - see <a href="#_circular_objects_radius">Circular objects (radius)</a> below.</p>
+</li>
+<li>
+<p><strong>3D model bounding box</strong> - if a 3D model is found and a dimension was <em>not</em> specified, esmini back-fills that dimension from the model&#8217;s bounding box (and logs an informational warning).</p>
+</li>
+<li>
+<p><strong>Default minimum</strong> - if a dimension is still unspecified (no attribute, no radius, no model), esmini falls back to a minimum of <strong>0.05 m</strong> so the object still has a (tiny but valid) non-zero extent.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The 0.05 m default is a fallback to avoid degenerate (zero-size) geometry. For meaningful visualization and OSI output you should specify the relevant dimensions, or rely on a 3D model that provides them.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_circular_objects_radius">Circular objects (radius)</h4>
+<div class="paragraph">
+<p>Instead of <code>length</code> and <code>width</code>, a circular (cylindrical) object can be specified with a <code>radius</code> attribute (ASAM OpenDRIVE §11). esmini then:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>sets both <code>length</code> and <code>width</code> to the diameter (<code>2 × radius</code>) so box-based logic still works, and</p>
+</li>
+<li>
+<p>visualizes the object as a <strong>cylinder</strong> (rather than a box), with the given <code>height</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If <code>radius</code> is specified <em>together with</em> <code>length</code> and/or <code>width</code>, the <code>radius</code> is ignored, the <code>length</code>/<code>width</code> attributes take precedence, and a warning is logged.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_3d_models_and_dimension_scaling">3D models and dimension scaling</h4>
+<div class="paragraph">
+<p>An object can reference a 3D model (via the <code>name</code> attribute, resolved to a <code>.osgb</code> file in the model search paths). How the model interacts with the dimensions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If a dimension is <strong>omitted</strong>, it is taken from the model&#8217;s bounding box - the model is used at its native size along that axis.</p>
+</li>
+<li>
+<p>If a dimension is <strong>specified</strong>, the model is <strong>scaled</strong> along that axis so that it exactly matches the specified value, i.e. scale factor = <code>specified_dimension / model_bounding_box_dimension</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This means a single 3D model can be reused at different sizes: specifying only <code>width</code> stretches/shrinks the model in the lateral direction while leaving length and height at their native (model) size, and so on. Specifying all three dimensions scales the model to the exact requested bounding box.</p>
+</div>
+<div class="paragraph">
+<p>If no 3D model is found, esmini generates a stand-in primitive instead - a box (or a cylinder for circular objects) sized from the resolved dimensions.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_outlines_detailed_shapes">Outlines: detailed shapes</h4>
+<div class="paragraph">
+<p>A bounding box (or scaled 3D model) is often enough, but for more accurate geometry an object can define one or more <code>&lt;outline&gt;</code> elements. An outline is a polygon of corners that describes the actual footprint/shape, optionally extruded to a height. This is useful for non-rectangular footprints such as crosswalks, parking-space markings, irregular barriers or building outlines.</p>
+</div>
+<div class="paragraph">
+<p>Each corner is one of two types, which differ in how the corner position is anchored:</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Corner type</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Meaning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cornerRoad</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Position is given in <strong>road coordinates</strong> (<code>s</code>, <code>t</code>, <code>dz</code>, <code>height</code>). The corner is anchored to the road reference line, so the outline <strong>follows the curvature</strong> of the road. Ideal for shapes painted on or aligned to the road surface (crosswalks, parking bays, lane markings).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cornerLocal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Position is given in the <strong>object&#8217;s local frame</strong> (<code>u</code>, <code>v</code>, <code>z</code>, <code>height</code>), relative to the object origin and heading. The shape is <strong>rigid</strong> - it keeps its exact form regardless of road curvature, and is simply translated and rotated to the object pose. Ideal for solid objects such as trees, signs or buildings.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Corners are connected in the order given; a closed outline (<code>closed="true"</code>) connects the last corner back to the first. Each corner may carry its own <code>height</code> to form an extruded (3D) shape; <code>dz</code>/<code>z</code> raises the corner above the road surface.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_repeated_objects">Repeated objects</h4>
+<div class="paragraph">
+<p>The <code>&lt;repeat&gt;</code> element instantiates an object many times along a stretch of road without listing each copy. Common uses: rows of trees, poles, guardrail segments or a continuous barrier. The repeat parameters (<code>s</code>, <code>length</code>, <code>distance</code>, <code>tStart</code>/<code>tEnd</code>, <code>widthStart</code>/<code>widthEnd</code>, <code>lengthStart</code>/<code>lengthEnd</code>, <code>heightStart</code>/<code>heightEnd</code>, <code>radiusStart</code>/<code>radiusEnd</code>, <code>zOffsetStart</code>/<code>zOffsetEnd</code>) are linearly interpolated from start to end along the repeat length, so instances can gradually change lateral offset, size and elevation.</p>
+</div>
+<div class="paragraph">
+<p>The <code>distance</code> attribute decides the repetition mode:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong><code>distance</code> &gt; 0</strong> - <strong>discrete copies</strong>: separate instances are placed every <code>distance</code> metres along <code>s</code>. Each copy is an independent object (3D model, box/cylinder, or outline) at its interpolated size and offset.</p>
+</li>
+<li>
+<p><strong><code>distance</code> = 0</strong> - <strong>continuous object</strong>: esmini treats the repeat as a single continuous shape and generates an outline (a quad strip following the road reference line) spanning the repeat length - suitable for continuous barriers, walls or curbs.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When the repeated object also has an <code>&lt;outline&gt;</code>, the corner type again determines the result of the repetition:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>cornerRoad outline</strong> - each instance resolves its corners against the road reference line at that instance&#8217;s <code>s</code>. The repeated shapes therefore <strong>bend with the road</strong> and stay aligned to it.</p>
+</li>
+<li>
+<p><strong>cornerLocal outline</strong> - each instance keeps the <strong>rigid</strong> local shape; only its placement (position + heading) changes along the road. The shape itself is not distorted by curvature.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If a dimension grows along the repeat (e.g. an interpolated <code>width</code>), a cornerRoad outline edge is scaled accordingly so the shape continues to match the (scaled) footprint, while authored marking widths are preserved.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Even when a repeat is treated as a continuous outline, the original object (and any referenced 3D model) is retained, so a 3D model can still be used for visualization if available.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_other_attributes">Other attributes</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><code>zOffset</code> - raises (or lowers) the object relative to the road surface at its position.</p>
+</li>
+<li>
+<p><code>hdg</code>, <code>pitch</code>, <code>roll</code> - local orientation of the object, applied on top of the road orientation. <code>orientation</code> (<code>+</code>/<code>-</code>/<code>none</code>) selects validity direction.</p>
+</li>
+<li>
+<p><code>height</code> - extrusion height for box/cylinder/outline objects.</p>
+</li>
+<li>
+<p>Objects can additionally carry <strong>markings</strong> (e.g. painted lines for crosswalks and parking spaces); see the OpenDRIVE marking definitions. Markings are kept at the object&#8217;s floor level and follow the (possibly scaled) outline edges while preserving their authored line width.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example_2">4.6. Example</h3>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/road_object_features.jpg" alt="road object features">
+</div>
+</div>
+<div class="paragraph">
+<p>Video clip: <a href="https://youtu.be/F3ByrfXuEVE" class="bare">https://youtu.be/F3ByrfXuEVE</a></p>
+</div>
+<div class="paragraph">
+<p>The <a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/parking_demo.xosc">parking_demo.xosc</a> scenario includes multiple examples of road object features. For example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Various parking space layouts along the curved road</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Parallel, Perpendicular and Angled</p>
+</li>
+<li>
+<p>space defined by outline with <code>cornerRoad</code> (s/t) vertices</p>
+</li>
+<li>
+<p>markings referring to specific outline edges</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Parking lot with identically shaped parking spaces</p>
+<div class="ulist">
+<ul>
+<li>
+<p>defined in terms of rectangular shape only</p>
+</li>
+<li>
+<p>markings in terms of <code>side</code> attribute</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Trees along the curved road</p>
+<div class="ulist">
+<ul>
+<li>
+<p>cylinder (<code>radius</code> &gt; 0) for the trunk</p>
+</li>
+<li>
+<p>stacked and grouped outlines for the top</p>
+</li>
+<li>
+<p>using <code>cornerLocal</code> vertices for identical repeat instances</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_decision_overview">Decision overview</h4>
+<div class="paragraph">
+<p>The following flowchart summarizes how esmini decides an object&#8217;s shape and dimensions:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://mermaid.ink/svg/pako:eNptVMFy2jAQ%2FZUdnaHJtNNLZtJOgZCQkJBC24vhIKwFtpUljywnpJ78e1eWoG4oF7PWe293367ciNwqFBdio%2B1zvpPOw7fR0gD%2FvmSzEs1oPvlxBXb9E3O%2Fgn7%2FEwwaJxXVFVQl5rQhVJ9fI2PA57AUL1j1wFjQaLZ%2Bd%2FZMyu%2BWouUOs6UYvmgyCl0vAeASWgg%2F38MeovhSrE41n4lR%2F1Edsepka6zDxGaodKYHdYVv8F1VLjGwrxpbey4JQeGGH8d2rgKIE7eocZNbZ9CBfykxAcYBEF%2FPrVQt7jqbJbWN1expBS4c5bV7kr52uDqhTm0udcu9yea0JQU6vOlvnCwQUm2rTkmp7knzYQQFT09zqtocy550y77NvrMHEbUOKDJb%2FrNfdbBJ7y4b2D2cQZ7mA6Wjgjw9heQRPmyB00ZRgaYia053YBQhMbjtBnfd4LoN7huHJUr%2F1vmbeHpIO%2B129JAt2B0EuacKvP1bATxJXR%2BMmsa1MbaXmi8dVmh82phZxxYjQ49Q0e8wMx7wjgsK6qdS7FTLSSqP2VhqvZb5LyjIUFEXcP7u%2FCMUR8MeDo2EYNYNHrvBfUyhqPLS5Ahbx6ZgW4qB85TtK2%2F5iKrcoUdenZLYEKktz5P3vZS8LRWQYVppNbMVsBhfZ7YIjTpu%2FttUl0f9eTa0xpOpLd%2Ftw5WICcIK%2F8tnJ%2BLoEnmRLXizeCxkovBK9ESBrpCkxEUj%2FA6L8JnhQctae%2FH6%2BgcSe2M0" alt="Mermaid Diagram">
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_expressions">4.7. Expressions</h3>
 <div class="paragraph">
 <p>From OpenSCENARIO v1.1 <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4908&amp;token=ae9d9b44ab9257e817072a653b5d5e98ee0babf8#_expressions">expressions</a> including mathematical operations are supported in assignment of value to OpenSCENARIO <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4908&amp;token=ae9d9b44ab9257e817072a653b5d5e98ee0babf8#_parameters">parameters</a> and XML element attributes. Examples:</p>
 </div>
@@ -3215,7 +3492,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parameter_distributions">4.6. Parameter distributions</h3>
+<h3 id="_parameter_distributions">4.8. Parameter distributions</h3>
 <div class="paragraph">
 <p>Parameter values and distributions can be specified in a separate <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/09_reuse_mechanisms/09_03_parameter_distribution.html">Parameter value distribution file</a>. This is a convenient way of running multiple variations, or parameter value permutations, of a single scenario.</p>
 </div>
@@ -3382,7 +3659,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_trajectories">4.7. Trajectories</h3>
+<h3 id="_trajectories">4.9. Trajectories</h3>
 <div class="paragraph">
 <p>Using OpenSCENARIO <a href="https://www.asam.net/static_downloads/ASAM_OpenSCENARIO_V1.2.0_Model_Documentation/modelDocumentation/content/FollowTrajectoryAction.html">FollowTrajectoryAction</a> you can define various types of trajectories for entities to follow.</p>
 </div>
@@ -3864,7 +4141,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_friction">4.8. Friction</h3>
+<h3 id="_friction">4.10. Friction</h3>
 <div class="paragraph">
 <p>From v2.37.0 esmini supports road friction defined in <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/latest/specification/11_lanes/11_07_lane_properties.html#sec-8345bf25-d584-4a5b-8fa7-e15c920ab219">OpenDRIVE lane material</a>.</p>
 </div>
@@ -3888,7 +4165,7 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_environment_conditions">4.9. Environment conditions</h3>
+<h3 id="_environment_conditions">4.11. Environment conditions</h3>
 <div class="paragraph">
 <p>From v2.49.0 esmini supports the <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/EnvironmentAction.html"><code>EnvironmentAction</code></a>, which allows you to set weather state, road conditions, and time of the day.</p>
 </div>
@@ -4040,7 +4317,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect2">
-<h3 id="_vehicle_light_states">4.10. Vehicle light states</h3>
+<h3 id="_vehicle_light_states">4.12. Vehicle light states</h3>
 <div class="paragraph">
 <p>From v3.1.0, esmini supports <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/LightStateAction.html">LightStateAction</a> for controlling vehicle lighting. While all standard <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/VehicleLightType.html">VehicleLightType</a> entries are supported, <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/UserDefinedLight.html">UserDefinedLight</a> is currently excluded.</p>
 </div>
@@ -4130,7 +4407,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect2">
-<h3 id="_tunnels">4.11. Tunnels</h3>
+<h3 id="_tunnels">4.13. Tunnels</h3>
 <div class="paragraph">
 <p>From v2.49.0, esmini supports OpenDRIVE tunnels.</p>
 </div>
@@ -4215,7 +4492,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect2">
-<h3 id="_2d_shape_outline">4.12. 2D shape outline</h3>
+<h3 id="_2d_shape_outline">4.14. 2D shape outline</h3>
 <div class="paragraph">
 <p>In addition to bounding box, OSI supports defining a more precise 2D shape outline (<a href="https://opensimulationinterface.github.io/osi-antora-generator/asamosi/latest/gen/structosi3_1_1BaseMoving.html#a584e39108fe12db4933390975a172c63">base_polygon</a>) for entities, by specifying a set 2D (x,y) points in the entity&#8217;s local coordinate system.</p>
 </div>
@@ -4260,7 +4537,7 @@ And Assessment Criteria Calculation</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_boundingbox_colors">4.13. Boundingbox Colors</h3>
+<h3 id="_boundingbox_colors">4.15. Boundingbox Colors</h3>
 <div class="paragraph">
 <p>On any EntityObject (Vehicle, Pedestrian, MiscObject) in OpenSCENARIO XML, esmini will, in addition to visualizing 3D models and boundingbox wireframe, generate a filled boundingbox with specified boundingbox dimensions and optional color.</p>
 </div>
@@ -4293,7 +4570,7 @@ And Assessment Criteria Calculation</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sumo_integration">4.14. SUMO integration</h3>
+<h3 id="_sumo_integration">4.16. SUMO integration</h3>
 <div class="paragraph">
 <p><a href="https://eclipse.dev/sumo/">SUMO</a> is a great open source traffic simulation tool. It has been integrated with esmini, making it possible to run SUMO simulations in esmini, and even mix or co-simulate SUMO vehicles with OpenSCENARIO vehicles.</p>
 </div>
@@ -5059,7 +5336,7 @@ Note: Use SET type for route snap setting<br></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_example_2">5.4. Example</h3>
+<h3 id="_example_3">5.4. Example</h3>
 <div class="paragraph">
 <p>There is a code and scenario example illustrating the various interpolation and position modes:</p>
 </div>
@@ -10304,9 +10581,9 @@ or<br>
 <div class="paragraph">
 <p>It illustrates how the main esmini application uses PlayerBase to orchestrate the simulation. PlayerBase in turn utilizes ScenarioEngine for the simulation logic and ViewerBase for visualization. Both ScenarioEngine and ViewerBase depend on RoadManager for road network data. Controllers are managed by the ScenarioEngine, and CommonMini provides utility functions used by several other modules.</p>
 </div>
-<div class="imageblock kroki">
+<div class="imageblock">
 <div class="content">
-<img src="https://kroki.io/mermaid/svg/eNp1kEFLxDAQhe_9FSF7UbCX7ckKgrvrsbCoeCkiYzPtBtOkJC2r_94m3ZqkdCeXecw3L3lpNHQn8nZIyFhm-Gqcfuo6wSvouZJuYAtNyyX_bIHLkk6C3Fh1Sz8chJIlsQ3dK42kUGwQaOi_01HAL-odGCyp7y8utl4rlKC5epYNlyMU6wB853ienXwfAC8KWAESGtQlDUSA7JXstRICtSlpICKkbZUsxsSWmPtl7OCDSJo-BjGnudduHIdaI3yiZHKIVxwTPPgaEsS-7jKHmi7yN686LMbL7eBNq_NKgDEHrAnDGgbRk5oLkW_qe3vuzLj7jfkmy7JLn54560_5tvt5-AOZI9TO" alt="Diagram">
+<img src="https://mermaid.ink/svg/pako:eNp1kk9PhDAQxb9K071osnuRk5iY6K5HEqPGy9aYSgdoLFPSQlaz2e8u5W9BGC686a%2BPmRfONNYCaEhTw4uMvB0Ykrps9dU2HopCyZiXUmN74gpsLlF%2B5lzikdFWkSsnrxn9aDlAwXBmxuheGyCRFpUCy%2Bjo%2BKz4L5hHbqE2HMXg5uo1BuRG6idMJTpu2piw7xJOg98oJsyL5iLiyFMwNeSpCbXXWBqtFBh7dPMPakblucaozqGBerGUhhce2e3uvdV7Yuw0wGzNJcTbEHuX6bUG86dfY%2Fwc1n2GBbuPjQMsm8zO%2Fxt4o60QseLWHiAhAhJeqZIkUqlwk9y6Z2vr298QboIg6N53JynKLLwpfu7oluZg6sQFDc%2B0zCB3f3znQy%2BXP%2F0r%2Fd4%3D" alt="Mermaid Diagram" width="60%">
 </div>
 </div>
 <div class="sect3">
@@ -10459,25 +10736,25 @@ printf(&quot;param value: %s\n&quot;, (*((std::string*)param.value)).c_str());</
 <div class="paragraph">
 <p>A simplistic scenario player application (C/C++/C#/Python) utilizing esmini lib:</p>
 </div>
-<div class="imageblock kroki">
+<div class="imageblock">
 <div class="content">
-<img src="https://kroki.io/mermaid/svg/eNply7EOgzAMBNCdr_AIQ3-gAxISCxJbv8AEC50UHDdx_79pusFNJ927Iu-PaJAZfGQ-O6oxzo4AY3ViM-JCk1lEYEfSG4nYfkTKCcWKrYH6e4xjnZ60KLwvQZQz0tDWmJK1cqEvF-v_RHT_Ag4lMQY=" alt="Diagram">
+<img src="https://mermaid.ink/svg/pako:eNplzjEKwzAMBdCrGE0ptBfIECh0KXTr2kWx1VZgy6qtTCF3j0M6tX8S%2FCf4M%2FgcCHqo9JlIPF0YXwXTQ1yLYjH2rCjmUNVhdWfVyB6Ns%2FybyONmqCYWvvG4i%2FZ5GobW9e4qbF31JFg4H%2FY65qz79YPvRtp9EUmAIyQqCTlAP4O9KW27Az1xigbLsgJ3M0MW" alt="Mermaid Diagram" width="50%">
 </div>
 </div>
 <div class="paragraph">
 <p>A typical test tool involving a system under test (Ego):</p>
 </div>
-<div class="imageblock kroki">
+<div class="imageblock">
 <div class="content">
-<img src="https://kroki.io/mermaid/svg/eNptjkFqw0AMRfc9hZbjRS6QRSDQUAKFQE0OII9FqmKPFI18_8qTEAjJrDT8975U6bpQyfTJeDGcPyCeojlnViwOqApYYa86cUZnKS_IxMOKUJ258DcPDQhvs9tFtIVjYU81U0Fj6Vo6iWgbnskfUjE_XKR3dErdG6R30rfBF_lp-KPsza2pgxRHVbclewUxOPXH9Us4P_QQN-FHyxaMfLEC0joCXEue1zTsrGMkEDfeGEgDVhpBQvVfsntBve2gMv4DcbFujg==" alt="Diagram">
+<img src="https://mermaid.ink/svg/pako:eNptkcFqwzAMhl9F%2BOTA%2BgI5FAYbozAoLOy2i2JrnUZsebZyKn33KUlhbKtPNv%2F3%2FRL47IJEcr1r9DVTDvTAeKqY3jLYKViVAxfMClgKYIP7UiYOqCz5PzPxuDDUEmd%2B5nEjzNzt95b1cMisvgXKWFm6LZ5Eynb7zb5QkaqPJxkUlXx3ixmUyu3kifQ4flLQ1W6%2BA2%2BbNa1z0AZS4Tgclidh%2BvHN3FmB1fRQSeeaQdYSI5eWP4NW7rVEi8D23CDwIzaKIObqB9VrQ7tOoRzdnUtUE3J0%2FdkZk5YPiPSO86TucvkG8LCDng%3D%3D" alt="Mermaid Diagram" width="60%">
 </div>
 </div>
 <div class="paragraph">
 <p>Now, let&#8217;s zoom in. Adding some features and looking inside esminiLib to see interaction between modules:</p>
 </div>
-<div class="imageblock kroki">
+<div class="imageblock">
 <div class="content">
-<img src="https://kroki.io/mermaid/svg/eNqNVF1v2zAMfN-vELAXF93aYkVeNqBA6gRDgQ0zmrXvtMO62mRJk5Ru-fejJH9bzWYggWIeyTvyFIu_Digr3HCoDTRvGD2l-sNMXWYfVqt34XN9dcbyg3WqYaC14BU4rmTA0qPBOF5xDdL5MAPL1jMUyn1fGW3DJf_CS5afn1_mb69Xny6Lo3tWkq2Lu1RRQVgqGhNfA2kBRzQeV4TTLVhM4Sx6zK5CCYarray5TOIqZ4RH5ko6o4RAY1OwF46_Y9vHeMqU9rJBnPXKw4Em8_7mhqR8ZHeSu8y2DCKM3lM0akgCYogwFtt4fG-xfXePsO9UzWMFGIv0BQ06NBusBJ09S9siiXMnLiQR2ZC1SMhBiBKqn23eVNdXkFwfBLih1yOIA9oBHXV6Tv8Cd5aZikgp9JuazGSkph9b3NME1nWYjHbnUGdXF2T4jMxGdnHEcLaCoWGhrIt2W8t9NAAVjxtVSrMdb7xEGlwo3LEaMxwNMUz9Qe-pI9vWKvZO4MKw71Er4wi286hhwoPjZglB2QCbOm4WXI5kiPUL2b7Qvqj3d8Prmq5HCuNz19XYagn5g-V2TpljqcDsg6r8GWSN3nO3E8_1q1v02uATHIQbLu2cVNzdTJJ_2RaJ499Kxx3HE5z7CQXe38ofWLkE0dcuSEyYAlN3Y4EbK5-7aGH2KOb_skc0P6OLfcMSbIpl55uT0ImLTiJpNaOiwfc2UakjuAR4Vt0yZtGx5tE9s2QB_7v7K_gLnuYHPQ==" alt="Diagram">
+<img src="https://mermaid.ink/svg/pako:eNqNVV1v2zAM%2FCuG95Ki3VqsyEsGFEiTYCiwYUGz9mkvtM052mTJk5RuQdH%2FPkryl2w1W4AEinmk7shj8pzmssB0kWr8dUCR45pBqaD6JhJ6ZfJPosps9n4%2Bv3Dv66uzZHXQRlYJ1DVnORgmhQfTqwZlWM5qEMbGE9DJcgxDUfTFUVdMsE8sS1bn55erN9fzD5fbo9lLkSy3d9G6nMBU12e%2Biqo5HFFZ4NadbkFjFKjRgnY5ClBMbkTJRByYG8UtdCWFUZJzVDqKe2L429%2F86E8zWVv1wM8GDfBH6tHbmxtStEjuBDMz3dBokBSgsJcSR%2FgYgTQ2gCagsXl4j1C06ibBLSiN9AEVGlRrzDmdLVndQol7p9KlEWWXN0lZAecZ5D%2FbzFDeZxCsPnAw%2FXWPwA%2BoB3Av1%2FL6J7ozUSglKtQOLmzOUFTXQT%2B3ENhdE%2FR5Z7CeXb2jVZiRBclChoiOB9LfupXaeBMuReE9Yes3I5ayTnassmKpia52xy0gOuiom8FDXdC1yaaUnkAM6Fp%2Fj7VUhnA7Cxv0e%2BjEUY6TOECGThxHp90ZBLsJbZ5ohMTgq2JlSdsTBdnsZR5YMNaI3oo7I9Uxk6AKJ2%2B1B1Gi9eJt6MV%2BlpP71vgdDtz0iz1h5oc5VmafNmX8MDbCMMPwJPOuV479l%2BwH5iZG97X18RkjZGxzpsCgAxNrTRbBa%2FrvAgO2H9H4291IdJRs66XT2MBZp6E0qEFZtxI6VqslGUFYZu1kxuFA%2B2ANNZnCfu9%2BMNKLtEJVASvSxXNq9ljZv9fCeyx9efkLpCVEzQ%3D%3D" alt="Mermaid Diagram">
 </div>
 </div>
 </div>
@@ -13745,7 +14022,7 @@ The entry point is <a href="https://github.com/esmini/esmini/blob/master/docs/us
 <div class="sect2">
 <h3 id="_how_to_generate_html_from_asciidoc">17.1. How to generate HTML from AsciiDoc</h3>
 <div class="paragraph">
-<p>The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted to avoid "human errors".</p>
+<p>The html is generated with <a href="https://asciidoctor.org/">asciidoctor</a>. Code snippets, images and other resources are included in the process. Also the version numbers are automatically inserted.</p>
 </div>
 <div class="paragraph">
 <p>The final HTML document is published in this repo: <a href="https://github.com/esmini/esmini.github.io" class="bare">https://github.com/esmini/esmini.github.io</a></p>
@@ -13790,8 +14067,7 @@ The entry point is <a href="https://github.com/esmini/esmini/blob/master/docs/us
 <li>
 <p>Then run:<br>
 <code>gem install asciidoctor</code><br>
-<code>gem install coderay</code><br>
-<code>gem install asciidoctor-kroki</code></p>
+<code>gem install coderay</code><br></p>
 <div class="paragraph">
 <p>Troubleshooting: If you get an error like<br>
 <code>Unable to download data from <a href="https://rubygems.org/" class="bare">https://rubygems.org/</a> - SSL_connect &#8230;&#8203;</code><br>
@@ -13808,12 +14084,21 @@ try update RubyGems as follows:<br>
 <div class="sect3">
 <h4 id="_generate_html_document">Generate HTML document</h4>
 <div class="paragraph">
-<p>From the <code>docs/user_guide/</code> folder, render each page individually (bash):</p>
+<p>From the <code>docs/user_guide/</code> folder, render the pages and update the search index (bash):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">for f in *.adoc; do asciidoctor -r asciidoctor-kroki &quot;$f&quot;; done
+<pre class="CodeRay highlight"><code data-lang="bash">for f in *.adoc; do asciidoctor -r ./mermaid-ink-preprocessor.rb &quot;$f&quot;; done
 ./generate-search-index.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Same thing, but directing the output files to a specific folder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">for f in *.adoc; do asciidoctor -r ./mermaid-ink-preprocessor.rb -D ../../../esmini.github.io &quot;$f&quot;; done
+./generate-search-index.sh ../../../esmini.github.io</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -13852,15 +14137,15 @@ Note: This method may be blocked in web browser (generically avoiding proxy phis
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v3.2.0"<br>
-ESMINI_GIT_REV="v3.2.0-0-8d8397b4"</p>
+<p>ESMINI_GIT_TAG=""<br>
+ESMINI_GIT_REV="v3.2.1-10-a0be86fb-dirty"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-21 15:03:56 +0200
+Last updated 2026-05-22 08:22:22 +0200
 </div>
 </div>
 </body>
