@@ -1518,6 +1518,108 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 <div class="sect3">
+<h4 id="_object_markings">Object markings</h4>
+<div class="paragraph">
+<p>An object can carry one or more painted <strong>markings</strong> - line strips drawn on (or just above) the road surface, e.g. parking-space lines, parking-lot dividers and crosswalk stripes. Markings are defined with the OpenDRIVE <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/latest/specification/13_objects/13_06_object_markings.html"><code>&lt;marking&gt;</code></a> element inside a <code>&lt;markings&gt;</code> block on the <code>&lt;object&gt;</code>.</p>
+</div>
+<div class="paragraph">
+<p>Each marking is anchored to <strong>one edge</strong> of the object. There are two complementary ways to pick that edge, and an object can mix both:</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Anchor</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Meaning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>side</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Paint along one side of the object&#8217;s <strong>bounding box</strong>: <code>front</code>, <code>rear</code>, <code>left</code> or <code>right</code>. Works for any object that has a box footprint - including plain rectangular objects (no outline needed) and repeated boxes. Adjacent sides that share a box corner are stitched together so the lines meet cleanly at the corner.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cornerReference</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Paint along an edge of an <strong>outline</strong>, given by two or more <code>&lt;cornerReference&gt;</code> corner ids. The marking follows exactly the referenced outline corners (cornerRoad corners therefore follow the road curvature). Use this for non-rectangular footprints such as crosswalks, angled parking bays or irregular shapes. Listing more than two corners draws a connected chain along all of them.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>A marking is ignored (with a warning) if it has neither a valid <code>side</code> nor at least two <code>cornerReference</code> points.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The visible pattern and placement along the edge are controlled by these attributes:</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Attribute</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Meaning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>width</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Line width in metres (default <code>0.15</code>). The width is honoured as authored - it is <strong>not</strong> scaled with the object.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>color</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marking colour (e.g. <code>white</code>, <code>yellow</code>). Defaults to white.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>zOffset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thickness/height of the painted line above the road surface, to avoid z-fighting (e.g. <code>0.005</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lineLength</code> / <code>spaceLength</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dashed-line pattern: <code>lineLength</code> is the length of each painted dash and <code>spaceLength</code> the gap between dashes. Set <code>spaceLength="0"</code> for a solid, continuous line.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startOffset</code> / <code>stopOffset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trim the marking inwards from the two ends of the edge: <code>startOffset</code> shortens it from the start, <code>stopOffset</code> from the end (both in metres). Handy to keep stripes clear of a corner or to inset a crosswalk band.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect4">
+<h5 id="_lateral_offset_esmini_extension">Lateral offset (esmini extension)</h5>
+<div class="paragraph">
+<p>By default a marking is centred on its edge - i.e. the line is centered on the bounding-box side or outline edge, with half its width on either side. esmini adds a custom OpenDRIVE <code>userData</code> attribute, <strong><code>lateralOffset</code></strong>, that shifts the whole marking sideways from that centre alignment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;marking</span> <span class="attribute-name">width</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">color</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">white</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">zOffset</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.005</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">side</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">right</span><span class="delimiter">&quot;</span></span>
+         <span class="attribute-name">lineLength</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5.5</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">spaceLength</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">startOffset</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">stopOffset</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;userData</span> <span class="attribute-name">code</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">lateralOffset</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">-0.05</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/marking&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The value is a signed distance in metres, applied perpendicular to the edge direction: <strong>positive</strong> shifts to the <strong>left</strong> of the edge direction, <strong>negative</strong> to the <strong>right</strong>. In practice this lets you move a line to the <strong>inside</strong> or <strong>outside</strong> of the object boundary instead of overlapping it - for example so that two adjacent parking spaces share a single line on their common border, or so the painted line sits fully inside the bay.</p>
+</div>
+<div class="paragraph">
+<p>Markings are kept at the object&#8217;s floor level (they are not raised with the object height) and, for repeated/scaled objects, follow the possibly-scaled outline edge laterally while preserving their authored line width.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
 <h4 id="_other_attributes">Other attributes</h4>
 <div class="ulist">
 <ul>
@@ -1529,9 +1631,6 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </li>
 <li>
 <p><code>height</code> - extrusion height for box/cylinder/outline objects.</p>
-</li>
-<li>
-<p>Objects can additionally carry <strong>markings</strong> (e.g. painted lines for crosswalks and parking spaces); see the OpenDRIVE marking definitions. Markings are kept at the object&#8217;s floor level and follow the (possibly scaled) outline edges while preserving their authored line width.</p>
 </li>
 </ul>
 </div>
@@ -3165,7 +3264,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-10 20:27:10 +0200
+Last updated 2026-06-11 21:35:56 +0200
 </div>
 </div>
 </body>
