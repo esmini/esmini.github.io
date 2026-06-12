@@ -1620,6 +1620,26 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 <div class="sect3">
+<h4 id="_texture_mapping_esmini_extension">Texture mapping (esmini extension)</h4>
+<div class="paragraph">
+<p>While esmini automatically generates default texture mapping coordinates, making it easy to process and use the generated 3D geometry downstream, it does not apply textures to road objects by default.</p>
+</div>
+<div class="paragraph">
+<p>To apply a texture, use the <code>texture</code> and <code>textureScale</code> <code>userData</code> attributes on the <code>&lt;object&gt;</code> element. The texture value should point to a texture image file (<code>.png</code> and <code>.jpg</code> supported) located within your search paths (such as <code>resources/models/</code>). This image maps onto all faces of the object&#8217;s bounding box or extruded outlines, scaling according to the <code>textureScale</code> factor (which defaults to 1.0).</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;object</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">s</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">20</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">t</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">zOffset</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.0</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">length</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">width</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">height</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+   <span class="tag">&lt;userData</span> <span class="attribute-name">code</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">texture</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">checkers.png</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+   <span class="tag">&lt;userData</span> <span class="attribute-name">code</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">textureScale</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.5</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/object&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
 <h4 id="_other_attributes">Other attributes</h4>
 <div class="ulist">
 <ul>
@@ -3264,7 +3284,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-11 21:35:56 +0200
+Last updated 2026-06-12 07:59:09 +0200
 </div>
 </div>
 </body>
