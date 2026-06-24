@@ -669,10 +669,11 @@ cmake .. -G "Visual Studio 17 2022" -T v142 -A x64
 <p><strong>Note:</strong> Nothing stops you from going with all dynamic linking, it&#8217;s just that provided build scripts are not prepared for it.</p>
 </div>
 <div class="paragraph">
-<p>CMake scripts will download several pre-compiled 3rd party packages and 3D model resource files.</p>
+<p>Building the dependencies from scratch would, in some cases, be both complicated and time consuming. Instead they are, by default, provided in compressed packages including needed headerfiles and prebuilt libraries. The packages are available for Win, Mac and Linux. For Windows and Linux they include Debug mode binaries, in addition to the Release variant.
+ CMake scripts will download several pre-compiled 3rd party packages and 3D model resource files.</p>
 </div>
 <div class="paragraph">
-<p>Default location for these resources is Google drive. If there is an issue, try switch to the backup location at Dropbox by changing the following line in <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/CMakeLists.txt">EnvironmentSimulator/CMakeLists.txt</a>:</p>
+<p>Default location for some of these resources is Google drive, and others Github as released packages. If there is an issue with Google drive packages, try switch to the backup location at Dropbox by changing the following line in <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/CMakeLists.txt">EnvironmentSimulator/CMakeLists.txt</a>:</p>
 </div>
 <div class="paragraph">
 <p><code>set ( FILE_STORAGE "google" )</code><br>
@@ -688,21 +689,64 @@ to<br>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://github.com/esmini/esmini/blob/master/scripts/generate_osg_libs.sh">scripts/generate_osg_libs.sh</a></p>
+<p><a href="https://github.com/esmini/esmini/blob/master/scripts/generate_osg_libs.sh">esmini/scripts/generate_osg_libs.sh</a></p>
 </li>
 <li>
-<p><a href="https://github.com/esmini/esmini/blob/master/scripts/generate_osi_libs.sh">scripts/generate_osi_libs.sh</a></p>
+<p><a href="https://github.com/esmini/esmini/blob/master/scripts/generate_sumo_libs.sh">esmini/scripts/generate_sumo_libs.sh</a></p>
 </li>
 <li>
-<p><a href="https://github.com/esmini/esmini/blob/master/scripts/generate_sumo_libs.sh">scripts/generate_sumo_libs.sh</a></p>
+<p><a href="https://github.com/esmini/esmini-dependencies/blob/main/osi/generate_osi_3_5_libs.sh">esmini-dependencies/osi/generate_osi_3_5_libs.sh</a></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>or this script that builds all three libs, combining the above ones:</p>
+<p>or this script that builds all <code>sumo</code> and <code>osg</code> libs, combining a selection of the above ones:</p>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/esmini/esmini/blob/master/scripts/generate_osi_sumo_osg_libs.sh">scripts/generate_osi_sumo_osg_libs.sh</a></p>
+<p><a href="https://github.com/esmini/esmini/blob/master/scripts/generate_osi_sumo_osg_libs.sh">scripts/generate_sumo_osg_libs.sh</a></p>
+</div>
+<div class="sect3">
+<h4 id="_external_dependency_details">External dependency details</h4>
+<div class="paragraph">
+<p>The provided 3rd party packages includes needed headerfiles and prebuilt libraries. The packages are available for Win, Mac and Linux. For Windows and Linux they include Debug mode binaries, in addition to the Release variant.</p>
+</div>
+<div class="paragraph">
+<p>The cmake script checks for the availability of these libraries by looking for the expected folders under <code>externals</code>. From esmini v3.1.1, some packages (<code>osi</code> and <code>implot</code>) are built, released and version controlled via tags on <a href="https://github.com/esmini/esmini-dependencies">github</a>, so the library handling is slightly different depending on the package.</p>
+</div>
+<div class="paragraph">
+<p>For example, <code>osg</code> and <code>sumo</code> are checked through their corresponding folder names, while for <code>osi</code> and <code>implot</code>, cmake maps the selected version (specified via <code>-D OSI_VERSION</code> and <code>-D IMPLOT_VERSION</code>) to a release tag and looks for the matching package locally under <code>externals/osi</code> and <code>externals/implot</code>.</p>
+</div>
+<div class="paragraph">
+<p>If a required package is missing, cmake automatically downloads and extracts it alongside any other packages in that folder.</p>
+</div>
+<div class="paragraph">
+<p>When one of these prebuilt libraries needs to be updated, it is typically enough to remove the corresponding package folder and run cmake again. For <code>osi</code> and <code>implot</code>, the update should happen automatically. The simplest way to enforce re-download of all downloadable packages is:</p>
+</div>
+<div class="paragraph">
+<p><code>cmake .. -D  FORCE_DOWNLOAD_BINARIES=TRUE</code></p>
+</div>
+<div class="paragraph">
+<p>The FORCE_DOWNLOAD_BINARIES flag will be checked by the cmake script for enforced download of all packages. Upon successful download, the libraries will be replaced, one by one.</p>
+</div>
+<div class="paragraph">
+<p>Library updates are not detected by the esmini build dependencies, why a clean rebuild of esmini should be performed manually afterwards.</p>
+</div>
+<div class="paragraph">
+<p>For <code>osi</code> and <code>implot</code>, the supported versions can be found in <a href="https://github.com/esmini/esmini/blob/master/support/cmake/common/version_mapping.cmake">support/cmake/common/version_mapping.cmake</a>.</p>
+</div>
+<div class="paragraph">
+<p>A few additional notes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Although dependent libraries are provided, nothing stops you from building them yourself, e.g. for an unsupported system or need for a specific version or customized build.</p>
+</li>
+<li>
+<p>The dependencies are built using as old compiler and toolset as possible to maximize compatibility with systems. Baseline is oldest <a href="https://github.com/actions/runner-images">image</a> supported by GitHub actions. The assumption being that a binary built on an older generation will run on a newer generation of a platform, but not vice versa. E.g. a binary built with on ubuntu 22.04 (e.g. with g++ v9) will run fine on Ubuntu 24.04.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -828,28 +872,15 @@ to<br>
 </div>
 <div class="paragraph">
 <p>Linux:<br>
-<code>export LD_LIBRARY_PATH=./externals/OSI/linux/lib-dyn</code></p>
+<code>export LD_LIBRARY_PATH=./externals/osi/v3.5.0_2/linux/lib-dyn</code></p>
 </div>
 <div class="paragraph">
 <p>macOS:<br>
-<code>export DYLD_LIBRARY_PATH=./externals/OSI/linux/lib-dyn</code></p>
+<code>export DYLD_LIBRARY_PATH=./externals/osi/v3.5.0_2/linux/lib-dyn</code></p>
 </div>
 <div class="paragraph">
 <p><strong>Note:</strong><br>
-The dynamic versions of protobuf were added Aug 31 2021. So you might need to update the OSI library package. Get the latest from following links:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://dl.dropboxusercontent.com/s/an58ckp2qfx5069/osi_v10.7z?dl=0">OSI Windows</a></p>
-</li>
-<li>
-<p><a href="https://dl.dropboxusercontent.com/s/kwtdg0c1c8pawa1/osi_linux.7z?dl=0">OSI Linux</a></p>
-</li>
-<li>
-<p><a href="https://dl.dropboxusercontent.com/s/m62v19gp0m73dte/osi_mac.7z?dl=0">OSI Mac</a></p>
-</li>
-</ul>
+In above example, <code>v3.5.0_2</code> reflects a tag that might change, use the one available in your system by checking the supported tags for your release in <code>./support/cmake/common/version_mapping.cmake</code>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1072,7 +1103,7 @@ cd ..
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-22 08:22:22 +0200
+Last updated 2026-06-24 16:19:29 +0200
 </div>
 </div>
 </body>

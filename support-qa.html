@@ -924,27 +924,6 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
-<h4 id="_update_3rd_party_prebuilt_libraries">Update 3rd party prebuilt libraries</h4>
-<div class="paragraph">
-<p>There are a few external dependencies that takes long time to build from scratch. Instead they are provided in compressed packages including needed headerfiles and prebuilt libraries. The packages are available for Win, Mac and Linux. For Windows and Linux they include Debug mode binaries, in addition to the Release variant.</p>
-</div>
-<div class="paragraph">
-<p>The cmake script will check for the availability of these libraries, by simply checking for existence of corresponding folders, e.g. osg, osi, sumo, under esmini/externals. If missing, compressed packages will be downloaded and extracted.</p>
-</div>
-<div class="paragraph">
-<p>Not often, but at some points the prebuilt libraries needs to be updated. In most cases it affects the esmini build configuration and/or code. Hence, sometimes an update of esmini comes with a need to update the external libraries as well. Lack of automatic handling, such update needs to be done manually. One way is to delete the specific folder(s) and run ordinary cmake command again. But the simplest way is to enforce redownload of all packages:</p>
-</div>
-<div class="paragraph">
-<p><code>cmake .. -D  FORCE_DOWNLOAD_BINARIES=TRUE</code></p>
-</div>
-<div class="paragraph">
-<p>The FORCE_DOWNLOAD_BINARIES flag will be checked by the cmake script for enforced download of all packages. Upon successful download, the libraries will be replaced, one by one.</p>
-</div>
-<div class="paragraph">
-<p>Library updates are not detected by the esmini build dependencies, why a clean rebuild of esmini should be performed manually afterwards.</p>
-</div>
-</div>
-<div class="sect3">
 <h4 id="_entity_does_not_appear">Entity does not appear</h4>
 <div class="paragraph">
 <p>In order to appear in the scenario, without need for AddEntity action, an entity must be represented in the Init section of the Storyboard. Common is to add actions to establish inital position and speed.</p>
@@ -1229,7 +1208,7 @@ id_t SE_GetJunctionIdFromString(<span class="directive">const</span> <span class
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-22 08:22:22 +0200
+Last updated 2026-06-24 16:19:29 +0200
 </div>
 </div>
 </body>
