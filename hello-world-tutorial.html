@@ -2462,7 +2462,7 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
         <span class="directive">static</span> <span class="directive">void</span> Main(<span class="predefined-type">string</span>[] args)
         {
             <span class="comment">// initialize esmini</span>
-            <span class="keyword">if</span> (ESMiniLib.SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+            <span class="keyword">if</span> (ESMiniLib.SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../../../resources/xosc/light_state.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
             {
                 Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">failed to load scenario</span><span class="delimiter">&quot;</span></span>);
                 <span class="keyword">return</span>;
@@ -2475,7 +2475,7 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
                 ESMiniLib.SE_Step();
 
                 <span class="comment">// Get OSI message</span>
-                IntPtr int_ptr = ESMiniLib.SE_GetOSIGroundTruth(ref size);
+                IntPtr int_ptr = ESMiniLib.SE_GetOSIGroundTruth(out size);
                 Byte[] byte_array = <span class="keyword">new</span> Byte[size];
                 Marshal.Copy(int_ptr, byte_array, <span class="integer">0</span>, size);
                 Osi3.GroundTruth gt_msg = Osi3.GroundTruth.Parser.ParseFrom(byte_array);
@@ -2486,6 +2486,16 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
                 {
                     Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">  Object[{0}], Pos: {1:N2}, {2:N2}, {3:N2}</span><span class="delimiter">&quot;</span></span>,
                         o.Id.Value, o.Base.Position.X, o.Base.Position.Y, o.Base.Position.Z);
+
+                    <span class="keyword">if</span> (o.VehicleClassification.LightState != null)
+                    {
+                        Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">  Object[{0}] indicator {1}</span><span class="delimiter">&quot;</span></span>, o.Id.Value, o.VehicleClassification.LightState.IndicatorState);
+                    }
+
+                    foreach (Osi3.MovingObject.Types.VehicleAttributes.Types.WheelData wd in o.VehicleAttributes.WheelData)
+                    {
+                        Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">     wheel[{0}] angle: {1:N4}</span><span class="delimiter">&quot;</span></span>, wd.Index ,wd.Orientation.Yaw);
+                    }
                 }
             }
         }
@@ -2497,8 +2507,11 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
 <p>This example shows, one way, how to access OSI data in a C# environment.</p>
 </div>
 <div class="paragraph">
-<p>It&#8217;s dependent on the <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/ESMiniWrapper.cs">ESMiniWrapper.cs</a>, and targeting Windows environment. If the wrapper is modified to work on Linux (referring .so instead of DLL) it might work there as well, but it&#8217;s not been tested.</p>
+<p>It&#8217;s dependent on the <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/ESMiniWrapper.cs">ESMiniWrapper.cs</a>.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_windows">Windows</h4>
 <div class="sect4">
 <h5 id="_build_3">Build</h5>
 <div class="listingblock">
@@ -2522,10 +2535,37 @@ cmake --build . --config Release</code></pre>
 </div>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_linux_2">Linux</h4>
 <div class="sect4">
-<h5 id="_how_to_create_the_osi3_c_files">How to create the osi3 C# files</h5>
+<h5 id="_build_4">Build</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>mkdir build
+cd build
+cmake ../linux
+cmake --build .</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_run_4">Run</h5>
 <div class="paragraph">
-<p>For this example the osi3 C# files were provided. If you need or want to compile them yourself:</p>
+<p>To have the correct relative path to the scenario file and also access to esminiLib we move into <code>esmini/bin</code> folder for running the example.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ../../../../bin
+../EnvironmentSimulator/code-examples/osi-groundtruth-cs/linux/bin/Release/net8.0/osi-groundtruth</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_how_to_create_the_osi3_c_files">How to create the osi3 C# files</h4>
+<div class="paragraph">
+<p>For this example the osi3 C# files were provided. If you need or want to compile them yourself (Windows example):</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2564,10 +2604,9 @@ will create C# versions of all proto files</p>
 </div>
 </div>
 </div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-17 08:07:42 +0200
+Last updated 2026-06-02 21:02:20 +0200
 </div>
 </div>
 </body>

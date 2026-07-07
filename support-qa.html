@@ -877,6 +877,15 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
+<h4 id="_esmini_in_wsl">esmini in WSL</h4>
+<div class="paragraph">
+<p>WSL (Windows Subsystem for Linux) is a compatibility layer for running Linux binary executables natively on Windows 10 and Windows 11. This can be a good option for Windows users needing or wanting to run esmini in Linux environment.</p>
+</div>
+<div class="paragraph">
+<p>Unfortunately we get reports of failures running esmini with viewer in WSL, probably related to failed mapping of OpenGL to Windows graphics driver. A workaround might be to enforce software (CPU based) rendering, bypassing the graphics (hardware) driver. This can be done by utilizing the <code>LIBGL_ALWAYS_SOFTWARE</code> environment variable. See <a href="use-cases.html#_software_rendering_no_gfx_hw">View a scenario / Software rendering (no gfx hw)</a> for more info.</p>
+</div>
+</div>
+<div class="sect3">
 <h4 id="_openstreetmap_osm_roads_in_esmini">OpenStreetMap (OSM) roads in esmini</h4>
 <div class="paragraph">
 <p>SUMO comes with a great tool, <a href="https://sumo.dlr.de/docs/netconvert.html">netconvert</a>, that can convert road networks from and to various formats.</p>
@@ -1118,8 +1127,7 @@ zing precision but constrained by system clock. In other words, the scenario wil
 narios. Each timestep is calculated by esmini based on passed system-time since last frame.</p>
 </div>
 <div class="paragraph">
-<p>The fixed-time is simpler, esmini will simply execute the scenario as fast as possible applying the specified delta-time for each step. Good for runni
-g tests for later post processing of resulting logs, data or OSI files.</p>
+<p>The fixed-time is simpler, esmini will simply execute the scenario as fast as possible applying the specified delta-time for each step. Good for running tests for later post processing of resulting logs, data or OSI files.</p>
 </div>
 <div class="paragraph">
 <p>A common use-case is to run esmini quick/headless and then utilize the replayer for viewing the result. See more info here: <a href="use-cases.html#_replay_scenario">Replay scenario</a></p>
@@ -1208,7 +1216,7 @@ id_t SE_GetJunctionIdFromString(<span class="directive">const</span> <span class
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-24 16:19:29 +0200
+Last updated 2026-07-07 15:49:36 +0200
 </div>
 </div>
 </body>

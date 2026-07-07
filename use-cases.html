@@ -904,6 +904,21 @@ Mesa3D is normally installed with Linux distributions. Check OpenGL support with
 <code>sudo apt install mesa-utils</code></p>
 </div>
 <div class="paragraph">
+<p>To enforce software (CPU based) 3D rendering, utilize the <code>LIBGL_ALWAYS_SOFTWARE</code> environment variable:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>single run example:<br>
+<code>LIBGL_ALWAYS_SOFTWARE=1 ./bin/esmini --osc ./resources/xosc/cut-in.xosc --window 50 50 800 600</code></p>
+</li>
+<li>
+<p>persistent setting:<br>
+<code>export LIBGL_ALWAYS_SOFTWARE=1</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
 <p>To run headless with a virtual frame buffer:</p>
 </div>
 <div class="ulist">
@@ -1754,7 +1769,7 @@ Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-18 12:52:20 +0200
+Last updated 2026-07-07 08:02:09 +0200
 </div>
 </div>
 </body>

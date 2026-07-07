@@ -1352,6 +1352,21 @@ Mesa3D is normally installed with Linux distributions. Check OpenGL support with
 <code>sudo apt install mesa-utils</code></p>
 </div>
 <div class="paragraph">
+<p>To enforce software (CPU based) 3D rendering, utilize the <code>LIBGL_ALWAYS_SOFTWARE</code> environment variable:<br></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>single run example:<br>
+<code>LIBGL_ALWAYS_SOFTWARE=1 ./bin/esmini --osc ./resources/xosc/cut-in.xosc --window 50 50 800 600</code></p>
+</li>
+<li>
+<p>persistent setting:<br>
+<code>export LIBGL_ALWAYS_SOFTWARE=1</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
 <p>To run headless with a virtual frame buffer:</p>
 </div>
 <div class="ulist">
@@ -3612,7 +3627,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <div class="sect2">
 <h3 id="_parameter_distributions">4.7. Parameter distributions</h3>
 <div class="paragraph">
-<p>Parameter values and distributions can be specified in a separate <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/09_reuse_mechanisms/09_03_parameter_distribution.html">Parameter value distribution file</a>. This is a convenient way of running multiple variations, or parameter value permutations, of a single scenario.</p>
+<p>Parameter values and distributions can be specified in a separate <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.3.1/09_reuse_mechanisms/09_03_parameter_distribution.html">Parameter value distribution file</a>. This is a convenient way of running multiple variations, or parameter value permutations, of a single scenario.</p>
 </div>
 <div class="paragraph">
 <p>Here&#8217;s an example: <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/cut-in_parameter_set.xosc">cut-in_parameter_set.xosc</a>.</p>
@@ -3634,7 +3649,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </ol>
 </div>
 <div class="paragraph">
-<p>The first two will use the scenario file referred to by the <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/ParameterValueDistribution.html">ParameterValueDistriution element</a> inside the parameter value distribution file (<code>cut-in_parameter_set.xosc</code>). The third example will apply the parameter settings on the scenario defined by the <code>osc</code> launch argument, overriding any scenario reference in the specified <code>param_dist</code> file. This can be useful when a single parameter distribution applies to multiple scenarios (instead of having one parameter file for each scenario).</p>
+<p>The first two will use the scenario file referred to by the <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.3.1/generated/content/ParameterValueDistribution.html">ParameterValueDistribution element</a> inside the parameter value distribution file (<code>cut-in_parameter_set.xosc</code>). The third example will apply the parameter settings on the scenario defined by the <code>osc</code> launch argument, overriding any scenario reference in the specified <code>param_dist</code> file. This can be useful when a single parameter distribution applies to multiple scenarios (instead of having one parameter file for each scenario).</p>
 </div>
 <div class="paragraph">
 <p>How to abort:</p>
@@ -7041,7 +7056,7 @@ Parameters:
 </div>
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTIxA9xhO1GomQDd3GvamIaul80S4GLH4UHyWubsG7sm3lLuCMqMo0QcHg-6D-NfKqqFKDwGWa1W_g2/pubhtml?gid=2029882313&&widget=false&headers=false&chrome=true" frameborder="0" width="730" height="1267"></iframe>
 <div class="paragraph">
-<p><a href="https://docs.google.com/spreadsheets/d/1Y-zhAOcks3-rkcVdz3EvwBqOhvOwyE20sGZJcFM1OvI/edit?usp=sharingLink">Link</a> to full table, including ranges.</p>
+<p><a href="https://docs.google.com/spreadsheets/d/1Y-zhAOcks3-rkcVdz3EvwBqOhvOwyE20sGZJcFM1OvI/preview">Link</a> to full table, including ranges.</p>
 </div>
 <div class="paragraph">
 <p>It&#8217;s a bit tricky to find out ID and mappings. The next sections provides some help using common tools.</p>
@@ -7140,7 +7155,7 @@ Parameters:
 <p>esmini make use of OpenSceneGraph (OSG) for visualization of the scenario. The OpenSCENARIO files can optionally refer to existing 3D models of the static environment (scene graph) and dynamic objects (entities). If the scene graph reference is missing, esmini will try to generate a basic model based on the OpenDRIVE road network description. Currently esmini only supports OSG native .osgb 3D file format. However, there are ways to convert 3D models as described next.</p>
 </div>
 <div class="paragraph">
-<p><a href="http://www.openscenegraph.org/">OpenSceneGraph</a> (osg) includes readers and writers for quite a few 3D file formats. It comes with a demo application, <a href="http://www.openscenegraph.org/index.php/documentation/user-guides/55-osgconv">osgconv</a>, a command line tool that simply takes one file as input and outputs the same content in a different format.</p>
+<p><a href="http://www.openscenegraph.org/">OpenSceneGraph</a> (osg) includes readers and writers for quite a few 3D file formats. It comes with a demo application, <a href="https://openscenegraph.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/www.openscenegraph.com/index.php/documentation/user-guides/55-osgconv.html">osgconv</a>, a command line tool that simply takes one file as input and outputs the same content in a different format.</p>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -7238,7 +7253,7 @@ or open the "Software &amp; Updates" application</p>
 But note that it does not consider FBX support.</p>
 </div>
 <div class="paragraph">
-<p>Find more info on COLLADA via this old <a href="http://www.openscenegraph.com/index.php/documentation/guides/user-guides/111-collada">link</a>.</p>
+<p>Find more info on COLLADA via this old <a href="https://openscenegraph.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/www.openscenegraph.com/index.php/documentation/guides/user-guides/111-collada.html">link</a>.</p>
 </div>
 </div>
 </div>
@@ -8201,6 +8216,15 @@ In order to execute the files you need to do one of following from a terminal in
 </div>
 </div>
 <div class="sect3">
+<h4 id="_esmini_in_wsl">esmini in WSL</h4>
+<div class="paragraph">
+<p>WSL (Windows Subsystem for Linux) is a compatibility layer for running Linux binary executables natively on Windows 10 and Windows 11. This can be a good option for Windows users needing or wanting to run esmini in Linux environment.</p>
+</div>
+<div class="paragraph">
+<p>Unfortunately we get reports of failures running esmini with viewer in WSL, probably related to failed mapping of OpenGL to Windows graphics driver. A workaround might be to enforce software (CPU based) rendering, bypassing the graphics (hardware) driver. This can be done by utilizing the <code>LIBGL_ALWAYS_SOFTWARE</code> environment variable. See <a href="use-cases.html#_software_rendering_no_gfx_hw">View a scenario / Software rendering (no gfx hw)</a> for more info.</p>
+</div>
+</div>
+<div class="sect3">
 <h4 id="_openstreetmap_osm_roads_in_esmini">OpenStreetMap (OSM) roads in esmini</h4>
 <div class="paragraph">
 <p>SUMO comes with a great tool, <a href="https://sumo.dlr.de/docs/netconvert.html">netconvert</a>, that can convert road networks from and to various formats.</p>
@@ -8442,8 +8466,7 @@ zing precision but constrained by system clock. In other words, the scenario wil
 narios. Each timestep is calculated by esmini based on passed system-time since last frame.</p>
 </div>
 <div class="paragraph">
-<p>The fixed-time is simpler, esmini will simply execute the scenario as fast as possible applying the specified delta-time for each step. Good for runni
-g tests for later post processing of resulting logs, data or OSI files.</p>
+<p>The fixed-time is simpler, esmini will simply execute the scenario as fast as possible applying the specified delta-time for each step. Good for running tests for later post processing of resulting logs, data or OSI files.</p>
 </div>
 <div class="paragraph">
 <p>A common use-case is to run esmini quick/headless and then utilize the replayer for viewing the result. See more info here: <a href="use-cases.html#_replay_scenario">Replay scenario</a></p>
@@ -11525,7 +11548,7 @@ crop dynamic OSI groundtruth around an entity (<strong>default</strong> is to in
 <div class="sect4">
 <h5 id="_osi_via_udp">OSI via UDP</h5>
 <div class="paragraph">
-<p>By launch argument <code>--osi_receiver_ip &lt;ip addr&gt;</code> you can have esmini sending OSI packeges in UDP frames. The socket port is hardcoded but can of course be changed in the code (OSI_OUT_PORT in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/OSIReporter.cpp)">OSIReporter.cpp</a>).</p>
+<p>By launch argument <code>--osi_receiver_ip &lt;ip addr&gt;</code> you can have esmini sending OSI packeges in UDP frames. The socket port is hardcoded but can of course be changed in the code (OSI_OUT_PORT in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/OSIReporter.cpp">OSIReporter.cpp</a>).</p>
 </div>
 <div class="paragraph">
 <p>See receiver side code example <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/replayer/osi_receiver.cpp">osi_receiver.cpp</a>.</p>
@@ -13689,7 +13712,7 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
         <span class="directive">static</span> <span class="directive">void</span> Main(<span class="predefined-type">string</span>[] args)
         {
             <span class="comment">// initialize esmini</span>
-            <span class="keyword">if</span> (ESMiniLib.SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../resources/xosc/cut-in.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
+            <span class="keyword">if</span> (ESMiniLib.SE_Init(<span class="string"><span class="delimiter">&quot;</span><span class="content">../../../../../resources/xosc/light_state.xosc</span><span class="delimiter">&quot;</span></span>, <span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">0</span>, <span class="integer">0</span>) != <span class="integer">0</span>)
             {
                 Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">failed to load scenario</span><span class="delimiter">&quot;</span></span>);
                 <span class="keyword">return</span>;
@@ -13702,7 +13725,7 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
                 ESMiniLib.SE_Step();
 
                 <span class="comment">// Get OSI message</span>
-                IntPtr int_ptr = ESMiniLib.SE_GetOSIGroundTruth(ref size);
+                IntPtr int_ptr = ESMiniLib.SE_GetOSIGroundTruth(out size);
                 Byte[] byte_array = <span class="keyword">new</span> Byte[size];
                 Marshal.Copy(int_ptr, byte_array, <span class="integer">0</span>, size);
                 Osi3.GroundTruth gt_msg = Osi3.GroundTruth.Parser.ParseFrom(byte_array);
@@ -13713,6 +13736,16 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
                 {
                     Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">  Object[{0}], Pos: {1:N2}, {2:N2}, {3:N2}</span><span class="delimiter">&quot;</span></span>,
                         o.Id.Value, o.Base.Position.X, o.Base.Position.Y, o.Base.Position.Z);
+
+                    <span class="keyword">if</span> (o.VehicleClassification.LightState != null)
+                    {
+                        Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">  Object[{0}] indicator {1}</span><span class="delimiter">&quot;</span></span>, o.Id.Value, o.VehicleClassification.LightState.IndicatorState);
+                    }
+
+                    foreach (Osi3.MovingObject.Types.VehicleAttributes.Types.WheelData wd in o.VehicleAttributes.WheelData)
+                    {
+                        Console.WriteLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">     wheel[{0}] angle: {1:N4}</span><span class="delimiter">&quot;</span></span>, wd.Index ,wd.Orientation.Yaw);
+                    }
                 }
             }
         }
@@ -13724,8 +13757,11 @@ se.SE_RegisterObjectCallback(<span class="integer">0</span>, callback_func, <spa
 <p>This example shows, one way, how to access OSI data in a C# environment.</p>
 </div>
 <div class="paragraph">
-<p>It&#8217;s dependent on the <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/ESMiniWrapper.cs">ESMiniWrapper.cs</a>, and targeting Windows environment. If the wrapper is modified to work on Linux (referring .so instead of DLL) it might work there as well, but it&#8217;s not been tested.</p>
+<p>It&#8217;s dependent on the <a href="https://github.com/esmini/esmini/blob/master/EnvironmentSimulator/Libraries/esminiLib/ESMiniWrapper.cs">ESMiniWrapper.cs</a>.</p>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_windows">Windows</h4>
 <div class="sect4">
 <h5 id="_build_4">Build</h5>
 <div class="listingblock">
@@ -13749,10 +13785,37 @@ cmake --build . --config Release</code></pre>
 </div>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_linux_2">Linux</h4>
 <div class="sect4">
-<h5 id="_how_to_create_the_osi3_c_files">How to create the osi3 C# files</h5>
+<h5 id="_build_5">Build</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>mkdir build
+cd build
+cmake ../linux
+cmake --build .</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_run_4">Run</h5>
 <div class="paragraph">
-<p>For this example the osi3 C# files were provided. If you need or want to compile them yourself:</p>
+<p>To have the correct relative path to the scenario file and also access to esminiLib we move into <code>esmini/bin</code> folder for running the example.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>cd ../../../../bin
+../EnvironmentSimulator/code-examples/osi-groundtruth-cs/linux/bin/Release/net8.0/osi-groundtruth</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_how_to_create_the_osi3_c_files">How to create the osi3 C# files</h4>
+<div class="paragraph">
+<p>For this example the osi3 C# files were provided. If you need or want to compile them yourself (Windows example):</p>
 </div>
 <div class="ulist">
 <ul>
@@ -13785,7 +13848,6 @@ will create C# versions of all proto files</p>
 </div>
 </li>
 </ul>
-</div>
 </div>
 </div>
 </div>
@@ -14221,6 +14283,9 @@ try update RubyGems as follows:<br>
 </div>
 </div>
 <div class="paragraph">
+<p>This produces a collection of <code>.html</code> files (<code>index.html</code> being the landing page) and the <code>search_index.json</code> file that is used for the search functionality in the published document.</p>
+</div>
+<div class="paragraph">
 <p>Same thing, but directing the output files to a specific folder:</p>
 </div>
 <div class="listingblock">
@@ -14230,7 +14295,13 @@ try update RubyGems as follows:<br>
 </div>
 </div>
 <div class="paragraph">
-<p>This produces a collection of <code>.html</code> files (<code>index.html</code> being the landing page) and the <code>search_index.json</code> file that is used for the search functionality in the published document.</p>
+<p>Similar, but only for files that have been changed since last commit:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">git diff --name-only --relative | while read -r f; do asciidoctor -r ./mermaid-ink-preprocessor.rb -D ../../../esmini.github.io &quot;$f&quot;; done
+./generate-search-index.sh ../../../esmini.github.io</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -14265,15 +14336,15 @@ Note: This method may be blocked in web browser (generically avoiding proxy phis
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v3.4.0"<br>
-ESMINI_GIT_REV="v3.4.0-0-7d1c8498"</p>
+<p>ESMINI_GIT_TAG="v3.4.1"<br>
+ESMINI_GIT_REV="v3.4.1-0-d7be85d6"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-17 08:07:42 +0200
+Last updated 2026-06-02 21:02:20 +0200
 </div>
 </div>
 </body>
