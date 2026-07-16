@@ -1216,6 +1216,9 @@ Your browser does not support the video tag.
 <code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/slow-lead-vehicle.xosc --save_generated_model</code><br>
 Then look for <code>generated_road.osgb</code> in the current directory.</p>
 </div>
+<div class="paragraph">
+<p>To exclude permanently hidden parts, use <code>--save_generated_model_visible</code>. To save only the currently visible parts, press key 'v' at any time in <code>esmini</code> or <code>odrviewer</code>.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_background_color">Background color</h4>
@@ -8968,6 +8971,8 @@ Options:
       Disable controllers
   --disable_log
       Prevent logfile from being created
+  --disable_shadows
+      Disable shadows
   --disable_stdout
       Prevent messages to stdout
   --enforce_generate_model
@@ -9008,6 +9013,8 @@ Options:
       Ignore provided roll values from OSC file and place vehicle relative to road
   --info_text [mode]  (default if option or value omitted: 1)
       Show on-screen info text. Modes: 0=None 1=current 2=per_object 3=both. Toggle key 'i'
+  --light_mode [mode]  (default if option or value omitted: auto)
+      Show lights for light state actions. Modes: on, off, auto. Toggle key 'L'
   --log_append
       Log all scenarios in the same txt file
   --logfile_path [path]  (default if option or value omitted: log.txt)
@@ -9022,6 +9029,8 @@ Options:
       Skip log from these modules, all remaining modules will be logged. See User guide for more info
   --osc_str &lt;string&gt;
       OpenSCENARIO XML string
+  --optimize_3d_model
+      Optimize generated OSG road model. Do not set when model is to be exported (--save_generated_model* or 'v')
   --osg_screenshot_event_handler
       Revert to OSG default jpg images ('c'/'C' keys handler)
   --osi_compress
@@ -9064,6 +9073,8 @@ Options:
       Return number of permutations without executing the scenario (-1 = error)
   --save_generated_model
       Save generated 3D model (n/a when a scenegraph is loaded)
+  --save_generated_model_visible
+      Save generated 3D model with visible objects only (n/a when a scenegraph is loaded)
   --save_xosc [mode]  (default if value omitted: continue)
       Save OpenSCENARIO file with any populated parameter values (from distribution). Modes: quit, continue.
   --seed &lt;number&gt;
@@ -9121,14 +9132,17 @@ https://github.com/esmini/esmini/blob/master/docs/osg_options_and_env_variables.
     o:             Toggle show / hide OpenDRIVE road feature lines
     O:             Toggle show / hide odr signal bounding boxes
     u:             Toggle show / hide OSI road lines
+    v:             Save generated model, currently visible parts
     y:             Toggle show / hide OSI road points
     p:             Toggle show / hide environment 3D model
     r:             Toggle show / hide sensor view frustums
     R:             Toggle route waypoint visualization
     i:             Toggle on-screen info text modes
     j:             Toggle show trails after vehicles(4 modes: none / dots / lines / both)
+    L (shift + l): Toggle show vehicle lights
     n:             Toggle show active trajectories
     , (comma):     Switch entity view : Model only / Bounding box / Model + Bounding box / None
+    ; (shift + ,): Toggle show/hide object outlines
     K:             Print current camera position and orientation to console
     x:             Cycle axis indicator view mode (off, on, xray)
     ESC:           quit
@@ -9208,6 +9222,8 @@ Options:
       Additional custom top camera &lt;x,y,z,rot&gt;
   --dir &lt;path&gt;
       Directory containing replays to overlay, pair with &quot;file&quot; argument, where &quot;file&quot; is .dat filename match substring
+  --disable_shadows
+      Disable shadows
   --fixed_timestep &lt;s&gt;
       Use fixed timestep for the replay
   --ground_plane [mode]  (default if option or value omitted: auto)
@@ -9294,7 +9310,8 @@ Key shortcuts
     y:             Toggle show / hide OSI road points
     p:             Toggle show / hide environment 3D model
     i:             Toggle on-screen info text modes
-    Shift + i:     Toggle show / hide on-screen GUI
+    I (shift + i): Toggle show / hide on-screen GUI
+    L (shift + l): Toggle show vehicle lights
     n:             Toggle show active trajectories
     , (comma):     Switch entity view : Model only / Bounding box / Model + Bounding box / None
     ; (shift + ,): Toggle show/hide object outlines
@@ -9419,6 +9436,8 @@ Options:
       Skip log from these modules, all remaining modules will be logged. See User guide for more info
   --model &lt;model_filename&gt;
       3D Model filename
+  --optimize_model
+      Optimize generated OSG road model. Do not set when model is to be exported (--save_generated_model* or 'v')
   --osg_screenshot_event_handler
       Revert to OSG default jpg images ('c'/'C' keys handler)
   --osi_lines
@@ -9433,6 +9452,8 @@ Options:
       Show OpenDRIVE road features. Modes: on, off. Toggle key 'o'
   --save_generated_model
       Save generated 3D model (n/a when a scenegraph is loaded)
+  --save_generated_model_visible
+      Save generated 3D model with visible objects only (n/a when a scenegraph is loaded)
   --seed &lt;number&gt;
       Specify seed number for random generator
   --speed_factor [speed_factor]  (default if value omitted: 1.000000)
@@ -9484,6 +9505,7 @@ Key shortcuts
     Delete:        Same as above (Shift + TAB)
     o:             Toggle show / hide OpenDRIVE road feature lines
     u:             Toggle show / hide OSI road lines
+    v:             Save generated model, currently visible parts
     y:             Toggle show / hide OSI road points
     p:             Toggle show / hide environment 3D model
     i:             Toggle info text showing time and speed
@@ -14336,15 +14358,15 @@ Note: This method may be blocked in web browser (generically avoiding proxy phis
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v3.4.1"<br>
-ESMINI_GIT_REV="v3.4.1-0-d7be85d6"</p>
+<p>ESMINI_GIT_TAG="v3.6.0"<br>
+ESMINI_GIT_REV="v3.6.0-0-131a5651"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-02 21:02:20 +0200
+Last updated 2026-05-22 08:22:22 +0200
 </div>
 </div>
 </body>
