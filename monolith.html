@@ -2130,7 +2130,7 @@ Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 <p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --osi_file</code></p>
 </div>
 <div class="paragraph">
-<p>will create <code>ground_truth.osi</code> in the current folder. The format is according to the OSI standard "Binary trace file", see OSI documentation <a href="https://opensimulationinterface.github.io/osi-documentation/index.html#_osi_trace_files">2.2.6 OSI trace files</a>.</p>
+<p>will create <code>ground_truth.osi</code> in the current folder. The format is according to the OSI standard "Binary trace file", see OSI documentation <a href="https://opensimulationinterface.github.io/osi-antora-generator/asamosi/V3.5.0/interface/architecture/trace_file_formats.html">2.2.6 OSI trace files</a>.</p>
 </div>
 <div class="paragraph">
 <p>esmini provides a script, osi2csv.py, that converts an OSI trace file into .csv format. The script can also serve as example how to parse and extract data from an OSI trace file:</p>
@@ -9707,6 +9707,9 @@ to<br>
 <li>
 <p><a href="https://github.com/esmini/esmini-dependencies/blob/main/osi/generate_osi_3_5_libs.sh">esmini-dependencies/osi/generate_osi_3_5_libs.sh</a></p>
 </li>
+<li>
+<p><a href="https://github.com/esmini/esmini-dependencies/blob/main/osi/generate_osi_3_8_libs.sh">esmini-dependencies/osi/generate_osi_3_8_libs.sh</a></p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -9742,9 +9745,6 @@ to<br>
 <p>Library updates are not detected by the esmini build dependencies, why a clean rebuild of esmini should be performed manually afterwards.</p>
 </div>
 <div class="paragraph">
-<p>For <code>osi</code> and <code>implot</code>, the supported versions can be found in <a href="https://github.com/esmini/esmini/blob/master/support/cmake/common/version_mapping.cmake">support/cmake/common/version_mapping.cmake</a>.</p>
-</div>
-<div class="paragraph">
 <p>A few additional notes:</p>
 </div>
 <div class="ulist">
@@ -9757,6 +9757,78 @@ to<br>
 </li>
 </ul>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_osi_versions">OSI versions</h4>
+<div class="paragraph">
+<p>Current supported versions:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">CMake flag</th>
+<th class="tableblock halign-left valign-top">OSI version</th>
+<th class="tableblock halign-left valign-top">Google Protobuf version</th>
+<th class="tableblock halign-left valign-top">Abseil version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-D OSI_VERSION=3.5.0</code> (default)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">v3.5.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">v3.15.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-D OSI_VERSION=3.8.0</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">v3.8.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">v5.29.3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20240722.1</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><code>cmake .. -D OSI_VERSION=3.5.0</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_implot_versions">Implot versions</h4>
+<div class="paragraph">
+<p>Current supported versions:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">CMake flag</th>
+<th class="tableblock halign-left valign-top">Implot version</th>
+<th class="tableblock halign-left valign-top">ImGui version</th>
+<th class="tableblock halign-left valign-top">GLFW version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-D IMPLOT_VERSION=0.16</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">v0.16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">v1.89.8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.3.8</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -13058,10 +13130,10 @@ target_link_libraries(${TARGET} esminiLib protobuf open_simulation_interface_pic
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="c++"><span class="preprocessor">#include</span> <span class="include">&quot;esminiLib.hpp&quot;</span>
 
-<span class="preprocessor">#include</span> <span class="include">&quot;osi_common.pb.h&quot;</span>
-<span class="preprocessor">#include</span> <span class="include">&quot;osi_object.pb.h&quot;</span>
-<span class="preprocessor">#include</span> <span class="include">&quot;osi_groundtruth.pb.h&quot;</span>
-<span class="preprocessor">#include</span> <span class="include">&quot;osi_version.pb.h&quot;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;osi_common.pb.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;osi_object.pb.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;osi_groundtruth.pb.h&gt;</span>
+<span class="preprocessor">#include</span> <span class="include">&lt;osi_version.pb.h&gt;</span>
 
 <span class="predefined-type">int</span> main(<span class="predefined-type">int</span> argc, <span class="predefined-type">char</span>* argv[])
 {
@@ -14358,8 +14430,8 @@ Note: This method may be blocked in web browser (generically avoiding proxy phis
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v3.6.0"<br>
-ESMINI_GIT_REV="v3.6.0-0-131a5651"</p>
+<p>ESMINI_GIT_TAG="v3.7.0"<br>
+ESMINI_GIT_REV="v3.7.0-0-e3901197"</p>
 </div>
 </div>
 </div>
