@@ -958,7 +958,7 @@ In above example, <code>v3.5.0_2</code> reflects a tag that might change, use th
 <div class="sect2">
 <h3 id="_slim_esmini_customize_configration">Slim esmini - customize configration</h3>
 <div class="paragraph">
-<p>The external dependencies OSG, OSI, SUMO and implot are optional. Also the unit test suite is optional, in effect making the dependecy to googletest framework optional as well. All these options are simply controlled by the following cmake options:</p>
+<p>The external dependencies OSG, OSI, SUMO, implot and PROJ are optional. Also the unit test suite is optional, in effect making the dependecy to googletest framework optional as well. All these options are simply controlled by the following cmake options:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -977,6 +977,9 @@ In above example, <code>v3.5.0_2</code> reflects a tag that might change, use th
 <li>
 <p>USE_IMPLOT</p>
 </li>
+<li>
+<p>USE_PROJ</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
@@ -984,8 +987,8 @@ In above example, <code>v3.5.0_2</code> reflects a tag that might change, use th
 <code>cmake .. -D USE_OSG=False -D USE_SUMO=False</code></p>
 </div>
 <div class="paragraph">
-<p>To disable OSG, SUMO, OSI and googletest, run: <br>
-<code>cmake .. -D USE_OSG=False -D USE_SUMO=False -D USE_OSI=False -D USE_GTEST=False -D USE_IMPLOT=False</code></p>
+<p>To disable all run: <br>
+<code>cmake .. -D USE_OSG=False -D USE_SUMO=False -D USE_OSI=False -D USE_GTEST=False -D USE_IMPLOT=False -D USE_PROJ=False</code></p>
 </div>
 <div class="paragraph">
 <p>All options are enabled/True as default.</p>
@@ -1175,7 +1178,7 @@ cd ..
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-08-14 13:22:06 +0200
+Last updated 2026-09-03 07:12:04 +0200
 </div>
 </div>
 </body>
