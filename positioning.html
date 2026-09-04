@@ -538,6 +538,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_reference_line_and_center_lane">Reference line and center lane</a></li>
 <li><a href="#_lateral_distance_action_logics">Lateral distance action logics</a></li>
 <li><a href="#_shift_reference_point">Shift reference point</a></li>
+<li><a href="#_geo_positioning">Geo positioning</a></li>
 </ul>
 </li>
 </ul>
@@ -1421,12 +1422,55 @@ esmini supports two coordinate systems for the lateral distance action:</p>
 </ul>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_geo_positioning">Geo positioning</h3>
+<div class="paragraph">
+<p>From v3.8.0 esmini supports geo positioning, i.e. conversion of any position type to and from geodetic coordinates (latitude, longitude). This is done by utilizing the <a href="https://github.com/OSGeo/PROJ">PROJ library</a>. Geo positioning requires esmini to be built with the CMake option <code>USE_PROJ</code> enabled (the default).</p>
+</div>
+<div class="paragraph">
+<p>We see two main use cases for this feature:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Support scenario files involving geo positions, e.g. trajectory points defined in terms of <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.4.0/generated/content/GeoPosition.html">GeoPosition</a> (latitude,  longitude).</p>
+</li>
+<li>
+<p>Support object position output in terms of latitude and longitude, e.g. for integration with GPS based navigation systems.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The OpenDRIVE <code>geoReference</code> attribute in the OpenDRIVE file specifies the geodetic reference system used for the road network. Based on this reference any x, y position, and hence implicitly any road and lane position, can be converted to latitude and longitude. Conversely, any GeoPosition is automatically converted to world and road coordinates.</p>
+</div>
+<div class="paragraph">
+<p>A simple example is found in the test scenario <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xosc/geo_position_test.xosc">geo_position_test.xosc</a> / <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Unittest/xodr/geo_position_test.xodr">geo_position_test.xodr</a>.</p>
+</div>
+<div class="paragraph">
+<p>Geo position output is provided two ways:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Automatically coded in OSI moving_object <a href="https://opensimulationinterface.github.io/osi-antora-generator/asamosi/V3.5.0/gen/structosi3_1_1MovingObject.html#a28102f7b1679219e151881c74c716073">source_reference</a> when the OpenDRIVE file provides a valid <code>geoReference</code>, as a string encoding the key,value pair: <code>geo_pos:&lt;latitude,longitude&gt;</code><br></p>
+<div class="paragraph">
+<p>example: <code>"geo_pos:50.111349,8.682214"</code></p>
+</div>
+</li>
+<li>
+<p>Function in esminiLib:<br>
+<code>int SE_GetGeoPos(int object_id, double *lat, double *lon);</code><br>
+This function returns <code>-1</code> if the object does not exist or the loaded OpenDRIVE file has no usable <code>geoReference</code>.</p>
+</li>
+</ol>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-05-22 08:22:22 +0200
+Last updated 2026-09-03 07:12:04 +0200
 </div>
 </div>
 </body>
