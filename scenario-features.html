@@ -1748,6 +1748,41 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_osi_mapping">OSI mapping</h4>
+<div class="paragraph">
+<p>OpenDRIVE (odr) <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/1.8.0/specification/13_objects/13_01_introduction.html">road objects</a> will be emitted on OSI as <a href="https://opensimulationinterface.github.io/osi-antora-generator/asamosi/latest/gen/structosi3_1_1StationaryObject.html">stationary objects</a>. The OSI <a href="https://opensimulationinterface.github.io/osi-antora-generator/asamosi/latest/gen/structosi3_1_1StationaryObject_1_1Classification.html#ad497488a7119617633b54181ea08457d">type</a> will be based on odr road object <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/1.8.0/specification/16_annexes/enumerations/map_uml_enumerations.html#top-EAID_C47587D0_7173_42df_8BB7_36B2C598D95F">type</a> and subtype (generic string) as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The OpenDRIVE object types <code>pole</code>, <code>tree</code>, <code>vegetation</code>, <code>barrier</code>, <code>building</code>, and <code>bridge</code> map directly to their corresponding OSI stationary-object types.</p>
+</li>
+<li>
+<p>A <code>parkingSpace</code> maps to <code>TYPE_OTHER</code> with concrete, solid, grey classification properties. Its parking restrictions are added to the source reference as <code>restrictions:&lt;value&gt;</code>.</p>
+</li>
+<li>
+<p>For all remaining object types, esmini tries to map the subtype to an OSI stationary-object type. The subtype comparison is case-insensitive; <code>TYPE_</code> is prepended when it is not already present. For example, subtype <code>building</code> maps to <code>TYPE_BUILDING</code>.</p>
+</li>
+<li>
+<p>If the subtype does not map, the known OpenDRIVE object types <code>obstacle</code>, <code>railing</code>, <code>patch</code>, <code>trafficIsland</code>, <code>crosswalk</code>, <code>streetLamp</code>, <code>gantry</code>, <code>soundBarrier</code>, <code>wind</code>, and <code>roadMark</code> map to <code>TYPE_OTHER</code>.</p>
+</li>
+<li>
+<p>Any other unsupported object type maps to <code>TYPE_UNKNOWN</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This schema overcomes limitations from OpenDRIVE and OSI type incompatibility. For example it allows for emitting TYPE_DELINEATOR which has no corresponding road object type. Example:</p>
+</div>
+<div class="paragraph">
+<p><code>         &lt;object type="obstacle" subtype="delineator" name="road_delineator" id="9" s="160" t="4" zOffset="0.0"/&gt;
+</code></p>
+</div>
+<div class="paragraph">
+<p>Each resolved repeat instance of a road object is emitted as a separate OSI stationary object. The first instance uses the object&#8217;s global ID; additional instances receive new global IDs.</p>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_expressions">Expressions</h3>
@@ -2894,7 +2929,7 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 </div>
 <div class="sect3">
-<h4 id="_osi_mapping">OSI Mapping</h4>
+<h4 id="_osi_mapping_2">OSI Mapping</h4>
 <div class="paragraph">
 <p>esmini maps LightStateAction → OSI <a href="https://opensimulationinterface.github.io/osi-antora-generator/asamosi/V3.5.0/gen/structosi3_1_1MovingObject_1_1VehicleClassification_1_1LightState.html">LightState</a>, with some special assumptions made on the following combinations:</p>
 </div>
@@ -3303,7 +3338,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-09-03 18:11:23 +0200
+Last updated 2026-09-07 16:12:27 +0200
 </div>
 </div>
 </body>
