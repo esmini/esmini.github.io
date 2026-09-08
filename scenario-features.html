@@ -1762,7 +1762,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>A <code>parkingSpace</code> maps to <code>TYPE_OTHER</code> with concrete, solid, grey classification properties. Its parking restrictions are added to the source reference as <code>restrictions:&lt;value&gt;</code>.</p>
 </li>
 <li>
-<p>For all remaining object types, esmini tries to map the subtype to an OSI stationary-object type. The subtype comparison is case-insensitive; <code>TYPE_</code> is prepended when it is not already present. For example, subtype <code>building</code> maps to <code>TYPE_BUILDING</code>.</p>
+<p>For all remaining object types, esmini tries to map the subtype to an OSI stationary-object type. The subtype comparison is case-insensitive; <code>TYPE_</code> is prepended when it is not already present. For example, subtype <code>speed_bump</code> maps to <code>TYPE_SPEED_BUMP</code>.</p>
 </li>
 <li>
 <p>If the subtype does not map, the known OpenDRIVE object types <code>obstacle</code>, <code>railing</code>, <code>patch</code>, <code>trafficIsland</code>, <code>crosswalk</code>, <code>streetLamp</code>, <code>gantry</code>, <code>soundBarrier</code>, <code>wind</code>, and <code>roadMark</code> map to <code>TYPE_OTHER</code>.</p>
@@ -1773,7 +1773,7 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </ol>
 </div>
 <div class="paragraph">
-<p>This schema overcomes limitations from OpenDRIVE and OSI type incompatibility. For example it allows for emitting TYPE_DELINEATOR which has no corresponding road object type. Example:</p>
+<p>This schema overcomes limitations from OpenDRIVE and OSI type incompatibility. For example it allows for emitting TYPE_DELINEATOR which has no corresponding road object type:</p>
 </div>
 <div class="paragraph">
 <p><code>         &lt;object type="obstacle" subtype="delineator" name="road_delineator" id="9" s="160" t="4" zOffset="0.0"/&gt;
@@ -3338,7 +3338,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-09-07 16:12:27 +0200
+Last updated 2026-09-08 16:31:31 +0200
 </div>
 </div>
 </body>
