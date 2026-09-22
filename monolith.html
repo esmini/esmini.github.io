@@ -2168,6 +2168,69 @@ Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_visualize_osi_in_lichtblick_mcap">Visualize <code>.osi</code> in Lichtblick (<code>.mcap</code>)</h4>
+<div class="paragraph">
+<p><code>.osi</code> trace files can be converted to <code>.mcap</code> and viewed in <a href="https://lichtblick-suite.github.io/lichtblick/">Lichtblick</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Prepare an <code>.osi</code> file compatible with the converter</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a terminal</p>
+</li>
+<li>
+<p>Navigate to /path/to/esmini/root and run:</p>
+</li>
+<li>
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --osi_file --osi_static_reporting 2</code> (<code>--osi_static_reporting 2</code> is required)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Install the Lichtblick converter plug-in</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the latest release of <a href="https://github.com/lichtblick-suite/asam-osi-converter/releases/">asam-osi-converter</a></p>
+</li>
+<li>
+<p>Open <a href="https://lichtblick-suite.github.io/lichtblick/">Lichtblick</a> in Google Chrome</p>
+</li>
+<li>
+<p>Drag and drop the <code>.foxe</code> file from the downloaded <code>asam-osi-converter</code> release into the UI</p>
+</li>
+<li>
+<p>Wait for plug-in to be installed</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Convert <code>.osi</code> to <code>.mcap</code></strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>pip install asam-osi-utilities</code></p>
+</li>
+<li>
+<p>Clone <a href="https://github.com/lichtblick-suite/asam-osi-utilities">asam-osi-utilities</a></p>
+</li>
+<li>
+<p>Navigate to <code>asam-osi-utilities/python/examples</code></p>
+</li>
+<li>
+<p>Run <code>python convert_osi2mcap.py --input-type GroundTruth ~/path/to/my_gt.osi my_gt.mcap</code></p>
+</li>
+<li>
+<p>Load <code>my_gt.mcap</code> in Lichtblick</p>
+</li>
+</ol>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_esmini_in_unity">3.8. esmini in Unity</h3>
@@ -9175,6 +9238,8 @@ Options:
       Save generated 3D model with visible objects only (n/a when a scenegraph is loaded)
   --save_xosc [mode]  (default if value omitted: continue)
       Save OpenSCENARIO file with any populated parameter values (from distribution). Modes: quit, continue.
+  --save_xosc_resolved [mode]  (default if value omitted: continue)
+      Save OpenSCENARIO file with all parameter and attribute values resolved. Modes: quit, continue.
   --seed &lt;number&gt;
       Specify seed number for random generator
   --sensors
@@ -14531,15 +14596,15 @@ Note: This method may be blocked in web browser (generically avoiding proxy phis
 <h2 id="_version">18. Version</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ESMINI_GIT_TAG="v3.8.1"<br>
-ESMINI_GIT_REV="v3.8.1-0-19d26b68f"</p>
+<p>ESMINI_GIT_TAG="v3.8.2"<br>
+ESMINI_GIT_REV="v3.8.2-0-61b44a71"</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-02 21:02:20 +0200
+Last updated 2026-09-14 14:30:40 +0200
 </div>
 </div>
 </body>

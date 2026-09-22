@@ -1719,6 +1719,69 @@ Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_visualize_osi_in_lichtblick_mcap">Visualize <code>.osi</code> in Lichtblick (<code>.mcap</code>)</h4>
+<div class="paragraph">
+<p><code>.osi</code> trace files can be converted to <code>.mcap</code> and viewed in <a href="https://lichtblick-suite.github.io/lichtblick/">Lichtblick</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Prepare an <code>.osi</code> file compatible with the converter</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a terminal</p>
+</li>
+<li>
+<p>Navigate to /path/to/esmini/root and run:</p>
+</li>
+<li>
+<p><code>./bin/esmini --window 60 60 800 400 --osc ./resources/xosc/cut-in.xosc --osi_file --osi_static_reporting 2</code> (<code>--osi_static_reporting 2</code> is required)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Install the Lichtblick converter plug-in</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download the latest release of <a href="https://github.com/lichtblick-suite/asam-osi-converter/releases/">asam-osi-converter</a></p>
+</li>
+<li>
+<p>Open <a href="https://lichtblick-suite.github.io/lichtblick/">Lichtblick</a> in Google Chrome</p>
+</li>
+<li>
+<p>Drag and drop the <code>.foxe</code> file from the downloaded <code>asam-osi-converter</code> release into the UI</p>
+</li>
+<li>
+<p>Wait for plug-in to be installed</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Convert <code>.osi</code> to <code>.mcap</code></strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>pip install asam-osi-utilities</code></p>
+</li>
+<li>
+<p>Clone <a href="https://github.com/lichtblick-suite/asam-osi-utilities">asam-osi-utilities</a></p>
+</li>
+<li>
+<p>Navigate to <code>asam-osi-utilities/python/examples</code></p>
+</li>
+<li>
+<p>Run <code>python convert_osi2mcap.py --input-type GroundTruth ~/path/to/my_gt.osi my_gt.mcap</code></p>
+</li>
+<li>
+<p>Load <code>my_gt.mcap</code> in Lichtblick</p>
+</li>
+</ol>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_esmini_in_unity">esmini in Unity</h3>
@@ -1772,7 +1835,7 @@ Scenarios corresponding to IDs (300:399): sim_rss.dat</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-08-20 17:22:51 +0200
+Last updated 2026-09-22 13:09:05 +0200
 </div>
 </div>
 </body>
