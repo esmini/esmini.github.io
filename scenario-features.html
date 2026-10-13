@@ -535,6 +535,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_road_signs">Road signs</a></li>
 <li><a href="#_traffic_lights">Traffic Lights</a></li>
 <li><a href="#_road_objects">Road objects</a></li>
+<li><a href="#_roadworks">Roadworks</a></li>
 <li><a href="#_expressions">Expressions</a></li>
 <li><a href="#_parameter_distributions">Parameter distributions</a></li>
 <li><a href="#_trajectories">Trajectories</a></li>
@@ -566,7 +567,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <summary class="title">Navigator</summary>
 <div class="content">
 <div class="paragraph nav-bar">
-<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="#">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
+<p><a href="toc.html">Table of contents</a> | <a href="getting-started.html">Getting started</a> | <a href="tools-overview.html">Tools overview</a> | <a href="use-cases.html">Use cases</a> | <a href="#">Scenario features</a> | <a href="positioning.html">Positioning</a> | <a href="controllers.html">Controllers</a> | <a href="openscenegraph-3d-models.html">OpenSceneGraph and 3D models</a> | <a href="support-qa.html">Support / Q&amp;A</a> | <a href="command-reference.html">Command reference</a> | <a href="known-deviations.html">Known deviations from standards</a> | <a href="build-guide.html">Build guide</a> | <a href="developers-contributors.html">For esmini developers and contributors</a> | <a href="inner-workings.html">Inner workings</a> | <a href="esmini-lib-programming.html">esmini lib programming</a> | <a href="hello-world-tutorial.html">Hello World programming tutorial</a> | <a href="scenario-construction-tips.html">Scenario construction tips</a> | <a href="run-asam-examples.html">Run ASAM OpenSCENARIO examples</a> | <a href="about-this-document.html">About this document</a> | <a href="version.html">Version</a> | <a href="monolith.html">Single page document</a></p>
 </div>
 </div>
 </details>
@@ -1785,6 +1786,21 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_roadworks">Roadworks</h3>
+<div class="paragraph">
+<p>Basic roadworks can be modeled by defining temporary lane sections (see <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/v1.9.0/specification/11_lanes/11_02_lane_layers.html">OpenDRIVE 1.9 Lane layers</a>) and road delineators (see section above).</p>
+</div>
+<div class="paragraph">
+<p>Example scenario: <a href="https://github.com/esmini/esmini/blob/dev/resources/xosc/roadworks_permanent_temporary_layers.xosc">roadworks_permanent_temporary_layers.xosc</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/esmini/esmini.github.io/raw/main/images/roadworks.jpg" alt="roadworks">
+</div>
+<div class="title">Roadworks utilizing OpenDRIVE Lane Layer and road delineators.</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_expressions">Expressions</h3>
 <div class="paragraph">
 <p>From OpenSCENARIO v1.1 <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4908&amp;token=ae9d9b44ab9257e817072a653b5d5e98ee0babf8#_expressions">expressions</a> including mathematical operations are supported in assignment of value to OpenSCENARIO <a href="https://www.asam.net/index.php?eID=dumpFile&amp;t=f&amp;f=4908&amp;token=ae9d9b44ab9257e817072a653b5d5e98ee0babf8#_parameters">parameters</a> and XML element attributes. Examples:</p>
@@ -2711,6 +2727,9 @@ After executing the above the exit code can be inspected/verified from shell as 
 </div>
 <div class="title">Road with various friction segments, coefficient evaluated per wheel</div>
 </div>
+<div class="paragraph">
+<p>From v3.10.0, esmini also supports road-object friction, specified as part of the OpenDRIVE <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/v1.9.0/specification/13_objects/13_05_object_material.html">material</a> properties. This is useful for adding patches with different friction values to the road surface, such as icy spots or oil spills. As an OpenDRIVE road object, a patch can be shaped as a circle, rotated rectangle, or polygon (outline). An object with a defined friction value overrides lane friction at each wheel position. If patches overlap at a wheel position, the last matching object takes precedence.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_environment_conditions">Environment conditions</h3>
@@ -2736,7 +2755,7 @@ You can define the <code>EnvironmentAction</code>, which is a <code>GlobalAction
                 <span class="tag">&lt;Precipitation</span> <span class="attribute-name">precipitationType</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">snow</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">precipitationIntensity</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10.0</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
                 <span class="tag">&lt;Wind</span> <span class="attribute-name">direction</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3.1415</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">speed</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
             <span class="tag">&lt;/Weather&gt;</span>
-            <span class="tag">&lt;RoadCondition</span> <span class="attribute-name">frictionScaleFactor</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.9</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+            <span class="tag">&lt;RoadCondition</span> <span class="attribute-name">frictionScaleFactor</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">0.9</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">wetness</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">wetWithPuddles</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
         <span class="tag">&lt;/Environment&gt;</span>
     <span class="tag">&lt;/EnvironmentAction&gt;</span>
 <span class="tag">&lt;/GlobalAction&gt;</span></code></pre>
@@ -2768,6 +2787,56 @@ You can create a catalog of environments and reference them in your OpenSCENARIO
 </div>
 <div class="paragraph">
 <p>Note that vehicle headlights are currently not considered in the viewer.</p>
+</div>
+<div class="sect3">
+<h4 id="_road_condition">Road condition</h4>
+<div class="paragraph">
+<p>The <code>RoadCondition</code> element&#8217;s <code>frictionScaleFactor</code> scales the friction of the <a href="https://publications.pages.asam.net/standards/ASAM_OpenDRIVE/ASAM_OpenDRIVE_Specification/latest/specification/11_lanes/11_07_lane_properties.html#sec-8345bf25-d584-4a5b-8fa7-e15c920ab219">OpenDRIVE lane material</a>, see <a href="scenario-features.html#_friction">Friction</a>.</p>
+</div>
+<div class="paragraph">
+<p>The optional <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/latest/generated/content/Wetness.html"><code>wetness</code></a> attribute is reported as water film height in the <a href="https://opensimulationinterface.github.io/osi-antora-generator/asamosi/latest/gen/structosi3_1_1Lane_1_1Classification_1_1RoadCondition.html">OSI lane road condition</a> (<code>surface_water_film</code>), useful e.g. for road spray simulation in sensor models. While the OpenSCENARIO wetness is global, the OSI road condition is defined per lane. Hence the same value is applied to all lanes.</p>
+</div>
+<div class="paragraph">
+<p>The wetness levels are mapped to the following water film heights:</p>
+</div>
+<table class="tableblock frame-all grid-all stripes-even stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenSCENARIO <code>wetness</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OSI <code>surface_water_film</code> [mm]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dry</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>moist</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>wetWithPuddles</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lowFlooded</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>highFlooded</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">50.0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If no <code>wetness</code> is given, the water film height of all lanes is reported as <code>0.0</code> mm, i.e. dry road.</p>
+</div>
+<div class="paragraph">
+<p>Since the lanes are part of the static OSI ground truth, which by default is reported only in the first frame, a wetness change during the scenario is reflected in the OSI data only when the static ground truth is reported continuously. See option <code>osi_static_reporting</code> in <a href="command-reference.html#_esmini">esmini command reference</a> or the esminiLib function <code>SE_SetOSIStaticReportMode()</code>.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_visual_elements_affecting_the_viewer">Visual elements affecting the viewer</h4>
@@ -3338,7 +3407,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-09-21 15:22:23 +0200
+Last updated 2026-10-13 17:24:57 +0200
 </div>
 </div>
 </body>
