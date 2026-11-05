@@ -1049,18 +1049,30 @@ Options:
       Crop the dynamic osi data around the given object id with given radius
   --osi_exclude_ghost
       Excludes ghost from osi dynamic osi ground truth
-  --osi_file [filename]  (default if value omitted: ground_truth.osi)
-      Save osi trace file
+  --osi_file [filename]  (default if value omitted: &lt;time&gt;_gt_&lt;osi-version&gt;_&lt;protobuf-version&gt;_&lt;#frames&gt;[_&lt;suffix&gt;].osi)
+      Enable and set OSI ground-truth output filename
+  --osi_file_suffix &lt;suffix&gt;
+      Enable OSI ground-truth output and append a suffix to the filename base
+  --osi_tc_file [filename]  (default if value omitted: &lt;time&gt;_tc_&lt;osi-version&gt;_&lt;protobuf-version&gt;_&lt;#frames&gt;[_&lt;suffix&gt;].osi)
+      Enable and set OSI traffic-command output filename
+  --osi_tc_file_suffix &lt;suffix&gt;
+      Enable OSI traffic-command output and append a suffix to the filename base
+  --osi_files [suffix]  (default if value omitted: &lt;time&gt;_&lt;type&gt;_&lt;osi-version&gt;_&lt;protobuf-version&gt;_&lt;#frames&gt;.osi)
+      Enable ALL available osi trace files with optional suffix
   --osi_freq &lt;frequency&gt;
       Decrease OSI file entries, e.g. --osi_freq 2 -&gt; OSI written every two simulation steps
   --osi_lines
       Show OSI road lines. Toggle key 'u'
   --osi_points
       Show OSI road points. Toggle key 'y'
-  --osi_receiver_ip [IP address]  (default if value omitted: 127.0.0.1)
-      IP address where to send OSI UDP packages
   --osi_static_reporting [mode]  (default if value omitted: 0)
       Decide how the static data should be reported, 0=Default (first frame), 1=API (expose on API) 2=API_AND_LOG (Always log)
+  --osi_receiver_ip [IP address]  (default if value omitted: 127.0.0.1)
+      IP address where to send OSI UDP packages
+  --osi_receiver_port [port]  (default if value omitted: 48198)
+      Port where to send OSI UDP packages (1025 .. 65535)
+  --osi_receiver_udp_data_size [size]  (default if value omitted: 8192)
+      Maximum bytes for OSI data to send as UDP packets, before fragmentation (1024 .. 65507)
   --param_dist &lt;filename&gt;
       Run variations of the scenario according to specified parameter distribution file
   --param_permutation &lt;index&gt;
@@ -1595,7 +1607,7 @@ Note: In addition to &lt;filename&gt; one of the arguments --list_params and --p
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-02 21:02:20 +0200
+Last updated 2026-10-04 08:23:14 +0200
 </div>
 </div>
 </body>

@@ -439,7 +439,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_run_asam_openscenario_examples">Run ASAM OpenSCENARIO examples</a></li>
+<li><a href="#_run_asam_openscenario_examples">Run ASAM OpenSCENARIO examples</a>
+<ul class="sectlevel2">
+<li><a href="#_continuous_integration">Continuous integration</a></li>
+<li><a href="#_limitations">Limitations</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -472,7 +477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <!-- toc disabled -->
 <div class="paragraph">
-<p>With some limitations (see details <a href="https://github.com/esmini/esmini/blob/master/osc_coverage.txt">here</a>) esmini can play the example scenarios provided with the ASAM OpenSCENARIO v1.1 release bundle.</p>
+<p>With some limitations (see details below and in <a href="https://github.com/esmini/esmini/blob/master/osc_coverage.txt">osc_coverage</a>) esmini can play the example scenarios provided with the ASAM OpenSCENARIO v1.4 release bundle.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -480,25 +485,53 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>If you don&#8217;t have esmini already, download latest demo package for your platform from <a href="https://github.com/esmini/esmini/releases/latest">here</a>.</p>
 </li>
 <li>
-<p>Download the standard from ASAM <a href="https://www.asam.net/standards/detail/openscenario">here</a> (register and download is free of charge).</p>
+<p>For v1.4.0, the example package can be found <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.4.0/index.html">online</a> under top right Deliverables menu.</p>
 </li>
 <li>
 <p>Extract to any folder.</p>
 </li>
 <li>
 <p>Run the examples from command line in esmini root folder, for example: <br>
-<code>./bin/esmini --window 60 60 800 400 --osc ../../openscenario-v1.1.0/Examples/DoubleLaneChanger.xosc</code><br>
+<code>./bin/esmini --window 60 60 800 400 --osc ../../ASAM_OpenSCENARIO_v1.4.0_Examples/DoubleLaneChanger.xosc</code><br>
   or with absolute path: <br>
-<code>./bin/esmini --window 60 60 800 400 --osc c:/stuff/openscenario-v1.1.0/Examples/DoubleLaneChanger.xosc</code></p>
+<code>./bin/esmini --window 60 60 800 400 --osc c:/stuff/ASAM_OpenSCENARIO_v1.4.0_Examples/DoubleLaneChanger.xosc</code></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: The scenarios with prefix <code>Example_</code> are just snippets, not valid and complete scenario files for execution.</p>
+</div>
+<div class="sect2">
+<h3 id="_continuous_integration">Continuous integration</h3>
+<div class="paragraph">
+<p>From esmini v3.10.2, the ASAM OpenSCENARIO v1.4.0 examples are run as <a href="https://github.com/esmini/esmini/blob/master/test/asam_osc_examples_suite.py">part</a> of esmini&#8217;s CI. The test suite executes a <a href="https://github.com/esmini/OpenSCENARIO_XML_examples/tree/v1.4.0_1">subset</a> of the ASAM OpenSCENARIO examples.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_limitations">Limitations</h3>
+<div class="paragraph">
+<p>Three of the examples are not covered by the CI suite, or need special handling:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>EndOfTrafficJam</strong> requires the esmini option <code>--disable_controllers</code> to run as intended.</p>
+</li>
+<li>
+<p><strong>SlowPrecedingVehicleStochasticParameterSet</strong> does not work since <code>StochasticParameterSet</code> is not supported by esmini.</p>
+</li>
+<li>
+<p><strong>Signalized_T_Intersection</strong> cannot be run since it refers to an <code>ExternalObjectReference</code> that is missing. Even if that is resolved, the scenario contains two features not yet supported by esmini: <code>VariableConstraints</code> and <code>TrafficSignalController</code> action.</p>
+</li>
+</ol>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-06-02 21:02:20 +0200
+Last updated 2026-11-02 12:48:20 +0100
 </div>
 </div>
 </body>

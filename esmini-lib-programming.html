@@ -1100,7 +1100,44 @@ Set/change object to focus on</p>
 <div class="sect4">
 <h5 id="_osi_tracefile">OSI tracefile</h5>
 <div class="paragraph">
-<p>Call <code>SE_EnableOSIFile(filename)</code> in order to create a OSI tracefile. Specify custom filename or set 0 or "" to use default filename (currently "ground_truth.osi").</p>
+<p>Use <code>SE_EnableOSIFile(filename)</code> to record GroundTruth only. Pass a filename (and optionally a path to an existing folder) to choose the file, or <code>0</code>/<code>""</code> to use a generated name:
+<code>&lt;timestamp&gt;_gt_&lt;osi-version&gt;_&lt;protobuf-version&gt;_&lt;frames&gt;.osi</code>.
+The frame count is finalized when the file closes.</p>
+</div>
+<div class="paragraph">
+<p>Use <code>SE_EnableOSIFiles(suffix)</code> to record both GroundTruth and TrafficCommand in separate files. The optional suffix may include a path; an empty suffix uses generated filenames.</p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SE_EnableOSIFile("traces/my_run")</code> writes GroundTruth to <code>traces/my_run.osi</code>.</p>
+</li>
+<li>
+<p><code>SE_EnableOSIFiles("traces/my_run")</code> appends <code>my_run</code> to each generated filename:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>traces/&lt;timestamp&gt;_gt_&lt;osi-version&gt;_&lt;protobuf-version&gt;_&lt;frames&gt;_my_run.osi</code></p>
+</li>
+<li>
+<p><code>traces/&lt;timestamp&gt;_tc_&lt;osi-version&gt;_&lt;protobuf-version&gt;_&lt;frames&gt;_my_run.osi</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Call <code>SE_DisableOSIFile()</code> to close the GroundTruth file only, or <code>SE_DisableOSIFiles()</code> to close both files. The <code>*Ex</code> functions provide per-message control: <code>SE_EnableOSIFileEx(filename, suffix, message, type)</code> opens or configures one trace; <code>SE_DisableOSIFileEx(message, type)</code> closes it; and <code>SE_FlushOSIFileEx(message, type)</code> flushes it. Pass <code>0</code> or <code>""</code> for the filename to use a generated name, or for the suffix to use no suffix (clearing any previously configured suffix).</p>
+</div>
+<div class="paragraph">
+<p>Select <code>SE_OSI_GROUND_TRUTH</code> or <code>SE_OSI_TRAFFIC_COMMAND</code> for <code>message</code>; <code>SE_TRACE_SINGLE_CHANNEL</code> is the only supported <code>type</code>. <code>SE_FlushOSIFile()</code> flushes all open OSI trace files.</p>
+</div>
+<div class="paragraph">
+<p>Files can be enabled before initialization (they open during initialization) or while a scenario is running. TrafficCommand records are written when actions generate commands, not on every simulation step.</p>
 </div>
 </div>
 <div class="sect4">
@@ -1163,7 +1200,7 @@ crop dynamic OSI groundtruth around an entity (<strong>default</strong> is to in
 <div class="sect4">
 <h5 id="_osi_via_udp">OSI via UDP</h5>
 <div class="paragraph">
-<p>By launch argument <code>--osi_receiver_ip &lt;ip addr&gt;</code> you can have esmini sending OSI packeges in UDP frames. The socket port is hardcoded but can of course be changed in the code (OSI_OUT_PORT in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/OSIReporter.cpp">OSIReporter.cpp</a>).</p>
+<p>By launch argument <code>--osi_receiver_ip &lt;ip addr&gt;</code> you can have esmini sending OSI packages in UDP frames. The socket port can be changed via <code>--osi_receiver_port &lt;port&gt;</code> or in the code (DEFAULT_OSI_OUT_PORT in <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Modules/ScenarioEngine/SourceFiles/OSIReporter.cpp">OSIReporter.cpp</a>).</p>
 </div>
 <div class="paragraph">
 <p>See receiver side code example <a href="https://github.com/esmini/esmini/blob/dev/EnvironmentSimulator/Applications/replayer/osi_receiver.cpp">osi_receiver.cpp</a>.</p>
@@ -1433,7 +1470,7 @@ crop dynamic OSI groundtruth around an entity (<strong>default</strong> is to in
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-10-12 14:39:14 +0200
+Last updated 2026-11-04 09:34:09 +0100
 </div>
 </div>
 </body>
