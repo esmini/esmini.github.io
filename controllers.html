@@ -806,31 +806,31 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml">typedef struct
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="keyword">typedef</span> <span class="keyword">struct</span>
 {
-    double global_pos_x;       // target position, in global coordinate system
-    double global_pos_y;       // target position, in global coordinate system
-    double global_pos_z;       // target position, in global coordinate system
-    double local_pos_x;        // target position, relative vehicle (pivot position object) coordinate system
-    double local_pos_y;        // target position, relative vehicle (pivot position object) coordinate system
-    double local_pos_z;        // target position, relative vehicle (pivot position object) coordinate system
-    double angle;              // heading angle to target from and relative vehicle (pivot position object) coordinate system
-    double road_heading;       // road heading at steering target point
-    double road_pitch;         // road pitch (inclination) at steering target point
-    double road_roll;          // road roll (camber) at target point
-    double trail_heading;      // trail heading (only when used for trail lookups, else equals road_heading)
-    double curvature;          // road curvature at steering target point
-    double speed_limit;        // speed limit given by OpenDRIVE speed max entry in m/s
-    id_t   roadId;             // target position, road ID
-    id_t   junctionId;         // target position, junction ID (SE_ID_UNDEFINED if not in a junction)
-    int    laneId;             // target position, lane ID
-    double laneOffset;         // target position, lane offset (lateral distance from lane center)
-    double s;                  // target position, s (longitudinal distance along reference line)
-    double t;                  // target position, t (lateral distance from reference line)
-    int    road_type;          // road type given by OpenDRIVE road type, maps to roadmanager::Road::RoadType
-    int    road_rule;          // road rule given by OpenDRIVE rule entry, maps to roadmanager::Road::RoadRule
-    int    lane_type;          // lane type given by OpenDRIVE lane type, maps to roadmanager::Road::LaneType
-    double trail_wheel_angle;  // trail wheel angle (only when used for trail lookups, e.g. ghost, else 0)
+    <span class="predefined-type">double</span> global_pos_x;       <span class="comment">// target position, in global coordinate system</span>
+    <span class="predefined-type">double</span> global_pos_y;       <span class="comment">// target position, in global coordinate system</span>
+    <span class="predefined-type">double</span> global_pos_z;       <span class="comment">// target position, in global coordinate system</span>
+    <span class="predefined-type">double</span> local_pos_x;        <span class="comment">// target position, relative vehicle (pivot position object) coordinate system</span>
+    <span class="predefined-type">double</span> local_pos_y;        <span class="comment">// target position, relative vehicle (pivot position object) coordinate system</span>
+    <span class="predefined-type">double</span> local_pos_z;        <span class="comment">// target position, relative vehicle (pivot position object) coordinate system</span>
+    <span class="predefined-type">double</span> angle;              <span class="comment">// heading angle to target from and relative vehicle (pivot position object) coordinate system</span>
+    <span class="predefined-type">double</span> road_heading;       <span class="comment">// road heading at steering target point</span>
+    <span class="predefined-type">double</span> road_pitch;         <span class="comment">// road pitch (inclination) at steering target point</span>
+    <span class="predefined-type">double</span> road_roll;          <span class="comment">// road roll (camber) at target point</span>
+    <span class="predefined-type">double</span> trail_heading;      <span class="comment">// trail heading (only when used for trail lookups, else equals road_heading)</span>
+    <span class="predefined-type">double</span> curvature;          <span class="comment">// road curvature at steering target point</span>
+    <span class="predefined-type">double</span> speed_limit;        <span class="comment">// speed limit given by OpenDRIVE speed max entry in m/s</span>
+    id_t   roadId;             <span class="comment">// target position, road ID</span>
+    id_t   junctionId;         <span class="comment">// target position, junction ID (SE_ID_UNDEFINED if not in a junction)</span>
+    <span class="predefined-type">int</span>    laneId;             <span class="comment">// target position, lane ID</span>
+    <span class="predefined-type">double</span> laneOffset;         <span class="comment">// target position, lane offset (lateral distance from lane center)</span>
+    <span class="predefined-type">double</span> s;                  <span class="comment">// target position, s (longitudinal distance along reference line)</span>
+    <span class="predefined-type">double</span> t;                  <span class="comment">// target position, t (lateral distance from reference line)</span>
+    <span class="predefined-type">int</span>    road_type;          <span class="comment">// road type given by OpenDRIVE road type, maps to roadmanager::Road::RoadType</span>
+    <span class="predefined-type">int</span>    road_rule;          <span class="comment">// road rule given by OpenDRIVE rule entry, maps to roadmanager::Road::RoadRule</span>
+    <span class="predefined-type">int</span>    lane_type;          <span class="comment">// lane type given by OpenDRIVE lane type, maps to roadmanager::Road::LaneType</span>
+    <span class="predefined-type">double</span> trail_wheel_angle;  <span class="comment">// trail wheel angle (only when used for trail lookups, e.g. ghost, else 0)</span>
 } SE_RoadInfo;</code></pre>
 </div>
 </div>
@@ -1943,7 +1943,7 @@ Parameters:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-10-04 08:23:14 +0200
+Last updated 2026-11-12 17:31:40 +0100
 </div>
 </div>
 </body>

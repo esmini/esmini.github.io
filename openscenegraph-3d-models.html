@@ -1114,11 +1114,58 @@ These 3D models currently only works in esmini. Support for generic 3D models wi
 <div class="paragraph">
 <p><code>osgviewer --window 60 60 1200 600 generated_road.osgb</code></p>
 </div>
+<div class="paragraph">
+<p>To exclude permanently hidden parts, use <code>--save_generated_model_visible</code>. Output: <code>generated_road_visible.osgb</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_runtime">Runtime</h4>
+<div class="paragraph">
+<p>While running esmini any application (<code>esmini</code>, <code>odrviewer</code>, <code>osgviewer</code>), press 'v' at any time to save the currently visible parts. Output: <code>generated_road_visible_filtered.osgb</code></p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_api">API</h4>
 <div class="paragraph">
-<p>Using esmini internal API, the 3D model can be saved programmatically. Here is a simplified example in C++:</p>
+<p>Similar functionality is available via both the esminiLIb and internal API, allowing the 3D model to be saved programmatically.</p>
+</div>
+<div class="sect4">
+<h5 id="_esminilib_api">esminiLib API</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="comment">/**
+  Save the entire generated road model, including hidden nodes, as file in .osgb format to disk
+  @param filename Output file name (e.g. &quot;road_model.osgb&quot;)
+  @return 0 on success, -1 on error
+*/</span>
+SE_DLL_API <span class="predefined-type">int</span> SE_SaveGeneratedModelToFileAll(<span class="directive">const</span> <span class="predefined-type">char</span> *filename);
+
+<span class="comment">/**
+  Save only visible part of generated road model (excluding only nodes with mask == 0) as file in .osgb format to disk
+  @param filename Output file name (e.g. &quot;road_model.osgb&quot;)
+  @return 0 on success, -1 on error
+*/</span>
+SE_DLL_API <span class="predefined-type">int</span> SE_SaveGeneratedModelToFileVisible(<span class="directive">const</span> <span class="predefined-type">char</span> *filename);
+
+<span class="comment">/**
+  Save only visible and filtered part of generated road model as file in .osgb format to disk
+  @param filename Output file name (e.g. &quot;road_model.osgb&quot;)
+  @param mask Optional filter node mask to apply, see NodeMask enum. ~0u (0xffffffff) will behave as SE_SaveGeneratedModelToFileVisible
+  @return 0 on success, -1 on error
+*/</span>
+SE_DLL_API <span class="predefined-type">int</span> SE_SaveGeneratedModelToFileFiltered(<span class="directive">const</span> <span class="predefined-type">char</span> *filename, <span class="predefined-type">unsigned</span> <span class="predefined-type">int</span> mask);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_internal_api">Internal API</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="c++"><span class="predefined-type">int</span> SaveToFile(<span class="directive">const</span> std::<span class="predefined-type">string</span>&amp; filename, <span class="predefined-type">bool</span> visible = <span class="predefined-constant">true</span>, osg::Node::NodeMask mask = ~<span class="integer">0</span>u);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Simplified example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1159,6 +1206,7 @@ road_geom.SaveToFile(<span class="string"><span class="delimiter">&quot;</span><
 </div>
 <div class="paragraph">
 <p>Full code example here: <a href="https://github.com/esmini/esmini/tree/refs/heads/dev/EnvironmentSimulator/code-examples/road-model">code-examples/road-model</a></p>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1330,7 +1378,7 @@ For all materials, copy base color to object viewport color - which is the color
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-10-04 08:23:14 +0200
+Last updated 2026-11-13 08:05:32 +0100
 </div>
 </div>
 </body>

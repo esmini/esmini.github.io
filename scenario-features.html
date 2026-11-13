@@ -1619,6 +1619,15 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <p>Markings are kept at the object&#8217;s floor level (they are not raised with the object height) and, for repeated/scaled objects, follow the possibly-scaled outline edge laterally while preserving their authored line width.</p>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_visualization_notes">Visualization notes</h5>
+<div class="paragraph">
+<p>When an object has markings, esmini shows only the markings by default. The object body itself is hidden, assuming it to be non existing. Press <code>,</code> (comma) to toggle the visual representation.</p>
+</div>
+<div class="paragraph">
+<p>The generated model can be exported, with some content control, (1) from command line option, (2) via API, or (3) even runtime by key-command. See <a href="openscenegraph-3d-models.html#_export_generated_3d_model">Export generated 3D model</a>.</p>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_custom_color_esmini_extension">Custom color (esmini extension)</h4>
@@ -2058,10 +2067,10 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <div class="sect2">
 <h3 id="_parameter_distributions">Parameter distributions</h3>
 <div class="paragraph">
-<p>Parameter values and distributions can be specified in a separate <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.3.1/09_reuse_mechanisms/09_03_parameter_distribution.html">Parameter value distribution file</a>. This is a convenient way of running multiple variations, or parameter value permutations, of a single scenario.</p>
+<p>Parameter values and distributions can be specified in a separate <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.3.1/09_reuse_mechanisms/09_03_parameter_distribution.html">Parameter value distribution file</a>. This is a convenient way of running multiple variations, or parameter value permutations, of a single scenario. From v3.12.0 esmini supports also <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.4.0/generated/content/Stochastic.html">Stochastic</a> distributions.</p>
 </div>
 <div class="paragraph">
-<p>Here&#8217;s an example: <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/cut-in_parameter_set.xosc">cut-in_parameter_set.xosc</a>.</p>
+<p>Here&#8217;s an example: <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/cut-in_parameter_set.xosc">cut-in_parameter_set.xosc</a> (for a stochastic distribution example, change file to <a href="https://github.com/esmini/esmini/blob/master/resources/xosc/cut-in_parameter_set_stochastic.xosc">cut-in_parameter_set_stochastic.xosc</a>)</p>
 </div>
 <div class="paragraph">
 <p>To run all permutations with esmini, the following variants works:</p>
@@ -2157,6 +2166,9 @@ German example: <code>274=TYPE_SPEED_LIMIT_BEGIN</code></p>
 <img src="https://github.com/esmini/esmini.github.io/raw/main/images/param_dist0.jpg" alt="param dist0">
 </div>
 <div class="title">View all permutations in parallel</div>
+</div>
+<div class="paragraph">
+<p>To plot a resolved parameter from your distribution, see <strong>plot_distributions</strong> in <a href="https://esmini.github.io/tools-overview.html#_scripts">scripts</a>.</p>
 </div>
 <div class="sect3">
 <h4 id="_parallel_execution">Parallel execution</h4>
@@ -3407,7 +3419,7 @@ python tools/randomTrips.py ...</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-11-02 12:48:20 +0100
+Last updated 2026-11-13 08:03:28 +0100
 </div>
 </div>
 </body>

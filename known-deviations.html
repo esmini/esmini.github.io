@@ -509,7 +509,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>If a value of zero (0) is explicitly required, it must be specified directly in the OpenSCENARIO XML.</p>
 </div>
 <div class="paragraph">
-<p>See link:See <a href="positioning.html">Positioning</a> for details and examples.</p>
+<p>See <a href="positioning.html">Positioning</a> for details and examples.</p>
 </div>
 <div class="paragraph">
 <p><strong>Standard reference, example:</strong> <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.4.0/generated/content/WorldPosition.html">OpenSCENARIO XML v1.4.0 / WorldPosition</a>.</p>
@@ -566,6 +566,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>Standard reference:</strong> OpenSCENARIO XML v1.4.0 <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.4.0/generated/content/LanePosition.html">LanePosition</a> and <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.4.0/generated/content/RoadPosition.html">RoadPosition</a>.</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_randomseed_type_in_class_stochastic">randomSeed type in class Stochastic</h4>
+<div class="paragraph">
+<p>The <code>Stochastic</code> class defines <code>randomSeed</code> as a double, but esmini parses the element as an <code>unsigned int</code> instead. Integer-based seeding avoids floating-point precision discrepancies, ensuring consistent behavior across different runs and platforms.</p>
+</div>
+<div class="paragraph">
+<p><strong>Standard reference:</strong> OpenSCENARIO XML v1.4.0 <a href="https://publications.pages.asam.net/standards/ASAM_OpenSCENARIO/ASAM_OpenSCENARIO_XML/v1.4.0/generated/content/Stochastic.html">Stochastic</a>.</p>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="deviations-opendrive">OpenDRIVE</h3>
@@ -599,7 +608,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-11-02 12:48:20 +0100
+Last updated 2026-11-13 07:55:53 +0100
 </div>
 </div>
 </body>
